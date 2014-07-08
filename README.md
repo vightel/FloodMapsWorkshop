@@ -13,6 +13,6 @@ MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
 * Remember Instance ID and Public DNS (Check your Management Console if necessary)
 * cd $MENA_DIR where key.pem is
 * Access your instance: 
-  * >ssh -i key.pem ec2-user@<PUBLIC_DNS>
+  * > ssh -i key.pem ec2-user@PUBLIC_DNS
 * Install code dependencies:
-  * >sh install-deps.sh 
+  * > sh install-deps.sh 
