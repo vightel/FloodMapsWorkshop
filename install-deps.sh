@@ -6,7 +6,9 @@ sudo yum -y upgrade
 # enable EPEL6 by changing enabled=0 -> enabled=1
 sudo vim /etc/yum.repos.d/epel.repo
 
+
 # install deps
+sudo yum -y install git potrace
 sudo yum -y install make gcc47 gcc-c++ bzip2-devel libpng-devel libtiff-devel zlib-devel libjpeg-devel libxml2-devel python-setuptools git-all python-nose python27-devel python27 proj-devel proj proj-epsg proj-nad freetype-devel freetype libicu-devel libicu
 
 # install optional deps
@@ -57,6 +59,7 @@ cd mapnik
 make
 make test-local
 sudo make install
+cd ../
 
 # node
 NODE_VERSION="0.10.26"
@@ -87,9 +90,57 @@ npm install
 npm test
 cd ../
 
+# topojson
+npm install -g topojson
+
+# osm2pgsql
+sudo yum -y install autoconf-2.69-10.8.amzn1.noarch
+sudo yum -y install automake-1.13.4-2.14.amzn1.noarch
+sudo yum -y install libtool
+
+# ImageMagick (and convert)
+sudo yum -y install ImageMagick.x86_64
+
+# Download and Install requirements for PostGIS Installation
+# proj4
+wget http://download.osgeo.org/proj/proj-4.8.0.tar.gz
+gzip -d proj-4.8.0.tar.gz
+tar -xvf proj-4.8.0.tar
+cd proj-4.8.0
+./configure
+make
+sudo make install
+cd ../
+
+# geos
+wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+bzip2 -d geos-3.4.2.tar.bz2
+tar -xvf geos-3.4.2.tar
+cd geos-3.4.2 
+./configure 
+make 
+sudo make install 
+cd ../
+
+# osm2pgsql
+git clone git://github.com/openstreetmap/osm2pgsql.git
+cd osm2pgsql
+./autogen.sh 
+./configure
+make
+sudo make isntall
+cd ../
+
+# install numpy and scipy
+sudo yum -y install gdal-python numpy scipy
+ 
+# update your libraries
+echo /usr/local/lib >> /etc/ld.so.conf
+ldconfig
+
 # tilemill
-git clone https://github.com/mapbox/tilemill
-cd tilemill
-vim package.json # remove the 'topcube' line since the GUI will not work on fedora due to lacking gtk/webkit
-npm install
-./index.js --server=true # view on http://localhost:20009, more info: http://mapbox.com/tilemill/docs/guides/ubuntu-service/
+#git clone https://github.com/mapbox/tilemill
+#cd tilemill
+#vim package.json # remove the 'topcube' line since the GUI will not work on fedora due to lacking gtk/webkit
+#npm install
+#./index.js --server=true # view on http://localhost:20009, more info: http://mapbox.com/tilemill/docs/guides/ubuntu-service/
