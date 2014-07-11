@@ -3,6 +3,9 @@ data/HydroSHEDS/CA/
 data/landsat8/
 data/osm/*.bz2
 data/radarsat2/
+data/modis/
+data/eo1/
+python/world_boundaries/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

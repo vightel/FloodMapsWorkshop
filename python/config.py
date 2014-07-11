@@ -6,6 +6,8 @@ HANDS_DIR			= DATA_DIR + "/HAND"
 HYSDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
 LANDSAT8_DIR		= DATA_DIR + "/landsat8"
 RADARSAT2_DIR		= DATA_DIR + "/radarsat2"
+MODIS_DIR			= DATA_DIR + "/modis"
+EO1_DIR				= DATA_DIR + "/eo1"
 
 version = "1.0 alpha3"
 
