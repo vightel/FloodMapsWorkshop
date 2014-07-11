@@ -597,7 +597,7 @@ class Radarsat2:
 		surface_water_json_file = os.path.join(dir, "surface_water.json")
 		surface_water_json_tgz_file = os.path.join(dir, "surface_water.json.gz")
 		if app.force or not os.path.exists(surface_water_json_tgz_file):
-			cmd = str.format("gzip {0} ", surface_water_topojson_file ); 
+			cmd = str.format("gzip {0} ", surface_water_json_file ); 
 			self.execute(cmd)
 			
 	
