@@ -39,7 +39,7 @@ class Landsat8:
 		self.hand_rgb			= os.path.join(outpath, "hand_rgb.tif")
 		
 		self.hand_output_file	= os.path.join(outpath, baseFileName + ".hand.tif")
-		self.output_3857_file	= os.path.join(outpath, baseFileName + ".3857.tif")
+
 		self.output_4326_file	= os.path.join(outpath, baseFileName + ".4326.tif")
 		self.surface_water_json	= os.path.join(outpath, "surface_water.json")
 		self.surface_water_osm	= os.path.join(outpath, "surface_water.osm")
@@ -50,7 +50,6 @@ class Landsat8:
 		self.outpath 			= outpath
 		self.hand_dir			= config.HANDS_DIR
 
-
 	#
 	# execute with verbose option
 	#
@@ -58,6 +57,7 @@ class Landsat8:
 		if verbose:
 			print cmd
 		os.system(cmd)
+		
 	#
 	# Reproject
 	#
@@ -132,7 +132,7 @@ class Landsat8:
 	# Generate Hand file
 	#
 	def hand(self, vrt):		
-		base_img 	= self.output_4326_file
+		base_img 	= self.input_file
 
 		in_img 		= os.path.join(self.hand_dir, vrt)
 		#in_img 	= os.path.join(self.hand_dir, "CA/haiti_hand.tif")
@@ -145,24 +145,25 @@ class Landsat8:
 			self.execute(cmd)			
 			
 			self.save_hand_as_png()
+		
+		if verbose:
+			print "hand done"
 	#	
 	# Process binary file
 	#
 	def process(self):
 		driver 				= gdal.GetDriverByName( "GTiff" )
-
-		if force or not os.path.exists(self.hand_output_file):
+		if force or not os.path.exists(self.hand_output_file):		
+			if verbose:
+				print "processing ", self.input_file
 		
-			#if verbose:
-			print "processing ", self.output_4326_file
-		
-			src_ds 				= gdal.Open( self.output_4326_file)
+			src_ds 				= gdal.Open( self.input_file)
 			band 				= src_ds.GetRasterBand(1)
 			output_data 		= band.ReadAsArray(0, 0, src_ds.RasterXSize, src_ds.RasterYSize )
 		
-		
 			self.metadata		= src_ds.GetDriver().GetMetadata()
 			self.geotransform 	= src_ds.GetGeoTransform()
+			self.projection 	= src_ds.GetProjection()
 
 			self.north 		 	= self.geotransform[3]
 			self.west		 	= self.geotransform[0]
@@ -191,26 +192,38 @@ class Landsat8:
 			hand_band 			= hand_ds.GetRasterBand(1)
 			hand_data 			= hand_band.ReadAsArray(0, 0, hand_ds.RasterXSize, hand_ds.RasterYSize )
 
+			if verbose:
+				print( "get coastlines data:"+ self.coastlines)
+				
 			coastlines_ds	= gdal.Open(self.coastlines)
 			coastal_band 	= coastlines_ds.GetRasterBand(1)
 			coastal_data 	= coastal_band.ReadAsArray(0, 0, coastlines_ds.RasterXSize, coastlines_ds.RasterYSize )
 
 			print( "create hand corrected output file:"+ self.hand_output_file)
-			hand_output_dataset	= driver.CreateCopy( self.hand_output_file, src_ds, 0,	[ 'COMPRESS=DEFLATE' ] )
+			hand_output_dataset	= driver.Create( self.hand_output_file, src_ds.RasterXSize, src_ds.RasterYSize, 2, gdal.GDT_Byte,	[ 'COMPRESS=DEFLATE' ] )
 			hand_output_band 	= hand_output_dataset.GetRasterBand(1)
 
+			# Add Alpha band
+ 			#hand_output_dataset.AddBand(gdal.GDT_Byte);
+ 
 			alpha_band			= hand_output_dataset.GetRasterBand(2)
 			alpha_data 			= alpha_band.ReadAsArray(0, 0, hand_output_dataset.RasterXSize, hand_output_dataset.RasterYSize )
 
 			# Detected Surface Water
-			mask				= output_data<2
+			#mask				= output_data<1
+			#output_data[mask]	= 0
+
+			#mask				= output_data>=1
+			#output_data[mask]	= 255
+
+			if verbose:
+				print "Non Zero Pixels before any masking:",  numpy.count_nonzero(output_data)
+		
+			mask				= (coastal_data==1)
 			output_data[mask]	= 0
-
-			mask				= output_data>1
-			output_data[mask]	= 255
-
-			beforeHand			= numpy.count_nonzero(output_data)
-			print "before HAND non zeros:",  beforeHand
+		
+			if verbose:
+				print "Non Zero Pixels After Coastal/Watershed Masking:",  numpy.count_nonzero(output_data)
 		
 			# Now apply HAND Filter
 		
@@ -221,12 +234,8 @@ class Landsat8:
 			mask				= hand_data==255
 			output_data[mask]	= 0
 
-			afterHand			= numpy.count_nonzero(output_data)
-			print "After HAND non zeros:",  afterHand
-			print "Pixels Removed:",  beforeHand - afterHand
-
-			mask				= coastal_data>0
-			output_data[mask]	= 0
+			if verbose:
+				print "Non Zero Pixels after HAND:",  numpy.count_nonzero(output_data)
 
 			#
 			# Morphing to smooth and filter the data
@@ -245,14 +254,23 @@ class Landsat8:
 
 			#morphed = ndimage.grey_opening(output_data, size=octagon_1_size, structure=octagon_1)
 
+			ct = gdal.ColorTable()
+			ct.SetColorEntry( 0, (0, 0, 0, 0) )
+			ct.SetColorEntry( 1, (255, 0, 0, 255) )
+			hand_output_band.SetRasterColorTable(ct)
+
 			hand_output_band.WriteArray(output_data, 0, 0)
 			hand_output_band.SetNoDataValue(0)
 
 			# set transparency
-			alpha_data[output_data<255]=0
-			alpha_data[output_data>=255]=255
+			alpha_data[output_data<1]=0
+			alpha_data[output_data>=1]=255
 			alpha_band.WriteArray(alpha_data, 0, 0)
-
+		
+			# Copy projection
+			hand_output_dataset.SetGeoTransform( self.geotransform )
+			hand_output_dataset.SetProjection( self.projection )
+		
 			src_ds				= None
 			hand_band			= None
 			hand_data			= None
@@ -260,7 +278,8 @@ class Landsat8:
 			coastal_data		= None
 			coastlines_ds		= None
 		
-			print ("done")
+			if verbose:
+				print ("done")
 			
 	def geojson(self):
 		infile		= self.hand_output_file		# use hand corrected file
@@ -277,7 +296,8 @@ class Landsat8:
 
 		#print geomatrix
 		#print rasterXSize, rasterYSize
-		print "geojson bbox:", xorg, yorg, xmax, ymax
+		if verbose:
+			print "geojson bbox:", xorg, yorg, xmax, ymax
 
 		file = infile + ".png"
 
@@ -291,7 +311,7 @@ class Landsat8:
 
 		if force or not os.path.exists(file):
 			# subset it, convert red band (band 1) and output to .pgm using PNM driver
-			cmd = "gdal_translate  -q " + infile + " -b 1 -of PNM -ot Byte "+file
+			cmd = "gdal_translate  -q -scale 0 1 0 65535 " + infile + " -b 1 -of PNM -ot Byte "+file
 			self.execute( cmd )
 			self.execute("rm -f "+file+".aux.xml")
 
@@ -315,9 +335,6 @@ class Landsat8:
 			cmd = str.format("topojson-geojson --precision 5 -o {0} {1}", self.outpath, file+".topojson" ); 
 			self.execute(cmd)
 
-			# gzip it
-			cmd = str.format("gzip {0} ", file+".topojson" ); 
-			self.execute(cmd)
 
 		# convert it to OSM to visualize in JOSM and update reference water
 		if force or not os.path.exists(self.surface_water_osm):
@@ -325,7 +342,11 @@ class Landsat8:
 			cmd = str.format("node geojson2osm {0} {1}", self.surface_water_json, data_source ); 
 			self.execute(cmd)
 			
-			# compress it
+			# gzip it
+			cmd = str.format("gzip {0} ", file+".topojson" ); 
+			self.execute(cmd)
+			
+			# compress it			
 			cmd = "bzip2 " + self.surface_water_osm
 			self.execute(cmd)
 	
@@ -372,7 +393,7 @@ if __name__ == '__main__':
 	apg_input.add_argument("-f", "--force", 	action='store_true', help="Forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
 	#apg_input.add_argument("-i", "--input",  	help="Input File")
-	#apg_input.add_argument("-d", "--dir",  		help="Output Directory")
+	#apg_input.add_argument("-d", "--dir",  	help="Output Directory")
 	apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
 	apg_input.add_argument("-s", "--scene", 	help="Landsat Scene")
 
@@ -380,12 +401,12 @@ if __name__ == '__main__':
 	force		= options.force
 	verbose		= options.verbose
 	#infile		= options.input
-	#dir			= options.dir
+	#dir		= options.dir
 	vrt			= options.vrt
 	scene	 	= options.scene
 	
 	outdir		= os.path.join(config.LANDSAT8_DIR,scene)	
-	infile 		= os.path.join(outdir, scene+".tif")
+	infile 		= os.path.join(outdir, scene+"_WATERMAP.tif")
 	
 	# make sure the input file exists
 	if not os.path.exists(infile):
@@ -393,7 +414,8 @@ if __name__ == '__main__':
 		sys.exit(-1)
 
 	app 		= Landsat8(outdir, infile)
-	app.reproject("EPSG:4326", app.input_file, app.output_4326_file )
+	
+	# app.reproject("EPSG:4326", app.input_file, app.output_4326_file )
 	
 	app.hand(vrt)
 	app.process()

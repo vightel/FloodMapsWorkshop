@@ -1,0 +1,127 @@
+<div class='container'>
+<h2><%= gettext("today.label")%> </h2>
+<% if(typeof user != 'undefined') { %>
+[<%= user.latitude %>, <%= user.longitude %>]
+<%}%>
+<br/>
+<hr>
+<table class='table table-bordered'>
+    <tr>
+        <th></th>
+        <th><%= gettext("today.nowcast")%></th>
+        <th><%= gettext("today.forecast")%></th>
+        </tr>
+    <tr>
+        <td><b><%= gettext("today.landslide_hazard")%></b></td>
+        <td id="landslide_nowcast"  ><%= json.landslide_nowcast %></td>
+        <td id="landslide_forecast" ><%= json.landslide_forecast %></td>
+    </tr>
+    <tr>
+        <td><b><%= gettext("today.flood_hazard")%></b></td>
+        <td id="flood_nowcast"><%= json.flood_nowcast %></td>
+        <td id="flood_forecast"><%= json.flood_forecast %></td>
+    </tr>
+    <tr>
+        <td><b><%= gettext("today.fire_hazard")%></b></td>
+        <td>N/A</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td><b><%= gettext("today.quake_hazard")%></b></td>
+        <td>N/A</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td><b><%= gettext("today.precipitation")%></b></td>
+        <td id="precipitation_nowcast"><%= json.precipitation_nowcast %>mm</td>
+        <td id="precipitation_forecast"><%= json.precipitation_forecast %>mm</td>
+    </tr>
+    <tr>
+        <td><b><%= gettext("today.soil_moisture")%></b></td>
+        <td id="soil_moisture_nowcast"><%= json.soil_moisture_nowcast %>mm</td>
+        <td id="soil_moisture_forecast"><%= json.soil_moisture_forecast %>mm</td>
+    </tr>
+</table
+</div>
+
+<script>
+var json = <%- JSON.stringify(json) %>
+
+if( true ) {
+if( json.landslide_nowcast == 1 ) {
+	$('#landslide_nowcast').attr("class", "success")
+	$('#landslide_nowcast').html("<%= gettext('alert.none')%>")
+}
+
+if( json.landslide_nowcast == 2 ) {
+	$('#landslide_nowcast').attr("class", "warning")
+	$('#landslide_nowcast').html("<%= gettext('alert.warning')%>")
+}
+	
+if( json.landslide_nowcast == 3 ) {
+	$('#landslide_nowcast').attr("class", "danger")
+	$('#landslide_nowcast').html("<%= gettext('alert.caution')%>")
+}
+
+if( json.landslide_forecast == 1 ) {
+	$('#landslide_forecast').attr("class", "success")
+	$('#landslide_forecast').html("<%= gettext('alert.none')%>")
+}
+
+if( json.landslide_forecast == 2 ) {
+	$('#landslide_forecast').attr("class", "warning")
+	$('#landslide_forecast').html("<%= gettext('alert.warning')%>")
+}	
+	
+if( json.landslide_forecast == 3 ) {
+	$('#landslide_forecast').attr("class", "danger")
+	$('#landslide_forecast').html("<%= gettext('alert.caution')%>")
+}	
+
+if( json.flood_nowcast == 1 ) {
+	$('#flood_nowcast').attr("class", "success")
+	$('#flood_nowcast').html("<%= gettext('alert.none')%>")
+}
+
+if( json.flood_nowcast == 2 ) {
+	$('#flood_nowcast').attr("class", "warning")
+	$('#flood_nowcast').html("<%= gettext('alert.warning')%>")
+}
+
+if( json.flood_nowcast == 3 ) {
+	$('#flood_nowcast').attr("class", "danger")
+	$('#flood_nowcast').html("<%= gettext('alert.caution')%>")
+}
+
+if( json.flood_forecast == 1 ) {
+	$('#flood_forecast').attr("class", "success")
+	$('#flood_forecast').html("<%= gettext('alert.none')%>")
+}
+
+if( json.flood_forecast == 2 ) {
+	$('#flood_forecast').attr("class", "warning")
+	$('#flood_forecast').html("<%= gettext('alert.warning')%>")
+}
+
+if( json.flood_forecast == 3 ) {
+	$('#flood_forecast').attr("class", "danger")
+	$('#flood_forecast').html("<%= gettext('alert.caution')%>")
+}
+
+if( json.precipitation_nowcast > 10 ) $('#precipitation_nowcast').attr("class", "success")
+if( json.precipitation_nowcast > 15 ) $('#precipitation_nowcast').attr("class", "warning")
+if( json.precipitation_nowcast > 20 ) $('#precipitation_nowcast').attr("class", "danger")
+
+if( json.precipitation_forecast > 10 ) $('#precipitation_forecast').attr("class", "success")
+if( json.precipitation_forecast > 15 ) $('#precipitation_forecast').attr("class", "warning")
+if( json.precipitation_forecast > 20 ) $('#precipitation_forecast').attr("class", "danger")
+
+if( json.soil_moisture_nowcast > 1 ) $('#soil_moisture_nowcast').attr("class", "success")
+if( json.soil_moisture_nowcast > 5 ) $('#soil_moisture_nowcast').attr("class", "warning")
+if( json.soil_moisture_nowcast > 20 ) $('#soil_moisture_nowcast').attr("class", "danger")
+
+if( json.soil_moisture_forecast > 1 ) $('#soil_moisture_forecast').attr("class", "success")
+if( json.soil_moisture_forecast > 5 ) $('#soil_moisture_forecast').attr("class", "warning")
+if( json.soil_moisture_forecast > 20 ) $('#soil_moisture_forecast').attr("class", "danger")
+}
+</script>

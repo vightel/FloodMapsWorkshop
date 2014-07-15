@@ -1,0 +1,68 @@
+<html>
+  <head>
+	<meta charset=utf-8 />
+	<title><%= region.name %></title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css" />
+	
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src="http://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js"></script>
+
+	<style>
+	.white, .white a {
+	  color: #fff;
+	}
+	#map { position:absolute; top:0; bottom:0; width:100%; }
+	  
+	</style>
+  </head>
+  
+  <body>
+	<div class='container'>
+		<h1><%= region.name %></h1>
+		
+   	 	<div id="map"></div>
+	</div>
+	
+	<script type='text/javascript'>
+
+		var surfaceWaterLayer = L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
+		var polyline_options = {
+			    color: '#0000FF'
+			};
+			
+		d3.json("<%= topojson %>", function(error, data) {
+			if( !error && data ) {
+				var product = topojson.feature(data, data.objects.surface_water)
+				surfaceWaterLayer.addData(product);
+			} else {
+				console.log("loaded topojson:"+error)				
+			}
+		})
+		
+		// Create array of lat,lon points for scene frame
+		var line_points = [
+			    [<%= region.LL_LAT %>,  <%= region.LL_LON %>],
+			    [<%= region.UL_LAT %>,  <%= region.UL_LON %>],
+			    [<%= region.UR_LAT %>, <%= region.UR_LON %>],
+			    [<%= region.LR_LAT %>,  <%= region.LR_LON %>],
+			    [<%= region.LL_LAT %>,  <%= region.LL_LON %>]
+		];
+			
+		var map = L.mapbox.map('map', 'cappelaere.map-mx5g2tn3',{ minZoom: 4, maxZoom: 18 })
+		.setView([<%= region.centerlat %>, <%= region.centerlon %>], 7);
+		
+		L.control.layers({
+		    'Terrain Map': L.mapbox.tileLayer('cappelaere.map-1d8e1acq').addTo(map),
+		    'Streets Map': L.mapbox.tileLayer('cappelaere.hg330434')
+		}, {
+		    'Surface Water': 		surfaceWaterLayer.addTo(map),
+			'Outline': 				L.polyline(line_points, polyline_options).addTo(map)
+		}).addTo(map);
+	    
+		L.control.scale().addTo(map);		
+	</script>
+  </body>
+</html>
+  
