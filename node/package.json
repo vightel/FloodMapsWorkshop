@@ -1,0 +1,50 @@
+{  
+  "name": "ojo_pub",
+  "description": "OJO Publisher Component of the NASA Disaster Architecture Implementation",
+  "version": "0.1.0",
+  "private": false,
+  "main": "server.js",
+  "author": {
+    "name": "Patrice G. Cappelaere",
+    "email": "pat@cappelaere.com"
+  },
+  "dependencies": {
+    "async": "~0.2.10",
+    "connect-pg": "1.1.5",
+    "consolidate": "0.10.0",
+    "debug": "0.7.4",
+    "dustjs-linkedin": "2.4.0",
+    "ejs": "~0.8.5",
+    "express": "3.4.8",
+    "express-partials": "~0.2.0",
+    "eyes": "0.1.8",
+    "fbgraph": "~0.2.9",
+	"filesize": "2.0.3",
+    "glob": "~3.2.8",
+    "hawk": "2.1.2",
+    "mime-types": "1.0.1",
+    "mkdirp": "0.4.0",
+    "moment": "~2.5.1",
+    "osm-and-geojson": "0.1.2",
+    "pg": "~2.11.1",
+    "querystring": "0.2.0",
+    "request": "2.33.0",
+	"shortid": "2.0.0",
+    "tokml": "0.2.4",
+    "topojson": "1.6.11",
+    "underscore": "1.5.2"
+  },
+  "maintainers": [
+    "Pat Cappelaere <pat@cappelaere.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/vightel/ojo-publish.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">= 0.10.22"
+  }
+}

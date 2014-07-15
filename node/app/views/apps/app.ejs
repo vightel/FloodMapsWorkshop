@@ -1,0 +1,11 @@
+<tr>
+	<td><img src='<%= app.icon_url %>'/></td>
+	<td><%= app.app_id %></td>
+	<td><%= app.name %></td>
+	<td><%= app.status %></td>
+	<td>
+		<a href='/radarsat/apps/<%=app.id%>'><i class='glyphicon glyphicon-search'></i>&nbsp;</a>
+		<a href='/radarsat/apps/edit/<%=app.app_id%>'><i class='glyphicon glyphicon-pencil'></i>&nbsp;</a>
+		<a href='/radarsat/apps/delete/<%=app.app_id%>'><i class='glyphicon glyphicon-trash'></i>&nbsp;</a>
+	</td>
+</tr>

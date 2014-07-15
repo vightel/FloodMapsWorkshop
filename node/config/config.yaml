@@ -1,0 +1,67 @@
+{
+    "application":      "OJO-Bot",
+    "copyright":        "&copy; Vightel, 2013",
+    "contact":          "Pat Cappelaere",
+    "contact_mail":     "pat@cappelaere.com",
+    "HOSTBASEURL":      "http://ojo-bot.herokuapp.com",
+    "PORT":				80,
+    "worldmapid":       "cappelaere.map-1d8e1acq",
+	"send_email": 		0,
+    "regions" : {
+        "Global": {
+            "bbox":     [-170, 50, 170, -50 ],
+            "target":   [20, -80],
+            "min_zoom":  2,
+            "max_zoom":  12,
+            "map_id":   "cappelaere.map-mx5g2tn3",
+            "bucket":   "ojo-global",
+            "ojotiler": "http://ojo-tiler.herokuapp.com",
+            "ojotiler-dev": "http://localhost:8888"
+        },
+        "d02": {
+            "name":		"Central America",
+            "bbox":     [-92.68, 6.17, -75.85, 19.08 ],
+            "target":   [12.63, -84.27],
+            "min_zoom":  5,
+            "max_zoom":  14,
+            "map_id":   "cappelaere.map-mx5g2tn3",
+            "bucket":   "ojo-d2",
+            "ojotiler": "http://ojo-tiler.herokuapp.com",
+            "ojotiler-dev": "http://localhost:8888"
+        },
+        "d03": {
+            "name":		"Hispaniola",
+            "bbox":     [-74.94, 16.35, -64.98, 21.42 ],
+            "target":   [18.89, -69.96],
+            "min_zoom": 6,
+			"max_zoom":	18,
+            "map_id":   "cappelaere.map-q4hdwmh3",
+            "bucket":   "ojo-d3",
+            "ojotiler": "http://ojo-tiler.herokuapp.com",
+            "ojotiler-dev": "http://localhost:8888"
+        }
+    },
+	
+    "admins":   		[ "pat@cappelaere.com", "cappelaere@gmail.com" ],
+	"support_email": 	["dalia.b.kirschbaum@nasa.gov","pat@geobliki.com"],
+	
+	"github":	{
+		"user":				"vightel",
+		"floods":			"gfc",
+		"landslides":		"glc"
+	},
+	
+	"nodes": [
+			{
+				"source": 	"radarsat-2",
+				"href": 	"http://radarsat.geobliki.com/radarsat/products/opensearch",
+				"checked":  true
+			},
+			{
+				"source": 	"modis",
+				"href": 	"http://modis.geobliki.com/modis/opensearch",
+				"checked": 	false
+			}
+	]
+}
+

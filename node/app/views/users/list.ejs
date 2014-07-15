@@ -1,0 +1,29 @@
+<div class='container'>
+<h2>User List</h2>
+
+<table class='table'>
+	<th>id</th>
+	<th>gravatar</th>
+	<th>name</th>
+	<th>organization</th>
+	<th>email</th>
+	<th>created at</th>
+	<th>updated at</th>
+	<th>admin</th>
+	<th>banned</th>
+	
+	<% for( var u in list ) { var user = list[u]; %>
+		<tr>
+		<td><%= user.id %></td>
+		<td><img src='<%= user.gravatar %>'/></td>
+		<td><%= user.name %></td>
+		<td><%= user.organization %></td>
+		<td><%= user.email %></td>
+		<td><%= user.created_at %></td>
+		<td><%= user.updated_at %></td>
+		<td><%= user.is_admin %></td>
+		<td><%= user.is_banned %></td>
+		</tr>
+	<% } %>
+</table>
+</div>
