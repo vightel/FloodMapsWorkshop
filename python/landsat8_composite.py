@@ -104,7 +104,6 @@ class Landsat8:
 	def linear_stretch(self, data):
 		# clip bottom and top 2 percent of the points
 		zeroes = (data == 0)
-		data
 		max_cut = numpy.percentile(data, 98)
 		
 		# we need to move the Zeroes out of the way to find the bottom 2%
