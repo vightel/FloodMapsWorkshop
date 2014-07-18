@@ -33,6 +33,7 @@ class Landsat8:
 		self.input_file			= os.path.join(outpath, input_file + "_SREF.tif")
 		self.output_file		= os.path.join(outpath, baseName + "_WATERMAP.tif")
 		self.bqa_file			= os.path.join(outpath, baseName + "_BQA_4326.tif")
+		self.mndwi_file			= os.path.join(outpath, baseName + "_MNDWI.tif")
 		
 		print baseName, self.bqa_file
 		
@@ -58,15 +59,13 @@ class Landsat8:
 
 		bqaband 		= bqads.GetRasterBand(1)
 		bqa_data 		= bqaband.ReadAsArray(0, 0, bqads.RasterXSize, bqads.RasterYSize )
-		
+
 		# cloud mask
 		self.cloud_mask		= (bqa_data & 0xC000) == 0xC000
 		self.cirrus_mask	= (bqa_data & 0x3000) == 0x3000
-		
-		
+
 		dst_ds 	= None
 		bqads 	= None
-		print "Done"
 
 #######################################################
 # Otsu's Method
@@ -126,8 +125,8 @@ class Landsat8:
 		RasterYSize = ds.RasterYSize
 		RasterCount = ds.RasterCount
 		
-		projection   = ds.GetProjection()
-		geotransform = ds.GetGeoTransform()
+		projection  = ds.GetProjection()
+		geotransform= ds.GetGeoTransform()
 		
 		if verbose:
 			print "size", RasterXSize, RasterYSize, RasterCount
@@ -141,18 +140,20 @@ class Landsat8:
 		green_band 	= ds.GetRasterBand(3)
 		green_data	= green_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
 		green_mask	= (green_data == 0)
+		print numpy.min(green_data), numpy.mean(green_data), numpy.max(green_data)
 		
-		red_band 	= ds.GetRasterBand(4)
-		red_data	= red_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
-		red_mask	= (red_data == 0)
+		#red_band 	= ds.GetRasterBand(4)
+		#red_data	= red_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
+		#red_mask	= (red_data == 0)
 
-		nir_band 	= ds.GetRasterBand(5)
-		nir_data	= nir_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
-		nir_mask	= (nir_data == 0)
+		#nir_band 	= ds.GetRasterBand(5)
+		#nir_data	= nir_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
+		#nir_mask	= (nir_data == 0)
 
 		mir_band 	= ds.GetRasterBand(6)
 		mir_data	= mir_band.ReadAsArray(0, 0, RasterXSize, RasterYSize )
 		mir_mask	= (mir_data == 0)
+		print numpy.min(mir_data), numpy.mean(mir_data), numpy.max(mir_data)
 
 		#self.get_stats("GREEN", green_data)
 		#self.get_stats("RED", red_data)
@@ -174,20 +175,38 @@ class Landsat8:
 		
 		# to avoid divide by zero
 		green_data[green_mask]	= 1
-		red_data[red_mask]		= 1
+		#red_data[red_mask]		= 1
 		mir_data[mir_mask]		= 1
-		nir_data[nir_mask]		= 1
+		#nir_data[nir_mask]		= 1
 
 		if verbose:
 			print "compute indices"
-			
-		mndwi 					= (green_data-mir_data)/(green_data+mir_data)
-		#ndbi					= (mir_data-nir_data) / (mir_data+nir_data)
-		#savi					= (nir_data-red_data) * (1+L) / (nir_data+red_data + L)
-		#wri					= (green_data+red_data)/(nir_data+red_data)
+					
+		mndwi 				= 1.0 * (green_data-mir_data)/(green_data+mir_data)
+		print numpy.min(mndwi), numpy.mean(mndwi), numpy.max(mndwi)
 		
-		#mask					= (mndwi>ndbi) #& (mndwi>savi) #& (red_data > 0.13)
-		#mask					= (mndwi>0) #& (mndwi>savi) #& (red_data > 0.13)
+		# since -1< MNDWI <1, we add 1 and multiply by 100
+		#mndwi 				= 100.0 * (1.0 + mndwi)
+		#print numpy.min(mndwi), numpy.mean(mndwi), numpy.max(mndwi)
+		
+		#ndbi				= (mir_data-nir_data) / (mir_data+nir_data)
+		#savi				= (nir_data-red_data) * (1+L) / (nir_data+red_data + L)
+		#wri				= (green_data+red_data)/(nir_data+red_data)
+		
+		#mask				= (mndwi>ndbi) #& (mndwi>savi) #& (red_data > 0.13)
+		#mask				= (mndwi>0) #& (mndwi>savi) #& (red_data > 0.13)
+		
+		if verbose:
+			print "Writting MNDWI file", self.mndwi_file
+			mndwi_ds 		= driver.Create( self.mndwi_file, RasterXSize, RasterYSize, 1, gdal.GDT_Byte, [ 'COMPRESS=DEFLATE' ] )
+			#mndwi_ds 		= driver.Create( self.mndwi_file, RasterXSize, RasterYSize, 1, gdal.GDT_Float32, [ 'COMPRESS=DEFLATE' ] )
+			mndwi_band 		= mndwi_ds.GetRasterBand(1)
+			mndwi[green_mask] = 0
+			mndwi_band.WriteArray(mndwi, 0, 0)
+			mndwi_band.SetNoDataValue(0)
+			print "Written MNDWI file", self.mndwi_file
+			
+			mndwi_ds 	= None
 		
 		if verbose:
 			print "compute threshold using otsu method"
@@ -196,8 +215,9 @@ class Landsat8:
 		hist, bins 	= numpy.histogram(data, bins=256, range=(0,255))
 		threshold 	= self.otsu(hist,len(data))
 		
+		mask = (mndwi<=threshold)
+
 		if verbose:
-			mask = (mndwi<=threshold)
 			print "threshold", threshold, len(data), numpy.count_nonzero(mask)	
 
 		output_data[mask] 		= 1
@@ -207,9 +227,9 @@ class Landsat8:
 			print "non zeros:",  count
 			
 		output_data[green_mask] = 0
-		output_data[red_mask] 	= 0
+		#output_data[red_mask] 	= 0
 		output_data[mir_mask] 	= 0
-		output_data[nir_mask] 	= 0
+		#output_data[nir_mask] 	= 0
 		
 		output_data[self.cloud_mask]	= 0
 		output_data[self.cirrus_mask]	= 0

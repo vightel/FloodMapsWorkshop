@@ -115,16 +115,16 @@ MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
 	  * arcsi.py -s ls8 -f KEA --stats -p RAD SREFSTDMDL --aeropro Continental --atmospro MidlatitudeSummer --aot 0.25 -o ./OutputImages -i LC80090472013357LGN00/LC80090472013357LGN00_MTL.txt
 	  * gdalwarp -of GTIFF -t_srs EPSG:4326 ./OutputImages/LS8_20131223_lat19lon7286_r47p9_rad_srefstdmdl.kea ./LC80090472013357LGN00/LC80090472013357LGN00_SREF.tif
 	  
-	* Reproject BQA band
+	* Reproject BQA band [Not necessary anymore]
 	  * gdalwarp -t_srs EPSG:4326 ./LC80090472013357LGN00/LC80090472013357LGN00_BQA.tif ./LC80090472013357LGN00/LC80090472013357LGN00_BQA_4326.tif
 	  	  
 	* Generate Composite for V&V [ 4-3-2 and rest optional]
-	  * landsat_composite.py --scene LC80090472013357LGN00 --red 4 --green 3 --blue 2
-	  * landsat_composite.py --scene LC80090472013357LGN00 --red 5 --green 6 --blue 4
-	  * landsat_composite.py --scene LC80090472013357LGN00 --red 7 --green 5 --blue 4
+	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 4 --green 3 --blue 2
+	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 5 --green 6 --blue 4
+	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 7 --green 5 --blue 4
 	  
 	* Generate water map, vectors and browse image
-	  * landsat8_watermap.py --scene LC80090472013357LGN00 -v
+	  * landsat8_toa_watermap.py --scene LC80090472013357LGN00 -v
 	  * landsat8_to_topojson.py --scene LC80090472013357LGN00 --vrt haiti_hand.vrt -v
 	  * landsat8_browseimage.py --scene LC80090472013357LGN00 -v
 	  
