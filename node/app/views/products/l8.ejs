@@ -2,15 +2,16 @@
 	<head>
 	<!-- Twitter Tags -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@geobliki">
-	<meta name="twitter:site:id" content="6456652">
-	<meta name="twitter:creator" content="@cappelaere">
-	<meta name="twitter:creator:id" content="6178752">
-	<meta name="twitter:domain" content="geobliki.com">
+	<meta name="twitter:site" content="<%= social_envs.TWITTER_SITE %>">
+	<meta name="twitter:site:id" content="<%= social_envs.TWITTER_SITE_ID %>">
+	<meta name="twitter:creator" content="<%= social_envs.TWITTER_CREATOR %>">
+	<meta name="twitter:creator:id" content="<%= social_envs.TWITTER_CREATOR_ID %>">
+	<meta name="twitter:domain" content="<%= social_envs.TWITTER_DOMAIN %>">
 	
 	<!-- Open Graph Tags (accepted by Twitter as well -->
-	<meta property="fb:app_id" content="<%= fbAppId %>" /> 
-	<meta property="fb:profile_id" content="100003853468544" /> 
+	<meta property="fb:app_id" content="<%= social_envs.FACEBOOK_APP_ID %>" /> 
+	<meta property="fb:profile_id" content="<%= social_envs.FACEBOOK_PROFILE_ID %>" /> 
+
 	<meta property="og:type" content="ojo-nasa:geoss_product" />
 	<meta property="og:title" content="geoss.surface_water" />
 	<meta property="og:description" content="<%= description %>" />
@@ -51,7 +52,7 @@
 					<tr><td><b>Resolution:</b></td><td>30m</td></tr>
 					<tr><td><b>Data Download:</b></td><td><a href='<%= topojson %>'>Topojson</a></td></tr>
 					<tr><td><b>USGS Data:</b></td><td><a href='http://earthexplorer.usgs.gov/metadata/923/LC80090472013357LGN00/'>Click</a></td></tr>
-					<tr><td><b>View On Map:</b></td><td><a href='/map/landsat8'>Here</a></td></tr>
+					<tr><td><b>View On Map:</b></td><td><a href='/products/l8/map/<%=region.scene%>'>Here</a></td></tr>
 					</table>
 				</td></tr></table>
 			</div>
@@ -74,7 +75,7 @@
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
 		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= fbAppId %>";
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= social_envs.FACEBOOK_APP_ID %>";
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 		

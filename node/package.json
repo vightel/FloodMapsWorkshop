@@ -30,6 +30,7 @@
     "querystring": "0.2.0",
     "request": "2.33.0",
 	"shortid": "2.0.0",
+    "sprintf-js": "0.0.7",
     "tokml": "0.2.4",
     "topojson": "1.6.11",
     "underscore": "1.5.2"

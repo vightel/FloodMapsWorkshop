@@ -4,10 +4,23 @@ var fs  		= require('fs'),
 	moment		= require('moment'),
 	eyes		= require('eyes'),
 	Hawk		= require('hawk'),
+	filesize 	= require('filesize'),
 	Request		= require('request'),
 	_			= require('underscore'),
-	debug		= require('debug')('opensearch')
+	debug		= require('debug')('opensearch'),
+	
+	query_eo1		= require("../../lib/query_eo1"),
+	query_l8		= require("../../lib/query_l8"),
+	query_modis		= require("../../lib/query_modis.js"),
+	query_radarsat2	= require("../../lib/query_radarsat2")
 	;
+	
+	productQueries = {
+		"eo1_ali": 		query_eo1.QueryEO1,
+		"l8": 			query_l8.QueryLandsat8,
+		"modis": 		query_modis.QueryModis,
+		"radarsat2": 	query_radarsat2.QueryRadarsat2
+	}
 	
 	function ValidateBBox( bbox ) {
 		console.log("Validate bbox", bbox)
@@ -23,108 +36,87 @@ var fs  		= require('fs'),
 		return dt.isValid()
 	}
 	
-	function QueryNode(req, res, url, query, lat, lon, startTime, endTime, cb ) {
-		var user			= req.session.user
-
-		url += "?q="+query;
-		url += "&lat="+lat;
-		url += "&lon="+lon;
-		url += "&startTime="+startTime.format("YYYY-MM-DD");
-		url += "&endTime="+endTime.format("YYYY-MM-DD");
-		
-		console.log("opensearch query url", url)
-		
-		var credentials = {
-			id:  		app.hawk_id,
-			key: 		app.hawk_secret,
-			algorithm: 'sha256'
-		}
-		
-	    var header = Hawk.client.header(url, 'GET', { credentials: credentials, ext: user.email });
-	    var options = {
-	        uri:  	url,
-	        method: 'GET',
-	        headers: {
-	            authorization: header.field
-	        }
-	    };
-		
-		Request(options, function(err, response, body){
-			if( !err ) {
-		        var isValid = Hawk.client.authenticate(response, credentials, header.artifacts, { payload: body });
-				if( isValid ) {
-					//console.log("Hawk body:"+body)
-					try{
-						var json = JSON.parse(body)
-						cb(null, json)
-					} catch(e) {
-						console.log("parse err", e)
-						cb(-1,nukk)
-					}
-				} else {
-					console.log("Invalid Hawk return")
-			        console.log(response.statusCode + ': ' + body + (isValid ? ' (valid)' : ' (invalid)'));
-					cb(-1,null);
-				}
-			} else {
-				console.log("Request error", err)
-				cb(err, null)
-			}
-		})
+	// takes a polygon and returns a bbox
+	// POLYGON((19.154261 -72.334539,19.054651 -72.00994,17.99311 -72.249369,18.092406 -72.571983,19.154261 -72.334539))
+	function bbox(g) {
+		var str = g.replace("POLYGON((", "")
+		str = str.replace("))", "")
+		str = str.replace(/ /g, ",")
+		var arr = str.split(",")
+		var latmin 	= Math.min( parseFloat(arr[0]), parseFloat(arr[2]), parseFloat(arr[4]), parseFloat(arr[6]), parseFloat(arr[8]))
+		var latmax 	= Math.max( parseFloat(arr[0]), parseFloat(arr[2]), parseFloat(arr[4]), parseFloat(arr[6]), parseFloat(arr[8]))
+		var lonmin 	= Math.max( parseFloat(arr[1]), parseFloat(arr[3]), parseFloat(arr[5]), parseFloat(arr[7]), parseFloat(arr[9]))
+		var lonmax 	= Math.max( parseFloat(arr[1]), parseFloat(arr[3]), parseFloat(arr[5]), parseFloat(arr[7]), parseFloat(arr[9]))
+		var bbox =  [latmin, lonmin, latmax, lonmax]
+		//console.log("bbox", arr, bbox)
+		return bbox
 	}
 	
-	function QueryNodes(req, res, query, lat, lon, startTime, endTime ) {
-		var sources			= req.query['sources'].split(',')
+	function QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage ) {
+		var sources		= req.query['sources'].split(',')
+		var host 		= req.protocol + "://"+req.headers['host']
+		var originalUrl	= host + req.originalUrl
+		var user		= req.session.user
+		var credentials	= req.session.credentials
 		
-		console.log('sources', sources)
+		console.log('query sources', sources)
 		
-		results = {	replies: {
-						items: []
-					}}
-		
-		async.each( app.config.nodes, function(node, cb) {
-			console.log("Trying to query", node)
-			// check if selected
-			if( _.find(sources, function(s) { return s == node.source }) ) {
-				console.log("checked ", node.source)
-			
-				var url = node.href
-				console.log("checking url:", url)
-				// try to see if node is up
-				Request.head(url, function(error, response, body) {
-					if( error != null ) {
-						console.log("Error with ", url)
-						cb(null)
-					} else {
-						QueryNode(req, res, url, query, lat, lon, startTime, endTime, function(err, json) {
-							if(json) {
-								var index = 0
-								for( var item in json.replies.items ) {
-									results.replies.items.push(json.replies.items[item])
-									index += 1
-								}
-								console.log("Added", index, "items to replies")
-							}						
-							cb(null)
-						})
-					}
+		var items = []
+
+		async.each( sources, function(asset, cb) {
+
+			if( _.contains(sources, asset)) {
+				var productQuery = productQueries[asset]
+				console.log("Trying to query", asset)
+				productQuery(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, function(err, json) {
+					if(!err && json) {
+						var index = 0
+						for( var item in json.replies.items ) {
+							items.push(json.replies.items[item])
+							index += 1
+						}
+						console.log("Added", index, "items to replies")
+					}						
+					cb(null)
 				})
 			} else {
-				console.log("Source unchecked:", node.source)
-				cb(null)
+				console.log(asset, " not selected")
 			}
-		}, function(err) {
-			console.log("sending results items...", results.replies.items.length)
-			res.send(results)
+		}, function(err) {	
+			res.set("Access-Control-Allow-Origin", "*")
+			var json = {
+				"objectType": 'query',
+				"id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
+				"displayName": "OJO Publisher Flood Surface Water Products",
+				"replies": {
+					"url": originalUrl,
+					"mediaType": "application/activity+json",
+					"totalItems": items.length,
+					"items": items
+				}
+			}
+			res.send(json)
 		})
 	}
 	
 module.exports = {
-
+	test: function(req, res) {
+		var host = req.protocol+"://"+req.headers.host
+		var region = app.config.regions.d02
+		var user= req.session.user
+		
+		res.render( "opensearch/test", {
+			user: user,
+			opensearch_url: host+"/opensearch",
+			region: region,
+			nodes: app.config.nodes,
+			social_envs: app.social_envs
+		})
+	},
+	
   	index: function(req, res) {
 		var user			= req.session.user
-		
-  		var query 			= req.query['q']
+		var query 			= req.query['q']
 		var bbox			= req.query['bbox'] ? req.query['bbox'].split(',').map(parseFloat) : undefined
 		var itemsPerPage	= req.query['itemsPerPage'] || 10
 		var startIndex		= req.query['startIndex'] || 1
@@ -167,6 +159,6 @@ module.exports = {
 			lat = (bbox[1]+bbox[3])/2
 		}
 	
-		QueryNodes(req, res, query, lat, lon, startTime, endTime )
+		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage )
 	}
 }

@@ -294,5 +294,18 @@
     </Datasource>
 </Layer>
 
-
+<Layer name="water_areas" status="on" srs="&osm2pgsql_projection;">
+    <StyleName>water_areas</StyleName>
+    <Datasource>
+      <Parameter name="table">
+      (select way,"natural",waterway,landuse,name
+      from &prefix;_polygon
+      where (
+		  landuse in ('reservoir','water','basin')
+         or "natural" in ('lake','water','land','glacier','mud','bay'))
+      order by z_order,way_area desc
+      ) as water_areas</Parameter>
+      &datasource-settings;
+    </Datasource>
+</Layer>
 

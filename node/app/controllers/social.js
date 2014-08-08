@@ -19,7 +19,7 @@ module.exports = {
 		// so we'll redirect to the oauth dialog
 		  if (!req.query.code) {
 		    var authUrl = graph.getOauthUrl({
-		        "client_id":     app.config.fbAppId
+		        "client_id":     app.social_envs.FACEBOOK_APP_ID
 		      , "redirect_uri":  redirect_uri
 		      , "scope":         'email'
 		    });
@@ -36,7 +36,7 @@ module.exports = {
 		  // code is set
 		  // we'll send that and get the access token
 		  graph.authorize({
-		      "client_id":      app.config.fbAppId
+		      "client_id":      app.social_envs.FACEBOOK_APP_ID
 		    , "redirect_uri":   redirect_uri
 		    , "client_secret":  app.config.fbSecret
 		    , "code":           req.query.code

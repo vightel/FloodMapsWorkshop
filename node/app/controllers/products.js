@@ -11,9 +11,11 @@ var util	= require('util'),
 	sys 	= require('sys'),
 	exec 	= require('child_process').exec,
 	mime	= require('mime-types'),
-	osm_geojson	= require("osm-and-geojson/osm_geojson"),
-	tokml	= require('tokml'),
-	fs		= require('fs');
+	osm_geojson		= require("osm-and-geojson/osm_geojson"),
+	tokml			= require('tokml'),
+	childProcess 	= require('child_process'),
+	scene_model		= require('../../models/scene.js'),
+	fs				= require('fs');
 	
 	mime.define( {
 		"application/x-osm+xml": [ "osm"],
@@ -21,62 +23,27 @@ var util	= require('util'),
 		"application/x-gzip": ["gz"]
 	})
 	
-	function puts(error, stdout, stderr) { sys.puts(stdout) }
 	
 	function InBBOX( lat, lon, bbox) {
 		if( (lat > bbox[2]) && (lat< bbox[3]) && (lon > bbox[0]) && (lon < bbox[2]) ) return true;
 		return false
 	}
 	
-	function findRegion(lat, lon) {
-		if( InBBOX(lat, lon, app.config.regions.d02.bbox)) return app.config.regions.d02
-		if( InBBOX(lat, lon, app.config.regions.d03.bbox)) return app.config.regions.d03
-		return undefined
-	}
-	
-	// Check if file exists on S3, if yes, download it into /tmp
-	function existsOnS3(bucket, folder, fname, cb ) {
-		var tmp_dir = app.get("tmp_dir")
-		
-		console.log("Check on S3", bucket, folder, fname)
-		var options = {
-			Bucket: bucket, 
-			Key: folder + "/" + fname
-		};
-		app.s3.getObject( options, function(err, data) {
-			if( !err ) {
-				var dir = path.join(tmp_dir, bucket, folder)
-				
-				// make sure folder exists
-				mkdirp.sync(dir)
-				
-				var fileName	= path.join(dir, fname)
-				var out 		= fs.createWriteStream(fileName)	
-				var buff 		= new Buffer(data.Body, "binary")
-				var Readable 	= require('stream').Readable;
-				var rs 			= new Readable;
-				rs.push(buff)
-				rs.push(null)
-				rs.pipe(out)
-				
-			} else {
-				console.log("NOT Found it on S3", fname)
-			}
-			cb(err)
-		})
-	}
 	
 	function sendFile( res, file ) {
 		var ext 		= path.extname(file)
 		var basename 	= 	path.basename(file)
 		var dirname 	= 	path.dirname(file)
+		var ext			= 	path.extname(file)
 		
 		var mime_type = mime.lookup(path.basename(file))
+		console.log( "sendFile", ext, mime_type)
 		
-		if( basename.indexOf(".topojson") > 0) {
+		if( ext == ".topojson") {
 			res.header("Content-Type", "application/json")
 			res.header("Content-Encoding", "gzip")
 			console.log("sending .topojson application/json gzip", basename)
+			basename += ".gz"
 		} else {
 			console.log("sending ", mime_type, basename, dirname)
 			res.header("Content-Type", mime_type, basename)
@@ -502,132 +469,356 @@ module.exports = {
 		res.sendfile(basename, {root: dirname}) 
 	},
 	
-
+	map_radarsat2: function(req, res) {
+		var scene 	= req.params['scene']
+		scene_model.getScene('radarsat2', scene, function(err, record) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var region 	= {
+				name: 	"Radarsat-2 Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+			console.log("map_radarsat2", region)
+			var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"
+			render_map(region, topojson, req, res )
+		})
+	},
 	
-	map: function(req,res) {
-		var id 		= req.params["id"]
-		var host 	= "http://"+req.headers.host
+	radarsat2_product: function(req, res) {
+		var scene 		= req.params['scene']
+		var id 			= req.params['id']
 		
-		switch(id) {
-		case 'landsat8':
-			var region = {
-				name: 	"Landsat-8 Flood Map for Haiti",
-				scene: 	"LC80090472013357LGN00",
-				bbox: 	[-73.94358, 17.74510, -71.76917, 19.81187],
-				centerlat: (19.83792+17.72199)/2,
-				centerlon: (-73.93045-71.76917)/2,
-			    UL_LAT: 19.83792,
-			    UL_LON: -73.93045,
-			    UR_LAT: 19.81187,
-			    UR_LON: -71.76917,
-			    LL_LAT: 17.74510,
-			    LL_LON: -73.94358,
-			    LR_LAT: 17.72199,
-			    LR_LON: -71.80878
+		var product	= app.root+"/../data/radarsat2/"+scene+"/"+id
+		if( !fs.existsSync(product)) {
+			if( fs.existsSync(product+".gz")) {
+				console.log("sending as topojson gzip encoded")
+				sendFile(res, product)				
+			} else {
+				console.log("Product does not exist")
+				return res.send(400)
 			}
-			var topojson=	host+"/topojson/LC80090472013357LGN00_WATERMAP.tif.hand.tif.pgm.topojson"
-			render_map(region, topojson, req, res)
-			break;
-			
-		case 'modis':
-			var region = {
-				name: 	"MODIS Flood Map for Haiti",
-				scene: 	"080W020N_2D2OT",
-				bbox: 	[-80, 10, -70, 20],
-				centerlat: 15,
-				centerlon: -75,
-			    UL_LAT: 20,
-			    UL_LON: -80,
-			    UR_LAT: 20,
-			    UR_LON: -70,
-			    LL_LAT: 10,
-			    LL_LON: -80,
-			    LR_LAT: 10,
-			    LR_LON: -70
-			}
-			var topojson=	host+"/topojson/SWP_2012234_080W020N_2D2OT.topojson"
-			render_map(region, topojson, req, res)
-			break;
-			
-		case 'radarsat2':
-			var region = {
-				name: 	"Radarsat-2 Flood Map for Haiti",
-				scene: 	"RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF",
-				bbox: 	[-72.987, 19.677, -72.364, 19.216],
-				centerlat: (19.677+19.216)/2,
-				centerlon: (-72.987-72.364)/2,
-			    UL_LAT: 19.216,
-			    UL_LON: -72.987,
-			    UR_LAT: 19.216,
-			    UR_LON: -72.364,
-			    LL_LAT: 19.216,
-			    LL_LON: -72.987,
-			    LR_LAT: 19.216,
-			    LR_LON: -72.364
-			}
-			var topojson=	host+"/topojson/surface_water.topojson"
-			render_map(region, topojson, req, res)
-			break;
+		} else {
+			sendFile(res, product)
 		}
 	},
-	
-	landsat8: function(req, res) {
-		var host = "http://"+req.headers.host
-		var region = {
-			name: 	"Haiti",
-			scene: 	"LC80090472013357LGN00",
-			bbox: 	[-73.94358, 17.74510, -71.76917, 19.81187],
-			target: [(19.83792+17.72199)/2, (-73.93045-71.76917)/2]
-		}
-		res.render("products/l8", {
-			fbAppId: 		app.config.fbAppId,
-			description: 	"Landsat-8 Flood Map",
-			image: 			host+"/data/LC80090472013357LGN00_watermap_browseimage.thn.png",
-			url: 			host+"/products/landsat8",
-			date: 			"2013-12-23T15:16:23Z",
-			region: 		region,
-			topojson: 		host+"/topojson/LC80090472013357LGN00_WATERMAP.tif.hand.tif.pgm.topojson.gz"
+	browse_radarsat2: function(req, res) {
+		var scene 	= req.params['scene']
+		
+		scene_model.getScene('radarsat2', scene, function(err, record) {
+			var date    = record.date
+			var host = "http://"+req.headers.host
+			var region = {
+				name: 	"Radarsat-2 Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+		
+			res.render("products/radarsat2", {
+				social_envs: 	app.social_envs,
+				description: 	"Radarsat2 Flood Map",
+				image: 			host+"/products/radarsat2/"+scene+"/surface_water_osm.png",
+				url: 			host+"/products/radarsat2/browse/"+scene,
+				date: 			date,
+				region: 		region,
+				data: 			"http://www.asc-csa.gc.ca/eng/satellites/radarsat2/order-contact.asp",
+				topojson: 		host+"/products/radarsat2/"+scene+"/surface_water.topojson.gz",
+				layout: 		false
+			})
 		})
 	},
 	
-	radarsat2: function(req, res) {
+	map_modis: function(req, res) {
 		var host = "http://"+req.headers.host
+		var year 	= req.params['year']
+		var doy 	= req.params['doy']
+		var tile 	= req.params['tile']
+		var id		= year.toString() + doy+"_"+tile
+		var date    = moment(year+"-"+doy)
+		var lon 	= parseFloat(tile.substring(0,3))
+		var ew  	= tile[3]
+		var ns 		= tile[7]
+		var lat 	= parseFloat(tile.substring(4,7))
+		
+		if( ew == 'W') lon = -lon
+		if( ns == 'S') lat = -lat
+		
+		var centerlat 	= lat - 5.0
+		var centerlon 	= lon + 5.0
+		var bbox		= [lon, lat-10.0, lon+10.0,lat]
+		
 		var region = {
-			name: 	"Haiti",
-			scene: 	"RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF",
-			bbox: 	[-72.987, 19.677, -72.364, 19.216],
-			target: [(19.677+19.216)/2, (-72.987-72.364)/2]
-
+			name: 	"MODIS Flood Map",
+			scene: 	tile,
+			bbox: 	bbox,
+			target: [centerlat, centerlon]
 		}
-		res.render("products/l8", {
-			fbAppId: 		app.config.fbAppId,
-			description: 	"Landsat-8 Flood Map",
-			image: 			host+"/data/surface_water_osm.png",
-			url: 			host+"/products/landsat8",
-			date: 			"2012-08-25T23:08:57Z",
-			region: 		region,
-			topojson: 		host+"/topojson/surface_water.topojson.gz"
-		})
+		console.log("map_modis", region)
+		
+		var topojson=	host+"/products/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson"
+		render_map(region, topojson, req, res )
 	},
 	
-	modis: function(req, res) {
+	browse_modis: function(req, res) {
+		var year 	= req.params['year']
+		var doy 	= req.params['doy']
+		var tile 	= req.params['tile']
+		var id		= year.toString() + doy+"_"+tile
+		var date    = moment(year+"-"+doy)
+		
+		var lon 	= parseFloat(tile.substring(0,3))
+		var ew  	= tile[3]
+		var ns 		= tile[7]
+		var lat 	= parseFloat(tile.substring(4,7))
+		
+		if( ew == 'W') lon = -lon
+		if( ns == 'S') lat = -lat
+		
+		var centerlat 	= lat - 5.0
+		var centerlon 	= lon - 5.0
+		var bbox		= [lon, lat-10.0, lon+10.0,lat]
+		
 		var host = "http://"+req.headers.host
 		var region = {
 			name: 	"Haiti",
-			scene: 	"080W020N_2D2OT",
-			bbox: 	[-80, 10, -70.76917, 20],
-			target: [15, -75]
+			scene: 	tile,
+			bbox: 	bbox,
+			target: [centerlat, centerlon]
 		}
+		
 		res.render("products/modis", {
-			fbAppId: 		app.config.fbAppId,
+			social_envs:	app.social_envs,
 			description: 	"MODIS Flood Map",
-			image: 			host+"/data/OSM_SWP_2012234_080W020N.png",
-			url: 			host+"/products/landsat8",
-			date: 			"2012-12-23",
+			image: 			host+"/products/modis/"+year+"/"+doy+"/"+tile+"/OSM_SWP_"+id+".png",
+			url: 			host+"/products/modis",
+			date: 			date.format("YYYY-MM-DD"),
+			year: 			year,
+			doy: 			doy,
 			region: 		region,
-			data: 			"http://oas.gsfc.nasa.gov/floodmap/getTile.php?location=080W020N&day=234&year=2012&product=2",
-			topojson: 		host+"/topojson/SWP_2012234_080W020N_2D2OT.topojson.gz",
+			data: 			"http://oas.gsfc.nasa.gov/floodmap/getTile.php?location="+tile+"&day="+doy+"&year="+year+"&product=2",
+			topojson: 		app.root+"/../data/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson.gz",
 			layout: 		false
 		})
-	}
+		
+	},
+	process_modis: function(req, res) {
+		var year 	= req.params['year']
+		var doy 	= req.params['doy']
+		var tile 	= req.params['tile']
+		
+		var cmd = app.root + "/../python/modis.py -p 2 -y "+year+" -d "+doy+" -t "+tile
+		console.log(cmd)
+
+		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
+			if (error) {
+		  	   console.log(error.stack);
+		  	   console.log('Error code: '+error.code);
+		  	   console.log('Signal received: '+error.signal);
+		   	}
+			console.log('Child Process STDOUT: '+stdout);
+			console.log('Child Process STDERR: '+stderr);
+		});
+
+		child.on('exit', function (code) {
+			console.log('Child process exited with exit code '+code);
+		}); 
+	},
+	modis_product: function(req, res) {
+		var year 	= req.params['year']
+		var doy 	= req.params['doy']
+		var tile 	= req.params['tile']
+		var id 		= req.params['id']
+		
+		var product	= app.root+"/../data/modis/"+year+"/"+doy+"/"+tile+"/"+id
+		if( !fs.existsSync(product)) {
+			if( fs.existsSync(product+".gz")) {
+				console.log("sending as topojson gzip encoded")
+				sendFile(res, product)				
+			} else {
+				console.log("Product does not exist")
+				return res.send(400)
+			}
+		} else {
+			sendFile(res, product)
+		}
+	},
+	
+	// Send back an EO-1 Product
+	eo1_ali_product: function(req, res) {
+		var scene 	= req.params['scene']
+		var id 		= req.params['id']
+	
+		var product	= app.root+"/../data/eo1_ali/"+scene+"/"+id
+		if( !fs.existsSync(product)) {
+			if( fs.existsSync(product+".gz")) {
+				console.log("sending as topojson gzip encoded")
+				sendFile(res, product)				
+			} else {
+				console.log("EO-1 Product does not exist", product)
+				return res.send(400)
+			}
+		} else {
+			sendFile(res, product)
+		}
+	},
+
+	// Process an EO-1 scene that we know is available but not processed
+	process_eo1_ali: function(req, res) {
+		var id 	= req.params['id']
+		var cmd = app.root + "/../python/download_eo1.py --scene "+id
+		console.log(cmd)
+
+		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
+			if (error) {
+		  	   console.log(error.stack);
+		  	   console.log('Error code: '+error.code);
+		  	   console.log('Signal received: '+error.signal);
+		   	}
+			console.log('Child Process STDOUT: '+stdout);
+			console.log('Child Process STDERR: '+stderr);
+		});
+
+		child.on('exit', function (code) {
+			console.log('Child process exited with exit code '+code);
+		}); 
+	},
+	browse_eo1_ali: function(req, res) {
+		var scene 		= req.params['scene']
+		var path		= parseInt(scene.substring(4,7))
+		var row			= parseInt(scene.substring(7,10))
+		var year		= scene.substring(10,14)	
+		
+		scene_model.getScene('eo1_ali', scene, function(err, record) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var short	= record.scene.split('_')[0]
+			
+			var region = {
+				name: 	"EO-1 ALI Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+		
+			res.render("products/eo1", {
+				social_envs: 	app.social_envs,
+				description: 	"EO-1 ALI Flood Map",
+				image: 			host+"/products/eo1_ali/"+scene+"/"+ short+"_watermap_browseimage.thn.png",
+				url: 			host+"/products/eo1_ali/browse/"+scene,
+				date: 			date,
+				region: 		region,
+				data: 			"http://earthexplorer.usgs.gov/browse/eo-1/ali/"+path+"/"+row+"/"+year+"/"+scene+".jpeg",
+				topojson: 		host+"/products/eo1_ali/"+scene+"/"+short+"_WATERMAP.tif.hand.tif.pgm.topojson.gz",
+				layout: 		false
+			})
+		})
+	},
+	map_eo1_ali: function(req, res) {
+		var host 	= "http://"+req.headers.host
+		var scene 	= req.params['scene']
+		
+		scene_model.getScene('eo1_ali', scene, function(err, record) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var short	= record.scene.split('_')[0]
+			
+			var region 	= {
+				name: 	"EO1 ALI Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+			var topojson=	host+"/products/eo1_ali/"+scene+"/"+short+"_WATERMAP.tif.hand.tif.pgm.topojson"
+			render_map(region, topojson, req, res )
+		})
+	},
+	
+	process_l8: function(req, res) {
+		var scene = req.params['scene']
+		var cmd = app.root + "/../python/download_landsat8.py --scene "+scene
+		console.log(cmd)
+		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
+			if (error) {
+		  	   console.log(error.stack);
+		  	   console.log('Error code: '+error.code);
+		  	   console.log('Signal received: '+error.signal);
+		   	}
+			console.log('Child Process STDOUT: '+stdout);
+			console.log('Child Process STDERR: '+stderr);
+		});
+
+		child.on('exit', function (code) {
+			console.log('Child process exited with exit code '+code);
+		}); 
+	},
+	
+	// Send back a Landsat-8 Product
+	l8_product: function(req, res) {
+		var scene 	= req.params['scene']
+		var id 		= req.params['id']
+	
+		var product	= app.root+"/../data/l8/"+scene+"/"+id
+		if( !fs.existsSync(product)) {
+			if( fs.existsSync(product+".gz")) {
+				console.log("sending as topojson gzip encoded")
+				sendFile(res, product)				
+			} else {
+				console.log("L8 Product does not exist", product)
+				return res.send(400)
+			}
+		} else {
+			sendFile(res, product)
+		}
+	},
+
+	browse_l8: function(req, res) {
+		var scene 		= req.params['scene']
+		var path		= scene.substring(3,6)
+		var row			= scene.substring(6,9)
+		var year		= scene.substring(9,13)		
+		
+		scene_model.getScene('l8', scene, function(err, record) {
+			var date    = record.date
+			var host = "http://"+req.headers.host
+			var region = {
+				name: 	"Landsat-8 Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+		
+			res.render("products/l8", {
+				social_envs:	app.social_envs,
+				description: 	"Landsat-8 Flood Map",
+				image: 			host+"/products/l8/"+scene+"/"+scene+"_watermap_browseimage.thn.png",
+				url: 			host+"/products/l8/browse/"+scene,
+				date: 			date,
+				region: 		region,
+				data: 			"http://earthexplorer.usgs.gov/browse/landsat_8/"+year+"/"+path+"/"+row+"/"+record.scene+".jpg",
+				topojson: 		host+"/products/eo1_ali/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson",
+				layout: 		false
+			})
+		})
+	},
+	
+	map_l8: function(req, res) {
+		var host 	= "http://"+req.headers.host
+		var scene 	= req.params['scene']
+		
+		scene_model.getScene('l8', scene, function(err, record) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var region 	= {
+				name: 	"Landsat-8 Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+			var topojson=	host+"/products/l8/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson"
+			render_map(region, topojson, req, res )
+		})
+	},
+	
 }

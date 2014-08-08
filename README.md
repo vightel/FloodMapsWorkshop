@@ -1,33 +1,41 @@
-menatraining
-============
+Flood Workshop Training
+=======================
 
-MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
+How to generate flood maps from  Radarsat-2, MODIS, EO-1 and Landsat-8 imagery...
+WaterPedia for flood event mapping and validation
+Global Flood Catalog for event recording
+Open GeoSocial API for data distribution
+GeoApp
 
-## Steps
 
-* Laptop Prerequisites: 
-  * phpAdmin or Navicat to configure database 
+## Pre-requisites
+
+* Register on GitHub.com for an account
+  * You may have to send us your handle to become collaborator on this project
+
+* Laptop with: 
+  * phpAdmin or Navicat (prefered http://www.navicat.com/download/navicat-for-postgresql ) to configure database 
   * git
   * Editor (TextMate, XCode, Eclipse, VIM...)
  
-* Register on GitHub.com for an account
-  * You may have to send us your handle to become part of the collaborators
-  
 * [OPTIONAL] download package onto your local machine or laptop to review scripts locally
   * git clone https://github.com/vightel/menatraining.git 
-  
-* Create An Amazon Web Services (AWS) Account
+
+* [Free] Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
+ 
+## Steps
+
 * Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)
   * Select Region East
   * Linux AMI, General Purpose, m3.large, Note: we need ~ 100GiB storage check if this is still an m3.large otherwise will need to increase volume later
   * Create key/pair and store it in local DIR.  Restrict access to key.pem (chmod 600 key.pem)
   * Remember Instance ID and Public DNS (Check your Management Console if necessary)
 
-* [OPTIONAL] Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
+* Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
   *	Postgresql, 9.3.3, db.m1.small, No, 5GB
   * DBNAME: osmdb
   * DBOWNER: osm_admin
-  * PGPASSWORD: osmAdmin1
+  * PGPASSWORD: osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
   * Edit security group to have enough security access to communicate
   * Using Navicat (or phpAdmin) Connect to osmdb database.  Select and Open console
     * osmdb# create extension postgis;
@@ -40,17 +48,20 @@ MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
   * ssh -i key.pem ec2-user@ec2-54-84-226-201.compute-1.amazonaws.com
   
 * Set your envs... something like...[remember your Endpoint]
-  * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
-  * export DBNAME=osmdb
-  * export DBOWNER=osm_admin_
-  * export DBPORT=5432
-  * export PGPASS=osmAdmin1
+  * export DBHOST= osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
+  * export DBNAME= osmdb
+  * export DBOWNER= osm_admin
+  * export DBPORT= 5432
+  * export PGPASS= osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
+  * export DATABASE_URL= "tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com/osmdb"
 
-* Install dependencies, code and data
+* Install code dependencies
   * git clone https://github.com/vightel/menatraining.git
   * cd menatraining
   * export MENA_DIR=~/menatraining
   * sh install-deps.sh
+  
+* Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
 
 * Verify Database dependencies
@@ -58,30 +69,92 @@ MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
   * Check database settings: ./inc/datasource-settings.xml.inc
 
 * [OPTIONAL] Download OSM data files and load OSM database
+  * You may have to get OSM data from your particular area from http://download.geofabrik.de/ and edit the shell file below.
   * cd ./data/osm
   * sh load_all.sh
-  * Add tables if you are going to use the OJO Publisher (Node Application)
-    * add ./sql/users.sql
-	* add ./sql/applications.sql
 
-* [OPTIONAL] Download HydroSHEDS DEM and build HAND for haiti area
-  * Build for Haiti area, if not change the area... check hand_all.py_
-  * hand_all.py -a haiti -v
+* [OPTIONAL] Add database tables if you are going to use the Publisher (Node Application)
+  * add ./sql/users.sql
+  * add ./sql/applications.sql
+  * add ./sql/radarsat2.sql
+  * add ./sql/eo1_ali_.sql
+  * add ./sql/l8.sql
   
-* Install miniconda for python 2.7 (default here)
-  * cd ~
-  * wget "http://repo.continuum.io/miniconda/Miniconda-3.5.5-Linux-x86_64.sh"
-  * bash Miniconda-3.5.5-Linux-x86_64.sh
-  * Use all defaults... this will create ~/miniconda
+* [OPTIONAL] Download HydroSHEDS DEM and build HAND (Height Above Nearest Drainage) for your Area of Interest
+  * Currently Built for Haiti area, if not change the area... check ./python/hand_all.py
   
-* Create a Python 3 environment to atmospherically correct landsat-8 data
-  * restart a new terminal to get access to conda
-  * conda create -n arcsi python=3
-  * source activate arcsi
-  * conda install -c https://conda.binstar.org/osgeo arcsi tuiview
-  * export GDAL_DRIVER_PATH=~/miniconda/envs/arcsi/gdalplugins
-  * export GDAL_DATA=~/miniconda/envs/arcsi/share/gdal
+  You will need to specify the continent and the 3sec tiles you need for the void filled dem and flow direction.
+	http://earlywarning.usgs.gov/hydrosheds/index.php
+	http://earlywarning.usgs.gov/hydrosheds/dataavail.php
   
+  * When ready, run the processing... it takes about 5-10mn per tile
+  * Make sure to edit python/config.py to [re]define the HANDS_AREA
+  * hand_all.py -v
+  
+* Process Radarsat Imagery
+  * You will need some Radarsat-2 SGF files expanded in your data directory ../data/radarsat2.  At a minimum, one file should have been copied and expanded by the getdata.sh script
+  * cd $MENA_DIR/python
+  * radarsat_processing.py --scene RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
+  * [OPTIONAL] Add the scene into the database to publish the data
+    * load_radarsat2.py --scene RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
+
+## Waterpedia
+
+### OpenStreetMap Format
+
+* http://openstreetmap.org
+* OSM XML
+* Downloading osm.bz2
+
+### OpenStreetMap Tools
+
+* JOSM
+* OSM Task Manager
+  
+### Generating a Global Flood Event Record
+ 
+* http://www.dartmouth.edu/~floods/Archives/
+* http://eos.ou.edu/flood/
+* Flood event format - TBD -
+* GitHub for Global Flood Catalog
+* How to clone / sync
+ 
+### Updating Reference Surface Water 
+
+* OpenStreetMap Water Features
+* Using JOSM to update water features
+
+## More Floodmaps: EO-1, Landsat-8 and MODIS
+
+### Pre-requisites
+
+* A Login at http://earthexplorer.usgs.gov/
+
+### Steps
+
+* Install Python Postgres libraries
+  * pip install psycopg2 
+  * pip install PPyGIS 
+  
+* Make sure the tables are installed in database for eo1_ali, l8 and radarsat-2
+
+* Get regional archived scenes for EO1 ALI and Landsat-8 OLI/TIRS in csv format
+	* go to http://earthexplorer.usgs.gov/
+	* select Search Criteria and use the map
+	* Select one data set at a time
+	  * EO-1 ALI
+	  * Landsat Archive L8 OLI/TIRS
+	* Additional criteria < 10% or 20% clouds
+	* Hit results and export ALL your result in csv format
+	* store csv files in ./data/csv
+	* load EO-1 archive 
+	  *	load_eo1.py -i XXX.csv
+	* load Landsat-8 archive
+	  * load_l8.py -i XXX.csv
+	  
+	  
+### Manual Processing of Landsat-8
+
 * Download a Landsat-8 scene
   * Option 1: 
     * Go to: http://earthexplorer.usgs.gov/
@@ -98,52 +171,69 @@ MENA Training to generate flood maps from  Radarsat-2 and Landsat-8 scenes
 	* tar -xf LC80090462013357LGN00.tar.gz
 	* rm LC80090462013357LGN00.tar.gz
 	* cd ..
-
-* Atmospheric Correction of Landsat Image
-	* Conversion to Radiance [Note: This might not be necessary]
-	  * arcsi.py -s ls8 -f KEA --stats -p RAD -o ./OutputImages -i LC80090462013357LGN00/LC80090462013357LGN00_MTL.txt
-	* Conversion to Top of Atmosphere Reflectance [Note: This might not be necessary]
-	  * arcsi.py -s ls8 -f KEA --stats -p RAD TOA -o ./OutputImages -i LC80090462013357LGN00/LC80090462013357LGN00_MTL.txt
-	* Convert to Surface Reflectance
-	  * arcsi.py -s ls8 -f KEA --stats -p RAD SREFSTDMDL --aeropro Continental --atmospro MidlatitudeSummer --aot 0.25 -o ./OutputImages -i LC80090462013357LGN00/LC80090462013357LGN00_MTL.txt
-	* Convert to tif to avoid requiring KEA Driver if you want to download file to another machine - also reproject to ESPG:4326 while at it 
-	  * gdalwarp -of GTIFF -t_srs EPSG:4326 ./OutputImages/LS8_20131223_lat20lon7253_r46p9_rad_srefstdmdl.kea ./OutputImages/LS8_20131223_lat20lon7253_r46p9_rad_srefstdmdl.tif  
-	* Copy back to scene folder and rename it
-	  * mv ./OutputImages/LS8_20131223_lat20lon7253_r46p9_rad_srefstdmdl.tif LC80090462013357LGN00/LC80090462013357LGN00_SREF.tif
-	  
-	* Same for other scene [optional]
-	  * arcsi.py -s ls8 -f KEA --stats -p RAD SREFSTDMDL --aeropro Continental --atmospro MidlatitudeSummer --aot 0.25 -o ./OutputImages -i LC80090472013357LGN00/LC80090472013357LGN00_MTL.txt
-	  * gdalwarp -of GTIFF -t_srs EPSG:4326 ./OutputImages/LS8_20131223_lat19lon7286_r47p9_rad_srefstdmdl.kea ./LC80090472013357LGN00/LC80090472013357LGN00_SREF.tif
-	  
-	* Reproject BQA band [Not necessary anymore]
-	  * gdalwarp -t_srs EPSG:4326 ./LC80090472013357LGN00/LC80090472013357LGN00_BQA.tif ./LC80090472013357LGN00/LC80090472013357LGN00_BQA_4326.tif
-	  	  
-	* Generate Composite for V&V [ 4-3-2 and rest optional]
+  * Option 3 - Use Publisher Node (See below)
+  
+* Process it
+	* Generate Composite for V&V [ 4-3-2 for example]
 	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 4 --green 3 --blue 2
 	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 5 --green 6 --blue 4
 	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 7 --green 5 --blue 4
 	  
 	* Generate water map, vectors and browse image
 	  * landsat8_toa_watermap.py --scene LC80090472013357LGN00 -v
-	  * landsat8_to_topojson.py --scene LC80090472013357LGN00 --vrt haiti_hand.vrt -v
+	  * landsat8_to_topojson.py --scene LC80090472013357LGN00 -v
 	  * landsat8_browseimage.py --scene LC80090472013357LGN00 -v
-	  
-* Process Landsat Image (Assuming a atmospherically corrected EPSG:4326 tif file in given Landsat8 directory)
-  * cd $MENA_DIR/python
-  * landsat8_to_topojson.py --scene LC80090462013357 --vrt haiti_hand.vrt
-  * NOTE: 
-    * visualize surface_water.json with mapshaper.org or geojson.io
-    * visualize surface_water.osm with JOSM to generate a reference water trace
+  
+### Manual Processing of MODIS NRT
 
-* Process Radarsat Imagery
-  * cd $MENA_DIR/python
-  * radarsat_processing.py RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
+* OAS Server: http://oas.gsfc.nasa.gov/floodmap/
+	* Issues:
+		* You don't want a PNG/JPEG
+		* GeoTiff is hard to handle and needs to be cleaned up around the coastlines in particular
+		* You want data in vector format
+		
+	* Steps
+		* Find your tile of interest, year and day of year
+	    * cd $MENA_DIR/python
+	    * modis.py -y 2012 -d 234 -t 080W020N -p 2 -v
 
-* Process MODIS Imagery
-  * cd $MENA_DIR/python
-  * modis.py -y 2012 -d 234 -t 080W020N -p 2 -v
+## Becoming a Open GeoSocial Publisher Node
+
+* What does that mean?
+  * Support OpenSearch
+  * Support Story Telling via Facebook/Twitter...
+  
+### Pre-requisites
+
+* Mapbox maps
+* Facebook Application ID
+* Twitter Application ID
+* pappertrail
+
+### Steps
+
+* Set Environmnet Variables
+  * export FACEBOOK_APP_SECRET
+  * export FACEBOOK_APP_ID
+  * export FACEBOOK_PROFILE_ID
+  * export TWITTER_SITE
+  * export TWITTER_SITE_ID
+  * export TWITTER_CREATOR
+  * export TWITTER_CREATOR_ID
+  * export TWITTER_DOMAIN_
+  * export DATABASE_URL
+  * export COOKIEHASH
+
+* Customize config.yaml and settings.js (app.sessionSecret)
 
 * Publish the data using a Web Server and visualize on the web
   * cd $MENA_DIR/node
   * npm install
   * node server.js
+		
+## Becoming a Consumer Node
+
+* download consumer example
+* connect to publisher
+
+

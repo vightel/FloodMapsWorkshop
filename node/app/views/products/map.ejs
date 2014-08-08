@@ -41,17 +41,16 @@
 			}
 		})
 		
-		// Create array of lat,lon points for scene frame
 		var line_points = [
-			    [<%= region.LL_LAT %>,  <%= region.LL_LON %>],
-			    [<%= region.UL_LAT %>,  <%= region.UL_LON %>],
-			    [<%= region.UR_LAT %>, <%= region.UR_LON %>],
-			    [<%= region.LR_LAT %>,  <%= region.LR_LON %>],
-			    [<%= region.LL_LAT %>,  <%= region.LL_LON %>]
+			    [<%= region.bbox[1] %>,  <%= region.bbox[0] %>],
+			    [<%= region.bbox[3] %>,  <%= region.bbox[0] %>],
+			    [<%= region.bbox[3] %>,  <%= region.bbox[2] %>],
+			    [<%= region.bbox[1] %>,  <%= region.bbox[2] %>],
+			    [<%= region.bbox[1] %>,  <%= region.bbox[0] %>]
 		];
 			
 		var map = L.mapbox.map('map', 'cappelaere.map-mx5g2tn3',{ minZoom: 4, maxZoom: 18 })
-		.setView([<%= region.centerlat %>, <%= region.centerlon %>], 7);
+		.setView([<%= region.target[0] %>, <%= region.target[1] %>], 6);
 		
 		L.control.layers({
 		    'Terrain Map': L.mapbox.tileLayer('cappelaere.map-1d8e1acq').addTo(map),

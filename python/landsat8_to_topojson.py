@@ -85,7 +85,8 @@ class Landsat8:
 		RasterYSize = hand_ds.RasterYSize
 		RasterCount = hand_ds.RasterCount
 		
-		print "Hand file", RasterXSize, RasterYSize, RasterCount
+		if verbose:
+			print "Hand file", RasterXSize, RasterYSize, RasterCount
 		
 		driver 		= gdal.GetDriverByName( "GTiff" )
 		dst_ds 		= driver.Create( self.hand_rgb, RasterXSize, RasterYSize, 1, gdal.GDT_Byte,
@@ -140,7 +141,9 @@ class Landsat8:
 		
 		# Get a subset of HAND for particular tile
 		if force or not os.path.isfile(self.hand_file):
-			print "generate hand subset:"+self.hand_file +" from:"+in_img
+			if verbose:
+				print "generate hand subset:"+self.hand_file +" from:"+in_img
+
 			cmd = "subset.py "+ base_img + " " + in_img + " " + self.hand_file
 			self.execute(cmd)			
 			
@@ -165,6 +168,10 @@ class Landsat8:
 			self.geotransform 	= src_ds.GetGeoTransform()
 			self.projection 	= src_ds.GetProjection()
 
+			if not self.projection.find('AUTHORITY["EPSG","4326"]') :
+				print "Error input file not EPSG:4326", self.projection
+				sys.exit(-1)
+			
 			self.north 		 	= self.geotransform[3]
 			self.west		 	= self.geotransform[0]
 			self.south		 	= self.north - self.geotransform[1] * src_ds.RasterYSize
@@ -184,7 +191,7 @@ class Landsat8:
 			# Needed for refining hand & remove coastal zones
 			cmd = str.format(os.path.join( "geojson_osm.py")+" --dir {0} --bbox {1} {2} {3} {4} --img {5} {6} --res {7}",	self.outpath, xorg, ymax, xmax, yorg, src_ds.RasterXSize, src_ds.RasterYSize, pres )
 			self.execute(cmd)
-	
+			
 			if verbose:
 				print( "get HAND data:"+ self.hand_file)
 			
@@ -195,11 +202,12 @@ class Landsat8:
 			if verbose:
 				print( "get coastlines data:"+ self.coastlines)
 				
-			coastlines_ds	= gdal.Open(self.coastlines)
-			coastal_band 	= coastlines_ds.GetRasterBand(1)
-			coastal_data 	= coastal_band.ReadAsArray(0, 0, coastlines_ds.RasterXSize, coastlines_ds.RasterYSize )
+			coastlines_ds		= gdal.Open(self.coastlines)
+			coastal_band 		= coastlines_ds.GetRasterBand(1)
+			coastal_data 		= coastal_band.ReadAsArray(0, 0, coastlines_ds.RasterXSize, coastlines_ds.RasterYSize )
 
-			print( "create hand corrected output file:"+ self.hand_output_file)
+			if verbose:
+				print( "create hand corrected output file:"+ self.hand_output_file)
 			hand_output_dataset	= driver.Create( self.hand_output_file, src_ds.RasterXSize, src_ds.RasterYSize, 2, gdal.GDT_Byte,	[ 'COMPRESS=DEFLATE' ] )
 			hand_output_band 	= hand_output_dataset.GetRasterBand(1)
 
@@ -394,7 +402,7 @@ if __name__ == '__main__':
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
 	#apg_input.add_argument("-i", "--input",  	help="Input File")
 	#apg_input.add_argument("-d", "--dir",  	help="Output Directory")
-	apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
+	#apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
 	apg_input.add_argument("-s", "--scene", 	help="Landsat Scene")
 
 	options 	= parser.parse_args()
@@ -402,7 +410,7 @@ if __name__ == '__main__':
 	verbose		= options.verbose
 	#infile		= options.input
 	#dir		= options.dir
-	vrt			= options.vrt
+	vrt			= config.HANDS_AREA + "_hand.vrt"
 	scene	 	= options.scene
 	
 	outdir		= os.path.join(config.LANDSAT8_DIR,scene)	
@@ -414,9 +422,7 @@ if __name__ == '__main__':
 		sys.exit(-1)
 
 	app 		= Landsat8(outdir, infile)
-	
-	# app.reproject("EPSG:4326", app.input_file, app.output_4326_file )
-	
+		
 	app.hand(vrt)
 	app.process()
 	app.geojson()

@@ -9,6 +9,8 @@
 #	gdal, numpy, scipy...
 
 import os, inspect
+import argparse
+
 import sys, urllib, httplib, subprocess
 
 import numpy
@@ -39,7 +41,7 @@ import config
 
 BASE_DIR = config.RADARSAT2_DIR;
 HAND_DIR = config.HANDS_DIR
-HAND_VRT = "haiti_hand.vrt"
+HAND_VRT = config.HANDS_AREA + "_hand.vrt"
 
 class Radarsat2:
 	def execute( self, cmd ):
@@ -655,31 +657,19 @@ if __name__ == '__main__':
 	cwd = os.path.dirname(sys.argv[0])
 	dir = BASE_DIR;
 
-	if( len(sys.argv) > 1 ):
-		scene 	= sys.argv[1]
-		dir 	= os.path.join(dir,scene)
-
-	i 		= 2
-	force 	= 0
-	clean	= 0
-	verbose	= 0
+	parser = argparse.ArgumentParser(description='Process Radarsat2 scene')
+	apg_input = parser.add_argument_group('Input')
+	apg_input.add_argument("-f", "--force", 	action='store_true', help="Forces new product to be generated")
+	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
+	apg_input.add_argument("-c", "--clean", 	action='store_true', help="Clean artifacts")
+	apg_input.add_argument("-s", "--scene", 	help="radarsat2 scene")
 	
-	while i < len(sys.argv):
-		arg = sys.argv[i]
-		farg = arg
-		if( farg == '--force') or (farg == '-f'): 
-			force = 1
-			print "**force processing:", dir
-
-		if( farg == '--clean'):
-			clean = 1
-
-		if( farg == '--verbose') or (farg == '-v'):
-			print "**verbose processing"
-			verbose = 1
-
-		i = i + 1
-
+	options 	= parser.parse_args()
+	force		= options.force
+	verbose		= options.verbose
+	scene	 	= options.scene
+	clean	 	= options.clean
+	
 	if verbose:
 		print "** Radarsat Processing start:", str(datetime.now())
 
@@ -689,7 +679,6 @@ if __name__ == '__main__':
 	
 	if clean:
 		app.clear_all_artifacts(dir, scene)
-		#sys.exit(0)
 
 	app.process_raw_data()
 
@@ -703,16 +692,6 @@ if __name__ == '__main__':
 
 	app.process_to_4326()
 	
-	# generate dem stuff
-	#cmd = "dem.py --bbox %9.5f %9.5f %9.5f %9.5f --dir %s" % (app.west, app.south, app.east, app.north, app.inpath	)
-	#print cmd
-	#os.system(cmd)
-
-	# generate landscan
-	#cmd = "landscan.py --year 2011 --bbox %9.5f %9.5f %9.5f %9.5f --dir %s" % (app.west, app.south, app.east, app.north, app.inpath	)
-	#print cmd
-	#os.system(cmd)
-	
 	app.geojson_4326()
 
 	cmd = os.path.join(cwd,"browseimage.py %s" % (app.inpath))
@@ -723,7 +702,7 @@ if __name__ == '__main__':
 		
 	os.system(cmd)
 	
-		
-	print "**End:", str(datetime.now())
+	if verbose:	
+		print "**End:", str(datetime.now())
 
 	sys.exit(1)

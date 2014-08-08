@@ -41,7 +41,7 @@ class Landsat8:
 		
 	def process(self):
 		if not os.path.isfile(self.composite_file):
-			cmd = str.format("landsat8_composite {0} --red 4 --green 3 --blue 2", self.scene)
+			cmd = str.format("landsat8_composite_toa.py {0} --red 4 --green 3 --blue 2", self.scene)
 			self.execute(cmd)
 		
 		if force or not os.path.isfile(self.browse_file):
