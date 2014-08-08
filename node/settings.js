@@ -12,6 +12,7 @@ var express 		= require('express'),
 	crypto 			= require('crypto'),
 	eyes			= require('eyes'),
 	winston			= require('winston'),
+	_				= require('underscore'),
 	facebook		= require('./lib/facebook');
 	
 	global.logger = new winston.Logger({
@@ -40,13 +41,30 @@ var express 		= require('express'),
 		
 		bootApplication(app)
 		
-		var appId			= process.env.fbAppId
-		var appSecret		= process.env.fbSecret
+		var social_envs = [
+			'FACEBOOK_APP_SECRET',
+			'FACEBOOK_APP_ID',
+			'FACEBOOK_PROFILE_ID',
+			'TWITTER_SITE',
+			'TWITTER_SITE_ID',
+			'TWITTER_CREATOR',
+			'TWITTER_CREATOR_ID',
+			'TWITTER_DOMAIN'
+		]
+		
+		app.social_envs = {}
+		
+		_.each(social_envs, function(e) {
+			var env_var = process.env[e]
+			assert(env_var, "Missing env:"+e)
+			app.social_envs[e] = env_var
+			console.log(e, env_var)
+		})
+		
+		var appId			= process.env.FACEBOOK_APP_ID
+		var appSecret		= process.env.FACEBOOK_APP_SECRET
 		assert(appId)
 		assert(appSecret)
-		
-		app.config.fbAppId	= appId
-		app.config.fbSecret	= appSecret
 		
 		app.facebook		= facebook.init(appId, appSecret)
 
@@ -110,6 +128,7 @@ function bootApplication(app) {
  	function pgConnect (callback) {
 		pg.connect(conString, function (err, client, done) {			
 			if (err) {
+				logger.info("database:", conString);
 				logger.info(JSON.stringify(err));
 			}
 			if (client) {
@@ -132,7 +151,7 @@ function bootApplication(app) {
 	app.client = new pg.Client(conString);
 	app.client.connect(function(err) {
 		if(err) {
-			return logger.error('could not connect to postgres', err);
+			return logger.error('could not connect to ', conString, err);
 	  	}
 		app.client.query('SELECT NOW() AS "theTime"', function(err, result) {
 			if(err) {

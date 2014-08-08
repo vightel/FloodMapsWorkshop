@@ -378,12 +378,13 @@ if __name__ == '__main__':
 	options = parser.parse_args()
 	
 	vrt 		= options.vrt
-	area		= options.area[0]
+	area		= options.area[0] || config.HANDS_AREA
 	force		= options.force
 	verbose		= options.verbose
 	
 	hand_dir 	= config.HANDS_DIR			#"/shared/production/proddata"
-	dir 		= config.HYSDROSHEDS_DIR	#os.path.join(hand_dir, "HydroSHEDS" )
+	dir 		= config.HYDROSHEDS_DIR		#os.path.join(hand_dir, "HydroSHEDS" )
+	
 	tile_list	= eval(area+"_tiles")
 
 	if verbose:

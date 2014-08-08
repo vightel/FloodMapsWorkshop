@@ -53,17 +53,17 @@ class MODIS:
 		svg		 		= str.format("SWP_{0}{1}_{2}_{3}D{3}OT.svg", year, day, tile, product)
 		png		 		= str.format("SWP_{0}{1}_{2}_{3}D{3}OT.png", year, day, tile, product)
 	
-		self.infile 	= os.path.join( inpath, year, day, fname )
-		self.swp		= os.path.join( inpath, year, day, swp )
-		self.pnm		= os.path.join( inpath, year, day, pnm )
-		self.pgm		= os.path.join( inpath, year, day, pgm )
-		self.geojson	= os.path.join( inpath, year, day, geojson )
-		self.topojson	= os.path.join( inpath, year, day, topojson )
-		self.gz			= os.path.join( inpath, year, day, gz )
-		self.svg		= os.path.join( inpath, year, day, svg )
-		self.png		= os.path.join( inpath, year, day, png )
+		self.infile 	= os.path.join( inpath, year, day, tile, fname )
+		self.swp		= os.path.join( inpath, year, day, tile, swp )
+		self.pnm		= os.path.join( inpath, year, day, tile, pnm )
+		self.pgm		= os.path.join( inpath, year, day, tile, pgm )
+		self.geojson	= os.path.join( inpath, year, day, tile, geojson )
+		self.topojson	= os.path.join( inpath, year, day, tile, topojson )
+		self.gz			= os.path.join( inpath, year, day, tile, gz )
+		self.svg		= os.path.join( inpath, year, day, tile, svg )
+		self.png		= os.path.join( inpath, year, day, tile, png )
 
-		self.coastlines = os.path.join( inpath,tile+"_osm_coastal.png")
+		self.coastlines = os.path.join( inpath,tile+"_osm_coastal.tif")
 		
 		if self.verbose:
 			print self.infile
@@ -375,7 +375,7 @@ if __name__ == '__main__':
 		dx 	= app.RasterXSize
 		dy 	= app.RasterYSize
 		print ll, res, dx, dy
-		app.generate_image(	"water_coastal_only_4326.xml", osm_coastal_water, ".png", "png8", ll, dx, dy, res, verbose, force)
+		app.generate_image(	"water_coastal_only_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
 			
 	app.clear()
 	app.process()

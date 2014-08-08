@@ -177,7 +177,7 @@
       <Filter>[waterway]='stream' or [waterway]='ditch' or [waterway]='drain'</Filter>
       &maxscale_zoom9;
       &minscale_zoom14;
-      <LineSymbolizer stroke="#ff0000" stroke-width="2"/>
+      <LineSymbolizer stroke="#b5d0d0" stroke-width="2"/>
     </Rule>
 
     <Rule>
@@ -292,7 +292,7 @@
       <Filter>([waterway]='drain' or [waterway]='ditch') and [tunnel]='yes'</Filter>
       &maxscale_zoom15;
       &minscale_zoom18;
-      <LineSymbolizer stroke="#ff0000" stroke-width="2" />
+      <LineSymbolizer stroke="#b5d0d0" stroke-width="2" />
       <LineSymbolizer stroke="#f3f7f7" stroke-width="1"/>
     </Rule>
 

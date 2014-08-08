@@ -281,29 +281,29 @@ class Landsat8:
 
 		mndwi 						= (green_data-mir_data)/(green_data+mir_data)
 		
-		ls_mndwi 					= self.linear_stretch(mndwi)
-		ls_mndwi[green_mask] 		= 0
-		ls_mndwi[mir_mask] 			= 0
+		#ls_mndwi 					= self.linear_stretch(mndwi)
+		#ls_mndwi[green_mask] 		= 0
+		#ls_mndwi[mir_mask] 			= 0
 		
-		if verbose:
-			self.write_data( ls_mndwi, "mndwi.tif", None)
-			print 'MNDWI', numpy.min(mndwi), numpy.mean(mndwi), numpy.max(mndwi)
+		#if verbose:
+		#	self.write_data( ls_mndwi, "mndwi.tif", None)
+		#	print 'MNDWI', numpy.min(mndwi), numpy.mean(mndwi), numpy.max(mndwi)
 
-		data 		= ls_mndwi.flatten()	#mndwi	
-		hist, bins 	= numpy.histogram(data, bins=256, range=(0,255))
-		threshold 	= self.otsu(hist,len(data))
-		if verbose:
-			print "compute threshold using otsu method", threshold, len(data), numpy.min(data), numpy.mean(data), numpy.max(data)
+		#data 		= ls_mndwi.flatten()	#mndwi	
+		#hist, bins = numpy.histogram(data, bins=256, range=(0,255))
+		#threshold 	= self.otsu(hist,len(data))
+		#if verbose:
+		#	print "compute threshold using otsu method", threshold, len(data), numpy.min(data), numpy.mean(data), numpy.max(data)
 		
-		mask 							= (ls_mndwi > threshold)
 			
-		ls_mndwi[mask] 					= 1
-		ls_mndwi[green_mask] 			= 0
-		ls_mndwi[mir_mask] 				= 0
-		ls_mndwi[self.cloud_mask]	 	= 0
-		ls_mndwi[self.cirrus_mask] 		= 0
+		mndwi[mndwi > 0.0] 			= 1
+		
+		mndwi[green_mask] 			= 0
+		mndwi[mir_mask] 			= 0
+		mndwi[self.cloud_mask]	 	= 0
+		mndwi[self.cirrus_mask] 	= 0
 
-		self.write_data( ls_mndwi, "watermap.tif", self.ct)
+		self.write_data( mndwi, "watermap.tif", self.ct)
 
 		if verbose:
 			print "Done"

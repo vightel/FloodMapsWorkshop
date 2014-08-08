@@ -143,6 +143,7 @@ app.post('/users/:id',	 						users.update);
 app.get('/users', 								users.list);
 
 app.get('/opensearch',							if_authorized, opensearch.index);
+app.get('/opensearch/test',						if_authorized, opensearch.test);
 
 app.all('/persona/verify',						persona.verify);
 app.all('/persona/logout',						persona.logout);
@@ -152,11 +153,32 @@ app.all('/persona/logout',						persona.logout);
 
 app.get('/products/opensearch',					hawk_restrict, products.opensearch);
 app.get('/products',							products.index);
-app.get('/products/landsat8',					products.landsat8);
-app.get('/products/radarsat2',					products.radarsat2);
-app.get('/products/modis',						products.modis);
-app.get('/topojson/:id',						products.topojson);
-app.get('/map/:id',								products.map);
+
+app.get('/products/eo1_ali/:scene',					products.process_eo1_ali);
+app.get('/products/eo1_ali/browse/:scene',			products.browse_eo1_ali);
+app.get('/products/eo1_ali/map/:scene',				products.map_eo1_ali);
+app.get('/products/eo1_ali/:scene/:id',				products.eo1_ali_product);
+
+app.get('/products/modis/map/:year/:doy/:tile', 	products.map_modis);
+app.get('/products/modis/browse/:year/:doy/:tile', 	products.browse_modis);
+app.get('/products/modis/:year/:doy/:tile/:id',		products.modis_product);
+app.get('/products/modis/:year/:doy/:tile',			products.process_modis);
+
+app.get('/products/radarsat2/map/:scene',			products.map_radarsat2);
+app.get('/products/radarsat2/browse/:scene',		products.browse_radarsat2);
+app.get('/products/radarsat2/:scene/:id',			products.radarsat2_product);
+
+app.get('/products/l8/map/:scene',					products.map_l8);
+app.get('/products/l8/browse/:scene',				products.browse_l8);
+app.get('/products/l8/:scene/:id',					products.l8_product);
+app.get('/products/l8/:scene',						products.process_l8);
+
+
+//app.get('/products/radarsat2',					products.radarsat2);
+//app.get('/products/landsat8',						products.landsat8);
+//app.get('/products/modis',						products.modis);
+//app.get('/topojson/:id',							products.topojson);
+//app.get('/map/:id',								products.map);
 
 app.options('/products/opensearch',				function(req, res) {
 	console.log("OPTIONS on opensearch");

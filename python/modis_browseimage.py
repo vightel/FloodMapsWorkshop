@@ -296,7 +296,7 @@ if __name__ == '__main__':
 	SWP				= os.path.join(BASE_DIR, year, day, str.format("SWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
 	SWP_RGB			= os.path.join(BASE_DIR, year, day, str.format("SWP_RGB_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
 	SWPthn			= os.path.join(BASE_DIR, year, day, str.format("SWP_{0}{1}_{2}_{3}D{3}OT_thn.tif", year, day, tile, product))	
-	coastlines		= os.path.join(BASE_DIR,  str.format("{0}_osm_coastal.png", tile))	
+	coastlines		= os.path.join(BASE_DIR,  str.format("{0}_osm_coastal.tif", tile))	
 	
 	# Get Background Image 5% size
 	indataset 		= gdal.Open( tifFile )	

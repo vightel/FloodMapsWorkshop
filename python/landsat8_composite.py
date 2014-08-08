@@ -2,8 +2,8 @@
 #
 # Created on 07/11/2014 Pat Cappelaere - Vightel Corporation
 #
-# Input: Landsat8 Atmospherically Corrected GeoTiff EPSG:4326
-# Output: Water map
+# Input: Landsat8 GeoTiff EPSG:4326
+# Output: Top of Atmosphere corrected Water map
 #
 
 import os, inspect, sys
@@ -26,22 +26,18 @@ force 	= 0
 verbose	= 0
 
 class Landsat8:
-	def __init__( self, outpath, input_file, red, green, blue ):	
-		self.input_file 		= input_file
-		fileName				= os.path.basename(input_file)
-		baseName				= fileName.split('.')[0]
-		
+	def __init__( self, outpath, scene, red, green, blue ):	
+		self.scene 		= input_file
+	
 		self.red				= red
 		self.green				= green
 		self.blue				= blue
 		
-		self.input_file			= os.path.join(outpath, input_file + "_SREF.tif")
-		self.output_file		= os.path.join(outpath, baseName + "_COMPOSITE_"+red+green+blue+".tif")
-		self.bqa_file			= os.path.join(outpath, baseName + "_BQA_4326.tif")
-		self.cloud_mask_file	= os.path.join(outpath, baseName + "_CLOUD_MASK.tif")
-		
-		print baseName, self.bqa_file
-		
+		self.input_file			= os.path.join(outpath, scene + "_SREF.tif")
+		self.output_file		= os.path.join(outpath, scene + "_COMPOSITE_"+red+green+blue+".tif")
+		self.bqa_file			= os.path.join(outpath, scene + "_BQA_4326.tif")
+		self.cloud_mask_file	= os.path.join(outpath, scene + "_CLOUD_MASK.tif")
+				
 	def get_stats(self, name, arr):
 		print name, "[ STATS ] =  Minimum=%.3f, Maximum=%.3f, Mean=%.3f, StdDev=%.3f" % (numpy.amin(arr), numpy.amax(arr), numpy.mean(arr), numpy.std(arr) )
 						
@@ -202,7 +198,7 @@ class Landsat8:
 		
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser(description='Generate Landsat8 Floodmap vectors')
+	parser = argparse.ArgumentParser(description='Generate Landsat8 RGB Composite vectors')
 	apg_input = parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", 	action='store_true', help="Forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
