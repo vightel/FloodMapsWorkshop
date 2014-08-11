@@ -7,6 +7,7 @@ Global Flood Catalog for event recording
 Open GeoSocial API for data distribution
 GeoApp
 
+Note: This is not authoritative but work in progress used for capacity building and examples... not operational software!
 
 ## Pre-requisites
 
@@ -19,7 +20,7 @@ GeoApp
   * Editor (TextMate, XCode, Eclipse, VIM...)
  
 * [OPTIONAL] download package onto your local machine or laptop to review scripts locally
-  * git clone https://github.com/vightel/menatraining.git 
+  * git clone https://github.com/vightel/menatraining.git
 
 * [Free] Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
  
@@ -35,7 +36,7 @@ GeoApp
   *	Postgresql, 9.3.3, db.m1.small, No, 5GB
   * DBNAME: osmdb
   * DBOWNER: osm_admin
-  * PGPASSWORD: osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
+  * PGPASS: osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
   * Edit security group to have enough security access to communicate
   * Using Navicat (or phpAdmin) Connect to osmdb database.  Select and Open console
     * osmdb# create extension postgis;
@@ -68,8 +69,11 @@ GeoApp
 
 * Verify Database dependencies
   * cd $MENA_DIR/python
+  * Check python configuration file: config.py
   * Check database settings: ./inc/datasource-settings.xml.inc
-
+  * Check python environment, run:
+	* check_environment.py
+	
 * [OPTIONAL] Download OSM data files and load OSM database
   * You may have to get OSM data from your particular area from http://download.geofabrik.de/ and edit the shell file below.
   * cd ./data/osm
@@ -108,7 +112,7 @@ GeoApp
 * [OSM XML](http://wiki.openstreetmap.org/wiki/OSM_XML)
 * [Tag Water](http://wiki.openstreetmap.org/wiki/Tag:natural%3Dwater)
 * [Key Water](http://wiki.openstreetmap.org/wiki/Key:water)
-* Downloading osm.bz2 flood map
+* Downloading osm.bz2 flood map vectors
 
 ### OpenStreetMap Tools
 
@@ -223,7 +227,7 @@ GeoApp
   * export TWITTER_SITE_ID
   * export TWITTER_CREATOR
   * export TWITTER_CREATOR_ID
-  * export TWITTER_DOMAIN_
+  * export TWITTER_DOMAIN
   * export DATABASE_URL
   * export COOKIEHASH
 

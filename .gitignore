@@ -8,6 +8,7 @@ data/radarsat2/
 data/modis/
 data/eo1/
 python/world_boundaries/
+envs.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
