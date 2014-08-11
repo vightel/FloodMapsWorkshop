@@ -1,0 +1,19 @@
+export MENA_DIR=
+export DBHOST=
+export DBNAME=
+export DBOWNER=
+export DBPORT=
+export PGPASS=
+export DATABASE_URL=
+export USGS_ACCOUNT=
+export USGS_PASSWORD=
+
+export FACEBOOK_APP_SECRET=
+export FACEBOOK_APP_ID=
+export FACEBOOK_PROFILE_ID=
+export TWITTER_SITE=
+export TWITTER_SITE_ID=
+export TWITTER_CREATOR=
+export TWITTER_CREATOR_ID=
+export TWITTER_DOMAIN=
+export COOKIEHASH=

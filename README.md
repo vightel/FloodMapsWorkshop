@@ -166,6 +166,7 @@ Please become a Collaborator and help us improve this repository.
 	* Additional criteria < 10% or 20% clouds
 	* Hit results and export ALL your result in csv format
 	* store csv files in ./data/csv
+	* cd $MENA_DIR/csv
 	* load EO-1 archive 
 	  *	load_eo1.py -i XXX.csv
 	* load Landsat-8 archive
@@ -294,6 +295,10 @@ Please become a Collaborator and help us improve this repository.
 Coming Soon...
 
 ## Special Issues
+
+* Irradiance Values for Top of Atmposphers Reflectance
+
+* Calculating Landsat-8 TOA Reflectance
 
 * Radarsat-2 Co-registration
 
