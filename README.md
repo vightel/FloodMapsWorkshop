@@ -7,28 +7,32 @@ Global Flood Catalog for event recording
 Open GeoSocial API for data distribution
 GeoApp
 
-Note: This is not authoritative but work in progress used for capacity building and examples... not operational software!
+Notes: This is not authoritative but work in progress used for capacity building and examples... This is not operational software!
+Algorithms have not been formally validated by the science team yet!
+Please become a Collaborator and help us improve this repository.
 
-## Pre-requisites
+## Pre-Requisites
 
 * Register on GitHub.com for an account
-  * You may have to send us your handle to become collaborator on this project
+  * You will have to send us your handle so we can add you as a collaborator on this project
 
 * Laptop with: 
   * phpAdmin or Navicat (prefered http://www.navicat.com/download/navicat-for-postgresql ) to configure database 
-  * git
-  * Editor (TextMate, XCode, Eclipse, VIM...)
+  * [git](http://git-scm.com/downloads)
+  * Editor ( [TextMate](http://macromates.com/), OSX XCode, [Eclipse](https://www.eclipse.org/), [VIM](http://www.vim.org/)...)
  
 * [OPTIONAL] download package onto your local machine or laptop to review scripts locally
   * git clone https://github.com/vightel/menatraining.git
 
 * [Free] Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
+
+* Register on [EarthExplorer](http://earthexplorer.usgs.gov/)
  
 ## Steps
 
 * Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)
   * Select Region East
-  * Linux AMI, General Purpose, m3.large, Note: we need ~ 100GiB storage check if this is still an m3.large otherwise will need to increase volume later
+  * Linux AMI, General Purpose, m3.large, Note: we need ~ 100GiB storage. Check if this is still an m3.large otherwise will need to increase volume later
   * Create key/pair and store it in local DIR.  Restrict access to key.pem (chmod 600 key.pem)
   * Remember Instance ID and Public DNS (Check your Management Console if necessary)
 
@@ -48,13 +52,13 @@ Note: This is not authoritative but work in progress used for capacity building 
 * Access your instance [remember your public DNS]: 
   * ssh -i key.pem ec2-user@ec2-54-84-226-201.compute-1.amazonaws.com
   
-* Set your envs... something like...[remember your Endpoint]
-  * export DBHOST= osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
-  * export DBNAME= osmdb
-  * export DBOWNER= osm_admin
-  * export DBPORT= 5432
-  * export PGPASS= osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
-  * export DATABASE_URL= "tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com/osmdb"
+* Set your environment variables...[remember your endpoint]
+  * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
+  * export DBNAME=osmdb
+  * export DBOWNER=osm_admin
+  * export DBPORT=5432
+  * export PGPASS=osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
+  * export DATABASE_URL="tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com/osmdb"
   * export USGS_ACCOUNT=
   * export USGS_PASSWORD=
 
@@ -67,7 +71,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 * Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
 
-* Verify Database dependencies
+* Verify Database dependencies and Environment
   * cd $MENA_DIR/python
   * Check python configuration file: config.py
   * Check database settings: ./inc/datasource-settings.xml.inc
@@ -104,14 +108,21 @@ Note: This is not authoritative but work in progress used for capacity building 
   * [OPTIONAL] Add the scene into the database to publish the data
     * load_radarsat2.py --scene RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
 
+* Visualizing Results
+  * TIFF file can be visualized in Preview
+  * [geoson.io](http://geojson.io/)
+  * [mapshaper.org](http://www.mapshaper.org/)
+  * Javascript Libraries: [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.0.0/) [d3.js](http://d3js.org/) [Leaflet.js](http://leafletjs.com/)
+  
 ## Waterpedia
 
-### OpenStreetMap Format
+### OpenStreetMap Format [Dan Mandl]
 
 * [OpenStreetMap] (http://openstreetmap.org)
 * [OSM XML](http://wiki.openstreetmap.org/wiki/OSM_XML)
 * [Tag Water](http://wiki.openstreetmap.org/wiki/Tag:natural%3Dwater)
 * [Key Water](http://wiki.openstreetmap.org/wiki/Key:water)
+
 * Downloading osm.bz2 flood map vectors
 
 ### OpenStreetMap Tools
@@ -119,13 +130,13 @@ Note: This is not authoritative but work in progress used for capacity building 
 * [JOSM for editing](https://josm.openstreetmap.de/)
 * [OSM Tasking Manager for crowdsourcing V&V](http://tasks.hotosm.org/)
   
-### Generating a Global Flood Event Record
+### Generating a Global Flood Event Record [Stu Frye]
  
 * [Dartmouth Flood Observatory](http://www.dartmouth.edu/~floods/Archives/)
 * [Hydros Lab - University of Oklahoma](http://eos.ou.edu/flood/)
 * [GitHub for Global Flood Catalog] (https://github.com/vightel/gfc)
 * Flood event format - TBD -
-* How to clone / sync
+* How to clone / sync the Global Database Repository
  
 ### Updating Reference Surface Water 
 
@@ -134,7 +145,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 
 ## More Floodmaps: EO-1, Landsat-8 and MODIS
 
-### Pre-requisites
+### Pre-Requisites
 
 * A Login at <http://earthexplorer.usgs.gov/>
 
@@ -160,7 +171,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 	* load Landsat-8 archive
 	  * load_l8.py -i XXX.csv
 
-### Manual Processing of EO-1
+### [Optional] Manual Processing of EO-1
 * Download a EO-1 ALI scene
   * Option 1: 
     * Go to: http://earthexplorer.usgs.gov/
@@ -190,7 +201,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 	* Generate BrowseImage
 	  * eo1_ali_browseimage.py --scene EO1A0090472014197110P0_SG1_01
 
-### Manual Processing of Landsat-8
+### [Optional] Manual Processing of Landsat-8
 
 * Download a Landsat-8 scene
   * Option 1: 
@@ -220,7 +231,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 	  * landsat8_to_topojson.py --scene LC80090472013357LGN00 -v
 	  * landsat8_browseimage.py --scene LC80090472013357LGN00 -v
  
-### Manual Processing of MODIS NRT
+### [Optional] Manual Processing of MODIS NRT
 
 * Download From the [OAS Server] (http://oas.gsfc.nasa.gov/floodmap/)
 	* Issues:
@@ -241,35 +252,38 @@ Note: This is not authoritative but work in progress used for capacity building 
   * Support [OpenSearch] (http://www.opensearch.org/Home)
   * Support Story Telling via [Facebook...] (https://developers.facebook.com/docs/opengraph/overview)
   
-### Pre-requisites
+### Pre-Requisites
 
 * [Mapbox Maps] (https://www.mapbox.com/)
-* [Facebook Application ID] )https://developers.facebook.com/)
+* [Facebook Application ID] (https://developers.facebook.com/)
 * [Twitter Application ID] (https://dev.twitter.com/)
-* [Pappertrail] (https://papertrailapp.com/)
+* [Papertrail] (https://papertrailapp.com/)
 
 ### Steps
 
 * Set Environment Variables
-  * export FACEBOOK_APP_SECRET
-  * export FACEBOOK_APP_ID
-  * export FACEBOOK_PROFILE_ID
-  * export TWITTER_SITE
-  * export TWITTER_SITE_ID
-  * export TWITTER_CREATOR
-  * export TWITTER_CREATOR_ID
-  * export TWITTER_DOMAIN
-  * export DATABASE_URL
-  * export COOKIEHASH
+	* Facebook Application Data
+	  * export FACEBOOK_APP_SECRET=
+	  * export FACEBOOK_APP_ID=
+	  * export FACEBOOK_PROFILE_ID=
+	* Twitter Application Data
+	  * export TWITTER_SITE=
+	  * export TWITTER_SITE_ID=
+	  * export TWITTER_CREATOR=
+	  * export TWITTER_CREATOR_ID=
+	  * export TWITTER_DOMAIN=
+	  * export DATABASE_URL=
+	* Node Secret for Session Protection
+	  * export COOKIEHASH=
 
-* Customize config.yaml and settings.js (app.sessionSecret)
+* Customize config.yaml and settings.js
 
 * Publish the data using a Web Server and visualize on the web
   * cd $MENA_DIR/node
   * npm install
   * node server.js
 		
-## Becoming a Consumer Node
+## Becoming a Open GeoSocial Consumer Node
 
 * [Download Consumer Example](https://github.com/vightel/ojo-doc)
 * Register Your Consumer Application
@@ -277,6 +291,12 @@ Note: This is not authoritative but work in progress used for capacity building 
 
 ## GeoApp
 
-To be supplied next...
+Coming Soon...
 
+## Special Issues
 
+* Radarsat-2 Co-registration
+
+* EO-1 L1T / L1G Co-registration
+
+* Atmospheric Correction
