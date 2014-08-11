@@ -54,6 +54,8 @@ GeoApp
   * export DBPORT= 5432
   * export PGPASS= osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
   * export DATABASE_URL= "tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com/osmdb"
+  * export USGS_ACCOUNT=
+  * export USGS_PASSWORD=
 
 * Install code dependencies
   * git clone https://github.com/vightel/menatraining.git
@@ -81,11 +83,11 @@ GeoApp
   * add ./sql/l8.sql
   
 * [OPTIONAL] Download HydroSHEDS DEM and build HAND (Height Above Nearest Drainage) for your Area of Interest
-  * Currently Built for Haiti area, if not change the area... check ./python/hand_all.py
+  * Currently built for Haiti area, if this is not your area, change the area... check ./python/hand_all.py
   
   You will need to specify the continent and the 3sec tiles you need for the void filled dem and flow direction.
-	http://earlywarning.usgs.gov/hydrosheds/index.php
-	http://earlywarning.usgs.gov/hydrosheds/dataavail.php
+	* [HydroSHEDS Site](http://earlywarning.usgs.gov/hydrosheds/index.php)
+	* [HydroSHEDS data](http://earlywarning.usgs.gov/hydrosheds/dataavail.php)
   
   * When ready, run the processing... it takes about 5-10mn per tile
   * Make sure to edit python/config.py to [re]define the HANDS_AREA
@@ -102,21 +104,23 @@ GeoApp
 
 ### OpenStreetMap Format
 
-* http://openstreetmap.org
-* OSM XML
-* Downloading osm.bz2
+* [OpenStreetMap] (http://openstreetmap.org)
+* [OSM XML](http://wiki.openstreetmap.org/wiki/OSM_XML)
+* [Tag Water](http://wiki.openstreetmap.org/wiki/Tag:natural%3Dwater)
+* [Key Water](http://wiki.openstreetmap.org/wiki/Key:water)
+* Downloading osm.bz2 flood map
 
 ### OpenStreetMap Tools
 
-* JOSM
-* OSM Task Manager
+* [JOSM for editing](https://josm.openstreetmap.de/)
+* [OSM Tasking Manager for crowdsourcing V&V](http://tasks.hotosm.org/)
   
 ### Generating a Global Flood Event Record
  
-* http://www.dartmouth.edu/~floods/Archives/
-* http://eos.ou.edu/flood/
+* [Dartmouth Flood Observatory](http://www.dartmouth.edu/~floods/Archives/)
+* [Hydros Lab - University of Oklahoma](http://eos.ou.edu/flood/)
+* [GitHub for Global Flood Catalog] (https://github.com/vightel/gfc)
 * Flood event format - TBD -
-* GitHub for Global Flood Catalog
 * How to clone / sync
  
 ### Updating Reference Surface Water 
@@ -128,7 +132,7 @@ GeoApp
 
 ### Pre-requisites
 
-* A Login at http://earthexplorer.usgs.gov/
+* A Login at <http://earthexplorer.usgs.gov/>
 
 ### Steps
 
@@ -151,7 +155,6 @@ GeoApp
 	  *	load_eo1.py -i XXX.csv
 	* load Landsat-8 archive
 	  * load_l8.py -i XXX.csv
-	  
 	  
 ### Manual Processing of Landsat-8
 
@@ -186,7 +189,7 @@ GeoApp
   
 ### Manual Processing of MODIS NRT
 
-* OAS Server: http://oas.gsfc.nasa.gov/floodmap/
+* [OAS Server] (http://oas.gsfc.nasa.gov/floodmap/)
 	* Issues:
 		* You don't want a PNG/JPEG
 		* GeoTiff is hard to handle and needs to be cleaned up around the coastlines in particular
@@ -200,19 +203,19 @@ GeoApp
 ## Becoming a Open GeoSocial Publisher Node
 
 * What does that mean?
-  * Support OpenSearch
-  * Support Story Telling via Facebook/Twitter...
+  * Support [OpenSearch] (http://www.opensearch.org/Home)
+  * Support Story Telling via [Facebook...] (https://developers.facebook.com/docs/opengraph/overview)
   
 ### Pre-requisites
 
-* Mapbox maps
-* Facebook Application ID
-* Twitter Application ID
-* pappertrail
+* [Mapbox Maps] (https://www.mapbox.com/)
+* [Facebook Application ID] )https://developers.facebook.com/)
+* [Twitter Application ID] (https://dev.twitter.com/)
+* [Pappertrail] (https://papertrailapp.com/)
 
 ### Steps
 
-* Set Environmnet Variables
+* Set Environment Variables
   * export FACEBOOK_APP_SECRET
   * export FACEBOOK_APP_ID
   * export FACEBOOK_PROFILE_ID
@@ -233,7 +236,10 @@ GeoApp
 		
 ## Becoming a Consumer Node
 
-* download consumer example
-* connect to publisher
+* [Download Consumer Example](https://github.com/vightel/ojo-doc)
+* Register Your Consumer Application
+* Connect to Publisher
+
+## GeoApp
 
 

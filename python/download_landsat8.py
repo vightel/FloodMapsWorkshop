@@ -93,19 +93,15 @@ else:
   (options, args) = parser.parse_args()
   parser.check_required("-u")
 
-# read password files
-try:
-  f=file(options.usgs)
-  (account,passwd)=f.readline().split(' ')
-  print account,passwd
-  if passwd.endswith('\n'):
-    passwd=passwd[:-1]
-  usgs={'account':account,'passwd':passwd}
-  f.close()
-except :
-  print "error with usgs password file"
-  sys.exit(-2)
-  
+# Load USGS Account/Password from Env
+usgs_account 	= os.environ['USGS_ACCOUNT']
+usgs_password	= os.environ['USGS_PASSWORD'] 
+
+assert(usgs_account), "USGS_ACCOUNT undefined"
+assert(usgs_password), "USGS_PASSWORD undefined"
+
+usgs={'account':usgs_account,'passwd':usgs_password}
+
 rep='../data/landsat8'
 if not os.path.exists(rep):
     os.mkdir(rep)
