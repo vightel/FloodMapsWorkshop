@@ -98,13 +98,13 @@ rep='../data/eo1_ali'
 if not os.path.exists(rep):
   os.mkdir(rep)
 
-account = os.environ["USGS_ACCOUNT"]
-passwd  = os.environ["USGS_PASSWD"]
+usgs_account 	= os.environ["USGS_ACCOUNT"]
+usgs_password  	= os.environ["USGS_PASSWORD"]
 
-assert account, "Set env USGS_ACCOUNT"
-assert passwd, "Set env USGS_PASSWD"
+assert (usgs_account), "USGS_ACCOUNT undefined"
+assert (usgs_password), "USGS_PASSWORD undefined"
 
-usgs={'account':account,'passwd':passwd}
+usgs={'account':usgs_account,'passwd':usgs_password}
 
 repert = 1852  
 url="http://earthexplorer.usgs.gov/download/%s/%s/L1T/EE"%(repert,options.scene)
