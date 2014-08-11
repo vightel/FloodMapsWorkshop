@@ -159,7 +159,37 @@ Note: This is not authoritative but work in progress used for capacity building 
 	  *	load_eo1.py -i XXX.csv
 	* load Landsat-8 archive
 	  * load_l8.py -i XXX.csv
-	  
+
+### Manual Processing of EO-1
+* Download a EO-1 ALI scene
+  * Option 1: 
+    * Go to: http://earthexplorer.usgs.gov/
+	* Login
+	* Select and download a EO-1 ALI Scene, not too cloudy <20% or less
+	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/eo1-ali using wget
+  * Option 2:
+    * Get an existing scene from our own S3 and copy it over
+	* cd $MENA_DIR/data/eo1-ali
+	* mkdir ./EO1A0090472014197110P0_SG1_01
+	* cd EO1A0090472014197110P0_SG1_01
+	* wget "https://s3.amazonaws.com/mena_data/EO1A0090472014197110P0_SG1_01.tgz"
+	* tar -xf EO1A0090472014197110P0_SG1_01.tgz
+	* rm EO1A0090472014197110P0_SG1_01.tgz
+	* cd ..
+  * Option 3 - Use Publisher Node (See below)
+
+* Process it
+	* Generate Composite for V&V [ 5-4-3 for example]
+	  * eo1_ali_composite.py --scene EO1A0090472014197110P0_SG1_01 --red 5 --green 4 --blue 3
+	* Generate Cloud Mask
+	  * eo1_ali_cloudmask.py --scene EO1A0090472014197110P0_SG1_01
+	* Generate Water map
+	  * eo1_ali_watermap.py --scene EO1A0090472014197110P0_SG1_01
+	* Generate Flood vectors
+	  * eo1_to_topojson.py --scene EO1A0090472014197110P0_SG1_01
+	* Generate BrowseImage
+	  * eo1_ali_browseimage.py --scene EO1A0090472014197110P0_SG1_01
+
 ### Manual Processing of Landsat-8
 
 * Download a Landsat-8 scene
@@ -167,11 +197,10 @@ Note: This is not authoritative but work in progress used for capacity building 
     * Go to: http://earthexplorer.usgs.gov/
 	* Login
 	* Select and download a Scene
-	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/landsat8 using wget
+	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/l8 using wget
   * Option 2:
     * Get an existing scene from our own S3 and copy it over
-	* cd $MENA_DIR_/data/landsat8
-	* mkdir ./OutputImages
+	* cd $MENA_DIR/data/l8
 	* mkdir ./LC80090462013357LGN00
 	* cd LC80090462013357LGN00
 	* wget "https://s3.amazonaws.com/mena_data/LC80090462013357LGN00.tar.gz"
@@ -179,7 +208,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 	* rm LC80090462013357LGN00.tar.gz
 	* cd ..
   * Option 3 - Use Publisher Node (See below)
-  
+
 * Process it
 	* Generate Composite for V&V [ 4-3-2 for example]
 	  * landsat8_composite_toa.py --scene LC80090472013357LGN00 --red 4 --green 3 --blue 2
@@ -190,19 +219,21 @@ Note: This is not authoritative but work in progress used for capacity building 
 	  * landsat8_toa_watermap.py --scene LC80090472013357LGN00 -v
 	  * landsat8_to_topojson.py --scene LC80090472013357LGN00 -v
 	  * landsat8_browseimage.py --scene LC80090472013357LGN00 -v
-  
+ 
 ### Manual Processing of MODIS NRT
 
-* [OAS Server] (http://oas.gsfc.nasa.gov/floodmap/)
+* Download From the [OAS Server] (http://oas.gsfc.nasa.gov/floodmap/)
 	* Issues:
 		* You don't want a PNG/JPEG
 		* GeoTiff is hard to handle and needs to be cleaned up around the coastlines in particular
 		* You want data in vector format
 		
 	* Steps
-		* Find your tile of interest, year and day of year
-	    * cd $MENA_DIR/python
-	    * modis.py -y 2012 -d 234 -t 080W020N -p 2 -v
+		* Find your tile of interest (2-day product), year and day of year and download it to ~/data/modis/YYYY/doy/TILE
+		* cd $MENA_DIR/python
+		* modis.py -y 2012 -d 234 -t 080W020N -p 2 -v
+
+* Or use the Publisher Node to do it on-demand
 
 ## Becoming a Open GeoSocial Publisher Node
 
@@ -245,5 +276,7 @@ Note: This is not authoritative but work in progress used for capacity building 
 * Connect to Publisher
 
 ## GeoApp
+
+To be supplied next...
 
 
