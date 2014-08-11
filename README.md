@@ -9,9 +9,11 @@ GeoApp
 
 Notes: This is not authoritative but work in progress used for capacity building and examples... This is not operational software!
 Algorithms have not been formally validated by the science team yet!
-Please become a Collaborator and help us improve this repository.
+Please become a collaborator and help us improve this repository.
 
 ## Pre-Requisites
+
+* [Watch Presentation and Screencast Video](https://github.com/vightel/menatraining/blob/master/OJO-Publisher.pptx)
 
 * Register on GitHub.com for an account
   * You will have to send us your handle so we can add you as a collaborator on this project
@@ -24,10 +26,11 @@ Please become a Collaborator and help us improve this repository.
 * [OPTIONAL] download package onto your local machine or laptop to review scripts locally
   * git clone https://github.com/vightel/menatraining.git
 
-* [Free] Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
+* Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
 
 * Register on [EarthExplorer](http://earthexplorer.usgs.gov/)
  
+
 ## Steps
 
 * Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)
@@ -62,6 +65,8 @@ Please become a Collaborator and help us improve this repository.
   * export USGS_ACCOUNT=
   * export USGS_PASSWORD=
 
+  * Note: You can customize envs.copy.sh with your own values
+  
 * Install code dependencies
   * git clone https://github.com/vightel/menatraining.git
   * cd menatraining
@@ -125,11 +130,17 @@ Please become a Collaborator and help us improve this repository.
 
 * Downloading osm.bz2 flood map vectors
 
-### OpenStreetMap Tools
+### OpenStreetMap Tools [Dan Mandl]
 
 * [JOSM for editing](https://josm.openstreetmap.de/)
 * [OSM Tasking Manager for crowdsourcing V&V](http://tasks.hotosm.org/)
   
+### Updating Reference Surface Water [Dan Mandl]
+
+* OpenStreetMap Water Features
+* Using JOSM to update water features
+* Connect to OpenStreetMap RunTime Server
+
 ### Generating a Global Flood Event Record [Stu Frye]
  
 * [Dartmouth Flood Observatory](http://www.dartmouth.edu/~floods/Archives/)
@@ -137,17 +148,12 @@ Please become a Collaborator and help us improve this repository.
 * [GitHub for Global Flood Catalog] (https://github.com/vightel/gfc)
 * Flood event format - TBD -
 * How to clone / sync the Global Database Repository
- 
-### Updating Reference Surface Water 
-
-* OpenStreetMap Water Features
-* Using JOSM to update water features
 
 ## More Floodmaps: EO-1, Landsat-8 and MODIS
 
 ### Pre-Requisites
 
-* A Login at <http://earthexplorer.usgs.gov/>
+* An Account on <http://earthexplorer.usgs.gov/>
 
 ### Steps
 
@@ -247,7 +253,7 @@ Please become a Collaborator and help us improve this repository.
 
 * Or use the Publisher Node to do it on-demand
 
-## Becoming a Open GeoSocial Publisher Node
+## Becoming an Open GeoSocial Publisher Node
 
 * What does that mean?
   * Support [OpenSearch] (http://www.opensearch.org/Home)
@@ -259,6 +265,7 @@ Please become a Collaborator and help us improve this repository.
 * [Facebook Application ID] (https://developers.facebook.com/)
 * [Twitter Application ID] (https://dev.twitter.com/)
 * [Papertrail] (https://papertrailapp.com/)
+* [Node.js](http://nodejs.org/)
 
 ### Steps
 
@@ -284,7 +291,14 @@ Please become a Collaborator and help us improve this repository.
   * npm install
   * node server.js
 		
-## Becoming a Open GeoSocial Consumer Node
+* Demo Script
+	* OpenSearch Radarsat-2, EO-1, Landsat-8. MODIS
+	* Visualize data on the map (example)
+	* Product Page and Tagging
+	* Share on Facebook / Twitter
+	* Application Registration
+	
+## Becoming an Open GeoSocial Consumer Node
 
 * [Download Consumer Example](https://github.com/vightel/ojo-doc)
 * Register Your Consumer Application
@@ -299,6 +313,8 @@ Coming Soon...
 * Irradiance Values for Top of Atmposphers Reflectance
 
 * Calculating Landsat-8 TOA Reflectance
+
+* Radarsat-2 Ordering and Archive Browsing [Stu Frye]
 
 * Radarsat-2 Co-registration
 
