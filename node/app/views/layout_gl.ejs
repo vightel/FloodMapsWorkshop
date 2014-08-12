@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+	<title>OJO Publisher - OpenGL - </title>
+	<link rel="icon" href="/favicon.png" type="image/png">
+	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.1/mapbox-gl.css' rel='stylesheet' />
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.3.5/bootstrap-select.min.css">
+	<link rel="stylesheet" href="/css/persona-buttons.css"  />	
+	<link rel="stylesheet" href="/css/dc.css" media="screen">
+	
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.1/mapbox-gl.js'></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>	
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.3.5/bootstrap-select.min.js"></script>
+	
+	<script src="https://login.persona.org/include.js"></script>
+	 
+	<style type="text/css">
+	    body {
+	        padding-top: 60px;
+	        padding-bottom: 40px;
+	    }
+	    .sidebar-nav {
+	        padding: 9px 0;
+	    }
+	  	.login {
+	  		float: right;
+	  		text-align: right;
+	  	}
+		@font-face {
+		  font-family: 'Glyphicons Halflings';
+		  src: url('/fonts/glyphicons-halflings-regular.eot');
+		  src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded- opentype'), url('/fonts/glyphicons-halflings-regular.woff') format('woff'), url('Content/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('Content/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+		}
+	    @media (max-width: 980px) {
+	        /* Enable use of floated navbar text */
+	        .navbar-text.pull-right {
+	          float: none;
+	          padding-left: 5px;
+	          padding-right: 5px;
+	        }
+	    }
+		#map {
+		    width: 900px;
+		    height:900px;
+		}
+		.popup {
+		    text-align: center;
+		}
+		.popup img {
+		    width: 100%;
+		}
+		#filters {
+		    position: absolute;
+		    top: 145px;
+		    left: 10px;
+		    z-index: 100;
+		    padding: 5px;
+		    background: #fff;
+		}
+
+		#filters ul {
+		    list-style-type: none;
+		    margin: 0;
+		    padding: 0;
+		}
+		
+		.popover.popover-stats {
+		    display: none
+		}
+		
+		.twitter-hashtag-button {
+		      position:relative;
+		      top:6px;
+		}
+	</style>
+  </head>
+
+  <body>
+	<div class="container">
+		<nav class="navbar navbar-default" role='navigation'>
+		    <div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><img alt='logo'src='/img/logo.png' width='32' /></a>
+			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav" id="menus">
+	 			  <li><a href="/">Home</a></li>
+	 			  <li><a href="/products">Products</a></li>
+	 			  <li><a href="/opensearch/test">Search</a></li>
+				  
+				  <li class="dropdown">
+		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">OpenSearch<b class="caret"></b></a>
+		            <ul class="dropdown-menu">
+						<li><a href="/opensearch/classic">Classic</a></li>
+						<li><a href="/opensearch/gl">OpenGL</a></li>
+					</ul>
+				  </li>			
+				  
+				  <li class="dropdown">
+		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Applications <b class="caret"></b></a>
+		            <ul class="dropdown-menu">
+						<li><a href="/apps/form">Register</a></li>
+						<li><a href="/apps/">List</a></li>
+					</ul>
+				  </li>				  
+				</ul>				
+	      	</div>
+	    </nav>
+		
+		<% if(typeof user == 'undefined') { %>
+			<div class="persona-button login" id='signin'>
+				<span>Sign in with your Email</span>
+			</div>
+		<% } else {%>
+			<div class="btn-group login">
+				<button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+					<i class='glyphicon glyphicon-user'></i>&nbsp;<%= user.name %>
+					<span class="caret"></span>
+				</button>
+	
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/users/<%= user.id %>">View Profile</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:signout();"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</a></li>
+				</ul>
+			</div>
+		<% } %>
+		
+	    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+			<div class="list-group">
+				<a href="/about" class="list-group-item">About</a>
+				<a href="/contact" class="list-group-item">Contact</a>
+			</div>
+			   
+			<% if((typeof user != 'undefined') && (typeof nodes != 'undefined')) { %>
+				<div id="query" style="display:none">
+					<i class='glyphicon glyphicon-search'></i>&nbsp;<a href="javascript:ShowForm();">Query</a><br/>
+				
+					<div class='well' id='query_container' style="display:none">
+						<form class="form-group" action="javascript:SubmitQuery();">
+					    
+							<div class="form-group">
+						      <label for="lnglat">Longitude, Latitude</label>
+						      	<input class="form-control" id="lnglat" value="-72.36,18.58" />
+						    </div>
+					    
+							<div class="form-group">
+						      <label for="q">Product Search</label>
+								  <select id='q'>
+									<option value='surface_water'>Surface Water</option>
+								</select>
+						    </div>
+					    
+							<div class="form-group">
+						      <label for="startTime">Start Time:</label>
+							  <input id="startTime" size="10" type="text" value="2012-01-02" readonly="" type='text'>
+						    </div>
+					    
+							<div class="form-group">
+						      <label for="endTime">End Time:  </label>
+							  <input id="endTime" size="10" type="text" value="2014-01-01" readonly="" type='text'>
+						    </div>
+					
+							<div class="form-group">
+								<label for='sources'>Sources:</label>
+								<select id='sources' class="selectpicker" multiple="multiple">
+									<% for( var n in nodes ) { %>
+									<option id="source-<%= nodes[n].source %>" value="<%= nodes[n].source %>"><%= nodes[n].source %></option>
+									<%}%>
+								</select>
+							</div>
+
+						    <button type='submit' class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			<% } %>
+	    </div>
+		
+		<%- body %>
+		<br/>
+		<hr/>
+
+		
+		<div class='footer'>
+			<a href='mailto:dalia.b.kirschbaum@nasa.gov'>Problems/questions? Contact Me</a>&nbsp;-&nbsp;
+			<a href='/privacy'>Privacy Statement</a>
+			<div class="pull-right">
+				WARNING: Experimental Only!
+				<img src='/img/nasalogo.png' width=64>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('.selectpicker').selectpicker();
+	
+	
+		// Personna stuff
+		function signout() {
+			console.log("signout")
+			$.ajax({
+				type: 'POST',
+				url: 	'/persona/logout', 
+				async: true,
+				success: function(res, status, xhr) {
+					console.log("onlogout success")
+				    navigator.id.logout();
+					window.location.reload(true)
+				},
+				error: function(xhr, status, err) {
+					navigator.id.logout();
+					console.log("Logout failure: " + err);
+				}
+			})
+		}
+		
+		$(function() {
+		  $('#signin').on('click', function(event) {
+		    event.preventDefault();
+		    navigator.id.request();
+		  });
+
+		  // replaced by signout
+		  $('#signout').on('click', function(event) {
+		    event.preventDefault();
+		    navigator.id.logout();
+		  });
+
+		  var loggedInUserEmail = 'bob@example.com';
+
+		  <% if( typeof user != 'undefined' ) { %>
+			  loggedInUserEmail = '<%= user.email %>'
+		  <% } %>
+	  
+	  
+		  // Mozilla Persona integration
+		  navigator.id.watch({
+		    loggedInUser: loggedInUserEmail,
+		    onlogin: function(assertion) {
+	  		    //if( email ) return;
+			  	//var token = '';
+				//console.log("onlogin token:", token)
+				$.ajax({
+					type: 'POST',
+					url: 	'/persona/verify', 
+					async: true,
+					data: {assertion: assertion}, // _csrf: token},
+					success: function(res, status, xhr) {
+						console.log("onlogin success")
+						window.location.reload(true)},
+					error: function(xhr, status, err) {
+						navigator.id.logout();
+						alert("Login failure: " + status);
+					}
+				});
+		    },
+		    onlogout: function() {
+			    //navigator.id.logout();
+				// window.location = "/persona/logout";
+			  	//if( email == null) {
+				//  $.post('/persona/logout', function() {
+				//	  email = null;
+				//	  window.location = "/";
+				//  });
+		  	  //}
+		    }
+		  });  
+		});
+		
+	</script>
+
+	<!--
+	<script type="text/javascript">
+	  var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
+	  analytics.load("bntdtjc60i");
+	</script>
+	-->
+</body>
+</html>
