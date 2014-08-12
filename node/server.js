@@ -143,7 +143,9 @@ app.post('/users/:id',	 						users.update);
 app.get('/users', 								users.list);
 
 app.get('/opensearch',							if_authorized, opensearch.index);
-app.get('/opensearch/test',						if_authorized, opensearch.test);
+app.get('/opensearch/classic',					if_authorized, opensearch.classic);
+app.get('/opensearch/gl',						if_authorized, opensearch.gl);
+
 
 app.all('/persona/verify',						persona.verify);
 app.all('/persona/logout',						persona.logout);
@@ -156,19 +158,23 @@ app.get('/products',							products.index);
 
 app.get('/products/eo1_ali/:scene',					products.process_eo1_ali);
 app.get('/products/eo1_ali/browse/:scene',			products.browse_eo1_ali);
-app.get('/products/eo1_ali/map/:scene',				products.map_eo1_ali);
+app.get('/products/eo1_ali/map/:scene',				products.mapclassic_eo1_ali);
+app.get('/products/eo1_ali/mapgl/:scene',			products.mapgl_eo1_ali);
 app.get('/products/eo1_ali/:scene/:id',				products.eo1_ali_product);
 
-app.get('/products/modis/map/:year/:doy/:tile', 	products.map_modis);
+app.get('/products/modis/map/:year/:doy/:tile', 	products.mapclassic_modis);
+app.get('/products/modis/mapgl/:year/:doy/:tile', 	products.mapgl_modis);
 app.get('/products/modis/browse/:year/:doy/:tile', 	products.browse_modis);
 app.get('/products/modis/:year/:doy/:tile/:id',		products.modis_product);
 app.get('/products/modis/:year/:doy/:tile',			products.process_modis);
 
-app.get('/products/radarsat2/map/:scene',			products.map_radarsat2);
+app.get('/products/radarsat2/map/:scene',			products.mapclassic_radarsat2);
+app.get('/products/radarsat2/mapgl/:scene',			products.mapgl_radarsat2);
 app.get('/products/radarsat2/browse/:scene',		products.browse_radarsat2);
 app.get('/products/radarsat2/:scene/:id',			products.radarsat2_product);
 
-app.get('/products/l8/map/:scene',					products.map_l8);
+app.get('/products/l8/map/:scene',					products.mapclassic_l8);
+app.get('/products/l8/mapgl/:scene',				products.mapgl_l8);
 app.get('/products/l8/browse/:scene',				products.browse_l8);
 app.get('/products/l8/:scene/:id',					products.l8_product);
 app.get('/products/l8/:scene',						products.process_l8);

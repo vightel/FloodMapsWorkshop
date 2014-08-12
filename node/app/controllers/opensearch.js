@@ -100,12 +100,27 @@ var fs  		= require('fs'),
 	}
 	
 module.exports = {
-	test: function(req, res) {
+	classic: function(req, res) {
 		var host = req.protocol+"://"+req.headers.host
 		var region = app.config.regions.d02
 		var user= req.session.user
 		
-		res.render( "opensearch/test", {
+		res.render( "opensearch/classic", {
+			user: user,
+			opensearch_url: host+"/opensearch",
+			region: region,
+			nodes: app.config.nodes,
+			social_envs: app.social_envs
+		})
+	},
+	
+	gl: function(req, res) {
+		var host = req.protocol+"://"+req.headers.host
+		var region = app.config.regions.d02
+		var user= req.session.user
+		
+		res.render( "opensearch/gl", {
+			layout: "layout_gl",
 			user: user,
 			opensearch_url: host+"/opensearch",
 			region: region,
