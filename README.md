@@ -261,12 +261,21 @@ Please become a collaborator and help us improve this repository.
   
 ### Pre-Requisites
 
-* [Mapbox Maps] (https://www.mapbox.com/)
-* [Facebook Application ID] (https://developers.facebook.com/)
-* [Twitter Application ID] (https://dev.twitter.com/)
-* [Papertrail] (https://papertrailapp.com/)
 * [Node.js](http://nodejs.org/)
+	This is the Javascript environment used to develop the server code.
 
+* [Facebook Application ID] (https://developers.facebook.com/)
+	You will need to create a Facebook application, get an id and secret to publish flood data
+
+* [Twitter Application ID] (https://dev.twitter.com/)
+	You will need to create a Twitter Application to tweet your products on the web... You will need to get the publisher up and going... then get your site approved to publish Twitter cards
+	
+* [Mapbox Maps] (https://www.mapbox.com/)
+	Mapbox is used for the background maps.  The service is very inexpensive.  The Company develops all of its code open source.  It woudl be great to support it.
+	
+* [Papertrail] (https://papertrailapp.com/)
+	I used papertrail to keep the web logs... not a requirement but pretty nice to have.
+	
 ### Steps
 
 * Set Environment Variables
@@ -308,16 +317,15 @@ Please become a collaborator and help us improve this repository.
 
 Coming Soon...
 
-## Special Issues
+## Special Discussion Topics
 
+* Optimization of Flood Map Algorithms: Haze and Cloud Shadow Removal 
+* How To Change the Algorithm
+* Atmospheric Correction for EO-1, Landsat-8 using FLAASH
+* More products using the Web Coverage Processing Service (WCPS)
 * Irradiance Values for Top of Atmposphers Reflectance
-
 * Calculating Landsat-8 TOA Reflectance
-
 * Radarsat-2 Ordering and Archive Browsing [Stu Frye]
-
 * Radarsat-2 Co-registration
-
 * EO-1 L1T / L1G Co-registration
-
-* Atmospheric Correction
+* MapGL and Vector Tiling
