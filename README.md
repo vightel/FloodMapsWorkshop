@@ -328,4 +328,4 @@ Coming Soon...
 * Radarsat-2 Ordering and Archive Browsing [Stu Frye]
 * Radarsat-2 Co-registration
 * EO-1 L1T / L1G Co-registration
-* MapGL and Vector Tiling
+* MapGL and Vector Tiling (.pbf)

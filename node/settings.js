@@ -33,9 +33,9 @@ var express 		= require('express'),
 		var port
 
 		if( app.settings.env === 'development') {
-			port 			= app_port;
+			port 	= app_port;
 		} else {
-			port 			= app.config.PORT;		
+			port 	= app.config.PORT;		
 		}
 		app.set('port', port)
 		
@@ -49,7 +49,8 @@ var express 		= require('express'),
 			'TWITTER_SITE_ID',
 			'TWITTER_CREATOR',
 			'TWITTER_CREATOR_ID',
-			'TWITTER_DOMAIN'
+			'TWITTER_DOMAIN',
+			'MAPBOX_PUBLIC_TOKEN'
 		]
 		
 		app.social_envs = {}
@@ -61,12 +62,12 @@ var express 		= require('express'),
 			console.log(e, env_var)
 		})
 		
-		var appId			= process.env.FACEBOOK_APP_ID
-		var appSecret		= process.env.FACEBOOK_APP_SECRET
+		var appId		= process.env.FACEBOOK_APP_ID
+		var appSecret	= process.env.FACEBOOK_APP_SECRET
 		assert(appId)
 		assert(appSecret)
 		
-		app.facebook		= facebook.init(appId, appSecret)
+		app.facebook	= facebook.init(appId, appSecret)
 
 		app.facebook.GenerateSecret(function(err, secret) {
 			logger.info("Application Hawk Key:", err,secret)

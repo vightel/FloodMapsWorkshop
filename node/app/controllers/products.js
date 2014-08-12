@@ -352,7 +352,106 @@ function render_map(region, topojson, req, res) {
 		layout: false
 	})
 }
+
+function render_mapgl(region, topojson, req, res) {
+	res.render("products/mapgl", {
+		region: 		region,
+		social_envs:	app.social_envs,
+		topojson: 		topojson,
+		layout: false
+	})
+}
 	
+function map_eo1_ali(req, res, map) {
+	var host 	= "http://"+req.headers.host
+	var scene 	= req.params['scene']
+		
+	scene_model.getScene('eo1_ali', scene, function(err, record) {
+		var date    = record.date
+		var host 	= "http://"+req.headers.host
+		var short	= record.scene.split('_')[0]
+			
+		var region 	= {
+			name: 	"EO1 ALI Flood Map",
+			scene: 	scene,
+			bbox: 	scene_model.bboxFromGeom(record.g),
+			target: [record.center_lat, record.center_lon],
+			min_zoom: 6
+		}
+		var topojson=	host+"/products/eo1_ali/"+scene+"/"+short+"_WATERMAP.tif.hand.tif.pgm.topojson"
+		map(region, topojson, req, res )
+	})
+}
+
+function map_l8(req, res, map) {
+	var host 	= "http://"+req.headers.host
+	var scene 	= req.params['scene']
+	
+	scene_model.getScene('l8', scene, function(err, record) {
+		var date    = record.date
+		var host 	= "http://"+req.headers.host
+		var region 	= {
+			name: 	"Landsat-8 Flood Map",
+			scene: 	scene,
+			bbox: 	scene_model.bboxFromGeom(record.g),
+			target: [record.center_lat, record.center_lon],
+			min_zoom: 6
+		}
+		var topojson=	host+"/products/l8/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson"
+		map(region, topojson, req, res )
+	})
+}
+	
+function map_radarsat2(req, res, map) {
+	var scene 	= req.params['scene']
+	scene_model.getScene('radarsat2', scene, function(err, record) {
+		if( !err && record ) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var region 	= {
+				name: 	"Radarsat-2 Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon],
+				min_zoom: 6
+			}
+			var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"
+			map(region, topojson, req, res )
+		}
+	})
+}
+
+function map_modis(req, res,map) {
+	var host = "http://"+req.headers.host
+	var year 	= req.params['year']
+	var doy 	= req.params['doy']
+	var tile 	= req.params['tile']
+	var id		= year.toString() + doy+"_"+tile
+	var date    = moment(year+"-"+doy)
+	var lon 	= parseFloat(tile.substring(0,3))
+	var ew  	= tile[3]
+	var ns 		= tile[7]
+	var lat 	= parseFloat(tile.substring(4,7))
+	
+	if( ew == 'W') lon = -lon
+	if( ns == 'S') lat = -lat
+	
+	var centerlat 	= lat - 5.0
+	var centerlon 	= lon + 5.0
+	var bbox		= [lon, lat-10.0, lon+10.0,lat]
+	
+	var region = {
+		name: 	"MODIS Flood Map",
+		scene: 	tile,
+		bbox: 	bbox,
+		target: [centerlat, centerlon]
+	}
+	console.log("map_modis", region)
+	
+	var topojson=	host+"/products/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson"
+	render_map(region, topojson, req, res )
+}
+
 module.exports = {
 	// http://localhost:7465/products/opensearch?q=surface_water&lat=18&lon=-70&startTime=20140418&endTime=20140421
 	
@@ -469,21 +568,12 @@ module.exports = {
 		res.sendfile(basename, {root: dirname}) 
 	},
 	
-	map_radarsat2: function(req, res) {
-		var scene 	= req.params['scene']
-		scene_model.getScene('radarsat2', scene, function(err, record) {
-			var date    = record.date
-			var host 	= "http://"+req.headers.host
-			var region 	= {
-				name: 	"Radarsat-2 Flood Map",
-				scene: 	scene,
-				bbox: 	scene_model.bboxFromGeom(record.g),
-				target: [record.center_lat, record.center_lon]
-			}
-			console.log("map_radarsat2", region)
-			var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"
-			render_map(region, topojson, req, res )
-		})
+	mapclassic_radarsat2: function(req, res) {
+		map_radarsat2(req, res, render_map)
+	},
+	
+	mapgl_radarsat2: function(req, res) {
+		map_radarsat2(req, res, render_mapgl)
 	},
 	
 	radarsat2_product: function(req, res) {
@@ -530,35 +620,12 @@ module.exports = {
 		})
 	},
 	
-	map_modis: function(req, res) {
-		var host = "http://"+req.headers.host
-		var year 	= req.params['year']
-		var doy 	= req.params['doy']
-		var tile 	= req.params['tile']
-		var id		= year.toString() + doy+"_"+tile
-		var date    = moment(year+"-"+doy)
-		var lon 	= parseFloat(tile.substring(0,3))
-		var ew  	= tile[3]
-		var ns 		= tile[7]
-		var lat 	= parseFloat(tile.substring(4,7))
-		
-		if( ew == 'W') lon = -lon
-		if( ns == 'S') lat = -lat
-		
-		var centerlat 	= lat - 5.0
-		var centerlon 	= lon + 5.0
-		var bbox		= [lon, lat-10.0, lon+10.0,lat]
-		
-		var region = {
-			name: 	"MODIS Flood Map",
-			scene: 	tile,
-			bbox: 	bbox,
-			target: [centerlat, centerlon]
-		}
-		console.log("map_modis", region)
-		
-		var topojson=	host+"/products/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson"
-		render_map(region, topojson, req, res )
+	mapclassic_modis: function(req, res) {
+		map_modis(req, res,render_map)
+	},
+	
+	mapgl_modis: function(req, res) {
+		map_modis(req, res,render_mapgl)
 	},
 	
 	browse_modis: function(req, res) {
@@ -715,24 +782,12 @@ module.exports = {
 			})
 		})
 	},
-	map_eo1_ali: function(req, res) {
-		var host 	= "http://"+req.headers.host
-		var scene 	= req.params['scene']
-		
-		scene_model.getScene('eo1_ali', scene, function(err, record) {
-			var date    = record.date
-			var host 	= "http://"+req.headers.host
-			var short	= record.scene.split('_')[0]
-			
-			var region 	= {
-				name: 	"EO1 ALI Flood Map",
-				scene: 	scene,
-				bbox: 	scene_model.bboxFromGeom(record.g),
-				target: [record.center_lat, record.center_lon]
-			}
-			var topojson=	host+"/products/eo1_ali/"+scene+"/"+short+"_WATERMAP.tif.hand.tif.pgm.topojson"
-			render_map(region, topojson, req, res )
-		})
+	
+	mapclassic_eo1_ali: function(req,res) {
+		map_eo1_ali(req, res, render_map)
+	},
+	mapgl_eo1_ali: function(req, res) {
+		map_eo1_ali(req, res, render_mapgl)
 	},
 	
 	process_l8: function(req, res) {
@@ -803,22 +858,10 @@ module.exports = {
 		})
 	},
 	
-	map_l8: function(req, res) {
-		var host 	= "http://"+req.headers.host
-		var scene 	= req.params['scene']
-		
-		scene_model.getScene('l8', scene, function(err, record) {
-			var date    = record.date
-			var host 	= "http://"+req.headers.host
-			var region 	= {
-				name: 	"Landsat-8 Flood Map",
-				scene: 	scene,
-				bbox: 	scene_model.bboxFromGeom(record.g),
-				target: [record.center_lat, record.center_lon]
-			}
-			var topojson=	host+"/products/l8/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson"
-			render_map(region, topojson, req, res )
-		})
+	mapclassic_l8: function(req,res) {
+		map_l8(req, res, render_map)
 	},
-	
+	mapgl_l8: function(req, res) {
+		map_l8(req, res, render_mapgl)
+	}
 }
