@@ -416,6 +416,7 @@ function map_radarsat2(req, res, map) {
 				min_zoom: 6
 			}
 			var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"
+			//var topojson= "https://gist.githubusercontent.com/cappelaere/1033894ac360438bed1b/raw/0e0e57618abb38807833b05e1a5bcd999a3c8c4e/surface_water.topojson"
 			map(region, topojson, req, res )
 		}
 	})
