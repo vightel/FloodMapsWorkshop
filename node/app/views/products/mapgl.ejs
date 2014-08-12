@@ -1,0 +1,112 @@
+<html>
+  <head>
+	<meta charset=utf-8 />
+	<title><%= region.name %></title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.1/mapbox-gl.css' rel='stylesheet' />
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+	
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.1/mapbox-gl.js'></script>
+
+	<style>
+	.white, .white a {
+	  color: #fff;
+	}
+	#map { position:absolute; top:0; bottom:0; width:100%; }
+	  
+	</style>
+  </head>
+  
+  <body>
+	<div class='container'>
+		<h1><%= region.name %></h1>
+		
+   	 	<div id="map"></div>
+	</div>
+	
+	<script type='text/javascript'>
+		
+		var bbox_geojson = {
+			"type": "Feature",
+				"properties": {},
+				"geometry": {
+					"type": "LineString",
+					"coordinates": [
+						[<%= region.bbox[0] %>, <%= region.bbox[1] %>],
+						[<%= region.bbox[0] %>, <%= region.bbox[3] %>],
+						[<%= region.bbox[2] %>, <%= region.bbox[3] %>],
+						[<%= region.bbox[2] %>, <%= region.bbox[1] %>],
+						[<%= region.bbox[0] %>, <%= region.bbox[1] %>]
+					]
+				}
+		};
+			
+		mapboxgl.accessToken = '<%= social_envs.MAPBOX_PUBLIC_TOKEN %>'
+		
+		mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/outdoors-v4.json', function (err, style) {
+			if (err) {
+				console.log("Error getting outdoor style", err)
+				throw err;
+			}
+			
+			style.layers.push({
+			    "id": "bbox",
+			    "source": "bbox",
+			    "render": {
+			      "$type": "LineString",
+			      "line-join": "round",
+			      "line-cap": "round"
+			    },
+			    "style": {
+			      "line-color": "#0000ff",
+			      "line-width": 2
+			    },
+			    "type": "line"
+			  });
+			
+			style.layers.push({
+				"id": "floodmap",
+				"source": "floodmap",
+				"render": {
+					"$type": "LineString",
+					"line-join": "round",
+					"line-cap": "round"
+				},
+				"style": {
+					"line-color": "#fff000",
+					"line-width": 2,
+					"fill-color": "#f00000",
+					"fill-opacity": 0.5
+				},
+				"type": "fill"
+			});
+						
+			// Create a map in the div #map
+			var mapgl = new mapboxgl.Map({
+				container: 'map',
+				style: 	style,
+				center: [<%= region.target %>],
+				zoom: <%= region.min_zoom %>
+			});
+		
+			var route = new mapboxgl.GeoJSONSource({ data: bbox_geojson });
+			mapgl.addSource('bbox', route);
+			
+			d3.json("<%= topojson %>", function(error, data) {
+				if( !error && data ) {
+					var product = topojson.feature(data, data.objects.surface_water)
+					var floodmap = new mapboxgl.GeoJSONSource({ data: product });
+					mapgl.addSource('floodmap', floodmap);	
+				} else {
+					console.log("loaded topojson:"+error)				
+				}
+			})
+			
+		})
+	</script>
+  </body>
+</html>
+  

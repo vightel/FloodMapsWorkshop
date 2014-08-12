@@ -1,0 +1,284 @@
+
+<div class="container">
+	<h3>OpenSearch Classic</h3>
+	<div class='row'>
+		<div class='col-xs-6'></div>
+		<div class='col-xs-6'>
+		 	<div id='map' style="width:840px;height:610px;" ondrop="handleDrop(event);" ondragover="allowDrop(event);" ></div>
+		</div>
+	</div>
+	<br/>
+</div>
+
+<div class="container" id='results'></div>
+
+<link rel="stylesheet" href="/css/customlegend.css" />
+<link rel="stylesheet" href="/css/datepicker.css" />
+<script src="/js/bootstrap-datepicker.js"></script>
+
+<script>
+	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
+	.setView([<%= region.target %>], <%= region.min_zoom %>)
+	
+	var map_controls = L.control.layers({
+	    'Topo Map': L.mapbox.tileLayer('<%= region.map_id %>',{ attribution: 'MapBox'}).addTo(map)
+	}, {}).addTo(map);
+	
+	var query_results = {};
+	
+	$('#query').show();
+	//$('#dp_startTime').datepicker();
+	//$('#dp_endTime').datepicker();
+	//$.datepicker.formatDate("yyyy-mm-dd")
+	$('#startTime').datepicker( {format: "yyyy-mm-dd"});
+	$('#endTime').datepicker({format: "yyyy-mm-dd"});
+	
+	var stop 	= new Date();
+	var start 	= new Date(stop.getFullYear()-3, stop.getMonth(), stop.getDate(), 0,0,0,0)
+	$('#endTime').datepicker("setValue", stop);
+	$('#startTime').datepicker("setValue", start);
+	
+	function ShowForm() {
+		$('#query_container').toggle();
+	}
+
+  	function NavTab( str, id ) {
+		console.log(str + ","+id);
+		$('#general-'+id).hide();
+		$('#metadata-'+id).hide();
+		$('#actions-'+id).hide();
+
+		$('#tab-general-'+id).attr('class', '');
+		$('#tab-metadata-'+id).attr('class', '');
+		$('#tab-actions-'+id).attr('class', '');
+		
+		$('#'+str+'-'+id).show();
+		$('#tab-'+str+'-'+id).attr('class', 'active');
+		
+		FB.XFBML.parse(); // This will render all tags on the page
+		twttr.widgets.load();
+  	}
+	
+	function FormatResponseElement(el) {
+		var html = "<div class='well'>";
+		html += "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+		html += "<table class='table table-condensed'>";
+		html += "<tr><td width='100'>"
+		
+		// take last image
+		var image_url = el.image[0];
+		if (image_url.url) image_url = image_url.url; 
+		
+		html += "&nbsp;<img class='img-thumbnail' id='"+el.id+"' src=\'"+image_url+"\' width='90' ondragstart='handleDrag(event);' />";
+		html += "</td><td>"
+		
+		if( true ) {
+		html += "<ul class='nav nav-tabs'>"
+		
+		var general_fn 		= "javascript:NavTab('general','" + el.id + "');";
+		var metadata_fn 	= "javascript:NavTab('metadata','" + el.id + "');";
+		var actions_fn 		= "javascript:NavTab('actions','" + el.id + "');";
+		var tab_general_id 	= 'tab-general-'+el.id;
+		var tab_metadata_id	= 'tab-metadata-'+el.id;
+		var tab_actions_id 	= 'tab-actions-'+el.id;
+		
+		html += "  <li class='active' id="+ tab_general_id+"><a href="+general_fn+">General</a></li>"
+		html += "  <li id="+tab_metadata_id+"><a href="+metadata_fn+">Metadata</a></li>"
+		html += "  <li id="+tab_actions_id+"><a href="+actions_fn+">Actions</a></li>"
+		html += "</ul>"
+		}
+	
+		// General Div
+		if( true ) {
+		html += "<div id='general-"+el.id + "'>"
+		html += "<table class='table table-condensed'>";
+		html += "<tr><td>id</td><td>"+el.id+"</td></tr>";
+		html += "<tr><td>source</td><td>" + el.properties.source + "</td></tr>"
+		html += "<tr><td>date</td><td>" + el.properties.date + "</td></tr>"
+		html += "</table></div>"
+		}
+		
+		// Metadata Div
+		if( true ) {
+		html += "<div id='metadata-"+el.id +"' style='display:none'>"
+		html += "<table class='table table-condensed'>"
+		html += "<tr><td>Id</td><td>"+el.id+"</td></tr>";
+		$.each(el.properties, function(key, prop) {
+			html += "<tr><td>"+ key + "</td><td>" + prop + "</td></tr>"
+		})
+		html += "</table></div>"
+		}
+		
+		if( true ) {
+		//Action Div
+		html += "<div id='actions-"+el.id +"' style='display:none'>"
+		html += "<table class='table table-condensed'>"
+		html += "<tr><td width='100'><b>Actions:</b></td><td>"
+		
+		$.each(el.actions, function(key, val) {			
+			var typof = typeof el.actions[key]
+			
+			switch(typof) {
+			case 'object':
+				html += "<b>- "+key+"</b>"
+				html += "<br/>"
+				$.each(el.actions[key], function(k, el) {
+					if( el.objectType == 'HttpActionHandler') {
+						if( el.method == 'GET') {
+							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + el.displayName
+							if( el.size ) html += " ("+el.size+")"
+							if( el.duration ) html += " (" + el.duration + ")"
+							html  += "</a>&nbsp;"
+						}
+					}
+				})
+				break;
+			case 'string':
+				// special cases
+				//console.log("String key:"+key+" "+el.actions[key])
+				switch(key) {
+					case 'share':
+						html += "<b>- "+key+"</b>"
+						html += "<br/>"
+						
+						html += "&nbsp;&nbsp;&nbsp;&nbsp;"
+						
+						// Facebook
+						html += "<div class='fb-share-button' "
+						html += "data-href='" + el.actions[key] + "' "
+						html += "data-type='button' "
+						html += "></div>&nbsp;"
+						
+						//var fbpost	= "javascript:FBPost('" + el.actions[key] + "');";
+						//html += "<a href="+fbpost+">Facebook</a>&nbsp;"
+						
+						// Twitter
+						html += "<a href='https://twitter.com/intent/tweet' class='twitter-hashtag-button' "
+						html += "data-text='You may found this product interesting '"
+						html += " data-url='" + el.actions[key] + "' "
+						html += " data-lang='en' data-related='geoss'>GEOSS Tweet</a>"
+					
+						break;
+					
+					case 'like':
+						break;
+					default:
+						html += "- <a href='"+el.actions[key]+"'>"+key+"</a>";
+						break;
+				}
+				break;
+			default:
+				console.log("unhandled typof:"+typof)
+				break;
+			}
+			html += "<br/>"
+		})
+		
+		//$.each(el.actions.download, function(key, val) {
+		//	html += "<a href='"+ val.url+"'>"+val.displayName +" ("+val.size+")</a><br/>"
+		//})
+		
+		//html += "<br/>Browse <a href='"+el.actions.browse+"'>Link</a>"
+		//html += "<br/>Process"
+		
+		html += "</td></tr></table></div>"
+		html += "</td></tr>"
+		html += "</table></div>";
+		}
+	
+		$('#results').append(html)
+	}
+		
+	function SubmitQuery() {
+		var nodes = <%- JSON.stringify(nodes) %>
+		
+		var lnglat 		= $('#lnglat').val().split(',');
+		var lng			= lnglat[0];
+		var lat			= lnglat[1]
+		var q			= $('#q').val();
+		var startTime	= $('#startTime').val();
+		var endTime		= $('#endTime').val();
+		
+		var sources = $('#sources').val()
+		
+		var url = "<%=opensearch_url%>";
+		url += "?q="+q;
+		url += "&lat="+lat;
+		url += "&lon="+lng;
+		url += "&startTime="+startTime;
+		url += "&endTime="+endTime;
+		
+		if( sources == null ) return
+		
+		url += "&sources="+sources.join(",")
+		
+		query_results = {};
+		//$('#results').html("")
+		
+		$.ajax({
+			dataType: "json",
+			url: url,
+			success: function( data ) {
+				var count = data.replies.items.length
+				console.log("Success..."+count)
+				var html = "<div class='well'>"
+				html += count + " results returned<br/></div"
+				$('#results').html(html)
+			
+				$.each( data.replies.items, function( key, val ) {
+					//console.log("Formatting item "+key)
+					query_results[val.id] = val;
+					FormatResponseElement(val);
+				});
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+  			  	console.log(textStatus, errorThrown);
+			}
+		})
+	}
+	
+	ShowForm();
+  
+    // install click event
+  	map.on('click', function(e) {
+		var latlng = e.latlng
+		var lat = latlng.lat.toFixed(2)
+		var lng	= latlng.lng.toFixed(2)
+		$('#lnglat').val(lng +", "+lat)
+  	})
+ 
+	function FBPost( url ) {
+		console.log("FBPost:"+url);
+		FB.login(function(){
+			FB.api('/me/ojo-nasa:share', 'post', 
+				{	'geoss_product': url,
+					'value':'SELF'
+			}, function(response) { console.log("FB resp:"+JSON.stringify(response)); });
+		}, {scope: 'publish_actions'});
+	}
+</script>
+
+<!-- TWITTER THING -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+
+<!-- FACEBOOK THING -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<%= social_envs.FACEBOOK_APP_ID %>',
+      status     : true,
+      xfbml      : true
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
