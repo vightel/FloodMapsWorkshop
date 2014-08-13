@@ -38,7 +38,11 @@ Please become a collaborator and help us improve this repository.
   * Linux AMI, General Purpose, m3.large, Note: we need ~ 100GiB storage. Check if this is still an m3.large otherwise will need to increase volume later
   * Create key/pair and store it in local DIR.  Restrict access to key.pem (chmod 600 key.pem)
   * Remember Instance ID and Public DNS (Check your Management Console if necessary)
-
+  * You can use SFTP to copy files back and forth your VI (like Featurestch on MacOSX)
+    * cd ~/.ssh
+	* vi config
+	* Add an entry for your VI Host name and add an IdentityFile pointing to your .pem
+	
 * Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
   *	Postgresql, 9.3.3, db.m1.small, No, 5GB
   * DBNAME: osmdb
@@ -318,14 +322,15 @@ Please become a collaborator and help us improve this repository.
 Coming Soon...
 
 ## Special Discussion Topics
-
+* Identity using [Persona](https://www.mozilla.org/en-US/persona/) and/or [Auth0](https://auth0.com/) or [OAuth.io](https://oauth.io/)
+* Securing web transactions using [Hawk](https://github.com/hueniverse/hawk)
 * Optimization of Flood Map Algorithms: Haze and Cloud Shadow Removal 
-* How To Change the Algorithm
-* Atmospheric Correction for EO-1, Landsat-8 using FLAASH
+* How To Change the Flood Mapping Algorithm
+* Atmospheric Correction for EO-1, Landsat-8 using FLAASH or [arcsi](http://spectraldifferences.wordpress.com/2014/05/27/arcsi/)
 * More products using the Web Coverage Processing Service (WCPS)
 * Irradiance Values for Top of Atmposphers Reflectance
 * Calculating Landsat-8 TOA Reflectance
-* Radarsat-2 Ordering and Archive Browsing [Stu Frye]
-* Radarsat-2 Co-registration
+* Radarsat-2 [Ordering](http://www.asc-csa.gc.ca/eng/satellites/radarsat2/order-contact.asp) and [Archive](https://neodf.nrcan.gc.ca/neodf_cat3/index.php?lang=en) Browsing
+* Radarsat-2 Co-registration - [PCI Geomatics](http://www.pcigeomatics.com/)
 * EO-1 L1T / L1G Co-registration
-* MapGL and Vector Tiling (.pbf)
+* [MapboxGL](https://www.mapbox.com/blog/mapbox-gl/) and Vector Tiling (.pbf)
