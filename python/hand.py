@@ -29,7 +29,7 @@ class HAND:
 
 	def __init__( self, inpath, zone, tile, proj, maxheight, force, verbose ):
 		self.inpath					= inpath
-		self.hydroSHEDS_dir		 	= config.HYSDROSHEDS_DIR	#os.path.join(inpath,'HydroSHEDS')		
+		self.hydroSHEDS_dir		 	= config.HYDROSHEDS_DIR	#os.path.join(inpath,'HydroSHEDS')		
 		self.tile					= tile
 		self.maxheight				= maxheight
 		self.zone					= zone
@@ -61,7 +61,8 @@ class HAND:
 		if not os.path.isfile(bil_proj):
 			self.reproject("EPSG:%d"%self.proj, bil, bil_proj)
 			
-		print "get data from:", bil_proj
+		if self.verbose:
+			print "get data from:", bil_proj
 		
 		bil_ds = gdal.Open( bil_proj )
 		if bil_ds is None:
@@ -72,7 +73,8 @@ class HAND:
 		self.RasterYSize = bil_ds.RasterYSize
 		self.RasterCount = bil_ds.RasterCount
 
-		print 'Size is ',bil_ds.RasterXSize,'x',bil_ds.RasterYSize, 'x',bil_ds.RasterCount
+		if self.verbose:
+			print 'Size is ',bil_ds.RasterXSize,'x',bil_ds.RasterYSize, 'x',bil_ds.RasterCount
 
 		#print 'Projection is ',bil_ds.GetProjection()
 		#geotransform = bil_ds.GetGeoTransform()
@@ -155,7 +157,8 @@ class HAND:
 				'X1':LLC[0], 'Y1':LLC[1], 'X2':URC[0], 'Y2':URC[1], 
 				'dx': ds.RasterXSize, 'dy': ds.RasterYSize 
 			}
-			print(cmd)
+			if self.verbose:
+				print(cmd)
 
 			err = os.system(cmd)
 			if err != 0:
@@ -164,7 +167,8 @@ class HAND:
 		
 			# convert black to Gray scale
 			cmd = "convert -colorspace Gray "+osm_surface_water_img+" "+osm_surface_water_gray_img
-			print(cmd)
+			if self.verbose:
+				print(cmd)
 			err = os.system(cmd)
 
 	#
@@ -178,6 +182,8 @@ class HAND:
 			os.remove(out_file)
 
 		cmd = "gdalwarp -of GTiff -t_srs "+ epsg +" -multi -dstalpha " + in_file + " " + out_file
+		if self.verbose:
+			print cmd
 		os.system(cmd)
 		
 	#
@@ -404,7 +410,9 @@ if __name__ == '__main__':
 		
 	dir = config.HANDS_DIR
 
-	print str(datetime.now()), "Starting processing of tile:"+tile[0] + " zone:"+zone[0]+ " force: %d" %(force) + " verbose: %d" % verbose + " proj: %d" % proj	
+	if verbose:
+		print str(datetime.now()), "Starting processing of tile:"+tile[0] + " zone:"+zone[0]+ " force: %d" %(force) + " verbose: %d" % verbose + " proj: %d" % proj	
+
 	app = HAND(dir, zone[0], tile[0], proj, maxheight, force, verbose)
 	
 	app.height_data  	= app.get_height_data();
@@ -415,8 +423,9 @@ if __name__ == '__main__':
 	if not os.path.isfile(hand_img) or force:
 		app.process_data()
 		app.save_data()
-	
-	print str(datetime.now()), "Done."
+
+	if verbose:
+		print str(datetime.now()), "Done."
 		
 	
 	

@@ -95,7 +95,8 @@ if __name__ == '__main__':
 		cmd 	= "INSERT INTO radarsat2 (scene, date, center_lat, center_lon, geom) VALUES('%s', '%s', %f, %f, ST_GeomFromText('%s',4326))" % ( scene, date, centerlat, centerlon, geometry )
 		res = cursor.execute(cmd)
 		print cmd, res
-		
+	else:
+		print "Scene:", scene, " already inserted"
 	
 	cursor.close()
 	connection.close()

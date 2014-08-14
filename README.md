@@ -33,9 +33,14 @@ Please become a collaborator and help us improve this repository.
 
 ## Steps
 
-* Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)
+* Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)  [Instructional Videos](http://aws.amazon.com/training/intro_series/)
   * Select Region East
-  * Linux AMI, General Purpose, m3.large, Note: we need ~ 100GiB storage. Check if this is still an m3.large otherwise will need to increase volume later
+  * Linux AMI, General Purpose, 64-bit, EBS Root Device Type
+  amzn-ami-hvm-2014.03.2.x86_64-ebs (ami-76817c1e)
+  m3.large
+	
+  m3.large, AND Note: we need more than 100GiB storage. Check if this is still an m3.large otherwise will need to [increase](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html) volume later
+   
   * Create key/pair and store it in local DIR.  Restrict access to key.pem (chmod 600 key.pem)
   * Remember Instance ID and Public DNS (Check your Management Console if necessary)
   * You can use SFTP to copy files back and forth your VI (like Featurestch on MacOSX)
@@ -56,8 +61,9 @@ Please become a collaborator and help us improve this repository.
     * osmdb# create extension postgis_topology;
 
 * cd DIR where key.pem is
-* Access your instance [remember your public DNS]: 
-  * ssh -i key.pem ec2-user@ec2-54-84-226-201.compute-1.amazonaws.com
+* To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
+  *# ssh -i key.pem ec2-user@ec2-54-84-226-201.compute-1.amazonaws.com
+  * ssh -i AWS.pem ec-user2@54.164.10.133
   
 * Set your environment variables...[remember your endpoint]
   * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
@@ -69,12 +75,14 @@ Please become a collaborator and help us improve this repository.
   * export USGS_ACCOUNT=
   * export USGS_PASSWORD=
 
-  * Note: You can customize envs.copy.sh with your own values
+  * Note: You can customize envs.copy.sh with your own values to envs.sh and then > source envs.sh
   
-* Install code dependencies
+* Install Code Dependencies
   * git clone https://github.com/vightel/menatraining.git
   * cd menatraining
   * export MENA_DIR=~/menatraining
+
+  * It is advisable to run the shell file below step by step to check on potential errors
   * sh install-deps.sh
   
 * Install data dependencies... This will copy some data from S3 to your data directory for testing
@@ -86,6 +94,8 @@ Please become a collaborator and help us improve this repository.
   * Check database settings: ./inc/datasource-settings.xml.inc
   * Check python environment, run:
 	* check_environment.py
+	
+  * Make sure that . is in PATH to find the python scripts (if not, edit your .bashrc or .profile)
 	
 * [OPTIONAL] Download OSM data files and load OSM database
   * You may have to get OSM data from your particular area from http://download.geofabrik.de/ and edit the shell file below.
@@ -106,7 +116,7 @@ Please become a collaborator and help us improve this repository.
 	* [HydroSHEDS Site](http://earlywarning.usgs.gov/hydrosheds/index.php)
 	* [HydroSHEDS data](http://earlywarning.usgs.gov/hydrosheds/dataavail.php)
   
-  * When ready, run the processing... it takes about 5-10mn per tile
+  * When ready, run the processing... WARNING: it takes about 10mn per tile
   * Make sure to edit python/config.py to [re]define the HANDS_AREA
   * hand_all.py -v
   
@@ -305,7 +315,7 @@ Please become a collaborator and help us improve this repository.
   * node server.js
 		
 * Demo Script
-	* OpenSearch Radarsat-2, EO-1, Landsat-8. MODIS
+	* OpenSearch Radarsat-2, EO-1, Landsat-8, MODIS
 	* Visualize data on the map (example)
 	* Product Page and Tagging
 	* Share on Facebook / Twitter
