@@ -12,7 +12,46 @@ sudo yum -y install git potrace
 sudo yum -y install make gcc47 gcc-c++ bzip2-devel libpng-devel libtiff-devel zlib-devel libjpeg-devel libxml2-devel python-setuptools git-all python-nose python27-devel python27 proj-devel proj proj-epsg proj-nad freetype-devel freetype libicu-devel libicu
 
 # install optional deps
-sudo yum -y install gdal-devel gdal postgresql-devel sqlite-devel sqlite libcurl-devel libcurl cairo-devel cairo pycairo-devel pycairo
+sudo yum -y install postgresql-devel sqlite-devel sqlite libcurl-devel libcurl cairo-devel cairo pycairo-devel pycairo
+
+
+# Download and Install requirements for PostGIS Installation
+# proj4
+wget http://download.osgeo.org/proj/proj-4.8.0.tar.gz
+gzip -d proj-4.8.0.tar.gz
+tar -xvf proj-4.8.0.tar
+cd proj-4.8.0
+./configure
+make
+sudo make install
+cd ../
+
+# geos
+wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+bzip2 -d geos-3.4.2.tar.bz2
+tar -xvf geos-3.4.2.tar
+cd geos-3.4.2 
+./configure 
+make 
+sudo make install 
+cd ../
+
+wget http://download.osgeo.org/gdal/1.11.0/gdal-1.11.0.tar.gz
+tar -xzf gdal-1.11.0.tar.gz
+cd gdal-1.11.0
+#wget http://download.osgeo.org/gdal/gdal-1.9.2.tar.gz
+#tar -xzf gdal-1.9.2.tar.gz
+#cd gdal-1.9.2
+./configure
+make
+sudo make install
+
+wget http://potrace.sourceforge.net/download/potrace-1.11.tar.gz
+tar -xzf potrace-1.11.tar.gz
+cd potrace-1.11
+./configure
+make
+sudo make install
 
 JOBS=`grep -c ^processor /proc/cpuinfo`
 
@@ -61,6 +100,10 @@ make test-local
 sudo make install
 cd ../
 
+sudo chown -R ec2-user:ec2-user /usr/local/bin
+sudo chown -R ec2-user:ec2-user /usr/local/lib
+chmod u+rx,go-w /usr/local/lib/node_modules/
+
 # node
 NODE_VERSION="0.10.26"
 wget http://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz
@@ -90,7 +133,8 @@ npm install
 npm test
 cd ../
 
-# topojson
+# topojson 
+# 1.6.14
 npm install -g topojson
 
 # osm2pgsql
@@ -101,26 +145,7 @@ sudo yum -y install libtool
 # ImageMagick (and convert)
 sudo yum -y install ImageMagick.x86_64
 
-# Download and Install requirements for PostGIS Installation
-# proj4
-wget http://download.osgeo.org/proj/proj-4.8.0.tar.gz
-gzip -d proj-4.8.0.tar.gz
-tar -xvf proj-4.8.0.tar
-cd proj-4.8.0
-./configure
-make
-sudo make install
-cd ../
 
-# geos
-wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
-bzip2 -d geos-3.4.2.tar.bz2
-tar -xvf geos-3.4.2.tar
-cd geos-3.4.2 
-./configure 
-make 
-sudo make install 
-cd ../
 
 # osm2pgsql
 git clone git://github.com/openstreetmap/osm2pgsql.git
@@ -131,16 +156,13 @@ make
 sudo make isntall
 cd ../
 
-# install numpy and scipy
-sudo yum -y install gdal-python numpy scipy
+# install numpy and scipy,...
+sudo yum -y install gdal-python numpy scipy 
+sudo easy_install psycopg2 
+sudo easy_install ppygis
  
 # update your libraries
+sudo su
 echo /usr/local/lib >> /etc/ld.so.conf
 ldconfig
-
-# tilemill
-#git clone https://github.com/mapbox/tilemill
-#cd tilemill
-#vim package.json # remove the 'topcube' line since the GUI will not work on fedora due to lacking gtk/webkit
-#npm install
-#./index.js --server=true # view on http://localhost:20009, more info: http://mapbox.com/tilemill/docs/guides/ubuntu-service/
+exit

@@ -10,7 +10,7 @@ HANDS_DIR			= DATA_DIR + "/HAND"
 HYDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
 
 # HAND regional area.
-HANDS_AREA			= "Haiti"
+HANDS_AREA			= "haiti"
 
 #
 # Data Directories

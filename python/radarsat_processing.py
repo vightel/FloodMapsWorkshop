@@ -601,6 +601,13 @@ class Radarsat2:
 		if app.force or not os.path.exists(surface_water_json_tgz_file):
 			cmd = str.format("gzip {0} ", surface_water_json_file ); 
 			self.execute(cmd)
+
+		# Compress original json
+		surface_water_topojson_file = os.path.join(dir, "surface_water.topojson")
+		surface_water_topojson_tgz_file = os.path.join(dir, "surface_water.topojson.gz")
+		if app.force or not os.path.exists(surface_water_topojson_tgz_file):
+			cmd = str.format("gzip {0} ", surface_water_topojson_file ); 
+			self.execute(cmd)
 			
 	
 	def clear_all_artifacts(self, dir, scene):
@@ -655,7 +662,7 @@ if __name__ == '__main__':
 		sys.exit(-1)
 			
 	cwd = os.path.dirname(sys.argv[0])
-	dir = BASE_DIR;
+	#dir = BASE_DIR;
 
 	parser = argparse.ArgumentParser(description='Process Radarsat2 scene')
 	apg_input = parser.add_argument_group('Input')
@@ -673,12 +680,14 @@ if __name__ == '__main__':
 	if verbose:
 		print "** Radarsat Processing start:", str(datetime.now())
 
-	app 		= Radarsat2(cwd, dir, verbose)
+	inpath 		= os.path.join(BASE_DIR, scene)
+		
+	app 		= Radarsat2(cwd, inpath, verbose)
 	app.force 	= force
 	app.verbose	= verbose
 	
 	if clean:
-		app.clear_all_artifacts(dir, scene)
+		app.clear_all_artifacts(inpath, scene)
 
 	app.process_raw_data()
 

@@ -371,14 +371,15 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Generate HAND tiles')
 	apg_input = parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", action='store_true', help="HydroSHEDS forces new water image to be generated")
-	apg_input.add_argument("-a", "--area", nargs=1, help="HydroSHEDS area")
+	#apg_input.add_argument("-a", "--area", nargs=1, help="HydroSHEDS area")
 	apg_input.add_argument("-v", "--verbose", action='store_true', help="Verbose on/off")
 	apg_input.add_argument("-vrt", "--vrt", action='store_true', help="build vrt only")
 	
 	options = parser.parse_args()
 	
 	vrt 		= options.vrt
-	area		= options.area[0] || config.HANDS_AREA
+	#area		= options.area[0] || config.HANDS_AREA
+	area		= config.HANDS_AREA
 	force		= options.force
 	verbose		= options.verbose
 	
@@ -448,6 +449,10 @@ if __name__ == '__main__':
 			hand_file = os.path.join(hand_dir, zone, tile+"_hand.tif" )
 			if not os.path.exists(hand_file):
 				cmd = "hand.py -m 9 --zone "+zone+" --tile "+tile+" --proj 4326"
+				
+				if verbose:
+					cmd += " -v"
+					
 				print str(datetime.now()), cmd
 				err = os.system(cmd)
 	# 
