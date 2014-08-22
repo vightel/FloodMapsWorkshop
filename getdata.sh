@@ -43,31 +43,31 @@ fi
 
 cd $MENA_DIR/data
 
-if [ ! -d HydroSHEDS]; then
+if [ ! -d HydroSHEDS ]; then
   mkdir HydroSHEDS
 fi
 
-if [ ! -d HAND]; then
+if [ ! -d HAND ]; then
   mkdir HAND
 fi
 
-if [ ! -d eo1_ali]; then
+if [ ! -d eo1_ali ]; then
   mkdir eo1_ali
 fi
 
-if [ ! -d l8]; then
+if [ ! -d l8 ]; then
   mkdir l8 
 fi
 
-if [ ! -d l8/LC80090472013357LGN00]; then
+if [ ! -d l8/LC80090472013357LGN00 ]; then
   mkdir l8/LC80090472013357LGN00
 fi
 
-if [ ! -d modis]; then
+if [ ! -d modis ]; then
   mkdir modis
 fi
 
-if [ ! -d radarsat2]; then
+if [ ! -d radarsat2 ]; then
   mkdir radarsat2
 fi
 
