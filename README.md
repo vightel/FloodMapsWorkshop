@@ -62,8 +62,7 @@ Please become a collaborator and help us improve this repository.
 
 * cd DIR where key.pem is
 * To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
-  *# ssh -i key.pem ec2-user@ec2-54-84-226-201.compute-1.amazonaws.com
-  * ssh -i AWS.pem ec-user2@54.164.10.133
+ * ssh -i AWS.pem ec-user2@54.164.10.133
   
 * Set your environment variables...[remember your endpoint]
   * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
@@ -75,7 +74,7 @@ Please become a collaborator and help us improve this repository.
   * export USGS_ACCOUNT=
   * export USGS_PASSWORD=
 
-  * Note: You can customize envs.copy.sh with your own values to envs.sh and then > source envs.sh
+  * Note: We recommend to customize envs.copy.sh with your own values to envs.sh and then > source envs.sh and make sure this gets done automatically when you login by changing your .profile
   
 * Install Code Dependencies
   * git clone https://github.com/vightel/menatraining.git

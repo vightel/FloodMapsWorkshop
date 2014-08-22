@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #
 # Created on 3/23/2012 Pat Cappelaere - Vightel Corporation
-# by taking help from
+# by getting help from
 # http://benjamindeschamps.ca/blog/2009/11/12/processing-radarsat-2-imagery-reading-raw-data-and-saving-rgb-composites/
 # and sat kumar tomer (http://civil.iisc.ernet.in/~satkumar/)
+# and https://pypi.python.org/pypi/radarsatlib/1.0.0
 #
 # Requirements:
 #	gdal, numpy, scipy...
