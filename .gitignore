@@ -9,6 +9,7 @@ data/modis/
 data/eo1/
 python/world_boundaries/
 envs.sh
+__MACOSX
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
