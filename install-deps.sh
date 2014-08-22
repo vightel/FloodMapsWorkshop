@@ -42,7 +42,7 @@ cd gdal-1.11.0
 #wget http://download.osgeo.org/gdal/gdal-1.9.2.tar.gz
 #tar -xzf gdal-1.9.2.tar.gz
 #cd gdal-1.9.2
-./configure
+./configure --with-python
 make
 sudo make install
 
@@ -126,6 +126,8 @@ export LDFLAGS="-L/usr/lib64"
 sudo ln -s /usr/lib64/libprotobuf-lite.so.8 /usr/lib64/libprotobuf-lite.so
 # otherwise you will hit: '/usr/bin/ld: cannot find -lprotobuf-lite' building node-mapnik
 
+sudo chown ec2-user /usr/local/lib/node_modules/
+
 # node-mapnik
 git clone https://github.com/mapnik/node-mapnik
 cd node-mapnik
@@ -145,15 +147,13 @@ sudo yum -y install libtool
 # ImageMagick (and convert)
 sudo yum -y install ImageMagick.x86_64
 
-
-
 # osm2pgsql
 git clone git://github.com/openstreetmap/osm2pgsql.git
 cd osm2pgsql
 ./autogen.sh 
 ./configure
 make
-sudo make isntall
+sudo make install
 cd ../
 
 # install numpy and scipy,...
