@@ -43,16 +43,36 @@ fi
 
 cd $MENA_DIR/data
 
-mkdir HydroSHEDS
-mkdir HAND
-mkdir eo1_ali
-mkdir l8
-mkdir l8/LC80090472013357LGN00
-mkdir modis
-mkdir radarsat2
+if [ ! -d HydroSHEDS]; then
+  mkdir HydroSHEDS
+fi
+
+if [ ! -d HAND]; then
+  mkdir HAND
+fi
+
+if [ ! -d eo1_ali]; then
+  mkdir eo1_ali
+fi
+
+if [ ! -d l8]; then
+  mkdir l8 
+fi
+
+if [ ! -d l8/LC80090472013357LGN00]; then
+  mkdir l8/LC80090472013357LGN00
+fi
+
+if [ ! -d modis]; then
+  mkdir modis
+fi
+
+if [ ! -d radarsat2]; then
+  mkdir radarsat2
+fi
 
 cd $MENA_DIR/data/HAND
-if [ ! -d "CA"]; then
+if [ ! -d CA ]; then
   wget "https://s3.amazonaws.com/mena_data/CA.zip"
   unzip CA.zip
 fi
@@ -73,7 +93,7 @@ fi
 
 # Install OSM world_boundaries
 cd $MENA_DIR/python
-if [ ! -d world_boundaries]; then
+if [ ! -d world_boundaries ]; then
   wget "https://s3.amazonaws.com/mena_data/world_boundaries.zip"
   unzip world_boundaries.zip
-]
+fi
