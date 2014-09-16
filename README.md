@@ -24,7 +24,7 @@ Please become a collaborator and help us improve this repository.
   * Editor ( [TextMate](http://macromates.com/), OSX XCode, [Eclipse](https://www.eclipse.org/), [VIM](http://www.vim.org/)...)
  
 * [OPTIONAL] download package onto your local machine or laptop to review scripts locally
-  * git clone https://github.com/vightel/menatraining.git
+  * git clone https://github.com/vightel/FloodMapsWorkshop.git
 
 * Account on Amazon AWS [you may need a credit card] http://aws.amazon.com/
 
@@ -53,18 +53,25 @@ Please become a collaborator and help us improve this repository.
   * DBNAME: osmdb
   * DBOWNER: osm_admin
   * PGPASS: osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
-  * Edit security group to have enough security access to communicate
+  * Edit security group to have enough security access to communicate via TCP
   * Using Navicat (or phpAdmin) Connect to osmdb database.  Select and Open console
     * osmdb# create extension postgis;
     * osmdb# create extension fuzzystrmatch;
     * osmdb# create extension postgis_tiger_geocoder;
     * osmdb# create extension postgis_topology;
 
+* [OPTIONAL] While at it, add database tables if you are going to use the Publisher (Node Application)
+  * add ./sql/users.sql
+  * add ./sql/applications.sql
+  * add ./sql/radarsat2.sql
+  * add ./sql/eo1_ali.sql
+  * add ./sql/l8.sql
+  
 * cd DIR where key.pem is
 * To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
  * ssh -i AWS.pem ec-user2@54.164.10.133
   
-* Set your environment variables...[remember your endpoint]
+* Set your environment variables on Virtual Instance...[remember your endpoint]
   * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
   * export DBNAME=osmdb
   * export DBOWNER=osm_admin
@@ -77,18 +84,18 @@ Please become a collaborator and help us improve this repository.
   * Note: We recommend to customize envs.copy.sh with your own values to envs.sh and then > source envs.sh and make sure this gets done automatically when you login by changing your .profile
   
 * Install Code Dependencies
-  * git clone https://github.com/vightel/menatraining.git
-  * cd menatraining
-  * export MENA_DIR=~/menatraining
+  * git clone https://github.com/vightel/FloodMapsWorkshop.git
+  * cd FloodMapsWorkshop
+  * export WORKSHOP_DIR=~/FloodMapsWorkshop
 
-  * It is advisable to run the shell file below step by step to check on potential errors
+  * It is advisable to run the shell file below step by step to check on potential errors while loading and building code/libraries
   * sh install-deps.sh
   
 * Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
 
-* Verify Database dependencies and Environment
-  * cd $MENA_DIR/python
+* Verify Database dependencies and environment variables
+  * cd $WORKSHOP_DIR/python
   * Check python configuration file: config.py
   * Check database settings: ./inc/datasource-settings.xml.inc
   * Check python environment, run:
@@ -100,13 +107,6 @@ Please become a collaborator and help us improve this repository.
   * You may have to get OSM data from your particular area from http://download.geofabrik.de/ and edit the shell file below.
   * cd ./data/osm
   * sh load_all.sh
-
-* [OPTIONAL] Add database tables if you are going to use the Publisher (Node Application)
-  * add ./sql/users.sql
-  * add ./sql/applications.sql
-  * add ./sql/radarsat2.sql
-  * add ./sql/eo1_ali_.sql
-  * add ./sql/l8.sql
   
 * [OPTIONAL] Download HydroSHEDS DEM and build HAND (Height Above Nearest Drainage) for your Area of Interest
   * Currently built for Haiti area, if this is not your area, change the area... check ./python/hand_all.py
@@ -121,7 +121,7 @@ Please become a collaborator and help us improve this repository.
   
 * Process Radarsat Imagery
   * You will need some Radarsat-2 SGF files expanded in your data directory ../data/radarsat2.  At a minimum, one file should have been copied and expanded by the getdata.sh script
-  * cd $MENA_DIR/python
+  * cd $WORKSHOP_DIR/python
   * radarsat_processing.py --scene RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
   * [OPTIONAL] Add the scene into the database to publish the data
     * load_radarsat2.py --scene RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF -v
@@ -131,10 +131,12 @@ Please become a collaborator and help us improve this repository.
   * [geoson.io](http://geojson.io/)
   * [mapshaper.org](http://www.mapshaper.org/)
   * Javascript Libraries: [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.0.0/) [d3.js](http://d3js.org/) [Leaflet.js](http://leafletjs.com/)
+  * Using Mapbix GL
+  * Using Mapbox Studio
   
 ## Waterpedia
 
-### OpenStreetMap Format [Dan Mandl]
+### OpenStreetMap Format 
 
 * [OpenStreetMap] (http://openstreetmap.org)
 * [OSM XML](http://wiki.openstreetmap.org/wiki/OSM_XML)
@@ -143,18 +145,18 @@ Please become a collaborator and help us improve this repository.
 
 * Downloading osm.bz2 flood map vectors
 
-### OpenStreetMap Tools [Dan Mandl]
+### OpenStreetMap Tools
 
 * [JOSM for editing](https://josm.openstreetmap.de/)
 * [OSM Tasking Manager for crowdsourcing V&V](http://tasks.hotosm.org/)
   
-### Updating Reference Surface Water [Dan Mandl]
+### Updating Reference Surface Water
 
 * OpenStreetMap Water Features
 * Using JOSM to update water features
 * Connect to OpenStreetMap RunTime Server
 
-### Generating a Global Flood Event Record [Stu Frye]
+### Generating a Global Flood Event Record
  
 * [Dartmouth Flood Observatory](http://www.dartmouth.edu/~floods/Archives/)
 * [Hydros Lab - University of Oklahoma](http://eos.ou.edu/flood/)
@@ -185,7 +187,7 @@ Please become a collaborator and help us improve this repository.
 	* Additional criteria < 10% or 20% clouds
 	* Hit results and export ALL your result in csv format
 	* store csv files in ./data/csv
-	* cd $MENA_DIR/csv
+	* cd $WORKSHOP_DIR/csv
 	* load EO-1 archive 
 	  *	load_eo1.py -i XXX.csv
 	* load Landsat-8 archive
@@ -200,7 +202,7 @@ Please become a collaborator and help us improve this repository.
 	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/eo1-ali using wget
   * Option 2:
     * Get an existing scene from our own S3 and copy it over
-	* cd $MENA_DIR/data/eo1-ali
+	* cd $WORKSHOP_DIR/data/eo1-ali
 	* mkdir ./EO1A0090472014197110P0_SG1_01
 	* cd EO1A0090472014197110P0_SG1_01
 	* wget "https://s3.amazonaws.com/mena_data/EO1A0090472014197110P0_SG1_01.tgz"
@@ -231,7 +233,7 @@ Please become a collaborator and help us improve this repository.
 	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/l8 using wget
   * Option 2:
     * Get an existing scene from our own S3 and copy it over
-	* cd $MENA_DIR/data/l8
+	* cd $WORKSHOP_DIR/data/l8
 	* mkdir ./LC80090462013357LGN00
 	* cd LC80090462013357LGN00
 	* wget "https://s3.amazonaws.com/mena_data/LC80090462013357LGN00.tar.gz"
@@ -261,10 +263,23 @@ Please become a collaborator and help us improve this repository.
 		
 	* Steps
 		* Find your tile of interest (2-day product), year and day of year and download it to ~/data/modis/YYYY/doy/TILE
-		* cd $MENA_DIR/python
+		* cd $WORKSHOP_DIR/python
 		* modis.py -y 2012 -d 234 -t 080W020N -p 2 -v
 
 * Or use the Publisher Node to do it on-demand
+
+### [Optional] Manual Processing of DFO GeoTIFF
+
+* Geotiff From the [Flood Observatory] (http://floodobservatory.colorado.edu/)
+	* Issues:
+		* You don't want a PNG/JPEG
+		* GeoTiff is hard to handle and needs to be cleaned up around the coastlines in particular
+		* You want data in vector format
+		
+	* Steps
+		* cd $WORKSHOP_DIR/python
+        * Assuming a scene in dfo directory
+		* dfo_watermap.py -v --scene 2014Bangladesh4178
 
 ## Becoming an Open GeoSocial Publisher Node
 
@@ -309,7 +324,7 @@ Please become a collaborator and help us improve this repository.
 * Customize config.yaml and settings.js
 
 * Publish the data using a Web Server and visualize on the web
-  * cd $MENA_DIR/node
+  * cd $WORKSHOP_DIR/node
   * npm install
   * node server.js
 		

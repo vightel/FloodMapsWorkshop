@@ -19,6 +19,7 @@ LANDSAT8_DIR		= DATA_DIR + "/l8"
 RADARSAT2_DIR		= DATA_DIR + "/radarsat2"
 MODIS_DIR			= DATA_DIR + "/modis"
 EO1_DIR				= DATA_DIR + "/eo1_ali"
+DFO_DIR				= DATA_DIR + "/dfo"
 CSV_DIR				= "../csv"
 
 version = "1.0 alpha3"

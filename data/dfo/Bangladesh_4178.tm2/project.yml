@@ -1,0 +1,30 @@
+_prefs: 
+  mapid: cappelaere.2466f86b
+  saveCenter: true
+_properties: 
+  bridge: 
+    "group-by": layer
+attribution: "<a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>"
+bounds: 
+  - -180
+  - -85.0511
+  - 180
+  - 85.0511
+center: 
+  - 89.83108520507812
+  - 25.12663595638182
+  - 10
+description: DFO Bangladesh-4178
+format: "png8:m=h"
+interactivity_layer: ''
+layers: null
+maxzoom: 22
+minzoom: 0
+name: Bangladesh-4178
+source: "mapbox:///mapbox.mapbox-streets-v5,cappelaere.97d0f29a"
+styles: 
+  - style.mss
+  - road.mss
+  - labels.mss
+  - flood.mss
+template: ''

@@ -1,0 +1,27 @@
+_prefs: 
+  disabled: []
+  inspector: false
+  mapid: cappelaere.3bcfdc7f
+  rev: s-784443c6
+  saveCenter: true
+attribution: DFO_4179
+center: 
+  - 72.96725
+  - 32.594300000000004
+  - 12
+description: DFO_4179
+Layer: 
+  - id: DFO_4179
+    Datasource: 
+      file: /Users/patricecappelaere/Development/menatraining/menatraining/data/dfo/4179/surface_water.json
+      layer: OGRGeoJSON
+      type: ogr
+    description: DFO_4179
+    fields: 
+      water: Number
+    properties: 
+      "buffer-size": 32
+    srs: +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs
+maxzoom: 12
+minzoom: 0
+name: DFO_4179

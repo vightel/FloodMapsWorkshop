@@ -1,0 +1,57 @@
+_prefs: 
+  baselayer: ''
+  mapid: cappelaere.68d47505
+  print: true
+  saveCenter: false
+_properties: {}
+attribution: "<a href='http://floodobservatory.colorado.edu/Version3/2014Pakistan4179.html' target='_blank'>&copy; DFO</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>"
+bounds: 
+  - -180
+  - -85.0511
+  - 180
+  - 85.0511
+center: 
+  - 0
+  - 20
+  - 2
+description: 9/11/2014
+format: png24
+interactivity_layer: ''
+layers: 
+  - landcover
+  - landuse
+  - contour.line
+  - hillshade
+  - waterway
+  - water
+  - aeroway
+  - barrier_line
+  - building
+  - landuse_overlay
+  - tunnel
+  - road
+  - bridge
+  - admin
+  - country_label_line
+  - country_label
+  - marine_label
+  - state_label
+  - place_label
+  - water_label
+  - poi_label
+  - road_label
+  - waterway_label
+  - housenum_label
+  - contour.label
+  - DFO_4179
+maxzoom: 18
+minzoom: 0
+name: DFO_4179
+source: "mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5,cappelaere.ac591e10"
+styles: 
+  - style.mss
+  - road.mss
+  - label.mss
+  - poi.mss
+  - flood.mss
+template: ''

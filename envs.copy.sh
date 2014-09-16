@@ -1,4 +1,4 @@
-export MENA_DIR=
+export WORKSHOP_DIR_DIR=
 export DBHOST=
 export DBNAME=
 export DBOWNER=
