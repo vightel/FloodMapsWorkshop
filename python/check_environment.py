@@ -48,7 +48,6 @@ if not 'gdal' in datasourceCache.plugin_names():
 	print "Missing 'gdal' input plugin in mapnik - brew install mapnik --with-gdal --with-postgresql --with-cairo"
 	sys.exit(-1)
 	
-
 #
 # Check Database Connection
 #
@@ -68,7 +67,7 @@ def check_db(str):
 	connection.close()
 	
 envs = [
-	"MENA_DIR",
+	"WORKSHOP_DIR",
 	"DBHOST",
 	"DBNAME",
 	"DBOWNER",
@@ -125,14 +124,13 @@ config_dirs = [
 	"RADARSAT2_DIR",
 	"MODIS_DIR",
 	"EO1_DIR",
-	"CSV_DIR"
+	"CSV_DIR",
+	"DFO_DIR"
 ]
 
 for d in config_dirs:
-	
 	mydir = eval('config.'+d)
 	if not os.path.exists(mydir):
 		print "Directory:", mydir, " does not exist... you may need to create it"
 	else:
 		print mydir, " does  exist.  Good."
-	

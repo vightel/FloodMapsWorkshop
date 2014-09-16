@@ -7,6 +7,7 @@ data/osm/*.bz2
 data/radarsat2/
 data/modis/
 data/eo1/
+data/dfo
 python/world_boundaries/
 envs.sh
 __MACOSX
