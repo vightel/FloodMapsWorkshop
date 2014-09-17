@@ -13,7 +13,7 @@ Please become a collaborator and help us improve this repository.
 
 ## Pre-Requisites
 
-* [Watch Presentation and Screencast Video](https://github.com/vightel/menatraining/blob/master/OJO-Publisher.pptx)
+* [Watch Presentation and Screencast Video](https://github.com/vightel/FloodMapsWorkshop/blob/master/FloodMappingWorkshop.pptx)
 
 * Register on GitHub.com for an account
   * You will have to send us your handle so we can add you as a collaborator on this project
@@ -131,7 +131,6 @@ Please become a collaborator and help us improve this repository.
   * [geoson.io](http://geojson.io/)
   * [mapshaper.org](http://www.mapshaper.org/)
   * Javascript Libraries: [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.0.0/) [d3.js](http://d3js.org/) [Leaflet.js](http://leafletjs.com/)
-  * Using Mapbix GL
   * Using Mapbox Studio
   
 ## Waterpedia
@@ -143,7 +142,7 @@ Please become a collaborator and help us improve this repository.
 * [Tag Water](http://wiki.openstreetmap.org/wiki/Tag:natural%3Dwater)
 * [Key Water](http://wiki.openstreetmap.org/wiki/Key:water)
 
-* Downloading osm.bz2 flood map vectors
+* Downloading surface_water.osm.bz2 flood map vectors
 
 ### OpenStreetMap Tools
 
@@ -202,7 +201,7 @@ Please become a collaborator and help us improve this repository.
 	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/eo1-ali using wget
   * Option 2:
     * Get an existing scene from our own S3 and copy it over
-	* cd $WORKSHOP_DIR/data/eo1-ali
+	* cd $WORKSHOP_DIR/data/eo1_ali
 	* mkdir ./EO1A0090472014197110P0_SG1_01
 	* cd EO1A0090472014197110P0_SG1_01
 	* wget "https://s3.amazonaws.com/mena_data/EO1A0090472014197110P0_SG1_01.tgz"
