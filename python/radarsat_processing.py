@@ -564,7 +564,7 @@ class Radarsat2:
 			cmd = str.format("potrace -z black -a 1.5 -t 2 -i -b geojson -o {0} {1} -x {2} -L {3} -B {4} ", file+".geojson", file, pres, xorg, ymax ); 
 			self.execute(cmd)
 
-			cmd = str.format("topojson -o {0} -- surface_water={1}", file+".topojson", file+".geojson" ); 
+			cmd = str.format("topojson -o {0} --simplify-proportion 0.5 -- surface_water={1}", file+".topojson", file+".geojson" ); 
 			self.execute(cmd)
 
 		cmd = "rm -f "+file+".geojson"

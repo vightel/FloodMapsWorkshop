@@ -1,20 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : AWS MENA
- Source Server Type    : PostgreSQL
- Source Server Version : 90303
- Source Host           : osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
- Source Database       : osmdb
- Source Schema         : public
-
- Target Server Type    : PostgreSQL
- Target Server Version : 90303
- File Encoding         : utf-8
-
- Date: 08/07/2014 11:29:37 AM
-*/
-
 -- ----------------------------
 --  Table structure for eo1_ali
 -- ----------------------------
@@ -28,6 +11,7 @@ CREATE TABLE "public"."eo1_ali" (
 	"geom" "public"."geometry"
 )
 WITH (OIDS=FALSE);
+
 ALTER TABLE "public"."eo1_ali" OWNER TO "osm_admin";
 
 -- ----------------------------

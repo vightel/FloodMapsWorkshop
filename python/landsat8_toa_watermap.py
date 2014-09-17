@@ -157,52 +157,6 @@ class Landsat8:
 		#self.ct.SetColorEntry( 2, (0, 255, 0, 255) )
 		#self.ct.SetColorEntry( 3, (0, 0, 255, 255) )
 		
-
-#######################################################
-# Otsu's Method
-# Author: Samuel Jackson (samueljackson@outlook.com)
-# Date: 21/07/2013
-# Description: Performs Otsu's method of thresholding
-# using the between class variance.
-#######################################################
- 
-	def otsu(self, hist, totalPixels):
-		currentMax = 0
-		threshold = 0
-		sumTotal, sumForeground, sumBackground = 0, 0, 0
-		weightBackground, weightForeground = 0.0, 0.0
- 
-		# Calculate the total of the data
-		for i,t in enumerate(hist): sumTotal += i * hist[i]
- 
-		for i,t in enumerate(hist):
- 
-			# Calculate the weight of the background
-			weightBackground += hist[i]
-			if( weightBackground == 0 ): continue
- 
-			# Calculate the weight of the foreground
-			weightForeground = totalPixels - weightBackground
-			if ( weightForeground == 0 ): break
- 
-			sumBackground += i*hist[i]
- 
-			# Calculate the mean of the classes
-			meanB = sumBackground / weightBackground
-			meanF = (sumTotal - sumBackground) / weightForeground
- 
-			# Calculate variance between classes
-			varBetween = weightBackground*weightForeground
-			varBetween *= (meanB-meanF)*(meanB-meanF)
- 
-			# Check if the variance between classes is greater than
-			# the current best
-			if(varBetween > currentMax):
-				currentMax = varBetween
-				threshold = i
- 
-		return threshold
-		
 		
 	def get_band_data(self, bandNum ):
 		
@@ -280,21 +234,6 @@ class Landsat8:
 		mir_data[mir_mask]			= 1
 
 		mndwi 						= (green_data-mir_data)/(green_data+mir_data)
-		
-		#ls_mndwi 					= self.linear_stretch(mndwi)
-		#ls_mndwi[green_mask] 		= 0
-		#ls_mndwi[mir_mask] 			= 0
-		
-		#if verbose:
-		#	self.write_data( ls_mndwi, "mndwi.tif", None)
-		#	print 'MNDWI', numpy.min(mndwi), numpy.mean(mndwi), numpy.max(mndwi)
-
-		#data 		= ls_mndwi.flatten()	#mndwi	
-		#hist, bins = numpy.histogram(data, bins=256, range=(0,255))
-		#threshold 	= self.otsu(hist,len(data))
-		#if verbose:
-		#	print "compute threshold using otsu method", threshold, len(data), numpy.min(data), numpy.mean(data), numpy.max(data)
-		
 			
 		mndwi[mndwi > 0.0] 			= 1
 		
