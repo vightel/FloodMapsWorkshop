@@ -11,11 +11,15 @@ CREATE TABLE "public"."l8" (
 	"geom" "public"."geometry"
 )
 WITH (OIDS=FALSE);
-ALTER TABLE "public"."l8" OWNER TO "osm_admin";
 
 -- ----------------------------
 --  Indexes structure for table l8
 -- ----------------------------
 CREATE INDEX  "l8_scene_index" ON "public"."l8" USING btree(scene COLLATE "default" ASC NULLS LAST);
 CREATE INDEX  "l8_spatial_index" ON "public"."l8" USING gist(geom);
+
+/*
+ALTER TABLE "public"."l8" OWNER TO "osm_admin";
+*/
+
 
