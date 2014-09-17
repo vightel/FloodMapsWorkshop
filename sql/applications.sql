@@ -3,8 +3,10 @@
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."app_seq";
 CREATE SEQUENCE "public"."app_seq" INCREMENT 1 START 4 MAXVALUE 9223372036854775807 MINVALUE 1 CACHE 1;
-ALTER TABLE "public"."app_seq" OWNER TO "osm_admin";
 
+/*
+ALTER TABLE "public"."app_seq" OWNER TO "osm_admin";
+*/
 -- ----------------------------
 --  Table structure for applications
 -- ----------------------------
@@ -24,7 +26,10 @@ CREATE TABLE "public"."applications" (
 	"fbappid" text COLLATE "default"
 )
 WITH (OIDS=FALSE);
+
+/*
 ALTER TABLE "public"."applications" OWNER TO "osm_admin";
+*/
 
 -- ----------------------------
 --  Primary key structure for table applications

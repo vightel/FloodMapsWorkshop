@@ -12,7 +12,9 @@ CREATE TABLE "public"."eo1_ali" (
 )
 WITH (OIDS=FALSE);
 
+/*
 ALTER TABLE "public"."eo1_ali" OWNER TO "osm_admin";
+*/
 
 -- ----------------------------
 --  Indexes structure for table eo1_ali
