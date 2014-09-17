@@ -1,4 +1,11 @@
 -- ----------------------------
+--  Sequence structure for radarsat2_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."radarsat2_seq";
+CREATE SEQUENCE "public"."radarsat2_seq" INCREMENT 1 START 3 MAXVALUE 9223372036854775807 MINVALUE 1 CACHE 1;
+ALTER TABLE "public"."radarsat2_seq" OWNER TO "osm_admin";
+
+-- ----------------------------
 --  Table structure for radarsat2
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."radarsat2";

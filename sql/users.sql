@@ -3,7 +3,6 @@
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."user_seq";
 CREATE SEQUENCE "public"."user_seq" INCREMENT 1 START 4 MAXVALUE 9223372036854775807 MINVALUE 1 CACHE 1;
-ALTER TABLE "public"."user_seq" OWNER TO "osm_admin";
 
 -- ----------------------------
 --  Table structure for users
@@ -26,10 +25,15 @@ CREATE TABLE "public"."users" (
 	"region" varchar COLLATE "default"
 )
 WITH (OIDS=FALSE);
-ALTER TABLE "public"."users" OWNER TO "osm_admin";
 
 -- ----------------------------
 --  Primary key structure for table users
 -- ----------------------------
 ALTER TABLE "public"."users" ADD PRIMARY KEY ("id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+/*
+ALTER TABLE "public"."users" OWNER TO "osm_admin";
+ALTER TABLE "public"."user_seq" OWNER TO "osm_admin";
+*/
+
 
