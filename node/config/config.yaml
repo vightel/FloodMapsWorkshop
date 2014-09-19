@@ -71,7 +71,13 @@
         		"source": 		"radarsat2",
         		"href": 		"/opensearch",
         		"checked":  	true
+        	},
+        	{
+        		"source": 		"dfo",
+        		"href": 		"/opensearch",
+        		"checked":  	true
         	}
+            
 	],
 	"valid_modis_tiles":             [
     "000E010N",
