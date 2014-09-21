@@ -7,6 +7,7 @@ import os,sys,math,urllib2,urllib
 import psycopg2
 import ppygis
 from which import *
+from urlparse import urlparse
 
 import config
 from osgeo import gdal
@@ -103,7 +104,17 @@ print "All required environment variables are set..."
 # Database Check
 #
 
-str= "host=%s dbname=%s port=%s user=%s password=%s"% (environment["DBHOST"],environment["DBNAME"],environment["DBPORT"],environment["DBOWNER"], environment["PGPASS"])
+DATABASE_URL 	= os.environ["DATABASE_URL"]
+assert( DATABASE_URL)
+url 			= urlparse(DATABASE_URL)
+dbhost			= url.hostname
+dbport			= url.port
+dbname			= url.path[1:]
+user			= url.username
+password		= url.password
+		
+str= "host=%s dbname=%s port=%s user=%s password=%s"% (dbhost,dbname,dbport,user,password)
+print "connect to", str
 check_db(str)
 
 print "checking Node Environment for Publisher"

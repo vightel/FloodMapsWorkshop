@@ -28,13 +28,18 @@ class DFO:
 	def __init__( self, scene ):	
 		self.scene 			= scene
 		
-		self.dir			= scene[len(scene)-4:]
-		self.outpath		= os.path.join(config.DFO_DIR, self.dir)
-		self.input_file		= os.path.join(config.DFO_DIR, self.dir, scene+".tif")
-		self.output_file	= os.path.join(config.DFO_DIR, self.dir, "watermap.tif")
-		self.pgm_file		= os.path.join(config.DFO_DIR, self.dir, "watermap.pgm")
-		self.geojson_file	= os.path.join(config.DFO_DIR, self.dir, "watermap.geojson")
-		self.topojson_file	= os.path.join(config.DFO_DIR, self.dir, "watermap.topojson")
+		arr 					= scene.split("_")
+		datestr					= arr[0]
+		date					= datestr[0:4]+"-"+datestr[4:6]+"-"+datestr[6:8]
+		
+		self.dir				= scene[len(scene)-4:]
+		self.outpath			= os.path.join(config.DFO_DIR, self.dir, datestr)
+		
+		self.input_file			= os.path.join(self.outpath, scene+".tif")
+		self.output_file		= os.path.join(self.outpath, "watermap.tif")
+		self.pgm_file			= os.path.join(self.outpath, "watermap.pgm")
+		self.geojson_file		= os.path.join(self.outpath, "watermap.geojson")
+		self.topojson_file		= os.path.join(self.outpath, "watermap.topojson")
 		
 		self.osm_file			= os.path.join(self.outpath, "surface_water.osm")
 		self.surface_water_json	= os.path.join(self.outpath, "surface_water.json")
@@ -180,11 +185,11 @@ if __name__ == '__main__':
 		print "topojson missing"
 		sys.exit(-1)
 		
-	parser = argparse.ArgumentParser(description='Generate Landsat8 Floodmap vectors')
+	parser = argparse.ArgumentParser(description='Generate DFO Floodmap vectors')
 	apg_input = parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", 	action='store_true', help="Forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
-	apg_input.add_argument("-s", "--scene", 	help="Landsat Scene")
+	apg_input.add_argument("-s", "--scene", 	help="DFO Scene")
 	
 	options 	= parser.parse_args()
 	force		= options.force

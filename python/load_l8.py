@@ -7,6 +7,7 @@
 
 import os, inspect, sys
 import argparse
+from urlparse import urlparse
 
 import psycopg2
 import ppygis
@@ -131,22 +132,16 @@ if __name__ == '__main__':
 		print "Cannot find ", fullName
 		sys.exit(-1)
 		
-	dbhost 		= os.environ['DBHOST']
-	dbname 		= os.environ['DBNAME']
-	dbport 		= os.environ['DBPORT']
-	user 		= os.environ['DBOWNER']
-	password 	= os.environ['PGPASS']
-	
-	assert (dbhost),	"Set DBHOST"
-	assert (dbname),	"Set DBNAME"
-	assert (dbport),	"Set DBPORT"
-	assert (user),		"Set DBOWNER"
-	assert (password),	"Set PGPASS"
-	
-	print dbhost, dbname, dbport, user
-		
+	DATABASE_URL 	= os.environ["DATABASE_URL"]
+	assert( DATABASE_URL)
+	url 			= urlparse(DATABASE_URL)
+	dbhost			= url.hostname
+	dbport			= url.port
+	dbname			= url.path[1:]
+	user			= url.username
+	password		= url.password
+			
 	str= "host=%s dbname=%s port=%s user=%s password=%s"% (dbhost,dbname,dbport,user,password)
-	print "connect to", str
 	
 	connection 	= psycopg2.connect(str)
 	cursor 		= connection.cursor()
