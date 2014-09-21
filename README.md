@@ -66,6 +66,7 @@ Please become a collaborator and help us improve this repository.
   * add ./sql/radarsat2.sql
   * add ./sql/eo1_ali.sql
   * add ./sql/l8.sql
+  * add ./sql/dfo.sql
   
 * cd DIR where key.pem is
 * To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
@@ -77,7 +78,7 @@ Please become a collaborator and help us improve this repository.
   * export DBOWNER=osm_admin
   * export DBPORT=5432
   * export PGPASS=osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
-  * export DATABASE_URL="tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com/osmdb"
+  * export DATABASE_URL="tcp://osm_admin:osmAdmin1@osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com:5432/osmdb"
   * export USGS_ACCOUNT=
   * export USGS_PASSWORD=
 
