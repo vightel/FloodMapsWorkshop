@@ -186,6 +186,8 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 			}
 		]					
 	} else {
+		console.log("Modis dir not Found", localdir)
+		
 		var browse_img_url	= host +"/img/modis.png";
 		var scene			= getTileInfo( tile )
 		
