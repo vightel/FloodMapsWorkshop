@@ -20,7 +20,7 @@ module.exports = {
 	verify: function(req, res) {
 		var audience = "http://" + req.headers.host
 
-		console.log("Persona verify audience", audience )
+		//console.log("Persona verify audience", audience )
 		request.post({
 			url: 'https://verifier.login.persona.org/verify',
 			json: {
@@ -35,11 +35,11 @@ module.exports = {
 
 				User.get_by_email(email, function(err, user) {
 					if (!err && user) {
-						console.log("found user by email")
+						//console.log("found user by email")
 						req.session.user = user
 						res.send(200);
 					} else {
-						console.log("user not found by email")
+						logger.error("user not found by email.. creating one")
 						var md5 = crypto.createHash('md5').update(email + app.secret).digest("hex");
 
 						var json = {
@@ -69,7 +69,7 @@ module.exports = {
 	},
 
 	logout: function(req, res) {
-		console.log("persona logout")
+		logger.info("persona logout")
 		//req.logout()
 
 	    //req.session.user 	= null;

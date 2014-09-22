@@ -18,7 +18,7 @@
 
 <script>
 	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
-	.setView([<%= region.target %>], <%= region.min_zoom %>)
+	.setView([<%= region.target %>], 5)
 	
 	var map_controls = L.control.layers({
 	    'Topo Map': L.mapbox.tileLayer('<%= region.map_id %>',{ attribution: 'MapBox'}).addTo(map)

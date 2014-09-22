@@ -36,6 +36,9 @@ class DFO:
 		self.outpath			= os.path.join(config.DFO_DIR, self.dir, datestr)
 		
 		self.input_file			= os.path.join(self.outpath, scene+".tif")
+		self.input_jpg_file		= os.path.join(self.outpath, scene+".jpg")
+		self.browse_file		= os.path.join(self.outpath, "browseimage.png")
+		
 		self.output_file		= os.path.join(self.outpath, "watermap.tif")
 		self.pgm_file			= os.path.join(self.outpath, "watermap.pgm")
 		self.geojson_file		= os.path.join(self.outpath, "watermap.geojson")
@@ -150,15 +153,25 @@ class DFO:
 		self.execute(cmd)
 			
 		# gzip topojson
-		cmd = str.format("tar -zcvf {0} {1} ", self.topojson_file+".gz", self.topojson_file ); 
+		cmd = str.format("gzip {0} ", self.topojson_file ); 
 		self.execute(cmd)
 			
 		# compress OSM to bz2			
-		cmd = str.format("tar -jcvf {0} {1}", self.osm_file+".bz2", self.osm_file)
+		cmd = str.format("bzip2 {0}", self.osm_file)
 		self.execute(cmd)
 	
 		# gzip geojson
-		cmd = str.format("tar -zcvf {0} {1} ", self.surface_water_json+".gz", self.surface_water_json ); 
+		cmd = str.format("gzip {0}", self.surface_water_json ); 
+		self.execute(cmd)
+		
+		# Make browse image
+		# Check if we have the jpeg... if not use the geotiff
+		
+		if os.path.isfile(self.input_jpg_file):
+			cmd = str.format("gdal_translate -of PNG -outsize 20% 20% {0} {1}", self.input_jpg_file, self.browse_file)
+		else:
+			cmd = str.format("gdal_translate -of PNG -outsize 20% 20% {0} {1}", self.input_file, self.browse_file)
+			
 		self.execute(cmd)
 
 #
@@ -183,6 +196,16 @@ if __name__ == '__main__':
 	err = which("topojson")
 	if err == None:
 		print "topojson missing"
+		sys.exit(-1)
+
+	err = which("gzip")
+	if err == None:
+		print "gzip missing"
+		sys.exit(-1)
+
+	err = which("bzip2")
+	if err == None:
+		print "bzip2 missing"
 		sys.exit(-1)
 		
 	parser = argparse.ArgumentParser(description='Generate DFO Floodmap vectors')

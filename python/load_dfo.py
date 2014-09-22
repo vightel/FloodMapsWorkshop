@@ -38,7 +38,8 @@ if __name__ == '__main__':
 	datestr		= arr[0]
 	num			= arr[2]
 	date		= datestr[0:4]+"-"+datestr[4:6]+"-"+datestr[6:8]
-	print "Date:", date
+	if verbose:
+		print "Date:", date
 	
 	
 	fullName	= os.path.join(config.DFO_DIR,num, datestr, scene+".tif")
@@ -76,7 +77,8 @@ if __name__ == '__main__':
 	password		= url.password
 	
 	str= "host=%s dbname=%s port=%s user=%s password=%s"% (dbhost,dbname,dbport,user,password)
-	print "connect to", str
+	if verbose:
+		print "connect to", str
 	
 	connection	= psycopg2.connect(str)
 	cursor 		= connection.cursor()
@@ -88,9 +90,11 @@ if __name__ == '__main__':
 	if x == None:
 		cmd 	= "INSERT INTO dfo (scene, date, center_lat, center_lon, geom) VALUES('%s', '%s', %f, %f, ST_GeomFromText('%s',4326))" % ( scene, date, centerlat, centerlon, geometry )
 		res = cursor.execute(cmd)
-		print cmd, res
+		if verbose:
+			print cmd, res
 	else:
 		print "Scene:", scene, " already inserted"
-	
+		
+	connection.commit()
 	cursor.close()
 	connection.close()
