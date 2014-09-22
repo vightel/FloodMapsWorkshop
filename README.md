@@ -164,7 +164,7 @@ Please become a collaborator and help us improve this repository.
 * Flood event format - TBD -
 * How to clone / sync the Global Database Repository
 
-## More Floodmaps: EO-1, Landsat-8 and MODIS
+## More Floodmaps: EO-1, Landsat-8, DFO and MODIS
 
 ### Pre-Requisites
 
@@ -278,8 +278,10 @@ Please become a collaborator and help us improve this repository.
 		
 	* Steps
 		* cd $WORKSHOP_DIR/python
-        * Assuming a scene in dfo directory
-		* dfo_watermap.py -v --scene 2014Bangladesh4178
+        * Assuming a scene geotiff and jpg in dfo directory
+        * Assuming that they have been renamed properly (see below)
+		* dfo_watermap.py -v --scene 20140921_Bangladesh_4178
+        * load_dfo --scene 20140921_Bangladesh_4178
 
 ## Becoming an Open GeoSocial Publisher Node
 
