@@ -22,7 +22,7 @@
             "name":		"Central America",
             "bbox":     [-92.68, 6.17, -75.85, 19.08 ],
             "target":   [12.63, -84.27],
-            "min_zoom":  5,
+            "min_zoom":  1,
             "max_zoom":  14,
             "map_id":   "cappelaere.map-mx5g2tn3",
             "bucket":   "ojo-d2",

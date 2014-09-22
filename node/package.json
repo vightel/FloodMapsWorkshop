@@ -33,7 +33,9 @@
     "sprintf-js": "0.0.7",
     "tokml": "0.2.4",
     "topojson": "1.6.11",
-    "underscore": "1.5.2"
+    "underscore": "1.5.2",
+    "winston": "0.8.0",
+    "winston-papertrail": "0.1.4"
   },
   "maintainers": [
     "Pat Cappelaere <pat@cappelaere.com>"

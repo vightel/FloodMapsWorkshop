@@ -37,17 +37,17 @@ var util	= require('util'),
 		var ext			= 	path.extname(file)
 		
 		var mime_type = mime.lookup(path.basename(file))
-		console.log( "sendFile", ext, mime_type)
+		debug( "sendFile", ext, mime_type)
 		
 		if( ext == ".topojson") {
 			res.header("Content-Type", "application/json")
 			res.header("Content-Encoding", "gzip")
-			console.log("sending .topojson application/json gzip", basename)
 			basename += ".gz"
+			debug("sending .topojson application/json gzip", basename)
 		} else {
-			console.log("sending ", mime_type, basename, dirname)
+			debug("sending ", mime_type, basename, dirname)
 			res.header("Content-Type", mime_type, basename)
-			console.log(ext, mime_type, "no encoding")
+			debug(ext, mime_type, "no encoding")
 		}
 		
 		res.header("Access-Control-Allow-Origin", "*")
@@ -402,6 +402,30 @@ function map_l8(req, res, map) {
 	})
 }
 	
+function map_dfo(req, res, map) {
+	var host 		= "http://"+req.headers.host
+	var scene 		= req.params['scene']
+	var arr			= scene.split("_")
+	var eventNum	= arr[2]
+	var dt			= arr[0]
+	
+	debug("map_dfo", scene)
+	
+	scene_model.getScene('dfo', scene, function(err, record) {
+		var date    = record.date
+		var host 	= "http://"+req.headers.host
+		var region 	= {
+			name: 	"Dartmouth Flood Observatory",
+			scene: 	scene,
+			bbox: 	scene_model.bboxFromGeom(record.g),
+			target: [record.center_lat, record.center_lon],
+			min_zoom: 6
+		}
+		var topojson=	host+"/products/dfo/"+eventNum+"/"+dt+"/watermap.topojson"
+		map(region, topojson, req, res )
+	})
+}
+
 function map_radarsat2(req, res, map) {
 	var scene 	= req.params['scene']
 	scene_model.getScene('radarsat2', scene, function(err, record) {
@@ -447,7 +471,7 @@ function map_modis(req, res,map) {
 		bbox: 	bbox,
 		target: [centerlat, centerlon]
 	}
-	console.log("map_modis", region)
+	debug("map_modis", region)
 	
 	var topojson=	host+"/products/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson"
 	render_map(region, topojson, req, res )
@@ -470,7 +494,7 @@ module.exports = {
 		var host			= req.protocol + "://" + req.headers.host
 		var originalUrl		= host + req.originalUrl
 		
-		console.log("Product opensearch", originalUrl)
+		debug("Product opensearch", originalUrl)
 		
 		if( bbox ) {
 			lon = (bbox[0]+bbox[2])/2.0
@@ -492,14 +516,14 @@ module.exports = {
 		
 		// This for products we support
 		if( query != "surface_water") {
-			console.log("Usupported product request", query)
+			debug("Usupported product request", query)
 			return res.send(json)
 		}
 		
 		// find region of interest
 		var inregion = InBBOX(lat, lon, [-80,10,-70,20])
 		if( inregion === undefined ) {
-			console.log("Not within region for ", lat, lon)
+			debug("Not within region for ", lat, lon)
 			return res.send( json )
 		}
 			
@@ -510,7 +534,7 @@ module.exports = {
 			endTime.subtract('days', 1);
 		}
 		
-		console.log("Searching for", query)
+		debug("Searching for", query)
 		
 		results = []
 		
@@ -552,17 +576,17 @@ module.exports = {
 		
 		var mime_type 	= mime.lookup(path.basename(file))
 		
-		console.log("topojson", basename)
+		debug("topojson", basename)
 		
 		if( basename.indexOf(".gz") > 0) {
-			console.log("sending ", mime_type, basename, dirname)
+			debug("sending ", mime_type, basename, dirname)
 			res.header("Content-Type", mime_type, basename)
-			console.log(ext, mime_type, "no encoding")
+			debug(ext, mime_type, "no encoding")
 		} else {
 			res.header("Content-Type", "application/json")
 			res.header("Content-Encoding", "gzip")
 			basename += ".gz"
-			console.log("sending .topojson application/json gzip", basename)
+			debug("sending .topojson application/json gzip", basename)
 		}
 		
 		res.header("Access-Control-Allow-Origin", "*")
@@ -584,16 +608,17 @@ module.exports = {
 		var product	= app.root+"/../data/radarsat2/"+scene+"/"+id
 		if( !fs.existsSync(product)) {
 			if( fs.existsSync(product+".gz")) {
-				console.log("sending as topojson gzip encoded")
+				debug("sending as topojson gzip encoded")
 				sendFile(res, product)				
 			} else {
-				console.log("Product does not exist")
+				debug("Product does not exist")
 				return res.send(400)
 			}
 		} else {
 			sendFile(res, product)
 		}
 	},
+	
 	browse_radarsat2: function(req, res) {
 		var scene 	= req.params['scene']
 		
@@ -677,20 +702,20 @@ module.exports = {
 		var tile 	= req.params['tile']
 		
 		var cmd = app.root + "/../python/modis.py -p 2 -y "+year+" -d "+doy+" -t "+tile
-		console.log(cmd)
+		debug(cmd)
 
 		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
 			if (error) {
-		  	   console.log(error.stack);
-		  	   console.log('Error code: '+error.code);
-		  	   console.log('Signal received: '+error.signal);
+		  	   debug(error.stack);
+		  	   debug('Error code: '+error.code);
+		  	   debug('Signal received: '+error.signal);
 		   	}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
+			debug('Child Process STDOUT: '+stdout);
+			debug('Child Process STDERR: '+stderr);
 		});
 
 		child.on('exit', function (code) {
-			console.log('Child process exited with exit code '+code);
+			debug('Child process exited with exit code '+code);
 		}); 
 	},
 	modis_product: function(req, res) {
@@ -702,10 +727,10 @@ module.exports = {
 		var product	= app.root+"/../data/modis/"+year+"/"+doy+"/"+tile+"/"+id
 		if( !fs.existsSync(product)) {
 			if( fs.existsSync(product+".gz")) {
-				console.log("sending as topojson gzip encoded")
+				debug("sending as topojson gzip encoded")
 				sendFile(res, product)				
 			} else {
-				console.log("Product does not exist")
+				debug("Product does not exist")
 				return res.send(400)
 			}
 		} else {
@@ -721,10 +746,10 @@ module.exports = {
 		var product	= app.root+"/../data/eo1_ali/"+scene+"/"+id
 		if( !fs.existsSync(product)) {
 			if( fs.existsSync(product+".gz")) {
-				console.log("sending as topojson gzip encoded")
+				debug("sending as topojson gzip encoded")
 				sendFile(res, product)				
 			} else {
-				console.log("EO-1 Product does not exist", product)
+				debug("EO-1 Product does not exist", product)
 				return res.send(400)
 			}
 		} else {
@@ -736,20 +761,20 @@ module.exports = {
 	process_eo1_ali: function(req, res) {
 		var id 	= req.params['id']
 		var cmd = app.root + "/../python/download_eo1.py --scene "+id
-		console.log(cmd)
+		debug(cmd)
 
 		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
 			if (error) {
-		  	   console.log(error.stack);
-		  	   console.log('Error code: '+error.code);
-		  	   console.log('Signal received: '+error.signal);
+		  	   debug(error.stack);
+		  	   debug('Error code: '+error.code);
+		  	   debug('Signal received: '+error.signal);
 		   	}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
+			debug('Child Process STDOUT: '+stdout);
+			debug('Child Process STDERR: '+stderr);
 		});
 
 		child.on('exit', function (code) {
-			console.log('Child process exited with exit code '+code);
+			debug('Child process exited with exit code '+code);
 		}); 
 	},
 	browse_eo1_ali: function(req, res) {
@@ -794,19 +819,19 @@ module.exports = {
 	process_l8: function(req, res) {
 		var scene = req.params['scene']
 		var cmd = app.root + "/../python/download_landsat8.py --scene "+scene
-		console.log(cmd)
+		debug(cmd)
 		var child = childProcess.exec(cmd, function (error, stdout, stderr) {
 			if (error) {
-		  	   console.log(error.stack);
-		  	   console.log('Error code: '+error.code);
-		  	   console.log('Signal received: '+error.signal);
+		  	   debug(error.stack);
+		  	   debug('Error code: '+error.code);
+		  	   debug('Signal received: '+error.signal);
 		   	}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
+			debug('Child Process STDOUT: '+stdout);
+			debug('Child Process STDERR: '+stderr);
 		});
 
 		child.on('exit', function (code) {
-			console.log('Child process exited with exit code '+code);
+			debug('Child process exited with exit code '+code);
 		}); 
 	},
 	
@@ -818,10 +843,10 @@ module.exports = {
 		var product	= app.root+"/../data/l8/"+scene+"/"+id
 		if( !fs.existsSync(product)) {
 			if( fs.existsSync(product+".gz")) {
-				console.log("sending as topojson gzip encoded")
+				debug("sending as topojson gzip encoded")
 				sendFile(res, product)				
 			} else {
-				console.log("L8 Product does not exist", product)
+				debug("L8 Product does not exist", product)
 				return res.send(400)
 			}
 		} else {
@@ -853,10 +878,66 @@ module.exports = {
 				date: 			date,
 				region: 		region,
 				data: 			"http://earthexplorer.usgs.gov/browse/landsat_8/"+year+"/"+path+"/"+row+"/"+record.scene+".jpg",
-				topojson: 		host+"/products/eo1_ali/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson",
+				topojson: 		host+"/products/l8/"+scene+"/"+scene+"_WATERMAP.tif.hand.tif.pgm.topojson",
 				layout: 		false
 			})
 		})
+	},
+	
+	browse_dfo: function(req, res) {
+		var scene 		= req.params['scene']
+		var arr			= scene.split("_")
+		var dt			= arr[0]
+		var eventNum	= arr[2]
+		var year		= dt.substring(0,4)	
+		
+		debug("browse_dfo", eventNum, dt, scene)
+		
+		scene_model.getScene('dfo', scene, function(err, record) {
+			var date    = record.date
+			var host 	= "http://"+req.headers.host
+			var region 	= {
+				name: 	"DFO Flood Map",
+				scene: 	scene,
+				bbox: 	scene_model.bboxFromGeom(record.g),
+				target: [record.center_lat, record.center_lon]
+			}
+		
+			res.render("products/dfo", {
+				social_envs:	app.social_envs,
+				description: 	"Dartmouth Flood Observatory Map",
+				image: 			host+"/products/dfo/"+eventNum+"/"+dt+"/browseimage.png",
+				url: 			host+"/products/dfo/browse/"+scene,
+				date: 			date,
+				region: 		region,
+				data: 			"http://floodobservatory.colorado.edu/Version3/"+year+arr[1]+arr[2]+".html",
+				topojson: 		host+"/products/dfo/"+eventNum+"/"+dt+"/watermap.topojson",
+				layout: 		false
+			})
+		})
+	},
+	
+	// Send back a dfo Product
+	dfo_product: function(req, res) {
+		var scene 		= req.params['scene']
+		var eventNum	= req.params['event']
+		var date		= req.params['date']
+	
+		var product	= app.root+"/../data/dfo/"+eventNum+"/"+date+"/"+scene
+		
+		debug("dfo_product", product)
+		
+		if( (product.indexOf("topojson")>0) || !fs.existsSync(product)) {
+			if( fs.existsSync(product+".gz")) {
+				debug("sending as topojson gzip encoded")
+				sendFile(res, product)				
+			} else {
+				logger.error("DFO Product does not exist", product)
+				return res.send(400)
+			}
+		} else {
+			sendFile(res, product)
+		}
 	},
 	
 	mapclassic_l8: function(req,res) {
@@ -864,5 +945,9 @@ module.exports = {
 	},
 	mapgl_l8: function(req, res) {
 		map_l8(req, res, render_mapgl)
+	},
+	
+	mapclassic_dfo: function(req, res) {
+		map_dfo(req, res, render_map)
 	}
 }

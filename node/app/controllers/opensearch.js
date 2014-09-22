@@ -13,9 +13,11 @@ var fs  		= require('fs'),
 	query_l8		= require("../../lib/query_l8"),
 	query_modis		= require("../../lib/query_modis.js"),
 	query_radarsat2	= require("../../lib/query_radarsat2")
+	query_dfo		= require("../../lib/query_dfo")
 	;
 	
 	productQueries = {
+		"dfo": 			query_dfo.QueryDFO,
 		"eo1_ali": 		query_eo1.QueryEO1,
 		"l8": 			query_l8.QueryLandsat8,
 		"modis": 		query_modis.QueryModis,
@@ -59,7 +61,7 @@ var fs  		= require('fs'),
 		var user		= req.session.user
 		var credentials	= req.session.credentials
 		
-		console.log('query sources', sources)
+		logger.info('query sources', sources)
 		
 		var items = []
 
@@ -67,7 +69,7 @@ var fs  		= require('fs'),
 
 			if( _.contains(sources, asset)) {
 				var productQuery = productQueries[asset]
-				console.log("Trying to query", asset)
+				logger.info("Trying to query", asset)
 				productQuery(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, function(err, json) {
 					if(!err && json) {
 						var index = 0
@@ -75,12 +77,12 @@ var fs  		= require('fs'),
 							items.push(json.replies.items[item])
 							index += 1
 						}
-						console.log("Added", index, "items to replies")
+						logger.info("Added", index, "items to replies")
 					}						
 					cb(null)
 				})
 			} else {
-				console.log(asset, " not selected")
+				debug(asset, " not selected")
 			}
 		}, function(err) {	
 			res.set("Access-Control-Allow-Origin", "*")
@@ -145,7 +147,7 @@ module.exports = {
 		//	console.log("undefined user!")
 		//	return res.send(404)
 		//}
-		console.log("opensearch")
+		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon)
 		
 		if( bbox && !ValidateBBox(bbox)) {
 			return res.send(400, "Invalid BBox")
