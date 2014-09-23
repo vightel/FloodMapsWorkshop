@@ -13,6 +13,7 @@ var express 		= require('express'),
 	eyes			= require('eyes'),
 	winston			= require('winston'),
 	_				= require('underscore'),
+	i18n			= require('i18n-abide'),
 	facebook		= require('./lib/facebook');
 	
 	global.logger = new winston.Logger({
@@ -148,6 +149,15 @@ function bootApplication(app) {
 	// DO NOT DO THIS IN PRODUCTION - USE A DATABASE STORE
 	// Just use cookies for example
 	app.use(express.session());
+	
+	app.use(i18n.abide({
+		supported_languages: ['en', 'es'],
+		//supported_languages: ['en', 'fr', 'es', 'pt', 'de'],
+		default_lang: 'en',
+		translation_directory: 'locale',
+		translation_type: 'transiflex',
+		logger: console
+	}));
 	
 	app.client = new pg.Client(conString);
 	app.client.connect(function(err) {

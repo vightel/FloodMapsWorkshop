@@ -1,0 +1,23 @@
+en:
+  actions:
+    title: Actions
+    download: Download
+    browse: Browse
+    process: Process
+  sources:
+    eo1:
+      properties:
+        source: Source
+        sensor: Sensor
+        date: Date
+        bbox: BBox
+    l8:
+      properties:
+        source: Source
+        sensor: Sensor
+        date: Date
+        bbox: BBox
+  products:
+    surface_water: Flood Map
+          
+    
