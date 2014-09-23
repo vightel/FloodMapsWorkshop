@@ -22,6 +22,7 @@
 	"filesize": "2.0.3",
     "glob": "~3.2.8",
     "hawk": "2.1.2",
+    "i18n-abide": "0.0.20",
     "mime-types": "1.0.1",
     "mkdirp": "0.4.0",
     "moment": "~2.5.1",

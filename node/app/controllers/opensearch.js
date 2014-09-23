@@ -154,7 +154,7 @@ module.exports = {
 		//	console.log("undefined user!")
 		//	return res.send(404)
 		//}
-		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon)
+		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
 		
 		if( bbox && !ValidateBBox(bbox)) {
 			return res.send(400, "Invalid BBox")
