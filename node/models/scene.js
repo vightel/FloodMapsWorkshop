@@ -18,12 +18,13 @@ module.exports = {
 	},
 	findAllScenes: function(table, lat,lon, cb) {
 		var str 	= util.format("SELECT *, ST_AsText(geom) as g from %s where ST_contains(geom, ST_GeomFromText('POINT(%d %d)',4326))", table, lat, lon )
-		debug("findAllScenes query:", str)
+		logger.info("findAllScenes query:", str)
 		var query 	= app.client.query(str, function(err, result) {
-			//console.log("findAllScenes", table, lat,lon, err)
 			if( err || (result == undefined) || result.rows == undefined) {
+				logger.info("found Scenes", table, err)
 				cb(err, null)
 			} else {
+				logger.info("found Scenes", table, err, result.rows.length)
 				cb(err, result)
 			}
 		})

@@ -28,6 +28,7 @@ function QueryEO1(user, credentials, host, query, bbox, lat, lon, startTime, end
 				var date		= moment(r.date)
 				var stats 		= undefined
 				if( (date < startTime) || (date > endTime) ) {
+					logger.info("scene removed outside span", r.scene, startTime.format("YYYY-MM-DD"), date.format("YYYY-MM-DD"), endTime.format("YYYY-MM-DD"))
 					return callback(null)
 				}
 				var processed 	= false

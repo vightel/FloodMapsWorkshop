@@ -131,6 +131,13 @@ module.exports = {
 		})
 	},
 	
+	description: function(req, res) {
+		res.contentType('application/xml');
+		var host = "http://"+req.headers.host;
+		//console.log("Host set to:"+host);
+		res.render("opensearch/description.ejs", {layout:false, host:host});
+	},
+	
   	index: function(req, res) {
 		var user			= req.session.user
 		var query 			= req.query['q']

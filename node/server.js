@@ -145,6 +145,7 @@ app.get('/users', 								users.list);
 app.get('/opensearch',							if_authorized, opensearch.index);
 app.get('/opensearch/classic',					if_authorized, opensearch.classic);
 app.get('/opensearch/gl',						if_authorized, opensearch.gl);
+app.get('/opensearch/description',				opensearch.description);
 
 
 app.all('/persona/verify',						persona.verify);
