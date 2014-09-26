@@ -1,15 +1,32 @@
 Flood Workshop Training
 =======================
 
-How to generate flood maps from  Radarsat-2, MODIS, EO-1 and Landsat-8 imagery...
+How to generate flood maps from  Radarsat-2, MODIS, EO-1, DFO and Landsat-8 imagery...
 WaterPedia for flood event mapping and validation
 Global Flood Catalog for event recording
-Open GeoSocial API for data distribution
-GeoApp
+Open GeoSocial API for data distribution, visualization, discovery and sharing via social netowrks
 
 Notes: This is not authoritative but work in progress used for capacity building and examples... This is not operational software!
-Algorithms have not been formally validated by the science team yet!
+
+Algorithms have not been formally validated by the science team!
+
 Please become a collaborator and help us improve this repository.
+
+### Copyright
+
+Copyright © 2013  United States Government as represented by the Administrator of the National Aeronautics and Space Administration.  All Other Rights Reserved
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 ## Pre-Requisites
 
@@ -289,6 +306,7 @@ Please become a collaborator and help us improve this repository.
   * Support [OpenSearch] (http://www.opensearch.org/Home)
   * Support Story Telling via [Facebook...] (https://developers.facebook.com/docs/opengraph/overview)
   
+
 ### Pre-Requisites
 
 * [Node.js](http://nodejs.org/)
