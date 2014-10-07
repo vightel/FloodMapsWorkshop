@@ -8,7 +8,7 @@ var util 		= require('util'),
 	scene_model	= require("../models/scene.js")
 	;
 
-function QueryDFO(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryDFO(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
 	var duration	= 60 * 30
 	
 	function Bewit(url) {
@@ -32,8 +32,8 @@ function QueryDFO(user, credentials, host, query, bbox, lat, lon, startTime, end
 				}
 				var processed 	= false
 
-				var source 		= "Dartmouth Flood Observatory - Colorado"
-				var sensor 		= "MODIS/L8"
+				var source 		= req.gettext("sources.dfo")
+				var sensor 		= req.gettext("sensors.dfo")
 
 				var arr 		= r.scene.split('_')
 				var date		= arr[0]
@@ -46,12 +46,11 @@ function QueryDFO(user, credentials, host, query, bbox, lat, lon, startTime, end
 				
 				// check if it has been processed already
 				var browse_url;
-				var download, process, browse = undefined;
+				var actions = undefined;
 				
 				var thn 		= 	app.root+"/../data/dfo/"+eventNum+"/"+date+"/browseimage.png"
 				
 				if( fs.existsSync(thn)) {
-					debug("found thn", thn)
 					processed 		= true
 					browse_url		= host+"/products/dfo/"+eventNum+"/"+date+"/browseimage.png"
 					topojson_url	= host+"/products/dfo/"+eventNum+"/"+date+"/watermap.topojson"
@@ -74,40 +73,71 @@ function QueryDFO(user, credentials, host, query, bbox, lat, lon, startTime, end
 						console.log("Could not stat", osm_file_url, e)
 					}
 					
-					download = [
+					actions = [
 						{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(topojson_url),
-							"mediaType": 	"application/json",
-							"displayName": 	"topojson",
-							"size": 		filesize(stats.size)
+							"@type": 		"urn:ojo:actions:download",
+							"displayName": 	req.gettext("actions.download"),
+							"using": [
+								{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(topojson_url),
+									"mediaType": 	"application/json",
+									"size": 		app.locals.filesize(stats.size, req),
+									"displayName": 	req.gettext("formats.topojson")
+								}
+								,{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(topojson_url+".gz"),
+									"mediaType": 	"application/gzip",
+									"size": 		app.locals.filesize(stats.size, req),
+									"displayName": 	req.gettext("formats.topojsongz")
+								}	
+								,{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(osm_file_url+".gz"),
+									"mediaType": 	"application/bzip2",
+									"size": 		app.locals.filesize(stats2.size, req),
+									"displayName": 	req.gettext("formats.osmbz2")
+								}	
+							]
+						},
+						{ 
+							"@type": 			"urn:ojo:actions:browse",
+							"displayName": 		req.gettext("actions.browse"),
+							"using": [{
+								"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+								"method": 		"GET",
+								"url": 			Bewit(host+"/products/dfo/browse/"+r.scene),
+								"mediaType": 	"html"
+							}]
 						}
-						,{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(topojson_url+".gz"),
-							"mediaType": 	"application/gzip",
-							"displayName": 	"topojson.gz",
-							"size": 		filesize(stats.size)
-						}	
-						,{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(osm_file_url+".gz"),
-							"mediaType": 	"application/bzip2",
-							"displayName": 	"osm.bz2",
-							"size": 		filesize(stats2.size)
-						}	
-					]		
-					browse = Bewit(host+"/products/dfo/browse/"+r.scene)
-						
+					]	
+					
 				} else {
 					logger.error("Could not find thn", thn)
 				}
 
+				var dt = moment()
+				dt.year(year)
+				dt.month(month+1)
+				dt.date(day)
+				
+				var properties = {}
+				properties[req.gettext("properties.source")]= 		source;
+				properties[req.gettext("properties.sensor")]= 		sensor;
+				properties[req.gettext("properties.date")]= 		dt.format(req.gettext("formats.date"));
+				properties[req.gettext("properties.bbox")]= 		scene_model.bboxFromGeom(r.g);
+				properties[req.gettext("properties.size")]= 		stats ? app.locals.filesize(stats.size) : 0;
+				
+				
 				var entry = {
-					"id": r.scene,
+					"@id": 				r.scene,
+					"@type": 			"geoss.surface_water",
+					"displayName": 		r.scene,
+
 					"image": [
 						{
 							"url": browse_url,
@@ -115,20 +145,9 @@ function QueryDFO(user, credentials, host, query, bbox, lat, lon, startTime, end
 							"rel": "browse"
 						}
 					],
-					"properties": {
-						"source": 	source,
-						"sensor": 	sensor,
-						"date": 	year+"-"+month+"-"+day,
-						"bbox": 	scene_model.bboxFromGeom(r.g),
-						"size": 	stats ? filesize(stats.size) : 0
-					},
-					"actions": {}
+					"properties": 	properties,
+					"action": 		actions
 				}
-				entry.actions.download 	= download
-				if( process ) entry.actions.process 	= process
-				entry.actions.browse 	= browse
-				
-				debug(entry)
 				entries.push(entry)
 				callback(null)
 			}, function(err) {					

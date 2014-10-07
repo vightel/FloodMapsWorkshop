@@ -15,6 +15,7 @@ var util	= require('util'),
 	tokml			= require('tokml'),
 	childProcess 	= require('child_process'),
 	scene_model		= require('../../models/scene.js'),
+	_				= require('underscore'),
 	fs				= require('fs');
 	
 	mime.define( {
@@ -835,6 +836,105 @@ module.exports = {
 		}); 
 	},
 	
+	eo1_ali_list: function(req, res) {
+		var user = req.session.user
+		var base_dir	= app.root+"/../data/eo1_ali/"
+		scene_model.getAllScenes('eo1_ali', function(err, records) {
+			var results = _.filter(records, function(r) {
+				return fs.existsSync(base_dir+ r.scene)
+			})
+			debug("eo1_ali_list", records.length, results.length)
+			
+			res.render("products/list", {
+				user: 			user,
+				description: 	"EO-1 ALI Scenes",
+				base_href: 		"/products/eo1_ali/browse/",
+				records: 		results
+			})
+		})
+	},
+	
+	l8_list: function(req, res) {
+		var user 		= req.session.user
+		var base_dir	= app.root+"/../data/l8/"
+		
+		scene_model.getAllScenes('l8', function(err, records) {
+
+			var results = _.filter(records, function(r) {
+				return fs.existsSync(base_dir+ r.scene)
+			})
+			debug("l8_list", records.length, results.length)
+
+			res.render("products/list", {
+				user: 			user,
+				description: 	"Landsat-8 Scenes",
+				base_href: 		"/products/l8/browse/",
+				records: 		results
+			})
+		})
+	},
+	
+	radarsat2_list: function(req, res) {
+		var user = req.session.user
+		var base_dir	= app.root+"/../data/radarsat2/"
+		scene_model.getAllScenes('radarsat2', function(err, records) {
+			var results = _.filter(records, function(r) {
+				return fs.existsSync(base_dir+ r.scene)
+			})
+			debug("radarsat2_list", records.length, results.length)
+
+			res.render("products/list", {
+				user: user,
+				description: 	"Radarsat-2 Scenes",
+				base_href: 		"/products/radarsat2/browse/",
+				records: records
+			})
+		})
+	},
+
+	dfo_list: function(req, res) {
+		var user = req.session.user
+		var base_dir	= app.root+"/../data/dfo/"
+		scene_model.getAllScenes('dfo', function(err, records) {
+			
+			res.render("products/list", {
+				user: user,
+				description: 	"DFO Scenes",
+				base_href: 		"/products/dfo/browse/",
+				records: records
+			})
+		})
+	},
+	
+	modis_list: function(req, res) {
+		var user 		= req.session.user
+		var base_dir	= app.root+"/../data/modis/"
+		var pattern		= base_dir+"*/*/*/*.gz"
+				
+		var records = []
+
+		glob(pattern, function(err, files) {
+			
+			for( var f in files) {
+				var nf 	= files[f].replace(fs.realpathSync(base_dir), '')
+				var arr = nf.split('/') 
+				var el	= { 	year: arr[1],
+								doy: arr[2],
+								tile: arr[3],
+								scene: path.join(arr[1], arr[2], arr[3]) 
+							}
+				records.push( el )
+			}
+			
+			res.render("products/list", {
+				user: user,
+				description: 	"MODIS Scenes",
+				base_href: 		"/products/modis/browse/",
+				records: records
+			})
+		})
+	},
+
 	// Send back a Landsat-8 Product
 	l8_product: function(req, res) {
 		var scene 	= req.params['scene']

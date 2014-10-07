@@ -8,7 +8,7 @@ var util 		= require('util'),
 	scene_model	= require("../models/scene.js")
 	;
 	
-function QueryLandsat8(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryLandsat8(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
 	var duration	= 60 * 30
 	
 	function Bewit(url) {
@@ -34,9 +34,9 @@ function QueryLandsat8(user, credentials, host, query, bbox, lat, lon, startTime
 					return callback(null)
 				}
 				
-				var source 		= "NASA GSFC Landsat-8"
-				var sensor 		= "OLI"
-				// LC81930542014209LGN00
+				var source 		= req.gettext("sources.l8")
+				var sensor 		= req.gettext("sensors.l8")
+				
 				var path		= r.scene.substring(3,6)
 				var row			= r.scene.substring(6,9)
 				var year		= r.scene.substring(9,13)						
@@ -44,6 +44,7 @@ function QueryLandsat8(user, credentials, host, query, bbox, lat, lon, startTime
 				// check if it has been processed already
 				var browse_url;
 				var download, process, browse=undefined;
+				var actions;
 				
 				var short		= r.scene
 				var thn 		= app.root+"/../data/l8/"+r.scene+"/"+ short+"_watermap_browseimage.thn.png"
@@ -68,49 +69,79 @@ function QueryLandsat8(user, credentials, host, query, bbox, lat, lon, startTime
 						console.log("Could not stat", osm_file_url, e)
 					}
 					
-					download = [
+					actions = [
 						{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(topojson_url),
-							"mediaType": 	"application/json",
-							"displayName": 	"topojson",
-							"size": 		filesize(stats.size)
+							"@type": 		"urn:ojo:actions:download",
+							"displayName": 	req.gettext("actions.download"),
+							"using": [
+								{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(topojson_url),
+									"mediaType": 	"application/json",
+									"size": 		app.locals.filesize(stats.size, req),
+									"displayName": 	req.gettext("formats.topojson")
+								}
+								,{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(topojson_url+".gz"),
+									"mediaType": 	"application/gzip",
+									"size": 		app.locals.filesize(stats.size, req),
+									"displayName": 	req.gettext("formats.topojsongz")
+								}	
+								,{
+									"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+									"method": 		"GET",
+									"url": 			Bewit(osm_file_url+".gz"),
+									"mediaType": 	"application/bzip2",
+									"size": 		app.locals.filesize(stats2.size, req),
+									"displayName": 	req.gettext("formats.osmbz2")
+								}	
+							]
+						},
+						{ 
+							"@type": 			"urn:ojo:actions:browse",
+							"displayName": 		req.gettext("actions.browse"),
+							"using": {
+								"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+								"method": 		"GET",
+								"url": 			Bewit(host+"/products/l8/browse/"+r.scene),
+								"mediaType": 	"html"
+							} 
 						}
-						,{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(topojson_url+".gz"),
-							"mediaType": 	"application/gzip",
-							"displayName": 	"topojson.gz",
-							"size": 		filesize(stats.size)
-						}	
-						,{
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(osm_file_url+".gz"),
-							"mediaType": 	"application/bzip2",
-							"displayName": 	"osm.bz2",
-							"size": 		filesize(stats2.size)
-						}	
-					]		
-					browse = Bewit(host+"/products/l8/browse/"+r.scene)
-						
+					]
 				} else {
 					var browse_url	= "http://earthexplorer.usgs.gov/browse/landsat_8/"+year+"/"+path+"/"+row+"/"+r.scene+".jpg"
-					process = {
-						"process": {
-							"objectType": 	"HttpActionHandler",
-							"method": 		"GET",
-							"url": 			Bewit(host+"/products/l8/"+r.scene),
-							"displayName": 	"surface water",
-							"duration": 	"~5mn"
-						}	
-					}
+					var minutes		= 2
+					
+					actions = [
+						{
+							"@type": 		"urn:ojo:actions:process",
+							"displayName": 	req.gettext("actions.process"),
+							"using": [{
+								"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+								"method": 		"GET",
+								"url": 			Bewit(host+"/products/l8/"+r.scene),
+								"displayName": 	req.gettext("products.surface_water"),
+								"duration": 	util.format(req.gettext("duration.minutes").replace('{minutes}', 'd'),minutes)
+							}]
+						}
+					]
 				}
 
+				var properties = {}
+				properties[req.gettext("properties.source")]= 		req.gettext("sources.l8");
+				properties[req.gettext("properties.sensor")]= 		req.gettext("sensors.l8");
+				properties[req.gettext("properties.date")]= 		date.format(req.gettext("formats.date"));
+				properties[req.gettext("properties.bbox")]= 		scene_model.bboxFromGeom(r.g);
+				properties[req.gettext("properties.size")]= 		stats ? app.locals.filesize(stats.size) : 0;
+				
 				var entry = {
-					"id": r.scene,
+					"@id": 				r.scene,
+					"@type": 			"geoss.surface_water",
+					"displayName": 		r.scene,
+					
 					"image": [
 						{
 							"url": browse_url,
@@ -118,21 +149,9 @@ function QueryLandsat8(user, credentials, host, query, bbox, lat, lon, startTime
 							"rel": "browse"
 						}
 					],
-					"properties": {
-						"source": 	source,
-						"sensor": 	sensor,
-						"date": 	date.format("YYYY-MM-DD"),
-						"bbox": 	scene_model.bboxFromGeom(r.g),
-						"size": 	stats ? filesize(stats.size) : 0
-					},
-					"actions": {}
+					"properties": 		properties,
+					"action": 			actions
 				}
-				
-				entry.actions.download 	= download
-				entry.actions.process 	= process
-				entry.actions.browse 	= browse
-				
-				//console.log(entry)
 				entries.push(entry)
 				callback(null)
 			}, function(err) {					

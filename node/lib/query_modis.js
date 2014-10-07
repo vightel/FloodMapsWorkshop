@@ -147,7 +147,7 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 	var localdir	 	= app.root+"/../data/modis/"+year+"/"+doy+"/"+tile
 	var scene			= getTileInfo( tile )
 	
-	var download, process, browse, share;
+	var download, process, browse, share, actions;
 
 	if( fs.existsSync(localdir)) {
 		console.log("Found", localdir)
@@ -164,46 +164,78 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 		} catch(e) {
 			console.log("Could not stat", topojson_file, e)
 		}
-		
-	    browse = Bewit(host+"/products/modis/browse/"+year+"/"+doy+"/"+tile)
-		
-		download = [
+				
+		actions = [
+			{ 
+				"@type": 			"urn:ojo:actions:browse",
+				"displayName": 		req.gettext("actions.browse"),
+				"using": {
+					"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+					"method": 		"GET",
+					"url": 			Bewit(host+"/products/modis/browse/"+year+"/"+doy+"/"+tile),
+					"mediaType": 	"html"
+				} 
+			},
 			{
-				"objectType": 	"HttpActionHandler",
-				"method": 		"GET",
-				"url": 			Bewit(topojson_url),
-				"mediaType": 	"application/json",
-				"displayName": 	"topojson",
-				"size": 		filesize(stats.size)
+				"@type": 		"urn:ojo:actions:download",
+				"displayName": 	req.gettext("actions.download"),
+				"using": [
+					{
+						"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+						"method": 		"GET",
+						"url": 			Bewit(topojson_url),
+						"mediaType": 	"application/json",
+						"size": 		app.locals.filesize(stats.size, req),
+						"displayName": 	req.gettext("formats.topojson")
+					}
+					,{
+						"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+						"method": 		"GET",
+						"url": 			Bewit(topojson_url+".gz"),
+						"mediaType": 	"application/gzip",
+						"size": 		app.locals.filesize(stats.size, req),
+						"displayName": 	req.gettext("formats.topojsongz")
+					}	
+				]
 			}
-			,{
-				"objectType": 	"HttpActionHandler",
-				"method": 		"GET",
-				"url": 			Bewit(topojson_url+".gz"),
-				"mediaType": 	"application/gzip",
-				"displayName": 	"topojson.gz",
-				"size": 		filesize(stats.size)
-			}
-		]					
+		]
 	} else {
 		console.log("Modis dir not Found", localdir)
 		
 		var browse_img_url	= host +"/img/modis.png";
 		var scene			= getTileInfo( tile )
+		var duration		= 1	
 		
-		process = {
-			"process": {
-				"objectType": 	"HttpActionHandler",
+		actions = {
+			"@type": 			"urn:ojo:actions:process",
+			"displayName": 		req.gettext("actions.process"),
+			"using": [{
+				"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
 				"method": 		"GET",
 				"url": 			Bewit(host+"/products/modis/"+year+"/"+doy+"/"+tile),
 				"displayName": 	"surface water",
-				"duration": 	"~5mn"
-			}	
+				"duration": 	util.format(req.gettext("duration.minutes").replace("{minutes}","d"),duration)
+			}]
 		}
 	}
 	
+	var source 		= req.gettext("sources.modis")
+	var sensor 		= req.gettext("sensors.modis")
+	
+	var properties = {}
+	properties[req.gettext("properties.source")]= 		source;
+	properties[req.gettext("properties.sensor")]= 		sensor;
+	properties[req.gettext("properties.date")]= 		time.format(req.gettext("formats.date"));
+	properties[req.gettext("properties.bbox")]= 		scene.bbox;
+	properties[req.gettext("properties.size")]= 		scene.ncols+"x"+scene.nlines;
+	properties[req.gettext("properties.centerlat")]= 	scene.centerlat;
+	properties[req.gettext("properties.centerlon")]= 	scene.centerlon;
+	
+	
 	var entry = {
-		"id": 			id,
+		"@id": 				id,
+		"@type": 			"geoss.surface_water",
+		"displayName": 		tile,
 		"image": 		[ 
 							{
 								"url": browse_img_url,
@@ -211,25 +243,15 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 								"rel": "browse"
 							}
 						],
-		"properties": {
-			"source": 		"NASA GSFC",
-			"sensor": 		"modis",
-			"date": 		time.format("YYYY-MM-DD"),
-			"size": 		scene.ncols+"x"+scene.nlines,
-			"centerlat": 	scene.centerlat,
-			"centerlon": 	scene.centerlon,
-			"bbox": 		scene.bbox							
-		},
-		"actions": {}
+		"properties": 		properties,
+		"action": 			actions
 	}
-	entry.actions.download 	= download
-	entry.actions.process 	= process
-	entry.actions.browse 	= browse
+	
 	entries.push(entry)
 	cb(null)
 }
 
-function QueryModis(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
 	console.log("Query Modis", query)
 	var duration	= 60 * 30
 	
