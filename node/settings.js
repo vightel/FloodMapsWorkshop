@@ -13,7 +13,8 @@ var express 		= require('express'),
 	eyes			= require('eyes'),
 	winston			= require('winston'),
 	_				= require('underscore'),
-	i18n			= require('i18n-abide'),
+	i18n			= require('./lib/i18n-abide'),
+	filesize 		= require('filesize'),
 	facebook		= require('./lib/facebook');
 	
 	global.logger = new winston.Logger({
@@ -151,13 +152,24 @@ function bootApplication(app) {
 	app.use(express.session());
 	
 	app.use(i18n.abide({
-		supported_languages: ['en', 'es'],
+		supported_languages: ['en', 'es', 'fr', 'pt'],
 		//supported_languages: ['en', 'fr', 'es', 'pt', 'de'],
 		default_lang: 'en',
 		translation_directory: 'locale',
 		translation_type: 'transiflex',
 		logger: console
 	}));
+	
+	// localize filesize
+	app.locals.filesize = function(size, req ) {
+		return filesize( size, {round:2, suffixes: {
+										"B": req.gettext("filesize.B"), 
+										"kB": req.gettext("filesize.KB"), 
+										"MB": req.gettext("filesize.MB"), 
+										"GB": req.gettext("filesize.GB"), 
+										"TB": req.gettext("filesize.TB")}})
+									}
+	app.locals.format = util.format
 	
 	app.client = new pg.Client(conString);
 	app.client.connect(function(err) {

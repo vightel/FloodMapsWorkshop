@@ -70,7 +70,7 @@ var fs  		= require('fs'),
 			if( _.contains(sources, asset)) {
 				var productQuery = productQueries[asset]
 				logger.info("Trying to query", asset)
-				productQuery(user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, function(err, json) {
+				productQuery(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, function(err, json) {
 					if(!err && json) {
 						var index = 0
 						for( var item in json.replies.items ) {
@@ -89,7 +89,7 @@ var fs  		= require('fs'),
 			var json = {
 				"objectType": 'query',
 				"id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
-				"displayName": "OJO Publisher Flood Surface Water Products",
+				"displayName": req.gettext("stream.displayName"),
 				"replies": {
 					"url": originalUrl,
 					"mediaType": "application/activity+json",
@@ -155,7 +155,57 @@ module.exports = {
 		//	return res.send(404)
 		//}
 		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
+		logger.info(req.gettext("products."+query))
+			
+		if( bbox && !ValidateBBox(bbox)) {
+			return res.send(400, "Invalid BBox")
+		}
+		if( startTime && !ValidateTime(startTime)) {
+			return res.send(400, "Invalid start time: "+req.query['startTime'])
+		}
+		if( endTime && !ValidateTime(endTime)) {
+			return res.send(400, "Invalid end time: "+req.query['endTime'])
+		}
+		if( startIndex && startIndex < 0 ) {
+			return res.send(400, "Invalid startIndex: "+startIndex)			
+		}
+		if( itemsPerPage && itemsPerPage < 0 ) {
+			return res.send(400, "Invalid itemsPerPage: "+itemsPerPage)			
+		}
+		if( lat && (lat < -90 || lat>90) ) {
+			return res.send(400, "Invalid latitude: "+lat)			
+		}
+		if( lon && (lon < -180 || lon>180) ) {
+			return res.send(400, "Invalid longitude: "+lon)			
+		}
+				
+		if( bbox ) {
+			lon = (bbox[0]+bbox[2])/2
+			lat = (bbox[1]+bbox[3])/2
+		}
+	
+		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage )
+	},
+	
+  	index2: function(req, res) {
+		var user			= req.session.user
+		var query 			= req.query['q']
+		var bbox			= req.query['bbox'] ? req.query['bbox'].split(',').map(parseFloat) : undefined
+		var itemsPerPage	= req.query['itemsPerPage'] || 10
+		var startIndex		= req.query['startIndex'] || 1
+		var startTime		= req.query['startTime'] ? moment(req.query['startTime']) : moment("1970-01-01")
+		var endTime			= req.query['endTime'] ? moment(req.query['endTime']) : moment()
+		var lat				= req.query['lat']
+		var lon				= req.query['lon']
+		var limit			= req.query['limit']
 		
+		//if( user == undefined ) {
+		//	console.log("undefined user!")
+		//	return res.send(404)
+		//}
+		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
+		logger.info(req.gettext("products."+query))
+			
 		if( bbox && !ValidateBBox(bbox)) {
 			return res.send(400, "Invalid BBox")
 		}

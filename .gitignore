@@ -8,8 +8,10 @@ data/radarsat2/
 data/modis/
 data/eo1/
 data/dfo
+data/palsar2
 python/world_boundaries/
 envs.sh
 node/node_modules/
+node/transifex.auth
 node/*.log
 python/*.pyc

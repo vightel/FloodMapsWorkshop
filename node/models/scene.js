@@ -29,6 +29,19 @@ module.exports = {
 			}
 		})
 	},
+	getAllScenes: function(table, cb) {
+		var str 	= util.format("SELECT * from %s", table )
+		logger.info("getAllScenes query:", str)
+		var query 	= app.client.query(str, function(err, result) {
+			if( err || (result == undefined) || result.rows == undefined) {
+				logger.info("found Scenes", table, err)
+				cb(err, null)
+			} else {
+				logger.info("found Scenes", table, err, result.rows.length)
+				cb(err, result.rows)
+			}
+		})
+	},
 	// takes a polygon and returns a bbox
 	// POLYGON((19.154261 -72.334539,19.054651 -72.00994,17.99311 -72.249369,18.092406 -72.571983,19.154261 -72.334539))
 	bboxFromGeom: function(g) {

@@ -82,9 +82,9 @@
 		var tab_metadata_id	= 'tab-metadata-'+el.id;
 		var tab_actions_id 	= 'tab-actions-'+el.id;
 		
-		html += "  <li class='active' id="+ tab_general_id+"><a href="+general_fn+">General</a></li>"
-		html += "  <li id="+tab_metadata_id+"><a href="+metadata_fn+">Metadata</a></li>"
-		html += "  <li id="+tab_actions_id+"><a href="+actions_fn+">Actions</a></li>"
+		html += "  <li class='active' id="+ tab_general_id+"><a href="+general_fn+"><%= gettext("tabs.general")%></a></li>"
+		html += "  <li id="+tab_metadata_id+"><a href="+metadata_fn+"><%= gettext("tabs.metadata")%></a></li>"
+		html += "  <li id="+tab_actions_id+"><a href="+actions_fn+"><%= gettext("tabs.actions")%></a></li>"
 		html += "</ul>"
 		}
 	
@@ -92,98 +92,127 @@
 		if( true ) {
 		html += "<div id='general-"+el.id + "'>"
 		html += "<table class='table table-condensed'>";
-		html += "<tr><td>id</td><td>"+el.id+"</td></tr>";
-		html += "<tr><td>source</td><td>" + el.properties.source + "</td></tr>"
-		html += "<tr><td>date</td><td>" + el.properties.date + "</td></tr>"
+		html += "<tr><td>id</td><td><b>"+el["@id"]+"</td></tr>";
+		html += "<tr><td>type</td><td><b>" + el["@type"] + "</b>:</td></tr>"
+		html += "<tr><td>name</td><td><b>" + el.displayName+ "</b>:</td></tr>"
 		html += "</table></div>"
 		}
 		
 		// Metadata Div
 		if( true ) {
-		html += "<div id='metadata-"+el.id +"' style='display:none'>"
-		html += "<table class='table table-condensed'>"
-		html += "<tr><td>Id</td><td>"+el.id+"</td></tr>";
-		$.each(el.properties, function(key, prop) {
-			html += "<tr><td>"+ key + "</td><td>" + prop + "</td></tr>"
-		})
-		html += "</table></div>"
+			html += "<div id='metadata-"+el.id +"' style='display:none'>"
+			html += "<table class='table table-condensed'>"
+			$.each(el.properties, function(key, prop) {
+				html += "<tr><td><b>"+ key + ":</b></td><td>" + prop + "</td></tr>"
+			})
+			html += "</table></div>"
 		}
 		
 		if( true ) {
-		//Action Div
-		html += "<div id='actions-"+el.id +"' style='display:none'>"
-		html += "<table class='table table-condensed'>"
-		html += "<tr><td width='100'><b>Actions:</b></td><td>"
+			//Action Div
+			html += "<div id='actions-"+el.id +"' style='display:none'>"
+			html += "<table class='table table-condensed'>"
+			html += "<tr><td width='100'></td><td>"
 		
-		$.each(el.actions, function(key, val) {			
-			var typof = typeof el.actions[key]
+			var action = el.action;
+			// can be a has or an array
+			var typof = typeof action
 			
-			switch(typof) {
-			case 'object':
-				html += "<b>- "+key+"</b>"
+			for( var a in action ) {
+				var actionName = action[a].displayName
+				html += "<b>- "+actionName+"</b>"
 				html += "<br/>"
-				$.each(el.actions[key], function(k, el) {
-					if( el.objectType == 'HttpActionHandler') {
+				var using = action[a].using
+				for( var u in using ) {
+					var el = using[u]
+					if( el["@type"].indexOf("HttpRequest") > 0) {
 						if( el.method == 'GET') {
-							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + el.displayName
+							var displayName = el.displayName || el.mediaType
+							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + displayName
 							if( el.size ) html += " ("+el.size+")"
 							if( el.duration ) html += " (" + el.duration + ")"
 							html  += "</a>&nbsp;"
 						}
 					}
-				})
-				break;
-			case 'string':
-				// special cases
-				//console.log("String key:"+key+" "+el.actions[key])
-				switch(key) {
-					case 'share':
-						html += "<b>- "+key+"</b>"
-						html += "<br/>"
-						
-						html += "&nbsp;&nbsp;&nbsp;&nbsp;"
-						
-						// Facebook
-						html += "<div class='fb-share-button' "
-						html += "data-href='" + el.actions[key] + "' "
-						html += "data-type='button' "
-						html += "></div>&nbsp;"
-						
-						//var fbpost	= "javascript:FBPost('" + el.actions[key] + "');";
-						//html += "<a href="+fbpost+">Facebook</a>&nbsp;"
-						
-						// Twitter
-						html += "<a href='https://twitter.com/intent/tweet' class='twitter-hashtag-button' "
-						html += "data-text='You may found this product interesting '"
-						html += " data-url='" + el.actions[key] + "' "
-						html += " data-lang='en' data-related='geoss'>GEOSS Tweet</a>"
-					
-						break;
-					
-					case 'like':
-						break;
-					default:
-						html += "- <a href='"+el.actions[key]+"'>"+key+"</a>";
-						break;
 				}
-				break;
-			default:
-				console.log("unhandled typof:"+typof)
-				break;
+				html += "<br/>"
 			}
-			html += "<br/>"
-		})
+			
+			html += "</td></tr></table></div>"
+			html += "</td></tr>"
+			html += "</table></div>";
+		}
+			
+		if( false ) {
+			$.each(el.action, function(key, val) {			
+				var typof = typeof el.actions[key]
+			
+				switch(typof) {
+				case 'object':
+					html += "<b>- "+key+"</b>"
+					html += "<br/>"
+					$.each(el.actions[key], function(k, el) {
+						if( el.objectType == 'HttpActionHandler') {
+							if( el.method == 'GET') {
+								html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + el.displayName
+								if( el.size ) html += " ("+el.size+")"
+								if( el.duration ) html += " (" + el.duration + ")"
+								html  += "</a>&nbsp;"
+							}
+						}
+					})
+					break;
+				case 'string':
+					// special cases
+					//console.log("String key:"+key+" "+el.actions[key])
+					switch(key) {
+						case 'share':
+							html += "<b>- "+key+"</b>"
+							html += "<br/>"
+						
+							html += "&nbsp;&nbsp;&nbsp;&nbsp;"
+						
+							// Facebook
+							html += "<div class='fb-share-button' "
+							html += "data-href='" + el.actions[key] + "' "
+							html += "data-type='button' "
+							html += "></div>&nbsp;"
+						
+							//var fbpost	= "javascript:FBPost('" + el.actions[key] + "');";
+							//html += "<a href="+fbpost+">Facebook</a>&nbsp;"
+						
+							// Twitter
+							html += "<a href='https://twitter.com/intent/tweet' class='twitter-hashtag-button' "
+							html += "data-text='You may found this product interesting '"
+							html += " data-url='" + el.actions[key] + "' "
+							html += " data-lang='en' data-related='geoss'>GEOSS Tweet</a>"
+					
+							break;
+					
+						case 'like':
+							break;
+						default:
+							html += "- <a href='"+el.actions[key]+"'>"+key+"</a>";
+							break;
+					}
+					break;
+				default:
+					console.log("unhandled typof:"+typof)
+					break;
+				}
+				html += "<br/>"
+			})
 		
-		//$.each(el.actions.download, function(key, val) {
-		//	html += "<a href='"+ val.url+"'>"+val.displayName +" ("+val.size+")</a><br/>"
-		//})
+			//$.each(el.actions.download, function(key, val) {
+			//	html += "<a href='"+ val.url+"'>"+val.displayName +" ("+val.size+")</a><br/>"
+			//})
 		
-		//html += "<br/>Browse <a href='"+el.actions.browse+"'>Link</a>"
-		//html += "<br/>Process"
+			//html += "<br/>Browse <a href='"+el.actions.browse+"'>Link</a>"
+			//html += "<br/>Process"
 		
-		html += "</td></tr></table></div>"
-		html += "</td></tr>"
-		html += "</table></div>";
+			html += "</td></tr></table></div>"
+			html += "</td></tr>"
+			html += "</table></div>";
 		}
 	
 		$('#results').append(html)
@@ -214,6 +243,7 @@
 		
 		query_results = {};
 		//$('#results').html("")
+		console.log("GET", url);
 		
 		$.ajax({
 			dataType: "json",
@@ -222,7 +252,11 @@
 				var count = data.replies.items.length
 				console.log("Success..."+count)
 				var html = "<div class='well'>"
-				html += count + " results returned<br/></div"
+				
+				var result_format 	= "<%= gettext('results').replace('{results}', 'd') %>"
+				var results 		= result_format.replace("%d", count.toString()) 
+				
+				html += results + "<br/></div"
 				$('#results').html(html)
 			
 				$.each( data.replies.items, function( key, val ) {
