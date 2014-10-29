@@ -335,10 +335,9 @@ class EO1_ALI_VECTORIZATION:
 			cmd = str.format("topojson-geojson --precision 5 -o {0} {1}", self.outpath, file+".topojson" ); 
 			self.execute(cmd)
 
-
 		# convert it to OSM to visualize in JOSM and update reference water
 		if force or not os.path.exists(self.surface_water_osm):
-			data_source = "landsat-8"
+			data_source = "eo-1"
 			cmd = str.format("node geojson2osm {0} {1}", self.surface_water_json, data_source ); 
 			self.execute(cmd)
 			
@@ -354,7 +353,7 @@ class EO1_ALI_VECTORIZATION:
 			self.execute(cmd)
 	
 #
-# Example: eo1_to_topojson.py --scene EO1A0090472014197110P0_SG1_01 --vrt haiti_hand.vrt
+# Example: eo1_to_topojson.py --scene EO1A0090472014197110P0_SG1_01 -v
 #
 
 if __name__ == '__main__':
@@ -395,7 +394,7 @@ if __name__ == '__main__':
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
 	#apg_input.add_argument("-i", "--input",  	help="Input File")
 	#apg_input.add_argument("-d", "--dir",  	help="Output Directory")
-	apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
+	#apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
 	apg_input.add_argument("-s", "--scene", 	help="Landsat Scene")
 
 	options 	= parser.parse_args()
@@ -403,7 +402,9 @@ if __name__ == '__main__':
 	verbose		= options.verbose
 	#infile		= options.input
 	#dir		= options.dir
-	vrt			= options.vrt
+	#vrt		= options.vrt
+	vrt			= config.HANDS_AREA + "_hand.vrt"
+	
 	scene	 	= options.scene.split("_")[0]
 	
 	outdir		= os.path.join(config.EO1_DIR,options.scene)	

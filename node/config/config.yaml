@@ -23,7 +23,7 @@
             "bbox":     [-92.68, 6.17, -75.85, 19.08 ],
             "target":   [12.63, -84.27],
             "min_zoom":  1,
-            "max_zoom":  14,
+            "max_zoom":  18,
             "map_id":   "cappelaere.map-mx5g2tn3",
             "bucket":   "ojo-d2",
             "ojotiler": "http://ojo-tiler.herokuapp.com",
@@ -34,7 +34,7 @@
             "bbox":     [-74.94, 16.35, -64.98, 21.42 ],
             "target":   [18.89, -69.96],
             "min_zoom": 6,
-			"max_zoom":	18,
+			      "max_zoom":	18,
             "map_id":   "cappelaere.map-q4hdwmh3",
             "bucket":   "ojo-d3",
             "ojotiler": "http://ojo-tiler.herokuapp.com",
@@ -55,27 +55,44 @@
         	{
         		"source": 		"eo1_ali",
         		"href": 		"/opensearch",
-        		"checked":  	true
+        		"checked":  	true,
+            "selected":   false
         	},
         	{
         		"source": 		"l8",
         		"href": 		"/opensearch",
-        		"checked":  	true
+        		"checked":  	true,
+            "selected":   false
         	},
-        	{
-        		"source": 		"modis",
-        		"href": 		"/opensearch",
-        		"checked":  	true
-        	},
+          {
+          	"source": 		"modis",
+          	"href": 		"/opensearch",
+          	"checked":  	true,
+             "selected":   false
+          },
+          {
+          	"source": 		"modis_lst",
+          	"href": 		"/opensearch",
+          	"checked":  	true,
+             "selected":   false
+          },
         	{
         		"source": 		"radarsat2",
         		"href": 		"/opensearch",
-        		"checked":  	true
+        		"checked":  	true,
+            "selected":   false
         	},
         	{
         		"source": 		"dfo",
         		"href": 		"/opensearch",
-        		"checked":  	true
+        		"checked":  	true,
+            "selected":   false
+        	},
+        	{
+        		"source": 		"digiglobe",
+        		"href": 		"/opensearch",
+        		"checked":  	true,
+            "selected":   true
         	}
             
 	],

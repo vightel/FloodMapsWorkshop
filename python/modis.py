@@ -81,7 +81,7 @@ class MODIS:
 						self.tile, self.year, self.day)
 			print 'Could not open MODIF Tif file... trying to get', url
 			# make working directory if necessary
-			wdir = os.path.join(self.inpath,self.year, self.day)
+			wdir = os.path.join(self.inpath,self.year, self.day, self.tile)
 			if not os.path.exists(wdir):
 				os.makedirs(wdir)		
 			filename, headers = urllib.urlretrieve(url, self.infile )
@@ -375,7 +375,8 @@ if __name__ == '__main__':
 		dx 	= app.RasterXSize
 		dy 	= app.RasterYSize
 		print ll, res, dx, dy
-		app.generate_image(	"water_coastal_only_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
+		#app.generate_image(	"water_coastal_only_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
+		app.generate_image(	"watershed_marshes_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
 			
 	app.clear()
 	app.process()

@@ -103,13 +103,13 @@
 			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav" id="menus">
-	 			  <li><a href="/">Home</a></li>
-	 			  <li><a href="/products">Products</a></li>
+	 			  <li><a href="/"><%= gettext('menu.home')%></a></li>
+	 			  <li><a href="/products"><%= gettext('menu.products')%></a></li>
 				  
 				  <li class="dropdown">
-		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">OpenSearch<b class="caret"></b></a>
+		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= gettext('menu.opensearch')%><b class="caret"></b></a>
 		            <ul class="dropdown-menu">
-						<li><a href="/opensearch/classic">Query</a></li>
+						<li><a href="/opensearch/classic"><%= gettext('menu.query')%></a></li>
 						<!--
 							<li><a href="/opensearch/gl">OpenGL</a></li>
 						-->
@@ -117,10 +117,10 @@
 				  </li>			
 				  
 				  <li class="dropdown">
-		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Applications <b class="caret"></b></a>
+		          	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= gettext('menu.applications')%> <b class="caret"></b></a>
 		            <ul class="dropdown-menu">
-						<li><a href="/apps/form">Register</a></li>
-						<li><a href="/apps/">List</a></li>
+						<li><a href="/apps/form"><%= gettext('menu.register')%></a></li>
+						<li><a href="/apps/"><%= gettext('menu.list')%></a></li>
 					</ul>
 				  </li>				  
 				</ul>				
@@ -147,49 +147,54 @@
 		
 	    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
 			<div class="list-group">
-				<a href="/about" class="list-group-item">About</a>
-				<a href="/contact" class="list-group-item">Contact</a>
+				<a href="/about" class="list-group-item"><%= gettext('layout.navbar.about')%></a>
+				<a href="/contact" class="list-group-item"><%= gettext('layout.navbar.contacts')%></a>
 			</div>
 			   
 			<% if((typeof user != 'undefined') && (typeof nodes != 'undefined')) { %>
 				<div id="query" style="display:none">
-					<i class='glyphicon glyphicon-search'></i>&nbsp;<a href="javascript:ShowForm();">Query</a><br/>
+					<i class='glyphicon glyphicon-search'></i>&nbsp;<a href="javascript:ShowForm();"><%= gettext('query.query_title')%></a><br/>
 				
 					<div class='well' id='query_container' style="display:none">
 						<form class="form-group" action="javascript:SubmitQuery();">
 					    
 							<div class="form-group">
-						      <label for="lnglat">Longitude, Latitude</label>
+						      <label for="lnglat"><%= gettext('query.lon_lat')%></label>
 						      	<input class="form-control" id="lnglat" value="-72.36,18.58" />
 						    </div>
 					    
 							<div class="form-group">
-						      <label for="q">Product Search</label>
+						      <label for="q"><%= gettext('products.search')%></label>
 								  <select id='q'>
-									<option value='surface_water'>Surface Water</option>
+									<option value='surface_water'><%= gettext('products.surface_water')%></option>
+									<option value='frost'><%= gettext('products.frost')%></option>
 								</select>
 						    </div>
 					    
 							<div class="form-group">
-						      <label for="startTime">Start Time:</label>
+						      <label for="startTime"><%= gettext('query.start_time')%>:</label>
 							  <input id="startTime" size="10" type="text" value="2012-01-02" readonly="" type='text'>
 						    </div>
 					    
 							<div class="form-group">
-						      <label for="endTime">End Time:  </label>
+						      <label for="endTime"><%= gettext('query.end_time')%>:  </label>
 							  <input id="endTime" size="10" type="text" value="2014-01-01" readonly="" type='text'>
 						    </div>
 					
 							<div class="form-group">
-								<label for='sources'>Sources:</label>
+								<label for='sources'><%= gettext('query.sources')%>:</label>
 								<select id='sources' class="selectpicker" multiple="multiple">
 									<% for( var n in nodes ) { %>
-									<option id="source-<%= nodes[n].source %>" value="<%= nodes[n].source %>"><%= nodes[n].source %></option>
+										<% if( nodes[n].selected) { %>
+											<option id="source-<%= nodes[n].source %>" value="<%= nodes[n].source %>" selected ><%= nodes[n].source %></option>
+										<% } else { %>
+											<option id="source-<%= nodes[n].source %>" value="<%= nodes[n].source %>" ><%= nodes[n].source %></option>												
+										<%	} %>
 									<%}%>
 								</select>
 							</div>
 
-						    <button type='submit' class="btn btn-primary">Submit</button>
+						    <button type='submit' class="btn btn-primary"><%= gettext('query.submit')%></button>
 						</form>
 					</div>
 				</div>
@@ -202,10 +207,10 @@
 
 		
 		<div class='footer'>
-			<a href='mailto:dalia.b.kirschbaum@nasa.gov'>Problems/questions? Contact Me</a>&nbsp;-&nbsp;
-			<a href='/privacy'>Privacy Statement</a>
+			<a href='mailto:dalia.b.kirschbaum@nasa.gov'><%= gettext('footer.problems')%></a>&nbsp;-&nbsp;
+			<a href='/privacy'><%= gettext('footer.privacy')%></a>
 			<div class="pull-right">
-				WARNING: Experimental Only!
+				<%= gettext('footer.warning')%>
 				<img src='/img/nasalogo.png' width=64>
 			</div>
 		</div>

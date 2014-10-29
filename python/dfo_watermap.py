@@ -70,8 +70,6 @@ class DFO:
 		
 		projection  = ds.GetProjection()
 		geotransform= ds.GetGeoTransform()
-
-		print geotransform
 		
 		xorg		= geotransform[0]
 		yorg  		= geotransform[3]
@@ -90,16 +88,16 @@ class DFO:
 		driver 		= gdal.GetDriverByName( "GTiff" )
 		dst_ds 		= driver.Create( self.output_file, RasterXSize, RasterYSize, 1, gdal.GDT_Byte, [ 'INTERLEAVE=PIXEL', 'COMPRESS=DEFLATE' ] )
 		band 		= dst_ds.GetRasterBand(1)
-		output_data = band.ReadAsArray(0, 0, dst_ds.RasterXSize, ds.RasterYSize )
+		output_data = band.ReadAsArray(0, 0, dst_ds.RasterXSize, dst_ds.RasterYSize )
 		
 		red_band 	= ds.GetRasterBand(1)
-		red_data 	= red_band.ReadAsArray(0, 0, ds.RasterXSize, ds.RasterYSize )
+		red_data 	= red_band.ReadAsArray(0, 0, dst_ds.RasterXSize, dst_ds.RasterYSize )
 
 		green_band 	= ds.GetRasterBand(2)
-		green_data 	= green_band.ReadAsArray(0, 0, ds.RasterXSize, ds.RasterYSize )
+		green_data 	= green_band.ReadAsArray(0, 0, dst_ds.RasterXSize, dst_ds.RasterYSize )
 
 		blue_band 	= ds.GetRasterBand(3)
-		blue_data 	= blue_band.ReadAsArray(0, 0, ds.RasterXSize, ds.RasterYSize )
+		blue_data 	= blue_band.ReadAsArray(0, 0, dst_ds.RasterXSize, dst_ds.RasterYSize )
 		
 		red_mask 	= (red_data == 255)
 		green_mask 	= (green_data < 255)

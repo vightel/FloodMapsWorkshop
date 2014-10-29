@@ -1,0 +1,708 @@
+{
+    "layout": {
+        "navbar": {
+            "landslides": "Landslides",
+            "floods": "Floods",
+            "earthquakes": "Earthquakes",
+            "fires": "Fires",
+            "about": "About",
+            "contacts": "Contacts",
+            "credits": "Credits",
+            "wiki": "Wiki",
+            "qa": "Q/A",
+            "edit": "Edit"
+        },
+        "user": {
+            "signin": "Sign in with your Email",
+            "logout": "Logout",
+            "profile": "View Profile",
+            "my_forecast": "My Forecast"
+        }
+    },
+    "products": {
+        "search": "Product Search",
+        "surface_water": "Flood Map",
+        "daily_precipitation": "Last 24hr Precip",
+        "daily_precipitation_24h_forecast": "24h Precipitation Forecast",
+        "landslide_nowcast": "Landslide Forecast",
+        "flood_nowcast": "Flood Nowcast",
+        "landslide_catalog": "Landslide Catalog",
+        "landslide_forecast": "Landslide Forecast",
+        "landslide_susceptibility": "Landslide Susceptibility",
+        "precipitation_nowcast": "Daily Precip Accumulation",
+        "precipitation_forecast": "Daily Precip Forecast",
+        "flood_forecast": "Flood Forecast",
+        "flood_catalog": "Flood Catalog",
+        "query_layer": "Query Layer",
+        "frost": "Frost"
+    },
+    "query": {
+        "query_title": "Query",
+        "lon_lat": "Longitude Latitude",
+        "start_time": "Start Time",
+        "end_time": "End Time",
+        "sources": "Sources",
+        "submit": "Submit"
+    },
+    "footer": {
+        "problems": "Problems/questions? Contact Me",
+        "privacy": "Privacy Statement",
+        "warning": "WARNING: Experimental Only!"
+    },
+    "homepage": {
+        "title": "Global Landslide Catalog",
+        "issues": "Issues",
+        "wiki": "Wiki",
+        "more": "More",
+        "filter": {
+            "landslidespermonth": "Landslides/Month",
+            "selected": "selected out of ",
+            "records": "records",
+            "reset": "Reset All",
+            "export": "Export",
+            "fatalitiespermonth": "Fatalities/Month",
+            "total_fatalities": "Total Fatalities",
+            "landlsidesfatalities": "Landslides/Fatalities",
+            "limit": "Limit Number of Queried Records To"
+        },
+        "table": {
+            "headers": {
+                "date": "Date",
+                "id": "Id",
+                "coordinates": "Coordinates",
+                "trigger": "Trigger",
+                "fatalities": "Fatalities",
+                "storm_name": "Storm Name",
+                "landslide_size": "Landslide Size",
+                "landslide_type": "Landslide Type"
+            }
+        }
+    },
+    "map": {
+        "topo_map": "Topo Map",
+        "grey_map": "Grey Map",
+        "legend": "legend",
+        "credits": "credit",
+        "flood_catalog": "Global Flood Catalog",
+        "flood_marker": "Flood Marker",
+        "flood_polygon": "Flood Polygon",
+        "trmm_precipitation": "TRMM Precipitation",
+        "gmfs_flood_forecast": "GMFS Flood Forecast",
+        "wrf_precipitation_forecast": "WRF Precipitation Forecast",
+        "modis_flood_map": "MODIS 2-day Flood Product",
+        "marker": {
+            "me": "My Location<br/><a href='/user/data'>Nowcast/Forecast</a>",
+            "flood": "Flood Marker",
+            "landslide": "Landslide Marker"
+        },
+        "drag_click_marker_comment": "Click on Map or Drag Marker To Set Your Location"
+    },
+    "landslide": {
+        "regional": {
+            "title": "Regional Landslide Monitoring and Forecast"
+        },
+        "all_info": "All Info",
+        "properties": {
+            "user_id": {
+                "label": "User Id",
+                "info": "Standard number",
+                "description": "A unique User ID."
+            },
+            "id": {
+                "label": "Id",
+                "info": "Standard number",
+                "description": "A unique ID will be assigned based on the login ID. A sequential number will also be assigned based on the number of reports the unique ID has submitted in this system."
+            },
+            "date": {
+                "label": "Date",
+                "info": "YYY-MM-DD"
+            },
+            "time": {
+                "label": "Time"
+            },
+            "country": {
+                "label": "Country"
+            },
+            "nearest_places": {
+                "label": "Nearest Places"
+            },
+            "hazard_type": {
+                "label": "Hazard Type"
+            },
+            "coordinates": {
+                "label": "Coordinates"
+            },
+            "trigger": {
+                "label": "Trigger"
+            },
+            "fatalities": {
+                "label": "Fatalities"
+            },
+            "injuries": {
+                "label": "Injuries"
+            },
+            "storm_name": {
+                "label": "Storm Name"
+            },
+            "landslide_size": {
+                "label": "Landslide Size",
+                "select": {
+                    "small": {
+                        "label": "Small"
+                    },
+                    "medium": {
+                        "label": "Medium"
+                    },
+                    "large": {
+                        "label": "Large"
+                    },
+                    "very_large": {
+                        "label": "Very Large"
+                    }
+                }
+            },
+            "landslide_type": {
+                "label": "Landslide Type",
+                "select": {
+                    "landslide": {
+                        "label": "Landslide"
+                    },
+                    "mudslide": {
+                        "label": "Mudslide"
+                    },
+                    "debris_flow": {
+                        "label": "Debris Flow"
+                    },
+                    "rock_fall": {
+                        "label": "Rock Fall"
+                    },
+                    "Earthflow": {
+                        "label": "Earthflow"
+                    },
+                    "translational_slide": {
+                        "label": "Translational Slide"
+                    },
+                    "snow_avalanche": {
+                        "label": "Snow Avalanche"
+                    },
+                    "lahar": {
+                        "label": "Lahar"
+                    },
+                    "complex": {
+                        "label": "Complex"
+                    },
+                    "riverbank_collapse": {
+                        "label": "River Bank Collapse"
+                    },
+                    "creep": {
+                        "label": "Creep"
+                    }
+                }
+            },
+            "source_name": {
+                "label": "Source Name"
+            },
+            "source_link": {
+                "label": "Source Link"
+            },
+            "photos_link": {
+                "label": "Photos Link"
+            },
+            "comments": {
+                "label": "Comments"
+            },
+            "location": {
+                "label": "Location",
+                "info": "Longitude Latitude",
+                "description": "Longitude Latitude"
+            },
+            "location_description": {
+                "label": "Location Description"
+            },
+            "location_accuracy": {
+                "label": "Location Accuracy"
+            },
+            "cat_src": {
+                "label": "Catalog Source"
+            },
+            "cat_id": {
+                "label": "Catalog Id"
+            },
+            "countryname": {
+                "label": "Country Name"
+            },
+            "near": {
+                "label": "Near"
+            },
+            "distance": {
+                "label": "Distance"
+            },
+            "adminname1": {
+                "label": "Admin Name 1"
+            },
+            "adminname2": {
+                "label": "Admin Name 2"
+            },
+            "adminname3": {
+                "label": "Admin Name 3"
+            },
+            "population": {
+                "label": "Population"
+            },
+            "tz": {
+                "label": "Time Zone"
+            },
+            "countrycode": {
+                "label": "Country Code"
+            },
+            "continentcode": {
+                "label": "Continent Code"
+            },
+            "key": {
+                "label": "Key"
+            },
+            "github": {
+                "label": "GitHub Filename"
+            },
+            "all": {
+                "label": "All Info"
+            }
+        }
+    },
+    "flood": {
+        "homepage": {
+            "title": "Global Flood Estimate/Forecast"
+        },
+        "table": {
+            "headers": {
+                "date": "Date",
+                "id": "Id",
+                "coordinates": "Coordinates",
+                "duration": "Trigger",
+                "cause": "Fatalities",
+                "fatalities": "Fatalities",
+                "severity": "Severity"
+            }
+        },
+        "regional": {
+            "title": "Regional Landslide Monitoring and Forecast"
+        }
+    },
+    "about": {
+        "title": "About",
+        "about": "# About\n\nThis is about the Global Landslide/Floods Monitoring System\nThis was a lot of work and we need your help\n\n## How Can I Help?\n\nSignin and start entering data\n"
+    },
+    "contact": {
+        "title": "Contact",
+        "contact": "# Contact\n\nFor More Information, Please Contact\n  Dr. Dalia Bach Kirschbaum\n  Research Physical Scientist\n  Hydrological Sciences Laboratory\n  Goddard Space Flight Center, Code 617\n  Building 33, Room G222\n  Greenbelt, MD  20771\n  \n  Phone 301-614-5810           Fax 301-614-5808\n  \n  Email dalia.b.kirschbaum@nasa.gov\n"
+    },
+    "credits": {
+        "title": "Credits In no particular order...",
+        "contents": "This project could not have been possible without the contributions of so many in the Open Source Community."
+    },
+    "privacy": {
+        "title": "Privacy",
+        "privacy": "# PRIVACY STATEMENT\n\nWe respect your privacy!\n\nIt is our policy not to share or sell any information you provide us.\n\n## Your Information\n\nOur Web site may contain several contact forms and links that allow visitors to interact with our system. \nThese may require personal information so that we can respond to requests efficiently, especially if the response entails the use of U.S. mail or another courier.\nWe may also use that information to measure the societal benefits of the provided science data.\nThe information we collect is used only to respond to specific requests. We may retain this information but do not use it for any other purpose.\n\n## Cookies\n\nPeriodically we may use cookies to collect non personally identifiable information. \nThis helps us detect things such as browser type and plugins, and navigational information regarding which pages visitors go to and when. \nThe information we collect through cookies is used only to respond to specific requests. We may retain this information but do not use it for any other purpose.\n\nIf you have any questions about this policy, please contact us by email, mail, phone, or fax.\n"
+    },
+    "support": {
+        "title": "Support",
+        "support": "# For Support\n\nPlease Contact Pat Cappelaere \nmailto pat@geobliki.com\n"
+    },
+    "terms": {
+        "title": "Terms",
+        "terms": "# Terms of Use\n\nWelcome to our website. \nIf you continue to browse and use this website you are agreeing to comply with and be bound by the following terms and conditions of use, \nwhich together with our privacy policy govern COMPANY’s relationship with you in relation to this website.\nThe term ‘COMPANY’ or ‘us’ or ‘we’ refers to the owner of the website whose registered office is Dalia Bach Kirschbaum, Hydrological Sciences Laboratory, Goddard Space Flight Center, Code 617, Building 33, Room G222, Greenbelt, MD  20771.\nThe term ‘you’ refers to the user or viewer of our website. The use of this website is subject to the following terms of use\n\n+ The content of the pages of this website is for your general information and use only. It is subject to change without notice.\n+ Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.\n+ Your use of any information or materials on this website is entirely at your own risk, for which we shall not be liable. It shall be your own responsibility to ensure that any products, services or information available through this website meet your specific requirements.\n+ This website contains material which is owned by or licensed to us. This material includes, but is not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of these terms and conditions.\n+ All trade marks reproduced in this website which are not the property of, or licensed to, the operator are acknowledged on the website.\n+ Unauthorised use of this website may give rise to a claim for damages and/or be a criminal offence.\n+ From time to time this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse the website(s). We have no responsibility for the content of the linked website(s).\n+ You may not create a link to this website from another website or document without COMPANY’s prior written consent.\n+ Your use of this website and any dispute arising out of such use of the website is subject to the laws of the United States of America.\n"
+    },
+    "copyrights": {
+        "title": "Copyrights and License",
+        "contents": "# Terms of Use   \n\nThe Global Landslide/Flood Catalog is open data, licensed under the Open Data Commons Open Database License (ODbL).\nYou are free to copy, distribute, transmit and adapt our data, as long as you credit OpenStreetMap and its contributors. \nIf you alter or build upon our data, you may distribute the result only under the same licence. The full legal code explains your rights and responsibilities.\n\n# How to credit Global Landslide/Flood Catalog</h3>\n\nWe require that you use the credit “© GLFC contributors”.\nYou must also make it clear that the data is available under the Open Database License. \nYou may do this by linking to this copyright page. Alternatively, and as a requirement if you are distributing any data, you can name and link directly to the license(s). \nIn media where links are not possible (e.g. printed works), we suggest you direct your readers to the website.\n\n# Our contributors\nDalia Kirschbaum\n"
+    },
+    "License": {
+        "title": "License",
+        "contents": "# Terms of Use\n\n## ODC Open Database License (ODbL)\n\n### Preamble\nThe Open Database License (ODbL) is a license agreement intended to\nallow users to freely share, modify, and use this Database while\nmaintaining this same freedom for others. Many databases are covered by\ncopyright, and therefore this document licenses these rights. Some\njurisdictions, mainly in the European Union, have specific rights that\ncover databases, and so the ODbL addresses these rights, too. Finally,\nthe ODbL is also an agreement in contract for users of this Database to\nact in certain ways in return for accessing this Database.\n"
+    },
+    "hazards": {
+        "landslide": "Landslides",
+        "floods": "Floods",
+        "fires": "Fires",
+        "volcanoes": "Volcanoes",
+        "quakes": "Earthquakes",
+        "tsunami": "Tsunami"
+    },
+    "navtab": {
+        "home": "Home",
+        "report": "Report",
+        "reports": "Reports",
+        "report_a_flood": "Report A Flood",
+        "report_a_landslide": "Report A Landslide",
+        "regions": "Regions",
+        "account": "Account",
+        "back": "Back",
+        "credits": "Credits",
+        "legend": "Legend",
+        "query": "Query...",
+        "geoss_search": "GEOSS SEARCH",
+        "login": "Login",
+        "logout": "Logout",
+        "profile": "Profile",
+        "regional_nodes": "Regional Nodes"
+    },
+    "profile": {
+        "label": "User Profile",
+        "user_info": "User Information",
+        "gravatar": "Gravatar",
+        "name": "Name",
+        "email": "email",
+        "organization": "Organization",
+        "language": "Language",
+        "reputation": "Reputation",
+        "member_since": "Member Since",
+        "social_rewards": "Social Rewards",
+        "reported": "Reported",
+        "region": "Region",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "admin": "Admin",
+        "banned": "Banned",
+        "accept": "Accept License?"
+    },
+    "region": {
+        "central_america": "Central America",
+        "hispaniola": "Hispaniola"
+    },
+    "today": {
+        "label": "Today At My Location",
+        "nowcast": "Nowcast",
+        "forecast": "Forecast",
+        "landslide_hazard": "Landslide Hazard",
+        "flood_hazard": "Flood Hazard",
+        "quake_hazard": "Quake Hazard",
+        "fire_hazard": "Fire Hazard",
+        "tsunami_hazard": "Tsunami Hazard",
+        "precipitation": "Precipitation",
+        "soil_moisture": "Soil Moisture"
+    },
+    "alert": {
+        "none": "None",
+        "warning": "Warning",
+        "caution": "Caution"
+    },
+    "nav_button": {
+        "take_picture": "Take Picture"
+    },
+    "reported": {
+        "landslide_success": "## Success\n\nLandslide has been reported succesfully.\nThank you!\n",
+        "landslide_error": "## Error\n\nAn error occurred while trying to report Landslide.\n{error}\nSorry!\nThank you!\n"
+    },
+    "geoapp": {
+        "title": "OJO Geo-App",
+        "motto": "The Eye of the Night's Watch",
+        "welcome": "Welcome {email}",
+        "about": "## Please!\n\nSign in to report a landslide or a flood.\nLandslide/Flood Monitoring is available for a few regions as a proof-of-concept for GEOSS.\nPlease select your regional node to continue...\n"
+    },
+    "presets": {
+        "presets": {
+            "hazard_type/landslide": {
+                "name": "Landslide",
+                "terms": "landslide"
+            },
+            "hazard_type/flood": {
+                "name": "Flood",
+                "terms": "flood"
+            }
+        },
+        "fields": {
+            "user_id": {
+                "label": "User ID",
+                "description": "user id"
+            },
+            "fatalities": {
+                "label": "Fatalities",
+                "description": "fatalities"
+            },
+            "injuries": {
+                "label": "Impacts",
+                "description": "Impacts cause by landside"
+            },
+            "trigger": {
+                "label": "Trigger",
+                "description": "Trigger"
+            },
+            "nearest_places": {
+                "label": "Nearest Places",
+                "description": "nearest places as entered by the user"
+            },
+            "date": {
+                "label": "Date",
+                "placeholder": "YYYY-MM-DD",
+                "description": "formatted date YYY-MM-DD"
+            },
+            "time": {
+                "label": "Time",
+                "description": "approximate time unformatted"
+            },
+            "hazard_type": {
+                "label": "Hazard Type",
+                "description": "GEOSS Hazard Type",
+                "options": {
+                    "landslide": {
+                        "title": "Landslide",
+                        "description": "Landslide"
+                    },
+                    "flood": {
+                        "title": "Flood",
+                        "description": "Flood"
+                    }
+                }
+            },
+            "landslide_type": {
+                "label": "Landslide Type",
+                "description": "Landslide location type",
+                "options": {
+                    "Landslide": {
+                        "title": "Landslide",
+                        "description": "Landslide"
+                    },
+                    "Mudslide": {
+                        "title": "Mudslide",
+                        "description": "Mudslide"
+                    },
+                    "Debris_Flow": {
+                        "title": "DebrisFlow",
+                        "description": "Debris Flow"
+                    },
+                    "Rock_Fall": {
+                        "title": "Rock Fall",
+                        "description": "Rock Fall"
+                    },
+                    "Earthflow": {
+                        "title": "Earthflow",
+                        "description": "Earthflow"
+                    },
+                    "Translational_Slide": {
+                        "title": "Translational Slide",
+                        "description": "Translational Slide"
+                    },
+                    "Snow_Avalanche": {
+                        "title": "Snow Avalanche",
+                        "description": "SnowvAvalanche"
+                    },
+                    "Lahar": {
+                        "title": "Lahar",
+                        "description": "Lahar"
+                    },
+                    "Complex": {
+                        "title": "Complex",
+                        "description": "Complex"
+                    },
+                    "Riverbank_Collapse": {
+                        "title": "Riverbank Collapse",
+                        "description": "Riverbank Collapse"
+                    },
+                    "Creep": {
+                        "title": "Creep",
+                        "description": "Creep"
+                    },
+                    "Other": {
+                        "title": "Other",
+                        "description": "Other"
+                    },
+                    "Unknown": {
+                        "title": "Unknown",
+                        "description": "Unknown"
+                    }
+                }
+            },
+            "landslide_size": {
+                "label": "Landslide Size",
+                "description": "Landslide location size",
+                "options": {
+                    "Small": {
+                        "title": "Small",
+                        "description": "Small"
+                    },
+                    "Medium": {
+                        "title": "Medium",
+                        "description": "Medium"
+                    },
+                    "Large": {
+                        "title": "Large",
+                        "description": "Large"
+                    },
+                    "Very_large": {
+                        "title": "Very large",
+                        "description": "Very large"
+                    }
+                }
+            },
+            "location_accuracy": {
+                "label": "Location Accuracy",
+                "description": "Landslide location accuracy",
+                "options": {
+                    "Exact_Location": {
+                        "title": "Exact Location",
+                        "description": "Exact Location"
+                    },
+                    "Known_within_1km": {
+                        "title": "Known within 1km",
+                        "description": "Known within 1km"
+                    },
+                    "Known_within_5km": {
+                        "title": "Known within 5km",
+                        "description": "Known within 5km"
+                    },
+                    "Known_within_10km": {
+                        "title": "Known within 10km",
+                        "description": "Known within 10km"
+                    },
+                    "Known_within_15km": {
+                        "title": "Known within 15km",
+                        "description": "Known within 15km"
+                    },
+                    "Known_within_25km": {
+                        "title": "Known within 25km",
+                        "description": "Known within 25km"
+                    },
+                    "Known_within_50km": {
+                        "title": "Known within 50km",
+                        "description": "Known within 50km"
+                    },
+                    "Unknown": {
+                        "title": "Unknown",
+                        "description": "Unknown"
+                    }
+                }
+            },
+            "location_description": {
+                "label": "Location Description",
+                "description": "Landslide location description",
+                "options": {
+                    "Above_road": {
+                        "title": "Above road",
+                        "description": "Above road"
+                    },
+                    "Below_road": {
+                        "title": "Below road",
+                        "description": "Below road"
+                    },
+                    "Above_river": {
+                        "title": "Above river",
+                        "description": "Above river"
+                    },
+                    "Natural_slope": {
+                        "title": "Natural slope",
+                        "description": "Natural slope"
+                    },
+                    "Burned_area": {
+                        "title": "Burned area",
+                        "description": "Burned area"
+                    },
+                    "Deforested_slope": {
+                        "title": "Deforested slope",
+                        "description": "Deforested slope"
+                    },
+                    "Bluff": {
+                        "title": "Bluff",
+                        "description": "Bluff"
+                    },
+                    "Retaining_wall": {
+                        "title": "Retaining wall",
+                        "description": "Retaining wall"
+                    },
+                    "Mine_construction": {
+                        "title": "Mine construction",
+                        "description": "Mine construction"
+                    },
+                    "Urban_area": {
+                        "title": "Urban area",
+                        "description": "Urban area"
+                    },
+                    "Other": {
+                        "title": "Unknown",
+                        "description": "Unknown"
+                    },
+                    "Unknown": {
+                        "title": "Other",
+                        "description": "Other"
+                    }
+                }
+            },
+            "comments": {
+                "label": "Comments",
+                "description": "comments to be entered by the user"
+            },
+            "storm_name": {
+                "label": "Storm Name",
+                "description": "Storm Name"
+            },
+            "source_name": {
+                "label": "Source Name",
+                "description": "source name"
+            },
+            "source_link": {
+                "label": "Source Link",
+                "description": "link to source document"
+            },
+            "photos_link": {
+                "label": "Photos Links",
+                "description": "link to photos"
+            }
+        }
+    },
+    "actions": {
+        "actions": "actions",
+        "download": "download",
+        "browse": "browse",
+        "process": "process",
+        "share": "share",
+        "like": "like",
+        "task": "task"
+    },
+    "stream": {
+        "displayName": "Publisher Flood Surface Water Products"
+    },
+    "properties": {
+        "properties": "properties",
+        "description": "description",
+        "source": "source",
+        "sensor": "sensor",
+        "date": "date",
+        "bbox": "bbox",
+        "size": "size",
+        "centerlat": "centerlat",
+        "centerlon": "centerlon"
+    },
+    "sources": {
+        "radarsat2": "CSA Radarsat2",
+        "l8": "NASA Landsat-8",
+        "dfo": "Dartmouth Flood Observatory - Colorado",
+        "eo1": "NASA EO-1",
+        "modis": "NASA MODIS",
+        "alos2": "JAXA ALOS-2"
+    },
+    "sensors": {
+        "sar": "SAR",
+        "ali": "ALI",
+        "modis": "MODIS",
+        "l8": "OLI",
+        "dfo": "MODIS/l8",
+        "alos2": "PALSAR-2"
+    },
+    "duration": {
+        "hours": "%{hours} hours",
+        "minutes": "%{minutes} minutes",
+        "seconds": "%{seconds} seconds"
+    },
+    "formats": {
+        "topojson": "topojson",
+        "topojsongz": "topojson.gz",
+        "osmbz2": "osm.bz2",
+        "date": "YYYY-MM-DD"
+    },
+    "filesize": {
+        "B": "B",
+        "KB": "KB",
+        "MB": "MB",
+        "GB": "GB",
+        "TB": "TB"
+    }
+}

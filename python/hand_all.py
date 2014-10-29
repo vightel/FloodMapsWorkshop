@@ -367,7 +367,7 @@ if __name__ == '__main__':
 	"CA/n10w065",
 	"CA/n15w075"
 	]
-	
+		
 	parser = argparse.ArgumentParser(description='Generate HAND tiles')
 	apg_input = parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", action='store_true', help="HydroSHEDS forces new water image to be generated")

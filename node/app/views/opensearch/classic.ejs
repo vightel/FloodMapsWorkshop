@@ -1,6 +1,6 @@
 
 <div class="container">
-	<h3>OpenSearch Classic</h3>
+	<h3><%= gettext("menu.opensearch")%></h3>
 	<div class='row'>
 		<div class='col-xs-6'></div>
 		<div class='col-xs-6'>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/css/customlegend.css" />
 <link rel="stylesheet" href="/css/datepicker.css" />
 <script src="/js/bootstrap-datepicker.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 
 <script>
 	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
@@ -23,6 +24,15 @@
 	var map_controls = L.control.layers({
 	    'Topo Map': L.mapbox.tileLayer('<%= region.map_id %>',{ attribution: 'MapBox'}).addTo(map)
 	}, {}).addTo(map);
+	
+	
+	var marker_me = L.marker([<%= region.target[0] %>,<%= region.target[1] %> ], {
+	    icon: L.mapbox.marker.icon({
+	      'marker-color': '#f86767'
+	    })
+	}).addTo(map);
+	
+	$('#lnglat').val("<%= region.target[1] %>,<%= region.target[0] %>")
 	
 	var query_results = {};
 	
@@ -63,24 +73,26 @@
 		var html = "<div class='well'>";
 		html += "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
 		html += "<table class='table table-condensed'>";
-		html += "<tr><td width='100'>"
+		html += "<tr><td width='150'>"
+		
+		var id = el["@id"]
 		
 		// take last image
 		var image_url = el.image[0];
 		if (image_url.url) image_url = image_url.url; 
 		
-		html += "&nbsp;<img class='img-thumbnail' id='"+el.id+"' src=\'"+image_url+"\' width='90' ondragstart='handleDrag(event);' />";
+		html += "&nbsp;<a href='"+ image_url+"'><img class='img-thumbnail' id='"+id+"' src=\'"+image_url+"\' width='140' ondragstart='handleDrag(event);' /></a>";
 		html += "</td><td>"
 		
 		if( true ) {
 		html += "<ul class='nav nav-tabs'>"
 		
-		var general_fn 		= "javascript:NavTab('general','" + el.id + "');";
-		var metadata_fn 	= "javascript:NavTab('metadata','" + el.id + "');";
-		var actions_fn 		= "javascript:NavTab('actions','" + el.id + "');";
-		var tab_general_id 	= 'tab-general-'+el.id;
-		var tab_metadata_id	= 'tab-metadata-'+el.id;
-		var tab_actions_id 	= 'tab-actions-'+el.id;
+		var general_fn 		= "javascript:NavTab('general','" + id + "');";
+		var metadata_fn 	= "javascript:NavTab('metadata','" + id + "');";
+		var actions_fn 		= "javascript:NavTab('actions','" + id + "');";
+		var tab_general_id 	= 'tab-general-'+id;
+		var tab_metadata_id	= 'tab-metadata-'+id;
+		var tab_actions_id 	= 'tab-actions-'+id;
 		
 		html += "  <li class='active' id="+ tab_general_id+"><a href="+general_fn+"><%= gettext("tabs.general")%></a></li>"
 		html += "  <li id="+tab_metadata_id+"><a href="+metadata_fn+"><%= gettext("tabs.metadata")%></a></li>"
@@ -90,27 +102,33 @@
 	
 		// General Div
 		if( true ) {
-		html += "<div id='general-"+el.id + "'>"
-		html += "<table class='table table-condensed'>";
-		html += "<tr><td>id</td><td><b>"+el["@id"]+"</td></tr>";
-		html += "<tr><td>type</td><td><b>" + el["@type"] + "</b>:</td></tr>"
-		html += "<tr><td>name</td><td><b>" + el.displayName+ "</b>:</td></tr>"
-		html += "</table></div>"
+			html += "<div id='general-"+id + "'>"
+			html += "<table class='table table-condensed'>";
+			html += "<tr><td>id</td><td><b>"+el["@id"]+"</td></tr>";
+			html += "<tr><td>type</td><td><b>" + el["@type"] + "</b></td></tr>"
+			html += "<tr><td>name</td><td><b>" + el.displayName+ "</b></td></tr>"
+			html += "</table>"
+			html += "</div>"
 		}
 		
 		// Metadata Div
 		if( true ) {
-			html += "<div id='metadata-"+el.id +"' style='display:none'>"
+			html += "<div id='metadata-"+id +"' style='display:none'>"
 			html += "<table class='table table-condensed'>"
 			$.each(el.properties, function(key, prop) {
-				html += "<tr><td><b>"+ key + ":</b></td><td>" + prop + "</td></tr>"
+				var el = prop
+				if( key != "geometry") {
+					html += "<tr><td><b>"+ prop["@label"] + ":</b></td><td>" + prop["@value"] + "</td></tr>"
+				} else {
+					// html += "<tr><td><b>geometry:</b></td><td>" + el["coordinates"] + "</td></tr>"				
+				}
 			})
 			html += "</table></div>"
 		}
 		
+		//Action Div
 		if( true ) {
-			//Action Div
-			html += "<div id='actions-"+el.id +"' style='display:none'>"
+			html += "<div id='actions-"+id +"' style='display:none'>"
 			html += "<table class='table table-condensed'>"
 			html += "<tr><td width='100'></td><td>"
 		
@@ -125,7 +143,9 @@
 				var using = action[a].using
 				for( var u in using ) {
 					var el = using[u]
-					if( el["@type"].indexOf("HttpRequest") > 0) {
+					if( !el["@type"] ) {
+						console.log("Missing el @typw for ", actionName)
+					} else if( el["@type"].indexOf("HttpRequest") > 0) {
 						if( el.method == 'GET') {
 							var displayName = el.displayName || el.mediaType
 							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + displayName
@@ -249,7 +269,7 @@
 			dataType: "json",
 			url: url,
 			success: function( data ) {
-				var count = data.replies.items.length
+				var count = data.items.length
 				console.log("Success..."+count)
 				var html = "<div class='well'>"
 				
@@ -259,9 +279,10 @@
 				html += results + "<br/></div"
 				$('#results').html(html)
 			
-				$.each( data.replies.items, function( key, val ) {
+				$.each( data.items, function( key, val ) {
 					//console.log("Formatting item "+key)
-					query_results[val.id] = val;
+					var id = val["@id"]
+					query_results[id] = val;
 					FormatResponseElement(val);
 				});
 			},
@@ -278,6 +299,9 @@
 		var latlng = e.latlng
 		var lat = latlng.lat.toFixed(2)
 		var lng	= latlng.lng.toFixed(2)
+		
+		marker_me.setLatLng( latlng );
+		
 		$('#lnglat').val(lng +", "+lat)
   	})
  
@@ -290,6 +314,93 @@
 			}, function(response) { console.log("FB resp:"+JSON.stringify(response)); });
 		}, {scope: 'publish_actions'});
 	}
+	
+	function handleDrop(event) {
+		event.stopPropagation(); // Stops some browsers from redirecting.
+		event.preventDefault();
+
+		var files 	= event.dataTransfer.files;
+		
+		console.log("handleDrop", JSON.stringify(files))
+		
+		for( var i=0; i<files.length; i++) {
+			var file = files[i];
+			console.log("dropped:"+JSON.stringify(file));	
+		}
+		
+		var id = event.dataTransfer.getData('Text');
+		
+		console.log("handleDrop id", id)
+		
+		if( id != null && id != undefined && id != '') {
+			console.log( "dropped id:"+id );
+			var result 	= query_results[id];
+
+			// find the download action
+			for( var a in result.action){
+				var action = result.action[a]
+				if( action['@type'] == 'ojo:download' ) {
+					var using = action.using
+					for( var u in using ) {
+						var uses 	= using[u]
+						var url		= uses.url
+						console.log(url)
+						if( url.indexOf(".png") > 0 ) {
+							// add image overlay
+							var bbox = result.properties.geometry.coordinates[0]
+							var imageBounds = [bbox[0].reverse().map(parseFloat), bbox[2].reverse().map(parseFloat)]
+							
+							console.log("Add to map", JSON.stringify(imageBounds))
+							var options 	= {opacity: 0.8, attribution: "Digiglobe"}
+							var newLayer 	= L.imageOverlay(url, imageBounds, options).addTo(map);
+							map_controls.addOverlay( newLayer, id );
+							break;
+						} else if( url.indexOf(".topojson")>0) {
+							console.log("loading topojson", url)
+							$.ajax({
+								type: 'GET',
+								url: url,
+								async: true
+							})
+							.success( function(data) {
+								if( data && data.objects ) {
+									console.log("Returned good data")
+					
+									var data 	= topojson.feature(data, data.objects['surface_water']);
+				
+									var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
+									newLayer.addData(data);
+									newLayer.addTo(map);
+									map_controls.addOverlay( newLayer, id );
+								} else {
+									console.log("Returned bad data")
+								}
+							})
+							.fail(function(jqxhr, textStatus, error ) { 
+								var err = textStatus + ', ' + error;
+								alert( "Request Failed: " + err);
+							});
+							break
+						}
+					}
+				} else {
+					console.log("action", action['@type'])
+				}
+			}
+		}
+	}
+	
+	function allowDrop(event) {
+		event.preventDefault();    // cancel the ev event
+	}
+
+	function handleDrag(event) {
+		var id = event.target.id
+		event.dataTransfer.setData('Text', id);		
+		//console.log( "drag: " + id);
+	}
+	
+	
 </script>
 
 <!-- TWITTER THING -->

@@ -1,0 +1,212 @@
+{
+    "layout": {
+        "navbar": {
+            "landslides": "Deslizamentos de Terra",
+            "floods": "Inundações",
+            "earthquakes": "Terremotos",
+            "fires": "Incêndios",
+            "about": "Cerca de",
+            "contacts": "Contatos",
+            "credits": "Créditos",
+            "wiki": "Wiki",
+            "qa": "Perguntas e Respostas",
+            "edit": "Editar"
+        },
+        "user": {
+            "signin": "Entre com seu Email",
+            "logout": "Terminar Sessão",
+            "profile": "Ver Perfil"
+        }
+    },
+    "products": {
+        "surface_water": "Inundação Mapa",
+        "daily_precipitation": "Precipitação Diária",
+        "daily_precipitation_24h_forecast": "24h Previsão de Precipitação",
+        "landslide_catalog": "Catálogo de Deslizamentos de Terra",
+        "flood_catalog": "Catálogo de Inundações"
+    },
+    "query": {
+        "lon_lat": "Longitude Latitude",
+        "start_time": "Hora de Início",
+        "end_time": "Hora de Término",
+        "sources": "Fontes"
+    },
+    "footer": {
+        "problems": " Problemas ou Perguntas? Contato Comigo",
+        "privacy": "Politica de Privacidade",
+        "warning": "AVISO: Apenas Experimental!"
+    },
+    "homepage": {
+        "title": "Catálogo Mundial de Deslizamentos de Terra",
+        "issues": "Problemas",
+        "wiki": "Wiki",
+        "more": "Mais",
+        "filter": {
+            "landslidespermonth": "Deslizamentos de Terra por Mês",
+            "selected": "seleccionado a partir de",
+            "reset": "Reiniciar Tudo",
+            "export": "Exportar",
+            "fatalitiespermonth": "Fatalidades por Mês",
+            "total_fatalities": "Total de Fatalidades",
+            "landlsidesfatalities": "Deslizamentos de Terra por Fatalidades"
+        },
+        "table": {
+            "headers": {
+                "date": "Data",
+                "coordinates": "Coordenadas",
+                "trigger": "Causa",
+                "fatalities": "Fatalidades",
+                "storm_name": "Nome Tempestade ",
+                "landslide_size": "Tamanho do Deslizamento de Terra",
+                "landslide_type": "Tipo de Deslizamento de Terra"
+            }
+        }
+    },
+    "map": {
+        "topo_map": "Mapa Topográfico",
+        "grey_map": "Mapa Cinza",
+        "credits": "crédito",
+        "flood_catalog": "Catálogo Mundial de Inundações",
+        "trmm_precipitation": "TRMM Precipitação",
+        "wrf_precipitation_forecast": "WRF Previsão de Precipitação"
+    },
+    "flood": {
+        "table": {
+            "headers": {
+                "date": "Data",
+                "coordinates": "Coordenadas",
+                "cause": "Fatalidades",
+                "fatalities": "Fatalidades"
+            }
+        }
+    },
+    "about": {
+        "title": "Cerca de"
+    },
+    "contact": {
+        "title": "Contato"
+    },
+    "privacy": {
+        "title": "Privacidade"
+    },
+    "support": {
+        "title": "Apoio",
+        "support": "# Para Apoio\n\nEntre em Contato com Pat Cappelaere\npat@geobliki.com\n"
+    },
+    "hazards": {
+        "landslide": "Deslizamentos de Terra",
+        "floods": "Inundações",
+        "fires": "Incêndios",
+        "volcanoes": "Vulcões",
+        "quakes": "Terremotos"
+    },
+    "navtab": {
+        "credits": "Créditos",
+        "logout": "Terminar Sessão",
+        "profile": "Perfil"
+    },
+    "profile": {
+        "label": "Perfil do Usuário",
+        "user_info": "Informações do Usuário",
+        "name": "Nome",
+        "email": "email",
+        "organization": "Organização",
+        "language": "Língua",
+        "reputation": "Reputação",
+        "social_rewards": "Recompensas Sociais",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "admin": "Admin"
+    },
+    "today": {
+        "precipitation": "Precipitação"
+    },
+    "nav_button": {
+        "take_picture": "Tirar Foto"
+    },
+    "reported": {
+        "landslide_success": "## Sucesso\n\nDeslizamento de terra tem sido relatada com sucesso.\nObrigado!\n",
+        "landslide_error": "## Erro\n\nOcorreu um erro ao tentar relatar deslizamento de terra.\n{erro}\nDesculpe!\nObrigado!\n"
+    },
+    "geoapp": {
+        "welcome": "Bem Vindo {email}"
+    },
+    "landslide": {
+        "properties": {
+            "id": {
+                "info": "Número Padrão"
+            },
+            "date": {
+                "label": "Data"
+            },
+            "country": {
+                "label": "País"
+            },
+            "nearest_places": {
+                "label": "Lugares Mais Próximos"
+            },
+            "coordinates": {
+                "label": "Coordenadas"
+            },
+            "fatalities": {
+                "label": "Fatalidades"
+            },
+            "storm_name": {
+                "label": "Nome Tempestade "
+            },
+            "landslide_size": {
+                "label": "Tamanho do Deslizamento de Terra"
+            },
+            "landslide_type": {
+                "label": "Tipo de Deslizamento de Terra",
+                "select": {
+                    "landslide": {
+                        "label": "Deslizamento de Terra"
+                    },
+                    "mudslide": {
+                        "label": "Deslizamento de Lama"
+                    }
+                }
+            },
+            "source_name": {
+                "label": "Nome da Fonte"
+            },
+            "source_link": {
+                "label": "Link da Fonte"
+            },
+            "comments": {
+                "label": "Comentários"
+            },
+            "location_description": {
+                "label": "Descrição Localização"
+            },
+            "location_accuracy": {
+                "label": "Precisão de Localização"
+            },
+            "cat_src": {
+                "label": "Fonte Catálogo"
+            },
+            "countryname": {
+                "label": "Nome do País"
+            },
+            "adminname2": {
+                "label": "Nome do Admin 2"
+            },
+            "adminname3": {
+                "label": "Nome do Admin 3"
+            },
+            "population": {
+                "label": "População"
+            },
+            "tz": {
+                "label": "Fuso Horário"
+            },
+            "countrycode": {
+                "label": "Código do País"
+            },
+            "continentcode": {
+                "label": "Código Continente"
+            }
+        }
+    }
+}

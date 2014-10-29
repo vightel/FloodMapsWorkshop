@@ -1,0 +1,192 @@
+{
+    "results": "%{results} results",
+    "menu": {
+      "home": "Home",
+      "products": "Products",
+      "opensearch": "OpenSearch",
+      "applications": "Applications",
+      "register": "Register",
+      "list": "List",
+      "query": "Query"
+    },
+    "layout": {
+      "navbar": {
+        "about": "About",
+        "contacts": "Contacts"
+      }
+    },
+    "query": {
+      "query_title": "Query",
+      "lon_lat": "Longitude, Latitude",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "sources": "Sources",
+      "submit": "Submit"
+    },
+    "footer": {
+      "privacy": "Privacy",
+      "problems": "Problems",
+      "warning": "Warning! Experimental"
+    },
+    "tabs": {
+        "general": "General",
+        "metadata": "Metadata",
+        "actions": "Actions"
+    },
+    "actions": {
+        "actions": "actions",
+        "download": "download",
+        "browse": "browse",
+        "process": "process",
+        "share": "share",
+        "like": "like",
+        "task": "task",
+        "map": "map"
+    },
+    "stream": {
+        "displayName": "Publisher Flood Surface Water Products"
+    },
+    "properties": {
+        "properties": "properties",
+        "description": "description",
+        "source": "source",
+        "sensor": "sensor",
+        "date": "date",
+        "bbox": "bbox",
+        "size": "size",
+        "centerlat": "centerlat",
+        "centerlon": "centerlon",
+        "duration": "duration",
+        "resolution": "resolution",
+        "cloud": "cloud cover",
+        "copyright": "copyright"
+    },
+    "sources": {
+        "radarsat2": "CSA Radarsat2",
+        "l8": "NASA Landsat-8",
+        "dfo": "Dartmouth Flood Observatory - Colorado",
+        "eo1": "NASA EO-1",
+        "modis": "NASA MODIS",
+        "alos2": "JAXA ALOS-2"
+    },
+    "sensors": {
+        "sar": "SAR",
+        "ali": "ALI",
+        "modis": "MODIS",
+        "l8": "OLI",
+        "dfo": "MODIS/l8",
+        "alos2": "PALSAR-2"
+    },
+    "duration": {
+        "hours": "%{hours} hours",
+        "minutes": "%{minutes} minutes",
+        "seconds": "%{seconds} seconds"
+    },
+    "formats": {
+        "topojson": "topojson",
+        "topojsongz": "topojson.gz",
+        "geotiff": "geotiff",
+        "jpg": "jpg",
+        "png": "png",
+        "osmbz2": "osm.bz2",
+        "date": "YYYY-MM-DD"
+    },
+    "products": {
+      "search": "Search",
+        "surface_water": "Flood Map",
+        "landslide_catalog": "Landslide Catalog",
+        "landslide_nowcast": "Landslide Forecast",
+        "landslide_forecast": "Landslide Forecast",
+        "landslide_susceptibility": "Landslide Susceptibility",
+        "daily_precipitation": "Last 24hr Precip",
+        "precipitation_nowcast": "Daily Precip Accumulation",
+        "precipitation_forecast": "Daily Precip Forecast",
+        "flood_forecast": "Flood Forecast",
+        "flood_nowcast": "Flood Nowcast",
+        "flood_catalog": "Flood Catalog",
+        "frost": "Frost"
+    },
+    "filesize": {
+        "B": "B",
+        "KB": "KB",
+        "MB": "MB",
+        "GB": "GB",
+        "TB": "TB"
+    },
+    "mapinfo": {
+      "credits": "credits",
+      "style": "style",
+      "legend": "legend"
+    },
+    
+    "legend": {
+      
+      "radarsat2": {
+        "title": "Radarsat2 Flood Map",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Source",
+          "source": "CSA/MDA"
+        },
+        "legend": "Surface Water"
+      },
+      
+      "dfo": {
+        "title": "Dartmouth Flood Observatory Flood Map",
+        "credits": "DFO",
+        "source": { 
+          "label": "Source",
+          "source": "Dartmouth Flood Observatory"
+        },
+        "legend": "Surface Water"
+      },
+      
+      "l8": {
+        "title": "Landsat-8 Flood Map",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Source",
+          "source": "NASA"
+        },
+        "legend": "Surface Water"
+      },
+
+      "eo1_ali": {
+        "title": "EO-1 ALI Flood Map",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Source",
+          "source": "NASA"
+        },
+        "legend": "Surface Water"
+      },
+
+      "modis": {
+        "title": "MODIS Flood Map",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Source",
+          "source": "NASA"
+        },
+        "legend": "Surface Water"
+      },
+        
+      "frost": {
+        "title": "Frost Map Legend",
+        "credits": "NASA SErVIR/RCMRD",
+        "source": {
+          "label": "Source",
+          "source": "SERVIR/RCMRD"
+        },
+        
+        "legend": {
+          "no_data": "No Data",
+          "very_severe_frost": "Very Severe Frost",
+          "severe_frost": "Severe Frost",
+          "moderate_frost": "Moderate frost",
+          "minor_frost": "Minor Frost Pockets",
+          "no_frost": "No Frost"
+        }
+      }
+    }
+}

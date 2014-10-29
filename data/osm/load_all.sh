@@ -7,11 +7,11 @@
 # OSM Files have been downloaded from cloudmade
 # Postgres database user and database name
 
-#export DBNAME="osmdb"
-#export DBHOST="osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com"
-#export DBPORT=5432
-#export DBOWNER="osm_admin"
-#export PGPASSWORD="osmAdmin1"
+export DBNAME="namibiadb"
+export DBHOST="namibiadb.crcholi0be4z.us-east-1.rds.amazonaws.com"
+export DBPORT=5432
+export DBOWNER="osmdb"
+export PGPASS="osmAdmin1"
 
 # Check for required environmnet variables
 if [ -z "$DBNAME" ]; then
@@ -56,20 +56,20 @@ fi
 #	wget "http://download.geofabrik.de/south-america-latest.osm.bz2"
 #fi
 
-#if [ ! -f ./africa-latest.osm.bz2 ]; then
-#	wget "http://download.geofabrik.de/africa-latest.osm.bz2"
-#fi
+if [ ! -f ./africa-latest.osm.bz2 ]; then
+	wget "http://download.geofabrik.de/africa-latest.osm.bz2"
+fi
 
 #export STYLE="default.style"
 export STYLE="water.style"
 
-export CACHESIZE=1200
+export CACHESIZE=2400
 export NUM_PROCESSES=4
 
 # note CACHESIZE might be too large on Joyent machine... use 1200
-osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./central-america-latest.osm.bz2
+#osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./central-america-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./south-america-latest.osm.bz2
-#osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./africa-latest.osm.bz2
+osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./africa-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./egypt-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./morocco-latest.osm.bz2
 
