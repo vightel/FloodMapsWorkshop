@@ -1,0 +1,17 @@
+<div class='row'>
+
+<h3><%= description %></h3>
+
+<div class='col-md-4'></div>
+
+<div class='well col-md-6'>
+
+<table class='table'>
+<% for (var r in records) { %>
+	<tr>
+		<td><a href='<%=base_href%><%=records[r].scene %>'><%= records[r].scene %></a></td>
+	</tr>
+<% } %>
+</table>
+</div>
+</div>

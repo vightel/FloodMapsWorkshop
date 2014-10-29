@@ -56,5 +56,22 @@ module.exports = {
 		var bbox =  [lonmin, latmin, lonmax, latmax]
 		
 		return bbox
+	},
+	// return GeoJSON Geometry Polygon
+	PolygonFromGeom: function(g) {
+		var str = g.replace("POLYGON((", "")
+		str 	= str.replace("))", "")
+		str 	= str.replace(/ /g, ",")
+		var arr = str.split(",")
+		
+		var coords =  [[
+			[parseFloat(arr[0]),parseFloat(arr[1])],
+			[parseFloat(arr[2]),parseFloat(arr[3])],
+			[parseFloat(arr[4]),parseFloat(arr[5])],
+			[parseFloat(arr[6]),parseFloat(arr[7])],			
+			[parseFloat(arr[8]),parseFloat(arr[9])]
+		]]
+		
+		return coords
 	}
 }

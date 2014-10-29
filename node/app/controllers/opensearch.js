@@ -14,13 +14,17 @@ var fs  		= require('fs'),
 	query_modis		= require("../../lib/query_modis.js"),
 	query_radarsat2	= require("../../lib/query_radarsat2")
 	query_dfo		= require("../../lib/query_dfo")
+	query_digiglobe	= require("../../lib/query_digiglobe")
+	query_modislst	= require("../../lib/query_modislst")
 	;
 	
 	productQueries = {
 		"dfo": 			query_dfo.QueryDFO,
+		"digiglobe":	query_digiglobe.QueryDigiglobe,
 		"eo1_ali": 		query_eo1.QueryEO1,
 		"l8": 			query_l8.QueryLandsat8,
 		"modis": 		query_modis.QueryModis,
+		"modis_lst":	query_modislst.QueryModisLST,
 		"radarsat2": 	query_radarsat2.QueryRadarsat2
 	}
 	
@@ -74,6 +78,7 @@ var fs  		= require('fs'),
 					if(!err && json) {
 						var index = 0
 						for( var item in json.replies.items ) {
+							debug("added", json.replies.items[item]['@id'])
 							items.push(json.replies.items[item])
 							index += 1
 						}
@@ -87,15 +92,15 @@ var fs  		= require('fs'),
 		}, function(err) {	
 			res.set("Access-Control-Allow-Origin", "*")
 			var json = {
-				"objectType": 'query',
-				"id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
+				"@context": host+"/vocab",
+				"@language": req.lang,
+				"@id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
 				"displayName": req.gettext("stream.displayName"),
-				"replies": {
-					"url": originalUrl,
-					"mediaType": "application/activity+json",
-					"totalItems": items.length,
-					"items": items
-				}
+				"@type":"as:Collection",
+				"url": originalUrl,
+				"mediaType": "application/activity+json",
+				"totalItems": items.length,
+				"items": items
 			}
 			res.send(json)
 		})
@@ -106,6 +111,9 @@ module.exports = {
 		var host = req.protocol+"://"+req.headers.host
 		var region = app.config.regions.d02
 		var user= req.session.user
+
+		// set to Gonaives
+		region.target=[19.38,-72.69]
 		
 		res.render( "opensearch/classic", {
 			user: user,
@@ -154,6 +162,7 @@ module.exports = {
 		//	console.log("undefined user!")
 		//	return res.send(404)
 		//}
+		
 		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
 		logger.info(req.gettext("products."+query))
 			

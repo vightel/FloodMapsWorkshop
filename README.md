@@ -201,7 +201,7 @@ limitations under the License.
 	* Select one data set at a time
 	  * EO-1 ALI
 	  * Landsat Archive L8 OLI/TIRS
-	* Additional criteria < 10% or 20% clouds
+	* Additional criteria < 10% clouds
 	* Hit results and export ALL your result in csv format
 	* store csv files in ./data/csv
 	* cd $WORKSHOP_DIR/csv
@@ -215,7 +215,7 @@ limitations under the License.
   * Option 1: 
     * Go to: http://earthexplorer.usgs.gov/
 	* Login
-	* Select and download a EO-1 ALI Scene, not too cloudy <20% or less
+	* Select and download a EO-1 ALI Scene, not too cloudy <10% or less
 	* Upload it to an S3 bucket, make the file it public and copy it to ~/data/eo1-ali using wget
   * Option 2:
     * Get an existing scene from our own S3 and copy it over

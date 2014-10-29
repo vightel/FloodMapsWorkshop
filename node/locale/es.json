@@ -1,0 +1,799 @@
+{
+    "layout": {
+        "navbar": {
+            "landslides": "Deslizamientos de Tierra",
+            "floods": "Inundaciones",
+            "earthquakes": "Terremotos",
+            "fires": "Incendios",
+            "about": "Acerca de",
+            "contacts": "Contactos",
+            "credits": "Créditos",
+            "wiki": "Wiki",
+            "qa": "Preguntas y Respuestas",
+            "edit": "Editar"
+        },
+        "user": {
+            "signin": "Inicia sesión con tu correo electrónico",
+            "logout": "Cierre de Sesión",
+            "profile": "Ver Perfil",
+            "my_forecast": "Mi Pronóstico"
+        }
+    },
+    "products": {
+        "search": "Buscar Producto",
+        "surface_water": "Mapa de Inundación",
+        "daily_precipitation": "Precipitación de las Últimas 24 horas ",
+        "daily_precipitation_24h_forecast": "Precipitaciones 24h Pronóstico",
+        "landslide_nowcast": "Pronóstico de Deslizamientos",
+        "flood_nowcast": "Inundación Ahora",
+        "landslide_catalog": "Catálogo de Deslizamientos",
+        "landslide_forecast": "Pronóstico de Deslizamientos",
+        "landslide_susceptibility": "Susceptibilidad de Deslizamientos",
+        "precipitation_nowcast": "Precipitación diaria",
+        "precipitation_forecast": "Pronóstico de Precipitaciones Diario ",
+        "flood_forecast": "Pronóstico de Inundaciones",
+        "flood_catalog": "Catálogo de Inundaciones",
+        "query_layer": "Capa de Consulta",
+        "frost": "helada"
+    },
+    "query": {
+        "query_title": "Consulta",
+        "lon_lat": "Longitud Latitud",
+        "start_time": "Hora de Inicio",
+        "end_time": "Hora de Finalización",
+        "sources": "Fuentes",
+        "submit": "Envío"
+    },
+    "footer": {
+        "problems": "Problemas / Preguntas? Contáctame",
+        "privacy": "Política de Privacidad",
+        "warning": "ADVERTENCIA: Sólo Experimental!"
+    },
+    "homepage": {
+        "title": "Catálogo Global de Deslizamientos de Tierra",
+        "issues": "Cuestiones",
+        "wiki": "Wiki",
+        "more": "Más",
+        "filter": {
+            "landslidespermonth": "Deslizamientos de Tierra / Mes",
+            "selected": "seleccionado de",
+            "records": "archivos",
+            "reset": "Restablecer Todo",
+            "export": "Exportar",
+            "fatalitiespermonth": "Fatalidades / Mes",
+            "total_fatalities": "Fatalidades Totales",
+            "landlsidesfatalities": "Deslizamientos de Tierra / Fatalidades",
+            "limit": "límite archivos"
+        },
+        "table": {
+            "headers": {
+                "date": "Fecha",
+                "id": "ld",
+                "coordinates": "Coordenadas",
+                "trigger": "Causa",
+                "fatalities": "Fatalidades",
+                "storm_name": "Nombre de Tormenta",
+                "landslide_size": "Tamaño de Deslizamiento de Tierra",
+                "landslide_type": "Tipo de Deslizamiento de Tierra"
+            }
+        }
+    },
+    "map": {
+        "topo_map": "Topo Mapa",
+        "grey_map": "Gris Mapa",
+        "legend": "leyenda",
+        "credits": "crédito",
+        "flood_catalog": "Catálogo Global de Inundación",
+        "flood_marker": "Marcador de Inundación",
+        "flood_polygon": "Polígono de Inundación",
+        "trmm_precipitation": "TRMM Precipitación",
+        "gmfs_flood_forecast": "GMFS Pronóstico de Inundaciones",
+        "wrf_precipitation_forecast": "WRF Pronóstico de Precipitación",
+        "modis_flood_map": "MODIS Pronóstico de Inundaciones",
+        "marker": {
+            "me": "Mi ubicación <br/> <a href='/user/data'> Nowcast / Pronóstico </ a>",
+            "flood": "Marcador Inundación",
+            "landslide": "Marcador Deslizamiento de Tierra"
+        },
+        "drag_click_marker_comment": "Haga clic en el mapa o Arrastrar marcador para establecer su localidad"
+    },
+    "landslide": {
+        "regional": {
+            "title": "Monitoreo Regional y Pronóstico de Deslizamientos de Tierras "
+        },
+        "all_info": "Toda la Información",
+        "properties": {
+            "user_id": {
+                "label": "ID de usuario",
+                "info": "número estándar",
+                "description": "id de usuario único"
+            },
+            "id": {
+                "label": "Identificación",
+                "info": "Número Estándar",
+                "description": "Un identificador único se asigna en función del ID de inicio de sesión. Un número de secuencia también se asigna en función del número de informes que el ID único ha presentado en este sistema."
+            },
+            "date": {
+                "label": "Fecha",
+                "info": "YYY-MM-DD"
+            },
+            "time": {
+                "label": "Hora"
+            },
+            "country": {
+                "label": "País"
+            },
+            "nearest_places": {
+                "label": "Lugares más cercanos"
+            },
+            "hazard_type": {
+                "label": "Tipo de Peligro"
+            },
+            "coordinates": {
+                "label": "Coordenadas"
+            },
+            "trigger": {
+                "label": "Causa"
+            },
+            "fatalities": {
+                "label": "Fatalidades"
+            },
+            "injuries": {
+                "label": "Lesiónes"
+            },
+            "storm_name": {
+                "label": "Nombre de Tormenta"
+            },
+            "landslide_size": {
+                "label": "Tamaño de Deslizamiento de Tierra",
+                "select": {
+                    "small": {
+                        "label": "Pequeño"
+                    },
+                    "medium": {
+                        "label": "Medio"
+                    },
+                    "large": {
+                        "label": "Grande"
+                    },
+                    "very_large": {
+                        "label": "Muy Grande"
+                    }
+                }
+            },
+            "landslide_type": {
+                "label": "Tipo de Deslizamiento de Tierra",
+                "select": {
+                    "landslide": {
+                        "label": "Deslizamiento de Tierra"
+                    },
+                    "mudslide": {
+                        "label": "Deslizamiento de lodo"
+                    },
+                    "debris_flow": {
+                        "label": "Flujo de Escombros"
+                    },
+                    "rock_fall": {
+                        "label": "Caída de Rocas"
+                    },
+                    "Earthflow": {
+                        "label": "Flujo de Tierra"
+                    },
+                    "translational_slide": {
+                        "label": "Deslizamiento Traslacional"
+                    },
+                    "snow_avalanche": {
+                        "label": "Avalancha de Nieve"
+                    },
+                    "lahar": {
+                        "label": "Lahar"
+                    },
+                    "complex": {
+                        "label": "Complejo"
+                    },
+                    "riverbank_collapse": {
+                        "label": "Derrumbe del banco del río"
+                    },
+                    "creep": {
+                        "label": "Fluencia del Suelo"
+                    }
+                }
+            },
+            "source_name": {
+                "label": "Nombre de Fuente"
+            },
+            "source_link": {
+                "label": "Enlace de Fuente"
+            },
+            "photos_link": {
+                "label": "fotos enlace"
+            },
+            "comments": {
+                "label": "Comentarios"
+            },
+            "location": {
+                "label": "Ubicación",
+                "info": "Longitud, Latitud",
+                "description": "Longitud, Latitud"
+            },
+            "location_description": {
+                "label": "Descripción del Lugar"
+            },
+            "location_accuracy": {
+                "label": "Exactitud de la Localización"
+            },
+            "cat_src": {
+                "label": "Fuente de Catálogo"
+            },
+            "cat_id": {
+                "label": "Catálogo Id"
+            },
+            "countryname": {
+                "label": "Nombre de País"
+            },
+            "near": {
+                "label": "Cerca"
+            },
+            "distance": {
+                "label": "Distancia"
+            },
+            "adminname1": {
+                "label": "Nombre del Distrito 1"
+            },
+            "adminname2": {
+                "label": "Nombre del Distrito 2"
+            },
+            "adminname3": {
+                "label": "Nombre del Distrito 3"
+            },
+            "population": {
+                "label": "Población"
+            },
+            "tz": {
+                "label": "Huso Horario"
+            },
+            "countrycode": {
+                "label": "Código del País"
+            },
+            "continentcode": {
+                "label": "Código de Continente"
+            },
+            "key": {
+                "label": "Clave"
+            },
+            "github": {
+                "label": "GitHub archivo"
+            },
+            "all": {
+                "label": "Toda la información"
+            }
+        }
+    },
+    "flood": {
+        "homepage": {
+            "title": "Pronóstico Global de Inundación "
+        },
+        "table": {
+            "headers": {
+                "date": "Fecha",
+                "id": "Id",
+                "coordinates": "Coordenadas",
+                "duration": "Causa",
+                "cause": "Fatalidades",
+                "fatalities": "Fatalidades",
+                "severity": "Severidad"
+            }
+        },
+        "regional": {
+            "title": "Monitoreo y Pronóstico Regional de Deslizamientos de Tierras "
+        }
+    },
+    "about": {
+        "title": "Acerca de",
+        "about": "# Acerca de\n\nSe trata del Sistema Mundial de Vigilancia de Deslizamientos de Tierra/Inundaciones\nEsta fue una gran cantidad de trabajo y necesitamos su ayuda.\n\n## ¿Cómo puedo ayudar?\n\nIniciar la sesión y empezar a introducir datos.\n"
+    },
+    "contact": {
+        "title": "Contacto",
+        "contact": "# Contacto\n\nPara más información contacte con:\n\nDr. Dalia Bach Kirschbaum\nResearch Physical Scientist\nHydrological Sciences Laboratory\nGoddard Space Flight Center, Code 617\nBuilding 33, Room G222\nGreenbelt, MD 20771\n\nteléfono 301-614-5810 Fax 301-614-5808\n\nEmail dalia.b.kirschbaum@nasa.gov\n"
+    },
+    "credits": {
+        "title": "Créditos Ordenadas al azar...",
+        "contents": "Este proyecto no habría sido posible sin las contribuciones de tantos en la comunidad de código abierto."
+    },
+    "privacy": {
+        "title": "Privacidad",
+        "privacy": "# DECLARACIÓN DE PRIVACIDAD\n\n¡Respetamos su privacidad! \n\nNuestra política es no compartir ni vender ninguna información que usted nos proporciona. \n\n# # Su información \n\nNuestro sitio web puede contener varios formularios de contacto y enlaces que permiten a los visitantes interactuar con nuestro sistema.\nEstos pueden requerir información personal para que podamos responder de esa manera eficiente a las solicitudes, especialmente si la respuesta implica el uso de correo de los EE.UU. u otro servicio de mensajería.\nEso también podemos utilizar la información para medir los beneficios sociales de los datos científicos proporcionado.\nLa información que recogemos se utiliza únicamente para responder a las peticiones específicas. Podemos conservar esta información , pero no usarla para ningún otro propósito. \n\n# # Cookies\n\nPeriódicamente podemos utilizar cookies para recopilar información no personal identificable.\nEsto nos ayuda a detectar cosas: como el tipo de navegador y los plugins , y la información de navegación En cuanto a páginas que los visitantes van y cuándo.\nLa información que recopilamos a través de cookies se utiliza únicamente para responder a las peticiones específicas. Podemos conservar esta información , pero no usarla para ningún otro propósito. \n\nSi usted tiene alguna pregunta acerca de esta política , por favor póngase en contacto con nosotros por correo electrónico , correo postal , teléfono o fax.\n"
+    },
+    "support": {
+        "title": "Soporte",
+        "support": "# Para Soporte\n\nPóngase en contacto con Pat Cappelaere\nmailto pat@geobliki.com\n"
+    },
+    "terms": {
+        "title": "Términos",
+        "terms": "# Condiciones de Uso \n\nBienvenido a nuestro sitio web. \nSi continúa navegando y utilizando este sitio web, usted acepta cumplir y estar obligado por los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de EMPRESA con usted en relación a este sitio web. \nEl término \"EMPRESA\" o \"nosotros\" se refiere a la titular del sitio web cuyo domicilio social se encuentre Dalia Bach Kirschbaum, Hydrological Sciences Laboratory, Goddard Space Flight Center, Code 617, Building 33, Room G222, Greenbelt, MD 20771.\n El término \"usted\" se refiere al usuario o visitante de nuestro sitio web. El uso de este sitio web está sujeta a las siguientes condiciones de uso \n\n+ El contenido de las páginas de este sitio web es para su información y uso general. Está sujeto a cambios sin previo aviso. \n+ Ni nosotros ni ningún tercero ofrece ninguna garantía en cuanto a la exactitud, puntualidad, rendimiento, integridad o adecuación de la información y los materiales encontrados u ofrecidos en este sitio para cualquier propósito particular. Usted reconoce que dicha información y materiales pueden contener inexactitudes o errores y expreso excluimos la responsabilidad por cualquier inexactitud o errores en la máxima medida permitida por la ley. \n+ El uso de cualquier información o materiales contenidos en este sitio web es bajo su propio riesgo, para lo cual no se hace responsable. Será su propia responsabilidad para garantizar que cualquier producto, servicio o información disponible en este sitio web a sus necesidades específicas. \n+ Este sitio web contiene material que es propiedad de o licenciadas a nosotros. Este material incluye, pero no está limitado a, el diseño, presentación, apariencia y gráficos. La reproducción está prohibida salvo de conformidad con la nota de copyright, que forma parte de estos términos y condiciones. \n+ Todas las marcas reproducidas en esta página web, que no son propiedad de, o concesionadas a, la operadora se reconoció en la página web. \n+ El uso no autorizado de este sitio web puede dar lugar a una reclamación por daños y / o constituir un delito penal. \n+ De vez en cuando, este sitio también puede incluir enlaces a otros sitios web. Estos enlaces se proporcionan para su conveniencia para proporcionar más información. Esto no significa que estamos de acuerdo con el sitio web (s). No tenemos ninguna responsabilidad por el contenido del sitio web vinculado (s). \n+ Usted no puede crear un enlace a esta página desde otro sitio web o documento sin el consentimiento previo por escrito de la EMPRESA. \n+ El uso de este sitio web y cualquier disputa que surja de ese uso de la página web está sujeto a las leyes de los Estados Unidos de América.\n"
+    },
+    "copyrights": {
+        "title": "Derechos de autor y de licencia",
+        "contents": "# Condiciones de Uso \n\nEl Catálogo Global Landslide / Inundación es open data, con licencia bajo la Licencia Open Database Data Commons abierta (ODbL). \nUsted es libre de copiar, distribuir, transmitir y adaptar nuestros datos, siempre y cuando se le dé crédito OpenStreetMap y sus colaboradores. \nSi altera o construir sobre nuestros datos, deberá distribuir el resultado sólo bajo la misma licencia. El código legal completo explica sus derechos y responsabilidades.\n\n# ¿Cómo se acreditará catálogo global Landslide/Inundación \n\nRequerimos que se utiliza el crédito “© GLFC contributors”.\nTambién debe dejar claro que los datos están disponibles bajo la Licencia Open Database.\nUsted puede hacer esto mediante la vinculación a esta página de derechos de autor. Alternativamente, y como requisito si va a distribuir cualquier dato, puede nombrar y enlazar directamente con la licencia (s).\nEn los medios de comunicación que los enlaces no son posibles (por ejemplo, las obras impresas), sugerimos que usted dirige a sus lectores a la página web.\n\n# Nuestros Colaboradores \nDalia Kirschbaum\n"
+    },
+    "License": {
+        "title": "Licencia",
+        "contents": "# Condiciones de Uso \n\n## ODC Open Database License (ODbL)\n\n# # # Preámbulo\nOpen Database License (ODbL) es un acuerdo de licencia destinada a\npermiten a los usuarios compartir libremente, modificar y utilizar esta base de datos, mientras que\nmantenimiento de esta misma libertad para otros. Muchas bases de datos están cubiertos por\nlos derechos de autor, y por lo tanto este documento licencias estos derechos. algunos \njurisdicciones, sobre todo en la Unión Europea, tienen derechos específicos que \ncubrir las bases de datos, por lo que el ODbL refiere a esos derechos, también. Finalmente, \nla ODbL también un acuerdo de contrato para los usuarios de esta base de datos para \nactuar de cierta manera, a cambio de acceso a esta base de datos.\n"
+    },
+    "hazards": {
+        "landslide": "Deslizamientos de Tierra",
+        "floods": "Inundaciones",
+        "fires": "Incendios",
+        "volcanoes": "Volcanes",
+        "quakes": "Terremotos",
+        "tsunami": "Tsunami"
+    },
+    "navtab": {
+        "home": "Casa",
+        "report": "Informe",
+        "reports": "Informes",
+        "report_a_flood": "Informe de una Inundación",
+        "report_a_landslide": "Informar sobre un deslizamiento de tierra",
+        "regions": "Regiones",
+        "account": "Cuenta",
+        "back": "Atrás",
+        "credits": "Créditos",
+        "legend": "leyenda",
+        "query": "Pregunta",
+        "geoss_search": "GEOSS búsqueda",
+        "login": "iniciar sesión",
+        "logout": "Finalizar la sesión",
+        "profile": "Perfil",
+        "regional_nodes": "Linfáticos Regionales"
+    },
+    "profile": {
+        "label": "Perfil del usuario",
+        "user_info": "Información del Usuario",
+        "gravatar": "Gravatar",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "organization": "Organismo",
+        "language": "Lengua",
+        "reputation": "Reputación",
+        "member_since": "Miembro desde",
+        "social_rewards": "Recompensas Sociales",
+        "reported": "Informado",
+        "region": "Región",
+        "latitude": "Latitud",
+        "longitude": "Longitud",
+        "admin": "Administración",
+        "banned": "Prohibido",
+        "accept": "¿Acepte licencia?"
+    },
+    "region": {
+        "central_america": "América Central",
+        "hispaniola": "Hispaniola"
+    },
+    "today": {
+        "label": "Hoy En Mi Ubicación",
+        "nowcast": "Ahora Fundido",
+        "forecast": "Pronóstico",
+        "landslide_hazard": "Del Peligro De Deslizamientos de Tierra",
+        "flood_hazard": "Riesgo de Inundación",
+        "quake_hazard": "Peligro de Terremoto",
+        "fire_hazard": "Peligro de Incendio",
+        "tsunami_hazard": "Peligros de Tsunami",
+        "precipitation": "Precipitación",
+        "soil_moisture": "Humedad del Suelo"
+    },
+    "alert": {
+        "none": "Ninguno",
+        "warning": "Advertencia",
+        "caution": "Menor advertencia"
+    },
+    "nav_button": {
+        "take_picture": "Tome Foto"
+    },
+    "reported": {
+        "landslide_success": "# # Éxito \n\nDeslizamiento de tierra ha sido reportado con éxito. \n¡Gracias!\n",
+        "landslide_error": "# # Error \n\nSe ha producido un error al tratar de reportar deslizamiento de tierra. \n{error} \n¡Lo siento! \n¡Gracias!\n"
+    },
+    "geoapp": {
+        "title": "OJO Geo-App",
+        "motto": "El ojo de la Guardia de la Noche",
+        "welcome": "Bienvenido {Correo electrónico}",
+        "about": "# # Por favor!\n\nInicia sesión para informar de un deslizamiento de tierra o una inundación.\nMonitoreo Deslizamiento de tierras / Inundación está disponible para unas pocas regiones, como prueba de concepto para el GEOSS.\nPor favor seleccione su nodo regional para continuar ...\n"
+    },
+    "presets": {
+        "presets": {
+            "hazard_type/landslide": {
+                "name": "Deslizamiento de tierra",
+                "terms": "deslizamiento de tierra"
+            },
+            "hazard_type/flood": {
+                "name": "Inundación",
+                "terms": "inundación"
+            }
+        },
+        "fields": {
+            "user_id": {
+                "label": "ID de Usuario",
+                "description": "id de usuario"
+            },
+            "fatalities": {
+                "label": "Fatalidades",
+                "description": "fatalidades"
+            },
+            "injuries": {
+                "label": "Daños",
+                "description": "Daños causada por deslizamiento"
+            },
+            "trigger": {
+                "label": "Causa",
+                "description": "Causa"
+            },
+            "nearest_places": {
+                "label": "Lugares más Cercanos",
+                "description": "lugares más cercanos (de usuario)"
+            },
+            "date": {
+                "label": "Fecha",
+                "placeholder": "YYYY-MM-DD",
+                "description": "fecha formateadaYYY-MM-DD"
+            },
+            "time": {
+                "label": "Hora",
+                "description": "hora aproximada sin formato"
+            },
+            "hazard_type": {
+                "label": "Tipo de Peligro",
+                "description": "GEOSS Tipo de Peligro",
+                "options": {
+                    "landslide": {
+                        "title": "Deslizamiento de Tierra",
+                        "description": "Deslizamiento de Tierra"
+                    },
+                    "flood": {
+                        "title": "Inundación",
+                        "description": "Inundación"
+                    }
+                }
+            },
+            "landslide_type": {
+                "label": "Tipo de Deslizamiento",
+                "description": "Tipo de sitio",
+                "options": {
+                    "Landslide": {
+                        "title": "Deslizamiento de Tierra",
+                        "description": "Deslizamiento de Tierra"
+                    },
+                    "Mudslide": {
+                        "title": "Deslizamiento de Lodo",
+                        "description": "Deslizamiento de Lodo"
+                    },
+                    "Debris_Flow": {
+                        "title": "Flujo de Escombros",
+                        "description": "Flujo de Escombros"
+                    },
+                    "Rock_Fall": {
+                        "title": "Caída de Rocas",
+                        "description": "Caída de Rocas"
+                    },
+                    "Earthflow": {
+                        "title": "Flujo de Tierra",
+                        "description": "Flujo de Tierra"
+                    },
+                    "Translational_Slide": {
+                        "title": "Deslizamiento Traslacional",
+                        "description": "Deslizamiento Traslacional"
+                    },
+                    "Snow_Avalanche": {
+                        "title": "Avalancha de Nieve",
+                        "description": "Avalancha de Nieve"
+                    },
+                    "Lahar": {
+                        "title": "Lahar",
+                        "description": "Lahar"
+                    },
+                    "Complex": {
+                        "title": "Complejo",
+                        "description": "Complejo"
+                    },
+                    "Riverbank_Collapse": {
+                        "title": "Derrumbe del Banco del Río",
+                        "description": "Derrumbe del Banco del Río"
+                    },
+                    "Creep": {
+                        "title": "Fluencia del Suelo",
+                        "description": "Fluencia del Suelo"
+                    },
+                    "Other": {
+                        "title": "Otro",
+                        "description": "Otro"
+                    },
+                    "Unknown": {
+                        "title": "Desconocido",
+                        "description": "Desconocido"
+                    }
+                }
+            },
+            "landslide_size": {
+                "label": "Tamaño de Deslizamiento",
+                "description": "Tamaño de deslizamiento",
+                "options": {
+                    "Small": {
+                        "title": "Pequeño",
+                        "description": "Pequeño"
+                    },
+                    "Medium": {
+                        "title": "Medio",
+                        "description": "Medio"
+                    },
+                    "Large": {
+                        "title": "Grande",
+                        "description": "Grande"
+                    },
+                    "Very_large": {
+                        "title": "Muy grande",
+                        "description": "Muy grande"
+                    }
+                }
+            },
+            "location_accuracy": {
+                "label": "Exactitud de la Localización",
+                "description": "Exactitud de la Localización",
+                "options": {
+                    "Exact_Location": {
+                        "title": "Ubicación Exacta",
+                        "description": "Ubicación Exacta"
+                    },
+                    "Known_within_1km": {
+                        "title": "Conocido dentro de 1km",
+                        "description": "Conocido dentro de 1km"
+                    },
+                    "Known_within_5km": {
+                        "title": "Conocido dentro de los 5km",
+                        "description": "Conocido dentro de los 5km"
+                    },
+                    "Known_within_10km": {
+                        "title": "Conocido dentro de los 10km",
+                        "description": "Conocido dentro de los 10km"
+                    },
+                    "Known_within_15km": {
+                        "title": "Conocido dentro de los 15km",
+                        "description": "Conocido dentro de los 15km"
+                    },
+                    "Known_within_25km": {
+                        "title": "Conocido dentro de los 25km",
+                        "description": "Conocido dentro de los 25km"
+                    },
+                    "Known_within_50km": {
+                        "title": "Conocido dentro de los 50km",
+                        "description": "Conocido dentro de los 50km"
+                    },
+                    "Unknown": {
+                        "title": "Desconocido",
+                        "description": "Desconocido"
+                    }
+                }
+            },
+            "location_description": {
+                "label": "Descripción del Lugar",
+                "description": "Descripción del lugar",
+                "options": {
+                    "Above_road": {
+                        "title": "Encima de la carretera",
+                        "description": "Encima de la carretera"
+                    },
+                    "Below_road": {
+                        "title": "Debajo de la carretera",
+                        "description": "Debajo de la carretera"
+                    },
+                    "Above_river": {
+                        "title": "Encima del río",
+                        "description": "Encima del río"
+                    },
+                    "Natural_slope": {
+                        "title": "Ladera natural",
+                        "description": "Ladera natural"
+                    },
+                    "Burned_area": {
+                        "title": "Zona quemada",
+                        "description": "Zona Quemada"
+                    },
+                    "Deforested_slope": {
+                        "title": "Ladera deforestada",
+                        "description": "Ladera deforestada"
+                    },
+                    "Bluff": {
+                        "title": "Acantilado",
+                        "description": "Acantilado"
+                    },
+                    "Retaining_wall": {
+                        "title": "Muro de contención",
+                        "description": "Muro de contención"
+                    },
+                    "Mine_construction": {
+                        "title": "Mina, construcción",
+                        "description": "Mina, construcción"
+                    },
+                    "Urban_area": {
+                        "title": "Área urbana",
+                        "description": "Área urbana"
+                    },
+                    "Other": {
+                        "title": "Desconocido",
+                        "description": "Desconocido"
+                    },
+                    "Unknown": {
+                        "title": "Otro",
+                        "description": "Otro"
+                    }
+                }
+            },
+            "comments": {
+                "label": "Comentarios",
+                "description": "comentarios para ser introducidos por el usuario"
+            },
+            "storm_name": {
+                "label": "Nombre de Tormenta",
+                "description": "Nombre de Tormenta"
+            },
+            "source_name": {
+                "label": "Nombre de Fuente",
+                "description": "nombre de fuente"
+            },
+            "source_link": {
+                "label": "Enlace de Fuente",
+                "description": "enlace al documento de origen"
+            },
+            "photos_link": {
+                "label": "Enlaces a Fotos",
+                "description": "enlace a fotos"
+            }
+        }
+    },
+    "results": "%{results} resultados",
+    "menu": {
+      "home": "Inicio",
+      "products": "Productos",
+      "opensearch": "Abrir búsqueda",
+      "applications": "Aplicaciones",
+      "register": "Registro",
+      "list": "Lista",
+      "query": "Consulta"
+    },
+    
+    "tabs": {
+        "general": "Corriente",
+        "metadata": "Metadatos",
+        "actions": "Acciones"
+    },
+    "actions": {
+        "actions": "acciones",
+        "download": "descarga",
+        "browse": "navegar",
+        "process": "proceso",
+        "share": "cuota",
+        "like": "gusta",
+        "task": "tarea",
+        "map": "mapa"
+    },
+    "stream": {
+        "displayName": "Editor de productos de inundación"
+    },
+    "properties": {
+        "properties": "propiedades",
+        "description": "descripción",
+        "source": "fuente",
+        "sensor": "sensor",
+        "date": "fecha",
+        "bbox": "recuadro",
+        "size": "tamaño",
+        "centerlat": "centro de latitud",
+        "centerlon": "centro de longitud",
+        "duration": "duración",
+        "resolution": "resolución",
+        "cloud": "cubierta de nubes",
+        "copyright": "los derechos de autor"
+    },
+    "sources": {
+        "radarsat2": "CSA Radarsat2",
+        "l8": "NASA Landsat-8",
+        "dfo": "Dartmouth Flood Observatory - Colorado",
+        "eo1": "NASA EO-1",
+        "modis": "NASA MODIS",
+        "alos2": "JAXA ALOS-2"
+    },
+    "sensors": {
+        "sar": "SAR",
+        "ali": "ALI",
+        "modis": "MODIS",
+        "l8": "OLI",
+        "dfo": "MODIS/l8",
+        "alos2": "PALSAR-2"
+    },
+    "duration": {
+        "hours": "%{hours} horas",
+        "minutes": "%{minutes} minutos",
+        "seconds": "%{seconds} segundos"
+    },
+    "formats": {
+        "topojson": "topojson",
+        "topojsongz": "topojson.gz",
+        "geotiff": "geotiff",
+       
+        "osmbz2": "osm.bz2",
+        "date": "YYYY-MM-DD"
+    },
+    "filesize": {
+        "B": "B",
+        "KB": "KB",
+        "MB": "MB",
+        "GB": "GB",
+        "TB": "TB"
+    },
+    "mapinfo": {
+      "credits": "créditos",
+      "style": "estilo",
+      "legend": "leyenda"
+    },
+    "legend": {
+      "radarsat2": {
+        "title": "Radarsat2 Mapa de Inundación",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Fuente",
+          "source": "CSA/MDA"
+        },
+        "legend": "Agua Superficial"
+      },
+      "dfo": {
+        "title": "Dartmouth Flood Observatory Mapa de Inundación",
+        "credits": "DFO",
+        "source": { 
+          "label": "Fuente",
+          "source": "DFO"
+        },
+        "legend": "Agua Superficial"
+      },
+      "l8": {
+        "title": "Landsat-8 Mapa de Inundación",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Fuente",
+          "source": "NASA"
+        },
+        "legend": "Agua Superficial"
+      },
+      "eo1_ali": {
+        "title": "EO-1 ALI Mapa de Inundación",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Fuente",
+          "source": "NASA"
+        },
+        "legend": "Agua Superficial"
+      },
+      "modis": {
+        "title": "MODIS Mapa de Inundación",
+        "credits": "NASA GSFC",
+        "source": { 
+          "label": "Fuente",
+          "source": "NASA"
+        },
+        "legend": "Agua Superficial"
+      },
+      "frost": {
+        "title": "Estimación de Ocurrencias Helada",
+        "credits": "NASA SERVIR/RCMRD",
+        "source": {
+          "label": "Fuente",
+          "source": "SERVIR/RCMRD"
+        },
+        "legend": {
+          "no_data": "No hay datos",
+          "very_severe_frost": "Muy Severa Helada",
+          "severe_frost": "Helada Severa",
+          "moderate_frost": "Helada Moderada",
+          "minor_frost": "Escarcha Menor",
+          "no_frost": "No Frost"
+        }
+      }
+    }
+}

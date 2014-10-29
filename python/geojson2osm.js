@@ -6,18 +6,26 @@ var osm_geojson = require('./osm_geojson.js');
 var fs	= require('fs');
 
 var input	= process.argv[2]
-var source	= process.argv[3]
 
-console.log( "Converting:", input, " to OSM...", "with source:", source )
+//var source	= process.argv[3]
+//var date		= undefined
+
+// if( process.argv.length > 4) date = process.argv[4]
+
+console.log( "Converting:", input, " to OSM...")
 
 fs.readFile(input, function (err, data) {
 	if (err) throw err;
 	var json = JSON.parse(data)
 	
+	// Note:
+	//   Source and date should be applied to the changeset rather than the object
 	var properties = {
-		'natural':'water',
-		'source': source
+		'natural':'water'
+//		'source': source
 	}
+	
+//	if( date ) properties['source:date'] = date
 	
 	for( var f in json.features ) {
 		json.features[f].properties = properties

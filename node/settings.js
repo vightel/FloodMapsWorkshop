@@ -160,7 +160,25 @@ function bootApplication(app) {
 		logger: console
 	}));
 	
-	// localize filesize
+	// localize GetFileSize
+	app.locals.GetFileSize = function(fileName, t) {
+		try {
+			var stats	= fs.statSync( fileName )
+			return filesize( stats.size, 
+								{round:2, suffixes: {
+											"B": t("filesize.B"), 
+											"kB": t("filesize.KB"), 
+											"MB": t("filesize.MB"), 
+											"GB": t("filesize.GB"), 
+											"TB": t("filesize.TB")
+										}
+								}
+							)
+		} catch( e ) {
+			return "NA"
+		}
+	}
+	
 	app.locals.filesize = function(size, req ) {
 		return filesize( size, {round:2, suffixes: {
 										"B": req.gettext("filesize.B"), 

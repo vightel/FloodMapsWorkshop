@@ -29,12 +29,26 @@ function getTileInfo( tile ) {
 	var scene = {
 		"centerlat": lat - 5.0,
 		"centerlon": lon - 5.0,
-		"bbox": [lon, lat-10.0, lon+10.0,lat],
+		//"bbox": [lon, lat-10.0, lon+10.0,lat],
+		"bbox": [lat-10.0, lon, lat, lon+10.0],
 		"ncols": 4552,
 		"nlines": 4552
 	}
 	//console.log("Scene", scene)
 	return scene
+}
+
+function PolygonBBox(bbox) {
+	var arr = bbox
+	var coords =  [[
+		[arr[0],arr[1]],
+		[arr[0],arr[3]],
+		[arr[2],arr[3]],
+		[arr[2],arr[1]],
+		[arr[0],arr[1]]
+	]]
+	
+	return coords
 }
 
 function IsProductAvailable( urlstr, cb, errfn ) {
@@ -133,15 +147,19 @@ function GetModisTiles(lat, lon, bbox ) {
 	}
 }
 
-function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb ) {
-	time				= endTime.clone()
-	time	 			= time.subtract(d, "days");
+function QueryByID(req, user, year, doy, tile, credentials) {
+	var duration	= 60 * 30
+	var date		= moment(year+"-"+doy)
+	var id			= year.toString() + doy+"_"+tile
+	var host 		= "http://"+req.headers.host
 	
-	var year 			= time.year();
-	var doy  			= padDoy(time.dayOfYear());
-	var id				= year.toString() + doy+"_"+tile
-	
-	console.log("checkModisProduct", year, doy, id)
+	function Bewit(url) {
+		if( credentials ) {
+			var bewit = Hawk.uri.getBewit(url, { credentials: credentials, ttlSec: duration, ext: user.email })
+			url += "?bewit="+bewit
+		}
+		return url;
+	}	
 	
 	var products_url 	= host+"/modis/products/"+year+"/"+doy
 	var localdir	 	= app.root+"/../data/modis/"+year+"/"+doy+"/"+tile
@@ -167,21 +185,21 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 				
 		actions = [
 			{ 
-				"@type": 			"urn:ojo:actions:browse",
+				"@type": 			"ojo:browse",
 				"displayName": 		req.gettext("actions.browse"),
-				"using": {
-					"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+				"using": [{
+					"@type": 		"as:HttpRequest",
 					"method": 		"GET",
 					"url": 			Bewit(host+"/products/modis/browse/"+year+"/"+doy+"/"+tile),
 					"mediaType": 	"html"
-				} 
+				}]
 			},
 			{
-				"@type": 		"urn:ojo:actions:download",
+				"@type": 			"ojo:download",
 				"displayName": 	req.gettext("actions.download"),
 				"using": [
 					{
-						"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+						"@type": 		"as:HttpRequest",
 						"method": 		"GET",
 						"url": 			Bewit(topojson_url),
 						"mediaType": 	"application/json",
@@ -189,13 +207,43 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 						"displayName": 	req.gettext("formats.topojson")
 					}
 					,{
-						"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+						"@type": 		"as:HttpRequest",
 						"method": 		"GET",
 						"url": 			Bewit(topojson_url+".gz"),
 						"mediaType": 	"application/gzip",
 						"size": 		app.locals.filesize(stats.size, req),
 						"displayName": 	req.gettext("formats.topojsongz")
 					}	
+				]
+			},
+			{
+				"@type": 			"ojo:map",
+				"displayName": 	req.gettext("actions.map"),
+				"using": [
+					{
+						"@type": 		"as:HttpRequest",
+						"method": 		"GET",
+						"@id": 			"legend",
+						"url": 			host+"/mapinfo/modis/legend",
+						"mediaType": 	"text/html",
+						"displayName": 	req.gettext("mapinfo.legend")
+					},
+					{
+						"@type": 		"as:HttpRequest",
+						"method": 		"GET",
+						"@id": 			"style",
+						"url": 			host+"/mapinfo/modis/style",
+						"mediaType": 	"application/json",
+						"displayName": 	req.gettext("mapinfo.style")
+					},
+					{
+						"@type": 		"as:HttpRequest",
+						"method": 		"GET",
+						"@id": 			"credits",
+						"url": 			host+"/mapinfo/modis/credits",
+						"mediaType": 	"application/json",
+						"displayName": 	req.gettext("mapinfo.credits")
+					}
 				]
 			}
 		]
@@ -206,35 +254,51 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 		var scene			= getTileInfo( tile )
 		var duration		= 1	
 		
-		actions = {
-			"@type": 			"urn:ojo:actions:process",
+		actions = [{
+			"@type": 			"ojo:process",
 			"displayName": 		req.gettext("actions.process"),
 			"using": [{
-				"@type": 		"http://activitystrea.ms/2.0/HttpRequest",
+				"@type": 		"as:HttpRequest",
 				"method": 		"GET",
 				"url": 			Bewit(host+"/products/modis/"+year+"/"+doy+"/"+tile),
-				"displayName": 	"surface water",
+				"displayName": 	req.gettext("products.surface_water"),
 				"duration": 	util.format(req.gettext("duration.minutes").replace("{minutes}","d"),duration)
 			}]
-		}
+		}]
 	}
 	
 	var source 		= req.gettext("sources.modis")
 	var sensor 		= req.gettext("sensors.modis")
 	
-	var properties = {}
-	properties[req.gettext("properties.source")]= 		source;
-	properties[req.gettext("properties.sensor")]= 		sensor;
-	properties[req.gettext("properties.date")]= 		time.format(req.gettext("formats.date"));
-	properties[req.gettext("properties.bbox")]= 		scene.bbox;
-	properties[req.gettext("properties.size")]= 		scene.ncols+"x"+scene.nlines;
-	properties[req.gettext("properties.centerlat")]= 	scene.centerlat;
-	properties[req.gettext("properties.centerlon")]= 	scene.centerlon;
-	
-	
+	var properties = {
+			"source": {
+				"@label": req.gettext("properties.source"),
+				"@value": source
+			},
+			"sensor": {
+				"@label": req.gettext("properties.sensor"),
+				"@value": sensor
+			},
+			"date": {
+				"@label": req.gettext("properties.date"),
+				"@value": date.format(req.gettext("formats.date"))
+			},
+			"size": {
+				"@label": req.gettext("properties.size"),
+				"@value": stats ? app.locals.filesize(stats.size, req) : 0
+			},
+			"resolution": {
+				displayName: req.gettext("properties.resolution"),
+				"@value": "<10m"
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": PolygonBBox(scene.bbox)
+			}
+	}	
 	var entry = {
 		"@id": 				id,
-		"@type": 			"geoss.surface_water",
+		"@type": 			"geoss:surface_water",
 		"displayName": 		tile,
 		"image": 		[ 
 							{
@@ -247,21 +311,30 @@ function checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, cb
 		"action": 			actions
 	}
 	
+	return entry
+}
+
+function checkModisProduct(req, tile, d, startTime, endTime, host, entries, credentials, cb ) {
+	time				= endTime.clone()
+	time	 			= time.subtract(d, "days");
+	
+	var year 			= time.year();
+	var doy  			= padDoy(time.dayOfYear());
+	var date			= moment(year+"-"+doy)
+	
+	var id				= year.toString() + doy+"_"+tile
+	
+	//console.log("checkModisProduct", year, doy, id)
+	
+	var entry = QueryByID(req, req.session.user, year, doy, tile, credentials)
+	
 	entries.push(entry)
 	cb(null)
 }
 
+
+
 function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
-	console.log("Query Modis", query)
-	var duration	= 60 * 30
-	
-	function Bewit(url) {
-		if( credentials ) {
-			var bewit = Hawk.uri.getBewit(url, { credentials: credentials, ttlSec: duration, ext: user.email })
-			url += "?bewit="+bewit
-		}
-		return url;
-	}
 	
 	console.log("Query Modis", bbox, itemsPerPage, startIndex, "bbox:", bbox, "lat:", lat, "lon:", lon )
 	
@@ -321,7 +394,7 @@ function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTi
 	entries		= []
 	
 	async.each(days, function(d, callback) {
-		checkModisProduct(tile, d, startTime, endTime, host, entries, Bewit, callback )
+		checkModisProduct(req, tile, d, startTime, endTime, host, entries, credentials, callback )
 	}, function(err) {
 		var json = {
 			replies: {
@@ -333,4 +406,5 @@ function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTi
 	})
 }
 
-module.exports.QueryModis = QueryModis;
+module.exports.QueryModis 	= QueryModis;
+module.exports.QueryByID 	= QueryByID;

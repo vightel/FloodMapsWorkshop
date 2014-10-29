@@ -1,8 +1,13 @@
+csv/
 data/HAND/
-data/HydroSHEDS/CA/
+data/HydroSHEDS/AF/
+ata/HydroSHEDS/CA/
 data/landsat8/
 data/eo1_ali/
 data/l8/
+data/frost/
+data/digiglobe/
+data/osm/*.osm
 data/osm/*.bz2
 data/radarsat2/
 data/modis/

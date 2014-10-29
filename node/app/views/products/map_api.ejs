@@ -1,0 +1,139 @@
+<html>
+  <head>
+	<meta charset=utf-8 />
+	<title><%= region.name %></title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css" />
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+	
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src="http://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>	
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+	<script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="/js/dust-full.js"></script>
+	<script src="/js/LStyledTopojson.js"></script>
+	
+	<style>
+	.white, .white a {
+	  color: #fff;
+	}
+	
+	#map_old { position:absolute; top:0; bottom:0; width:100%; }
+	#map {
+	    width: 900px;
+	    height:900px;
+	  }
+	</style>
+  </head>
+  
+  <body>
+	<div class='container'>
+		<div class='row'>
+			<h1><%= region.name %></h1>
+	   	 	<div id="map"></div>
+		</div>
+	    <br/>
+		<div id='legends' class='row'>
+		</div>
+		
+	</div>
+	
+	<script type='text/javascript'>
+		var styles, legends, credits;
+		
+		var map = L.mapbox.map('map', 'cappelaere.map-mx5g2tn3',{ minZoom: 4, maxZoom: 18 })
+		.setView([<%= region.target[0] %>, <%= region.target[1] %>], 6);
+
+		var region = <%- JSON.stringify(region) %>
+		var map_controls;
+		
+		if(region.bbox) {
+			var line_points = [
+				    [ region.bbox[1] ,   region.bbox[0] ],
+				    [ region.bbox[3] ,   region.bbox[0] ],
+				    [ region.bbox[3] ,   region.bbox[2] ],
+				    [ region.bbox[1] ,   region.bbox[2] ],
+				    [ region.bbox[1] ,   region.bbox[0] ]
+			];
+			map_controls = L.control.layers({
+			    'Terrain Map': L.mapbox.tileLayer('cappelaere.map-1d8e1acq').addTo(map),
+			    'Streets Map': L.mapbox.tileLayer('cappelaere.hg330434')
+			}, {
+				'Outline': 				L.polyline(line_points, polyline_options).addTo(map)
+			}).addTo(map);
+		} else {
+			map_controls = L.control.layers({
+			    'Terrain Map': L.mapbox.tileLayer('cappelaere.map-1d8e1acq').addTo(map),
+			    'Streets Map': L.mapbox.tileLayer('cappelaere.hg330434')
+			}, {}).addTo(map);			
+		}
+		L.control.scale().addTo(map);
+		
+		// query back using OpenGeoSocial API
+		$.ajax({
+			dataType: "json",
+			url: '<%= url %>',
+			
+			success: function( result ) {
+				console.log("success")
+				// find the topojson file
+				var actions 		= result.action;
+				var topojson_url 	= undefined;
+				var mapinfos		= undefined
+				var id				= result['@id']
+				
+				for (var a in actions ) {
+					var action = actions[a]
+					if( action['@type'] == 'ojo:download') {
+						var using = action['using']
+						for( var u in using ) {
+							var use = using[u]
+							if( use['mediaType'] == 'application/json') {
+								var topojson_url = use['url']
+								console.log("topojson", topojson_url)
+							}
+						}
+					} else if( action['@type'] == 'ojo:map') {
+						mapinfos = action['using']
+						console.log("found mapinfos")
+					}
+				}
+				
+				loadData( topojson_url, id, mapinfos );
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+  			  	console.log(textStatus, errorThrown);
+			}
+		})
+		
+		map.on('overlayadd', function(a) {
+			for( var i in legends ) {
+				if( i == a.name ) {
+					legends[i].display = true;
+					if( hide_legends == 0 ) $('#'+legends[i].legend).show();
+				} 
+			}
+		})
+
+		map.on('overlayremove', function(a) {
+			for( var i in legends ) {
+				if( i == a.name ) {
+					legends[i].display = false;
+					if( hide_legends == 0 ) $('#'+legends[i].legend).hide();
+				}
+			}
+		})
+	
+		map.on('load', function(a) {
+			styles 	= [];
+			legends = {};
+			credits = [];
+		})	
+	</script>
+  </body>
+</html>
+  

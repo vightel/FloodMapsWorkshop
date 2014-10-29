@@ -53,11 +53,15 @@
 						<tr><td><b>Date:</b></td><td><%= date %></td></tr>
 						<tr><td><b>Bounding Box:</b></td><td><%= region.bbox %></td></tr>
 						<tr><td><b>Source:</b></td><td><a href='http://oas.gsfc.nasa.gov/floodmap/'>NASA GSFC Radarsat-2 Flood Mapping</a></td></tr>
-						<tr><td><b>Resolution:</b></td><td>250m</td></tr>
+						<tr><td><b>Resolution:</b></td><td>less than 10m</td></tr>
 						<tr><td><b>Vector Download:</b></td><td><a href='<%= topojson %>'>Topojson</a></td></tr>
 						<tr><td><b>Original Data:</b></td><td><a href='<%= data %>'>Click</a></td></tr>
 						<tr><td><b>View On Map:</b></td><td><a href='/products/radarsat2/map/<%= region.scene %>'>Here</a></td></tr>
-						<tr><td><b>View On OpenGL Map:</b></td><td><a href='/products/radarsat2/mapgl/<%= region.scene %>'>Here</a></td></tr>
+						
+						<!--
+							<tr><td><b>View On OpenGL Map:</b></td><td><a href='/products/radarsat2/mapgl/<%= region.scene %>'>Here</a></td></tr>
+						-->
+							
 					</table>
 					</td>
 					</tr>

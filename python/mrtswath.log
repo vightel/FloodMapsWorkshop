@@ -1,0 +1,782 @@
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:09 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2200.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2200.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2200
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1073 1370
+  output pixel size: 0.0270
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.46081543  long   51.48447418
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:09 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:09 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2205.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2205.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2205
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1848 2358
+  output pixel size: 0.0157
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48619843  long   51.48996735
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:09 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:09 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2210.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2210.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2210
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2563 3270
+  output pixel size: 0.0113
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48747253  long   51.48674774
+  input lines/samples: 2040 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:10 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:10 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2215.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2215.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2215
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3058 3902
+  output pixel size: 0.0095
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49056244  long   51.49449921
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:10 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:10 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2220.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2220.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2220
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3260 4159
+  output pixel size: 0.0089
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49165344  long   51.48904419
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:11 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:11 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2225.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2225.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2225
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3131 3995
+  output pixel size: 0.0093
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49032593  long   51.49276733
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:11 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:11 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2230.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2230.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2230
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2688 3430
+  output pixel size: 0.0108
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48725891  long   51.49192810
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:11 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:11 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2235.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2235.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2235
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2005 2558
+  output pixel size: 0.0145
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48852539  long   51.48785400
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:12 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:12 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2240.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2240.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2240
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1206 1539
+  output pixel size: 0.0240
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.47766113  long   51.48559570
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:12 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:12 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2245.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2245.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2245
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 12755 16274
+  output pixel size: 0.0023
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49697876  long   51.49763489
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:13 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:13 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2250.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2250.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2250
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1185 1512
+  output pixel size: 0.0245
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.47851562  long   51.48187256
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:14 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:14 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2255.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2255.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2255
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1982 2529
+  output pixel size: 0.0146
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48832703  long   51.49267578
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:14 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:14 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2300.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2300.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2300
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2677 3415
+  output pixel size: 0.0108
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49108887  long   51.48638916
+  input lines/samples: 2040 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:14 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:14 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2305.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2305.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2305
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3123 3985
+  output pixel size: 0.0093
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48768616  long   51.49133301
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:15 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:15 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2310.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2310.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2310
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3271 4174
+  output pixel size: 0.0089
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48971558  long   51.49513245
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:16 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:16 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2315.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2315.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2315
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3072 3920
+  output pixel size: 0.0094
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48860741  long   51.49327660
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:17 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:17 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2320.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2320.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2320
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2580 3292
+  output pixel size: 0.0112
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48797417  long   51.49085808
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:17 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:17 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2325.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2325.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2325
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1875 2392
+  output pixel size: 0.0155
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48815155  long   51.48541641
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:18 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:18 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2330.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2330.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2330
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1099 1403
+  output pixel size: 0.0264
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.46059608  long   51.47883034
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:18 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:18 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2335.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2335.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2335
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2175 2774
+  output pixel size: 0.0133
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49285889  long   51.48123169
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:18 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:18 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2340.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2340.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2340
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 1236 1577
+  output pixel size: 0.0235
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48300171  long   51.48559570
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:19 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:19 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2350.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2350.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2350
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 2692 3435
+  output pixel size: 0.0108
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.48934937  long   51.49346924
+  input lines/samples: 2030 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:19 2014
+Finished processing!
+******************************************************************************
+******************************************************************************
+MODIS Reprojection Tool Swath (v2.2 September 2010)
+Start Time:  Wed Oct  8 13:44:19 2014
+------------------------------------------------------------------
+
+General processing info
+-----------------------
+input_filename:          ../data/frost/2014/275/lst/MYD11_L2.A2014275.2355.005.NRT.hdf
+geoloc_filename:         ../data/frost/2014/275/geo/MYD03.A2014275.2355.005.NRT.hdf
+output_filename:         ../data/frost/2014/275/output/Frost_2014275.2355
+output_filetype:         GEOTIFF
+output_projection_type:  Geographic
+output_ellipsoid:        GRS 1980/WGS 84
+output_datum:            WGS84
+resampling_type:         NN
+output projection parameters: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+     SDS name                      #bands in SDS    #bands to process
+  1) LST                                   1               1
+
+
+Processing LST ...
+  output lines/samples: 3131 3995
+  output pixel size: 0.0093
+  output data type: same as input
+  output upper left corner: lat   15.50000000  long   14.50000000
+  output lower right corner: lat  -13.49032593  long   51.49276733
+  input lines/samples: 2040 1354
+  input resolution: 1 km
+  %% complete: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+
+End Time:  Wed Oct  8 13:44:19 2014
+Finished processing!
+******************************************************************************

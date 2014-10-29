@@ -11,6 +11,7 @@ HYDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
 
 # HAND regional area.
 HANDS_AREA			= "haiti"
+#HANDS_AREA			= "namibia"
 
 #
 # Data Directories
@@ -22,6 +23,7 @@ EO1_DIR				= DATA_DIR + "/eo1_ali"
 DFO_DIR				= DATA_DIR + "/dfo"
 PALSAR2_DIR			= DATA_DIR + "/palsar2"
 FROST_DIR			= DATA_DIR + "/frost"
+DIGIGLOBE_DIR		= DATA_DIR + "/digiglobe"
 
 CSV_DIR				= "../csv"
 

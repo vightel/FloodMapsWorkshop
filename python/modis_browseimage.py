@@ -285,17 +285,17 @@ if __name__ == '__main__':
 	verbose			= options.verbose
  		  
 	fname 			= str.format("MWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product)
-	tifFile		    = os.path.join(BASE_DIR,year, day, fname)
+	tifFile		    = os.path.join(BASE_DIR,year, day, tile, fname)
 	
 	#surface_water_image		= os.path.join(inpath,"surface_water.png")
 	#surface_water_image_tif	= os.path.join(inpath,"surface_water.tif")
 	
-	osm_bg_image	= os.path.join(BASE_DIR, year, day, str.format("OSM_{0}{1}_{2}.tif",year,day,tile))
-	sw_osm_image	= os.path.join(BASE_DIR, year, day, str.format("OSM_SWP_{0}{1}_{2}.png",year,day,tile))
-	MWP				= os.path.join(BASE_DIR, year, day, str.format("MWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
-	SWP				= os.path.join(BASE_DIR, year, day, str.format("SWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
-	SWP_RGB			= os.path.join(BASE_DIR, year, day, str.format("SWP_RGB_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
-	SWPthn			= os.path.join(BASE_DIR, year, day, str.format("SWP_{0}{1}_{2}_{3}D{3}OT_thn.tif", year, day, tile, product))	
+	osm_bg_image	= os.path.join(BASE_DIR, year, day, tile, str.format("OSM_{0}{1}_{2}.tif",year,day,tile))
+	sw_osm_image	= os.path.join(BASE_DIR, year, day, tile, str.format("OSM_SWP_{0}{1}_{2}.png",year,day,tile))
+	MWP				= os.path.join(BASE_DIR, year, day, tile, str.format("MWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
+	SWP				= os.path.join(BASE_DIR, year, day, tile, str.format("SWP_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
+	SWP_RGB			= os.path.join(BASE_DIR, year, day, tile, str.format("SWP_RGB_{0}{1}_{2}_{3}D{3}OT.tif", year, day, tile, product))
+	SWPthn			= os.path.join(BASE_DIR, year, day, tile, str.format("SWP_{0}{1}_{2}_{3}D{3}OT_thn.tif", year, day, tile, product))	
 	coastlines		= os.path.join(BASE_DIR,  str.format("{0}_osm_coastal.tif", tile))	
 	
 	# Get Background Image 5% size

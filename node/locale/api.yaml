@@ -1,6 +1,15 @@
 en:
   results: "%{results} results"
   
+  menu:
+    home: Home
+    products: Products
+    opensearch: OpenSearch
+    applications: Applications
+    register: Register
+    list: List
+    query: Query
+            
   tabs:
     general: General
     metadata: Metadata
@@ -14,7 +23,11 @@ en:
     share: share
     like: like
     task: task
-
+    map: map
+  products:
+    search: search
+    surface_water: Flood Map
+    frost: Frost
   stream:
     displayName: Publisher Flood Surface Water Products
 
@@ -28,6 +41,10 @@ en:
     size: size
     centerlat: centerlat
     centerlon: centerlon
+    duration: duration
+    resolution: resolution
+    cloud: cloud cover
+    copyright: copyright
 
   sources:
     radarsat2: CSA Radarsat2
@@ -54,6 +71,9 @@ en:
     topojson: topojson
     topojsongz: topojson.gz
     osmbz2: osm.bz2
+    geotiff: geotiff
+    png: png
+    jpg: jpg
     date: "YYYY-MM-DD"
 
   products:
@@ -77,3 +97,60 @@ en:
     GB: GB
     TB: TB
 
+  mapinfo:
+    credits: credits
+    style: style
+    legend: legend
+    
+  legend:
+    radarsat2:
+      title: Flood Map
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: CSA/MDA
+      legend: Surface Water
+    dfo:
+      title: Flood Map
+      credits: Dartmouth Flood Observatory
+      source: 
+        label: Source
+        source: DFO
+      legend: Surface Water
+    l8:
+      title: Flood Map
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: NASA
+      legend: Surface Water
+
+    eo1_ali:
+      title: Flood Map
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: NASA
+      legend: Surface Water
+
+    modis:
+      title: Flood Map
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: NASA
+      legend: Surface Water
+        
+    frost:
+      title: Frost Map
+      credits: NASA SERVIR/RCMRD
+      source: 
+        label: Source
+        source: SERVIR/RCMRD
+      legend:
+        no_data: No Data
+        very_severe_frost: Very Severe Frost
+        severe_frost: Severe Frost
+        moderate_frost: Moderate frost
+        minor_frost: Minor Frost Pockets
+        no_frost: No Frost
