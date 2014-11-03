@@ -8,6 +8,8 @@ import psycopg2
 import ppygis
 from which import *
 from urlparse import urlparse
+#from xml.dom import minidom
+import xml.etree.ElementTree as ET
 
 import config
 from osgeo import gdal
@@ -68,7 +70,6 @@ def check_db(str):
 	connection.close()
 	
 envs = [
-	"WORKSHOP_DIR",
 	"DBHOST",
 	"DBNAME",
 	"DBOWNER",
@@ -114,10 +115,65 @@ user			= url.username
 password		= url.password
 		
 str= "host=%s dbname=%s port=%s user=%s password=%s"% (dbhost,dbname,dbport,user,password)
-print "connect to", str
+
+print "Connect to", str
 check_db(str)
 
-print "checking Node Environment for Publisher"
+# Check that Database ENVs match DATABASE_URL
+if dbhost != os.environ["DBHOST"]:
+	print "DBHOST does not match DATABASE_URL", dbhost, os.environ["DBHOST"], DATABASE_URL
+	sys.exit(-1)
+
+if dbport != int(os.environ["DBPORT"]):
+	print "DBPORT does not match DATABASE_URL", dbport, os.environ["DBPORT"], DATABASE_URL
+	sys.exit(-1)
+
+if dbname != os.environ["DBNAME"]:
+	print "DBNAME does not match DATABASE_URL", dbname, os.environ["DBNAME"], DATABASE_URL
+	sys.exit(-1)
+
+if user != os.environ["DBOWNER"]:
+	print "DBOWNER does not match DATABASE_URL", user, os.environ["DBOWNER"], DATABASE_URL
+	sys.exit(-1)
+
+if password != os.environ["PGPASS"]:
+	print "PGPASS does not match DATABASE_URL", password, os.environ["PGPASS"], DATABASE_URL
+	sys.exit(-1)
+
+#
+# Check the Mapnik Configuration
+#
+print "Checking Mapnik Datasource Configuration..."
+mapnik_datasource_file = "inc/datasource-settings.xml.inc"
+xml = "<root>\n"+open(mapnik_datasource_file,'r').read()+"\n</root>"
+tree = ET.fromstring(xml)
+for child in tree:
+	name 	= child.get('name')
+	value	= child.text
+	#print child.tag, child.attrib, name, value
+	if name == 'host':
+		if value != dbhost:
+			print "host parameter does not match in inc/datasource-settings.xml.inc", value, dbhost
+			sys.exit(-1)
+	if name == 'password':
+		if value != password:
+			print "password parameter does not match in inc/datasource-settings.xml.inc", value, password
+			sys.exit(-1)
+	if name == 'port':
+		if int(value) != dbport:
+			print "port parameter does not match in inc/datasource-settings.xml.inc", value, dbport
+			sys.exit(-1)
+	if name == 'user':
+		if value != user:
+			print "user parameter does not match in inc/datasource-settings.xml.inc", value, user
+			sys.exit(-1)
+	if name == 'dbname':
+		if value != dbname:
+			print "dbname parameter does not match in inc/datasource-settings.xml.inc", value, dbname
+			sys.exit(-1)
+	
+	
+print "Checking Node Environment for Publisher"
 for e in node_envs:
 	print "checking:", e
 	environment[e] = os.environ[e]

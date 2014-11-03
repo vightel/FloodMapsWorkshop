@@ -38,10 +38,10 @@ if __name__ == '__main__':
 	apg_input.add_argument("-s", "--scene", 	help="EO-1 Scene")
 	
 
-	options 	= parser.parse_args()
-	force		= options.force
-	verbose		= options.verbose
-	scene	 	= options.scene
+	options 			= parser.parse_args()
+	force				= options.force
+	verbose				= options.verbose
+	scene	 			= options.scene
 
 	outdir				= os.path.join(config.EO1_DIR,scene)	
 	scene	 			= options.scene.split("_")[0]
@@ -50,12 +50,13 @@ if __name__ == '__main__':
 	
 	app 				= EO1_ALI_L1T(outdir, scene, verbose )
 
-	epsilon			= 0.0001
+	epsilon				= 0.0001
 
 	#if verbose:
 	#	print "Process B2"
 	b2_dn 			= app.get_band_data(2)
 	b2_radiance 	= app.radiance(2, b2_dn)
+	#b2_radiance 	= app.get_band_data(2)
 	b2_toa 			= app.toa(2, b2_radiance)
 	if verbose:
 		print 'b2_toa', numpy.min(b2_toa), numpy.mean(b2_toa), numpy.max(b2_toa)
@@ -63,8 +64,8 @@ if __name__ == '__main__':
 	
 	#if verbose:
 	#	print "Process B3"
-	#b3_dn 			= app.get_band_data(3)
-	#b3_radiance 	= app.radiance(3, b3_dn)
+	b3_dn 			= app.get_band_data(3)
+	##b3_radiance 	= app.radiance(3, b3_dn)
 	#b3_toa 			= app.toa(3, b3_radiance)
 
 	#ac_index 		= (b2_radiance-b3_radiance)/(epsilon+b2_radiance+b3_radiance)
@@ -76,20 +77,23 @@ if __name__ == '__main__':
 		print "Process B5"
 	b5_dn 			= app.get_band_data(5)
 	b5_radiance 	= app.radiance(5, b5_dn)
+	#b5_radiance 	= app.get_band_data(5)
 	b5_toa 			= app.toa(5, b5_radiance)
 	 
 	if verbose:
 		print "Process B7"
 		
-	b7_dn  			= app.get_band_data(7)
+	b7_dn  		= app.get_band_data(7)
 	b7_radiance 	= app.radiance(7, b7_dn)
+	#b7_radiance 	= app.get_band_data(7)
 	b7_toa 			= app.toa(7, b7_radiance)
 
 	if verbose:
 		print "Process B8"
 		
-	b8_dn  			= app.get_band_data(8)
+	b8_dn  		= app.get_band_data(8)
 	b8_radiance 	= app.radiance(8, b8_dn)
+	#b8_radiance 	= app.get_band_data(8)
 	b8_toa 			= app.toa(8, b8_radiance)
 
 	
@@ -115,8 +119,8 @@ if __name__ == '__main__':
 	b8_dn[b8_dn>0]	= 0
 	b8_dn[high_clouds]	= 1
 	#b10_data[low_clouds]	= 1
-	b8_dn[b5_dn ==0] = 0
-	b8_dn[b7_dn ==0] = 0
+	b8_dn[b5_radiance ==0] = 0
+	b8_dn[b7_radiance ==0] = 0
 	
 	app.write_data( b8_dn, output_file, gdal.GDT_Byte, 1, 1)
 		
