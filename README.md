@@ -66,7 +66,7 @@ limitations under the License.
 	* Add an entry for your VI Host name and add an IdentityFile pointing to your .pem
 	
 * Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
-  *	Postgresql, 9.3.3, db.m1.small, No, 5GB
+  *	Postgresql, 9.3.3, db.m1.large, No, 20GB Storage
   * DBNAME: osmdb
   * DBOWNER: osm_admin
   * PGPASS: osmAdmin1XXX	# USE YOURS - THIS WILL NOT WORK
@@ -133,8 +133,9 @@ limitations under the License.
 	* [HydroSHEDS Site](http://earlywarning.usgs.gov/hydrosheds/index.php)
 	* [HydroSHEDS data](http://earlywarning.usgs.gov/hydrosheds/dataavail.php)
   
-  * When ready, run the processing... WARNING: it takes about 10mn per tile
+  * When ready, run the processing... WARNING: it takes about 1hr or more per tile
   * Make sure to edit python/config.py to [re]define the HANDS_AREA
+  * make sure that your HydroSHEDS and HAND folders are created before you start.
   * hand_all.py -v
   
 * Process Radarsat Imagery

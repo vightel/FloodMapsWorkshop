@@ -5,6 +5,8 @@ import argparse
 import math, time
 
 import numpy
+import numpy.ma as ma
+
 from scipy import misc
 
 from osgeo import gdal
@@ -12,17 +14,19 @@ from osgeo import osr
 from osgeo import ogr
 import gdalnumeric
 
+# NOTE check https://github.com/mtpatter/eo1-demo/blob/master/classify.py
+
 import config
 
 def calcJDay (date):
-    #Separate date aspects into list (check for consistnecy in formatting of all
+    #Separate date aspects into list (check for consistency in formatting of all
     #Landsat7 metatdata) YYYY-MM-DD
     dt = date.rsplit("-")
 
     #Cast each part of the date as a in integer in the 9 int tuple mktime
     t = time.mktime((int(dt[0]), int(dt[1]), int(dt[2]), 0, 0, 0, 0, 0, 0))
 
-    #As part of the time package the 7th int in mktime is calulated as Julian Day
+    #As part of the time package the 7th int in mktime is calculated as Julian Day
     #from the completion of other essential parts of the tuple
     jday = time.gmtime(t)[7]
 
@@ -87,6 +91,7 @@ class EO1_ALI_L1T:
 			print cmd
 		os.system(cmd)
 
+	# This should not be used as L1T is already in radiance values, I think
 	# Compute radiance from DN
 	def radiance(self, band, dn):
 		SCALING_FACTOR = 'BAND'+str(band)+"_SCALING_FACTOR"
@@ -119,6 +124,7 @@ class EO1_ALI_L1T:
 		
 		el	= self.metadata['SUN_ELEVATION']
 		za	= (90.0- float(el))
+		
 		if self.verbose:
 			print "Acquisition Date:", dt
 			print "Julian Day:", jd
@@ -137,8 +143,7 @@ class EO1_ALI_L1T:
 			min_toa	= numpy.min(toa)
 			max_toa	= numpy.max(toa)
 			
-			print "toa band:", band, numpy.min(toa), numpy.mean(toa), numpy.max(toa)
-			
+			print "TOA band:", band, "min:", numpy.min(toa), "mean:", numpy.mean(toa), "max:", numpy.max(toa)
 		
 		return toa
 
@@ -156,8 +161,6 @@ class EO1_ALI_L1T:
 				self.metadata [val[0].strip()] = val[1].strip().strip('"')      
 			else:
 				break
-	    #if verbose:
-		#	print self.metadata
 	
 	def reproject( self, epsg, in_file, out_file):
 		if self.verbose:
@@ -195,26 +198,38 @@ class EO1_ALI_L1T:
 		data[data<0] = 0	# remove edges
 		
 		if self.verbose:
-			print "Loaded:", bandNum, numpy.min(data), numpy.mean(data), numpy.max(data)
+			print "Loaded Band:", bandNum, "min:", numpy.min(data), "mean:", numpy.mean(data), "max:", numpy.max(data)
 
 		ds 		= None
 		return data
 
-	def linear_stretch(self, data):
+	def linear_stretch2(self, data, min_percentile=1.0, max_percentile=97.0):
+		data_min 	= float(numpy.min(data[numpy.nonzero(data)]))
+		pmin		= numpy.percentile(data[numpy.nonzero(data)],min_percentile)
+		pmax		= numpy.percentile(data[numpy.nonzero(data)],max_percentile)
+		data	 	= (data - pmin)/(pmax-data_min)
+		
+		if verbose:
+			print min, pmin, pmax
+			
+		data[data>1]=1
+		data *= 255
+		return data_scale
+	
+	
+	def linear_stretch(self, data, min_percentile=1.0, max_percentile=97.0):
+				
 		if self.verbose:
-			print 'linear_stretch', numpy.min(data), numpy.mean(data), numpy.max(data)
+			print 'linear_stretch', numpy.min(data), numpy.mean(data), numpy.max(data), min_percentile, max_percentile
 
-		# clip bottom and top 2 percent of the points
-		max_cut = numpy.percentile(data, 98)
-		data[data>max_cut]=max_cut
-		
-		# we need to move the Zeroes out of the way to find the bottom 1%
-		min_cut = numpy.percentile(data, 2)
-		data[data<min_cut]=min_cut
-		
+		pmin, pmax = numpy.percentile(data[numpy.nonzero(data)], (min_percentile, max_percentile))
 		if self.verbose:
-			print "mincut:", min_cut
-			print "maxcut:", max_cut
+			print "pmin2:", pmin
+			print "pmax2:", pmax
+
+		data[data>pmax]=pmax
+		data[data<pmin]=pmin
+		
 			
 		bdata = misc.bytescale(data)
 		return bdata
