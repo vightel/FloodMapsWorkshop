@@ -48,9 +48,9 @@ limitations under the License.
 * Register on [EarthExplorer](http://earthexplorer.usgs.gov/)
  
 
-## Steps
+## Pre-Requisite Steps Prior To Workshop
 
-* Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)  [Instructional Videos](http://aws.amazon.com/training/intro_series/)
+1. Launch a Virtual Machine on Amazon Elastic Compute Cloud (EC2)  [Instructional Videos](http://aws.amazon.com/training/intro_series/)
   * Select Region East
   * Linux AMI, General Purpose, 64-bit, EBS Root Device Type
   amzn-ami-hvm-2014.03.2.x86_64-ebs (ami-76817c1e)
@@ -65,7 +65,7 @@ limitations under the License.
 	* vi config
 	* Add an entry for your VI Host name and add an IdentityFile pointing to your .pem
 	
-* Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
+2. Create an Amazon Relational Database Service (RDS) Instance to Store OSM data (Water Reference)
   *	Postgresql, 9.3.3, db.m1.large, No, 20GB Storage
   * DBNAME: osmdb
   * DBOWNER: osm_admin
@@ -77,7 +77,7 @@ limitations under the License.
     * osmdb# create extension postgis_tiger_geocoder;
     * osmdb# create extension postgis_topology;
 
-* [OPTIONAL] While at it, add database tables if you are going to use the Publisher (Node Application)
+3. While at it, add database tables if you are going to use the Publisher (Node Application)
   * add ./sql/users.sql
   * add ./sql/applications.sql
   * add ./sql/radarsat2.sql
@@ -85,11 +85,11 @@ limitations under the License.
   * add ./sql/l8.sql
   * add ./sql/dfo.sql
   
-* cd DIR where key.pem is
-* To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
- * ssh -i AWS.pem ec-user2@54.164.10.133
+4. cd DIR where key.pem is
+  * To Access your instance [remember your public DNS], use Connect Tab Menu to get actual direction and use proper user name
+  * ssh -i AWS.pem ec-user2@54.164.10.133
   
-* Set your environment variables on Virtual Instance...[remember your endpoint]
+5. Set your environment variables on Virtual Instance...[remember your endpoint]
   * export DBHOST=osmdb.crcholi0be4z.us-east-1.rds.amazonaws.com
   * export DBNAME=osmdb
   * export DBOWNER=osm_admin
@@ -100,8 +100,9 @@ limitations under the License.
   * export USGS_PASSWORD=
 
   * Note: We recommend to customize envs.copy.sh with your own values to envs.sh and then > source envs.sh and make sure this gets done automatically when you login by changing your .profile
+  * Please make sure that . is in your PATH
   
-* Install Code Dependencies
+6. Install Code Dependencies
   * git clone https://github.com/vightel/FloodMapsWorkshop.git
   * cd FloodMapsWorkshop
   * export WORKSHOP_DIR=~/FloodMapsWorkshop
@@ -109,24 +110,24 @@ limitations under the License.
   * It is advisable to run the shell file below step by step to check on potential errors while loading and building code/libraries
   * sh install-deps.sh
   
-* Install data dependencies... This will copy some data from S3 to your data directory for testing
+7. [Optional for Haiti Demo] Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
 
-* Verify Database dependencies and environment variables
+8. Verify Database dependencies and environment variables
   * cd $WORKSHOP_DIR/python
   * Check python configuration file: config.py
   * Check database settings: ./inc/datasource-settings.xml.inc
   * Check python environment, run:
 	* check_environment.py
 	
-  * Make sure that . is in PATH to find the python scripts (if not, edit your .bashrc or .profile)
+  * Make sure AGAIN that . is in PATH to find the python scripts (if not, edit your .bashrc or .profile)
 	
-* [OPTIONAL] Download OSM data files and load OSM database
+9. Download OSM data files and load OSM database
   * You may have to get OSM data from your particular area from http://download.geofabrik.de/ and edit the shell file below.
   * cd ./data/osm
   * sh load_all.sh
   
-* [OPTIONAL] Download HydroSHEDS DEM and build HAND (Height Above Nearest Drainage) for your Area of Interest
+10. Download HydroSHEDS DEM and build HAND (Height Above Nearest Drainage) for your Area of Interest
   * Currently built for Haiti area, if this is not your area, change the area... check ./python/hand_all.py
   
   You will need to specify the continent and the 3sec tiles you need for the void filled dem and flow direction.
@@ -138,6 +139,8 @@ limitations under the License.
   * make sure that your HydroSHEDS and HAND folders are created before you start.
   * hand_all.py -v
   
+## Next... Workshop
+
 * Process Radarsat Imagery
   * You will need some Radarsat-2 SGF files expanded in your data directory ../data/radarsat2.  At a minimum, one file should have been copied and expanded by the getdata.sh script
   * cd $WORKSHOP_DIR/python
