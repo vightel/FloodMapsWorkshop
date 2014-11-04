@@ -136,7 +136,7 @@ limitations under the License.
   
   * When ready, run the processing... WARNING: it takes about 1hr or more per tile
   * Make sure to edit python/config.py to [re]define the HANDS_AREA
-  * make sure that your HydroSHEDS and HAND folders are created before you start.
+  * make sure that your HydroSHEDS and HAND folders are created before you start (../data/HAND/AF for example if AF is your continent).
   * hand_all.py -v
   
 ## Next... Workshop
