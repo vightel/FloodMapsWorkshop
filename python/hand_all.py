@@ -355,7 +355,11 @@ if __name__ == '__main__':
 
 	namibia_tiles = [
 	"AF/s20e015",
-	"AF/s20e020"
+	"AF/s20e020",
+	"AF/s20e025",
+	"AF/s25e015",
+	"AF/s25e020",
+	"AF/s25e025"
 	]
 	
 	haiti_tiles = [

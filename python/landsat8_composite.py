@@ -193,7 +193,14 @@ class Landsat8:
 		alpha_data[blue_data>0]		= 255
 		alpha_band.WriteArray(alpha_data, 0, 0)
 
-		dst_ds = None
+		if self.geotransform:
+			dst_ds.SetGeoTransform( self.geotransform )
+			
+		if self.projection:
+			dst_ds.SetProjection( self.projection )
+
+
+		dst_ds 	= None
 		ds		= None
 		
 if __name__ == '__main__':

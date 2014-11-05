@@ -35,6 +35,7 @@ class Landsat8:
 		self.blue				= blue
 		
 		self.output_file		= os.path.join(outpath, scene + "_COMPOSITE_"+red+green+blue+".tif")
+		self.output_file_4326	= os.path.join(outpath, scene + "_COMPOSITE_"+red+green+blue+"_4326.tif")
 		self.bqa_file			= os.path.join(outpath, scene + "_BQA.TIF")
 		self.meta_file			= os.path.join(outpath, scene + "_MTL.txt")
 				
@@ -54,7 +55,7 @@ class Landsat8:
 		if not force and os.path.isfile(out_file):
 			return
 			
-		cmd = "gdalwarp -of GTiff -co COMPRESS=DEFLATE -t_srs "+ epsg +" -multi -dstalpha " + in_file + " " + out_file
+		cmd = "gdalwarp -overwrite -of GTiff -co COMPRESS=DEFLATE -t_srs "+ epsg +"  " + in_file + " " + out_file
 		self.execute(cmd)
 		
 	def generate_color_table(self):
@@ -260,7 +261,13 @@ class Landsat8:
 		alpha_data[blue_data>0]		= 255
 		alpha_band.WriteArray(alpha_data, 0, 0)
 
-		dst_ds = None
+		if self.geotransform:
+			dst_ds.SetGeoTransform( self.geotransform )
+			
+		if self.projection:
+			dst_ds.SetProjection( self.projection )
+
+		dst_ds 	= None
 		ds		= None
 		
 if __name__ == '__main__':
@@ -291,3 +298,4 @@ if __name__ == '__main__':
 	app.process_bqa()
 	app.getMetaData()
 	app.process()
+	app.reproject( "EPSG:4326", app.output_file, app.output_file_4326)
