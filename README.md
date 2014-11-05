@@ -112,6 +112,7 @@ limitations under the License.
   
 7. [Optional for Haiti Demo] Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
+  [Note: This needs to be updated for RCMRD and ICIMOD workshops]
 
 8. Verify Database dependencies and environment variables
   * cd $WORKSHOP_DIR/python
@@ -139,6 +140,22 @@ limitations under the License.
   * make sure that your HydroSHEDS and HAND folders are created before you start (../data/HAND/AF for example if AF is your continent).
   * hand_all.py -v
   
+  [Notes] You may have to set your local machine so you can FTP and ssh to your instance and use your own PEM file.
+  
+  I have to setup my .ssh/config this way:
+  
+  Host <name>
+    HostName 54.164.139.253
+    User ec2-user
+    IdentityFile <full path name to PEM file>
+    ServerAliveInterval 300
+    ServerAliveCountMax 2
+
+11. Namibia Test scenes
+  * From USGS
+    * EO-1          EO1A1760722013027110KF_1T
+    * Landsat-8 
+    * Radardat-2
 ## Next... Workshop
 
 * Process Radarsat Imagery
