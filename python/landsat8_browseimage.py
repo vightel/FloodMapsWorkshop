@@ -27,7 +27,7 @@ verbose	= 0
 class Landsat8:
 	def __init__( self, outpath, scene ):	
 		self.scene			 	= scene
-		self.composite_file		= os.path.join(outpath, scene + "_COMPOSITE_432.tif")
+		self.composite_file		= os.path.join(outpath, scene + "_COMPOSITE_432_4326.tif")
 		self.watermap_file		= os.path.join(outpath, scene + "_WATERMAP.tif.hand.tif")
 		self.browse_file		= os.path.join(outpath, scene + "_watermap_browseimage.tif")
 		self.thn_browse_file	= os.path.join(outpath, scene + "_watermap_browseimage.thn.png")
@@ -41,7 +41,7 @@ class Landsat8:
 		
 	def process(self):
 		if not os.path.isfile(self.composite_file):
-			cmd = str.format("landsat8_composite_toa.py {0} --red 4 --green 3 --blue 2", self.scene)
+			cmd = str.format("landsat8_composite_toa.py --scene {0} --red 4 --green 3 --blue 2", self.scene)
 			self.execute(cmd)
 		
 		if force or not os.path.isfile(self.browse_file):
