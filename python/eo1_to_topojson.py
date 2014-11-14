@@ -131,12 +131,10 @@ class EO1_ALI_VECTORIZATION:
 	#
 	# Generate Hand file
 	#
-	def hand(self, vrt):		
+	def hand(self, regional_file):		
 		base_img 	= self.input_file
 
-		in_img 		= os.path.join(self.hand_dir, vrt)
-		#in_img 	= os.path.join(self.hand_dir, "CA/haiti_hand.tif")
-		#in_img 	= os.path.join(self.hand_dir, "CA/n15w075_hand.tif")
+		in_img 		= os.path.join(self.hand_dir, regional_file)
 		
 		# Get a subset of HAND for particular tile
 		if force or not os.path.isfile(self.hand_file):
@@ -144,7 +142,7 @@ class EO1_ALI_VECTORIZATION:
 			cmd = "subset.py "+ base_img + " " + in_img + " " + self.hand_file
 			self.execute(cmd)			
 			
-			self.save_hand_as_png()
+			#self.save_hand_as_png()
 		
 		if verbose:
 			print "hand done"
@@ -219,11 +217,13 @@ class EO1_ALI_VECTORIZATION:
 			if verbose:
 				print "Non Zero Pixels before any masking:",  numpy.count_nonzero(output_data)
 		
-			mask				= (coastal_data==1)
-			output_data[mask]	= 0
+			# Removed for non-coastal areas... decide if you want to mask watersheds...!!!
+			#
+			# mask				= (coastal_data==1)
+			# output_data[mask]	= 0
 		
-			if verbose:
-				print "Non Zero Pixels After Coastal/Watershed Masking:",  numpy.count_nonzero(output_data)
+			# if verbose:
+			#	print "Non Zero Pixels After Coastal/Watershed Masking:",  numpy.count_nonzero(output_data)
 		
 			# Now apply HAND Filter
 		
@@ -400,10 +400,8 @@ if __name__ == '__main__':
 	options 	= parser.parse_args()
 	force		= options.force
 	verbose		= options.verbose
-	#infile		= options.input
-	#dir		= options.dir
-	#vrt		= options.vrt
-	vrt			= config.HANDS_AREA + "_hand.vrt"
+	
+	regional_hand	= config.HANDS_AREA + "_hand_merged_lzw.tif"
 	
 	scene	 	= options.scene.split("_")[0]
 	
@@ -419,7 +417,7 @@ if __name__ == '__main__':
 	
 	# app.reproject("EPSG:4326", app.input_file, app.output_4326_file )
 	
-	app.hand(vrt)
+	app.hand(regional_hand)
 	app.process()
 	app.geojson()
 

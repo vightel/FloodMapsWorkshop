@@ -38,6 +38,9 @@ class HAND:
 		self.verbose				= verbose
 		
 		# http://hydrosheds.cr.usgs.gov/webappcontent/HydroSHEDS_TechDoc_v10.pdf
+		# That's the real trick here
+		# for a center pixel, going clockwise starting at row, col+1 and looking at all neighbors
+		# we look for a direction value that would drain into center pixel
 		self.drain_direction_values = [16, 32, 64, 128, 1, 2, 4, 8]
 		
 		# pixels we set
@@ -49,16 +52,16 @@ class HAND:
 	# Get BIL dataset
 	#
 	def get_bil_data_set(self, name):
-		bildir 	= os.path.join(self.hydroSHEDS_dir,self.zone, self.tile, name+"_bil")
-		bil 	= os.path.join(bildir,name+".bil")
-		if not os.path.isfile(bil):
-			print('ERROR: bil file does not exist:', bil)
-			sys.exit(-1)
-
-		fname = "%s_%d.tif" % (name,self.proj)
+		fname 		= "%s_%d.tif" % (name,self.proj)
+		bildir 		= os.path.join(self.hydroSHEDS_dir,self.zone, self.tile, name+"_bil")
 		bil_proj 	= os.path.join(bildir, fname)
-		
+
 		if not os.path.isfile(bil_proj):
+			bil 	= os.path.join(bildir,name+".bil")
+			if not os.path.isfile(bil):
+				print('ERROR: bil file does not exist:', bil)
+				sys.exit(-1)
+
 			self.reproject("EPSG:%d"%self.proj, bil, bil_proj)
 			
 		if self.verbose:
@@ -237,6 +240,7 @@ class HAND:
 		print "  water pix:", self.wp
 		print "  processed:", self.count
 		print "  total pixs:", self.RasterXSize * self.RasterYSize
+		print "  hand pixs:", numpy.count_nonzero(self.hand)
 		
 		hand_img 	= os.path.join(self.inpath, self.zone, self.tile + "_hand.tif")
 		driver 		= gdal.GetDriverByName( "GTiff" )
@@ -250,15 +254,33 @@ class HAND:
 
 		# Colorbrewer, sequential, 7
 		ct.SetColorEntry( 0, (0, 0, 0, 255) )
+		
 		ct.SetColorEntry( 1, (8, 48, 107, 255) )
-		ct.SetColorEntry( 2, (8, 81, 156, 255) )
-		ct.SetColorEntry( 3, (33, 113, 181, 255) )
-		ct.SetColorEntry( 4, (66, 146, 198, 255) )
-		ct.SetColorEntry( 5, (107, 174, 214, 255) )
-		ct.SetColorEntry( 6, (158, 202, 225, 255) )
-		ct.SetColorEntry( 7, (198, 219, 239, 255) )
-		ct.SetColorEntry( 8, (222, 235, 2247, 255) )
-		ct.SetColorEntry( 9, (247, 251, 255, 255) )
+		ct.SetColorEntry( 2, (8, 48, 107, 255) )
+
+		ct.SetColorEntry( 3, (8, 81, 156, 255) )
+		ct.SetColorEntry( 4, (8, 81, 156, 255) )
+		
+		ct.SetColorEntry( 5, (33, 113, 181, 255) )
+		ct.SetColorEntry( 6, (33, 113, 181, 255) )
+		
+		ct.SetColorEntry( 7, (66, 146, 198, 255) )
+		ct.SetColorEntry( 8, (66, 146, 198, 255) )
+		
+		ct.SetColorEntry( 9, (107, 174, 214, 255) )
+		ct.SetColorEntry( 10, (107, 174, 214, 255) )
+		
+		ct.SetColorEntry( 11, (158, 202, 225, 255) )
+		ct.SetColorEntry( 12, (158, 202, 225, 255) )
+
+		ct.SetColorEntry( 13, (198, 219, 239, 255) )
+		ct.SetColorEntry( 14, (198, 219, 239, 255) )
+		
+		ct.SetColorEntry( 15, (222, 235, 2247, 255) )
+		ct.SetColorEntry( 16, (222, 235, 2247, 255) )
+		
+		ct.SetColorEntry( 17, (247, 251, 255, 255) )
+		ct.SetColorEntry( 18, (247, 251, 255, 255) )
 
 		# ocean
 		ct.SetColorEntry( 255, (0, 0, 0, 0) )
@@ -286,7 +308,7 @@ class HAND:
 	def process_data(self):
 		
 		# create hand array and set it to zero
-		self.hand = numpy.zeros_like(app.drainage_data)
+		self.hand = numpy.zeros_like(self.drainage_data)
 		
 		cols 		= app.RasterXSize
 		rows 		= app.RasterYSize
@@ -296,62 +318,98 @@ class HAND:
 		
 		self.count	= 0
 		
+		# Number of water pixels
+		num_wps 	= numpy.count_nonzero(self.water_data)
+		wp_mask		= numpy.where(self.water_data>0)
+		
 		if self.verbose:
-			print str(datetime.now()), "Processing data..."
+			print str(datetime.now()), "Create Sorted Array of Water pixel data...", num_wps, total
+
+		# Create a sorted array of water pixels
+		wph 		= numpy.empty((num_wps,), dtype=[('row',int),('col',int), ('height', int)])
+		for i in range(num_wps):
+			row 	= wp_mask[0][i]
+			col		= wp_mask[1][i]
+			height 	= app.height_data[row,col]
+						
+			self.hand[row,col] 	= 1		# water pixel 1m or less
+			self.wp += 1
 			
-		# go through all pixels in surface reference water
-		for row in range(rows):	
-			for col in range(cols):
-				drain	= self.drainage_data[row, col]
-				if drain == 247:		#oceans
-					self.hand[row,col] 	= 255
-				elif( self.water_data[row, col] > 0 ):	# osm water pixel
-					height				= self.height_data[row,col]
-					self.count 			+= 1
+			wph[i] = (row, col, height)
+					
+		wph.sort(order='height')
+		
+		if self.verbose:
+			print str(datetime.now()), "Processing water pixel data...", num_wps
 
-					# water pixel
-					self.wp += 1
+		self.progressbar( ncount / float(num_wps) )
+			
+		# Go through all pixels in surface reference water
+		for i in range(num_wps):
+			wpx 	= wph[num_wps-i-1]	# highest first
+			row		= wpx['row']
+			col		= wpx['col']
+			height 	= wpx['height']
+			
+			drain	= self.drainage_data[row, col]
+			if drain == 247:		#oceans
+				self.hand[row,col] 	= 255
+	
+			else:	# osm water pixel
+				self.count 			+= 1
 
-					if self.hand[row, col] == 0:	# not already processed
-						self.hand[row,col] 	= 1		# less than 1m
-
-						self.process_pixel(row, col, height)
+				# hand pixel
+				self.wp 			+= 1
+				
+				neighbors = self.get_eight_adjacent_neighbors(row, col)
+				for index, n in enumerate(neighbors):
+					if n != None:
+						pixel = (n[0],n[1],index)
+						self.process_pixel(pixel, height)
 								
-				if self.verbose:
-					ncount += 1
-					self.progressbar( ncount / float(total) )
+			if self.verbose:
+				ncount += 1
+				self.progressbar( ncount / float(num_wps) )
 	
 	#
-	# Process current pixel and go to the next available one
+	# Process current pixel and check the eight adjacent pixels to find which drain into it
 	#
-	def process_pixel(self, current_row, current_col, current_height):
-		
-		# get 8 valid adjacent neighbors
-		neighbors = self.get_eight_adjacent_neighbors(current_row, current_col)
-		for index in range(8):
-			n = neighbors[index]
-			if n != None:
-				row = n[0]
-				col = n[1]
-
+	def process_pixel(self, neighbor, wp_height):
+			q 	= [neighbor]
+			
+			while len(q)>0:
+				neighbor 		= q.pop(0)
+				
+				row 			= neighbor[0]
+				col 			= neighbor[1]
+				index			= neighbor[2]
+				
+				hand			= self.hand[row,col]				
 				drain			= self.drainage_data[row, col]
-				neighbor_height = self.height_data[row, col]
+				
 				if drain == 247: #ocean
 					self.hand[row, col] = 255
+					continue
 					
-				elif (self.water_data[row, col] == 0) and (self.hand[row, col] == 0):			# not water and not processed  
-				
-					if self.drainage_data[row, col] == self.drain_direction_values[index]:	# neigbor drains into current pizel
-						neighbor_height = self.height_data[row, col]
-						relative_height = neighbor_height - current_height
-						if relative_height < self.maxheight:
-							if relative_height < 0:
-								relative_height = 0
+				if hand > 0:
+					continue
+			
+				if drain == self.drain_direction_values[index]:		# neigbor drains into current pixel
+					neighbor_height = self.height_data[row, col]
+					relative_height = neighbor_height - wp_height
+					if relative_height < self.maxheight:
+						if relative_height < 0:
+							relative_height = 0
 								
-							self.hand[row, col] = relative_height + 1
-							self.count += 1
-							self.process_pixel(row, col, neighbor_height)
-	
+						self.hand[row, col] = relative_height + 1
+						self.count += 1
+
+						neighbors = self.get_eight_adjacent_neighbors(row, col)
+						for index, n in enumerate(neighbors):
+							if n != None:
+								pixel = (n[0],n[1],index)
+								q.append( pixel )
+
 	#
 	# Get the eight adjacent neighbors
 	#					
@@ -404,8 +462,8 @@ if __name__ == '__main__':
 	proj		= int(options.proj[0])
 	verbose		= options.verbose
 	
-	if maxheight > 9:
-		print "MaxHeight limited to 9m", maxheight
+	if maxheight > 18:
+		print "MaxHeight limited to 18m", maxheight
 		sys.exit(-1)
 		
 	dir = config.HANDS_DIR
@@ -423,10 +481,8 @@ if __name__ == '__main__':
 	if not os.path.isfile(hand_img) or force:
 		app.process_data()
 		app.save_data()
-
-	if verbose:
-		print str(datetime.now()), "Done."
+	else:
+		print "hand_img exists", hand_img
 		
-	
-	
-	
+	if verbose:
+		print str(datetime.now()), "Done."	

@@ -1,7 +1,7 @@
 #
 # Directories setup
 #
-DATA_DIR			= "../data"
+DATA_DIR			= "/Users/patricecappelaere/Development/FloodMapsWorkshop/FloodMapsWorkshop/data"
 
 #
 # Height Above NEarest Drainage (HAND)
@@ -12,6 +12,9 @@ HYDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
 # HAND regional area.
 #HANDS_AREA			= "haiti"
 HANDS_AREA			= "namibia"
+
+# Pick 9m or 15m but <= 18m
+HANDS_HEIGHT		= 15
 
 #
 # Data Directories
@@ -24,6 +27,7 @@ DFO_DIR				= DATA_DIR + "/dfo"
 PALSAR2_DIR			= DATA_DIR + "/palsar2"
 FROST_DIR			= DATA_DIR + "/frost"
 DIGIGLOBE_DIR		= DATA_DIR + "/digiglobe"
+VIIRS_DIR			= DATA_DIR + "/viirs"
 
 CSV_DIR				= "../csv"
 

@@ -14,6 +14,8 @@ data/modis/
 data/eo1/
 data/dfo
 data/palsar2
+data/viirs
+data/viirs2
 python/world_boundaries/
 envs.sh
 node/node_modules/

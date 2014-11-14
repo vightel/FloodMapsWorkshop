@@ -18,6 +18,76 @@ import config
 force 	= 0
 verbose	= 0
 
+entity_id_index 		= -1
+acquisition_date_index	= -1
+cloud_cover_index		= -1
+
+center_lat_index		= -1
+center_lon_index		= -1
+
+nwc_lat_index			= -1
+nwc_lon_index			= -1
+
+nec_lat_index			= -1
+nec_lon_index			= -1
+
+sec_lat_index			= -1
+sec_lon_index			= -1
+
+swc_lat_index			= -1
+swc_lon_index			= -1
+			
+def readHeaders(line):	
+	global entity_id_index,acquisition_date_index,  cloud_cover_index,center_lat_index, center_lon_index, nwc_lat_index, nwc_lon_index
+	global  nec_lat_index, nec_lon_index, swc_lat_index, swc_lon_index, sec_lat_index, sec_lon_index
+	index = 0
+	for val in line:
+		if val == 'Entity ID':
+			entity_id_index = index
+		if val == 'Acquisition Date':
+			acquisition_date_index = index
+		if val == 'Cloud Cover':
+			cloud_cover_index = index
+		if val == 'Center Latitude dec':
+			center_lat_index = index
+		if val == 'Center Longitude dec':
+			center_lon_index = index
+		if val == 'NW Corner Lat dec':
+			nwc_lat_index = index
+		if val == 'NW Corner Long dec':
+			nwc_lon_index = index
+		if val == 'NE Corner Lat dec':
+			nec_lat_index = index
+		if val == 'NE Corner Long dec':
+			nec_lon_index = index
+		if val == 'SE Corner Lat dec':
+			sec_lat_index = index
+		if val == 'SE Corner Long dec':
+			sec_lon_index = index
+		if val == 'SW Corner Lat dec':
+			swc_lat_index = index
+		if val == 'SW Corner Long dec':
+			swc_lon_index = index
+	
+		index += 1
+	
+	assert(entity_id_index>=0)
+	assert(acquisition_date_index>=0)
+	assert(cloud_cover_index>=0)
+	assert(center_lat_index>=0)
+	assert(center_lon_index>=0)
+	assert(nwc_lat_index>=0)
+	assert(nwc_lon_index>=0)
+	assert(nec_lat_index>=0)
+	assert(nec_lon_index>=0)
+	assert(sec_lat_index>=0)
+	assert(sec_lon_index>=0)
+	assert(swc_lat_index>=0)
+	assert(swc_lon_index>=0)
+
+	print entity_id_index, acquisition_date_index, cloud_cover_index,center_lat_index,  center_lon_index,nwc_lat_index, nwc_lon_index,nec_lat_index, nec_lon_index, swc_lat_index, swc_lon_index, sec_lat_index, sec_lon_index
+	
+		
 def readcsv( fullName, cursor):
 	print "reading csv", fullName
 
@@ -25,29 +95,30 @@ def readcsv( fullName, cursor):
 		reader 	= csv.reader(csvfile)
 		count 	= 0
 		for val in reader:
-			if count > 1:
-				#print val
-				id			= int(val[0])
-				scene 		= val[2]
-				date 		= val[3]
-				cloud		= val[4]
+			if count == 0:
+				readHeaders(val)
+			else:	
+				full_scene 	= val[entity_id_index].split("_")
+				scene		= full_scene[0]
+				date 		= val[acquisition_date_index]
+				cloud		= val[cloud_cover_index]
 			
-				center_lat	= float(val[28])
-				center_lon	= float(val[29])
+				center_lat	= float(val[center_lat_index])
+				center_lon	= float(val[center_lat_index])
 			
-				nwc_lat		= float(val[30])
-				nwc_lon		= float(val[31])
+				nwc_lat		= float(val[nwc_lat_index])
+				nwc_lon		= float(val[nwc_lon_index])
 			
-				nec_lat		= float(val[32])
-				nec_lon		= float(val[33])
+				nec_lat		= float(val[nec_lat_index])
+				nec_lon		= float(val[nec_lon_index])
 			
-				sec_lat		= float(val[34])
-				sec_lon		= float(val[35])
+				sec_lat		= float(val[sec_lat_index])
+				sec_lon		= float(val[sec_lon_index])
 			
-				swc_lat		= float(val[36])
-				swc_lon		= float(val[37])
+				swc_lat		= float(val[swc_lat_index])
+				swc_lon		= float(val[swc_lon_index])
 				
-				print id, scene, date, cloud, center_lat, center_lon, nwc_lat, nwc_lon, nec_lat, nec_lon, sec_lat, sec_lon, swc_lat, swc_lon     
+				print scene, date, cloud, center_lat, center_lon, nwc_lat, nwc_lon, nec_lat, nec_lon, sec_lat, sec_lon, swc_lat, swc_lon     
 				
 				p1 	= "%f %f" % (float(nwc_lat), float(nwc_lon) )
 				p2	= "%f %f" %(float(nec_lat),float(nec_lon) )
@@ -58,7 +129,7 @@ def readcsv( fullName, cursor):
 				#print geometry
 				
 				cmd = "INSERT INTO l8 VALUES(%d, '%s', '%s', %f, %f, ST_GeomFromText('%s',4326))" % (count, scene, date, center_lat, center_lon, geometry )
-				print cmd
+				#print cmd
 			
 				#if count == 10:
 				#	break
@@ -135,7 +206,6 @@ if __name__ == '__main__':
 		sys.exit(-1)
 		
 	ext = os.path.splitext(fullName)
-	print ext[1]
 	
 	DATABASE_URL 	= os.environ["DATABASE_URL"]
 	assert( DATABASE_URL)
@@ -152,11 +222,16 @@ if __name__ == '__main__':
 	connection = psycopg2.connect(str)
 	cursor = connection.cursor()
 	
+	# empty the table
+	cmd = "TRUNCATE TABLE eo1_ali "
+	print cmd
+	cursor.execute(cmd)
+	
 	if ext[1] == ".csv":
 		readcsv(fullName, cursor )
 	else:
 		readtxt(fullName, cursor )
-      
+
 	print "Commit and Close..."
 	connection.commit()
 	cursor.close()
