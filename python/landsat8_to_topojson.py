@@ -96,17 +96,34 @@ class Landsat8:
 		for i in range(256):
 			ct.SetColorEntry( i, (255, 255, 255, 255) )
 
-		# Colorbrewer, sequential, 7
 		ct.SetColorEntry( 0, (0, 0, 0, 255) )
+	
 		ct.SetColorEntry( 1, (8, 48, 107, 255) )
-		ct.SetColorEntry( 2, (8, 81, 156, 255) )
-		ct.SetColorEntry( 3, (33, 113, 181, 255) )
-		ct.SetColorEntry( 4, (66, 146, 198, 255) )
-		ct.SetColorEntry( 5, (107, 174, 214, 255) )
-		ct.SetColorEntry( 6, (158, 202, 225, 255) )
-		ct.SetColorEntry( 7, (198, 219, 239, 255) )
-		ct.SetColorEntry( 8, (222, 235, 2247, 255) )
-		ct.SetColorEntry( 9, (247, 251, 255, 255) )
+		ct.SetColorEntry( 2, (8, 48, 107, 255) )
+
+		ct.SetColorEntry( 3, (8, 81, 156, 255) )
+		ct.SetColorEntry( 4, (8, 81, 156, 255) )
+	
+		ct.SetColorEntry( 5, (33, 113, 181, 255) )
+		ct.SetColorEntry( 6, (33, 113, 181, 255) )
+	
+		ct.SetColorEntry( 7, (66, 146, 198, 255) )
+		ct.SetColorEntry( 8, (66, 146, 198, 255) )
+	
+		ct.SetColorEntry( 9, (107, 174, 214, 255) )
+		ct.SetColorEntry( 10, (107, 174, 214, 255) )
+	
+		ct.SetColorEntry( 11, (158, 202, 225, 255) )
+		ct.SetColorEntry( 12, (158, 202, 225, 255) )
+
+		ct.SetColorEntry( 13, (198, 219, 239, 255) )
+		ct.SetColorEntry( 14, (198, 219, 239, 255) )
+	
+		ct.SetColorEntry( 15, (222, 235, 2247, 255) )
+		ct.SetColorEntry( 16, (222, 235, 2247, 255) )
+	
+		ct.SetColorEntry( 17, (247, 251, 255, 255) )
+		ct.SetColorEntry( 18, (247, 251, 255, 255) )
 
 		# ocean
 		ct.SetColorEntry( 255, (0, 0, 0, 0) )
@@ -132,12 +149,10 @@ class Landsat8:
 	#
 	# Generate Hand file
 	#
-	def hand(self, vrt):		
+	def hand(self, regional_hand):		
 		base_img 	= self.input_file
 
-		in_img 		= os.path.join(self.hand_dir, vrt)
-		#in_img 	= os.path.join(self.hand_dir, "CA/haiti_hand.tif")
-		#in_img 	= os.path.join(self.hand_dir, "CA/n15w075_hand.tif")
+		in_img 		= os.path.join(self.hand_dir, regional_hand)
 		
 		# Get a subset of HAND for particular tile
 		if force or not os.path.isfile(self.hand_file):
@@ -147,7 +162,7 @@ class Landsat8:
 			cmd = "subset.py "+ base_img + " " + in_img + " " + self.hand_file
 			self.execute(cmd)			
 			
-			self.save_hand_as_png()
+			#self.save_hand_as_png()
 		
 		if verbose:
 			print "hand done"
@@ -227,11 +242,11 @@ class Landsat8:
 			if verbose:
 				print "Non Zero Pixels before any masking:",  numpy.count_nonzero(output_data)
 		
-			mask				= (coastal_data==1)
-			output_data[mask]	= 0
+			#mask				= (coastal_data==1)
+			#output_data[mask]	= 0
 		
-			if verbose:
-				print "Non Zero Pixels After Coastal/Watershed Masking:",  numpy.count_nonzero(output_data)
+			#if verbose:
+			#	print "Non Zero Pixels After Coastal/Watershed Masking:",  numpy.count_nonzero(output_data)
 		
 			# Now apply HAND Filter
 		
@@ -239,6 +254,7 @@ class Landsat8:
 			mask				= hand_data==0
 			output_data[mask]	= 0
 		
+			# Remove HAND oceans
 			mask				= hand_data==255
 			output_data[mask]	= 0
 
@@ -400,9 +416,6 @@ if __name__ == '__main__':
 	apg_input = parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", 	action='store_true', help="Forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose on/off")
-	#apg_input.add_argument("-i", "--input",  	help="Input File")
-	#apg_input.add_argument("-d", "--dir",  	help="Output Directory")
-	#apg_input.add_argument("-t", "--vrt", 		help="Hand VRT to use")
 	apg_input.add_argument("-s", "--scene", 	help="Landsat Scene")
 
 	options 	= parser.parse_args()
@@ -410,8 +423,10 @@ if __name__ == '__main__':
 	verbose		= options.verbose
 	#infile		= options.input
 	#dir		= options.dir
-	vrt			= config.HANDS_AREA + "_hand.vrt"
-	scene	 	= options.scene
+	#vrt		= config.HANDS_AREA + "_hand.vrt"
+	
+	regional_hand 	= config.HANDS_AREA + "_hand_merged_lzw.tif"
+	scene	 		= options.scene
 	
 	outdir		= os.path.join(config.LANDSAT8_DIR,scene)	
 	infile 		= os.path.join(outdir, scene+"_WATERMAP.tif")
@@ -423,7 +438,7 @@ if __name__ == '__main__':
 
 	app 		= Landsat8(outdir, infile)
 		
-	app.hand(vrt)
+	app.hand(regional_hand)
 	app.process()
 	app.geojson()
 

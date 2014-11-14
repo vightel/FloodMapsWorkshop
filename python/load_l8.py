@@ -146,6 +146,11 @@ if __name__ == '__main__':
 	connection 	= psycopg2.connect(str)
 	cursor 		= connection.cursor()
 	
+	# empty the table
+	cmd = "TRUNCATE TABLE l8 "
+	print cmd
+	cursor.execute(cmd)
+	
 	if fullName.find('.csv'):
 		load_csv(fullName, cursor)
 	else:
@@ -154,7 +159,6 @@ if __name__ == '__main__':
 		else:
 			print "Invalid file extension"
 			sys.exit(-1)
-
 
 	print "Commit and Close..."
 	connection.commit()

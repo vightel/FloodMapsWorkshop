@@ -40,9 +40,9 @@ from xml.dom import minidom
 from datetime import datetime
 import config
 
-BASE_DIR = config.RADARSAT2_DIR;
-HAND_DIR = config.HANDS_DIR
-HAND_VRT = config.HANDS_AREA + "_hand.vrt"
+BASE_DIR 	= config.RADARSAT2_DIR;
+HAND_DIR 	= config.HANDS_DIR
+HAND_FILE 	= config.HANDS_AREA + "_hand_merged_lzw.tif"
 
 class Radarsat2:
 	def execute( self, cmd ):
@@ -369,7 +369,7 @@ class Radarsat2:
 	def hand(self):
 		base_img 		= self.output_4326
 
-		in_img 			= os.path.join(self.hand_dir, HAND_VRT)
+		in_img 			= os.path.join(self.hand_dir, HAND_FILE)
 		out_img			= self.hand_4326
 
 		# Get a subset of HAND for particular tile

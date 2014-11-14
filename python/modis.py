@@ -62,6 +62,10 @@ class MODIS:
 		self.gz			= os.path.join( inpath, year, day, tile, gz )
 		self.svg		= os.path.join( inpath, year, day, tile, svg )
 		self.png		= os.path.join( inpath, year, day, tile, png )
+		
+		self.hand_dir			= config.HANDS_DIR
+		self.hand_file			= os.path.join(inpath, "hand.tif")
+		self.hand_output_file	= os.path.join(inpath, tile + ".hand.tif")
 
 		self.coastlines = os.path.join( inpath,tile+"_osm_coastal.tif")
 		
@@ -128,7 +132,26 @@ class MODIS:
 		
 		if self.verbose:
 			print self.xorg, self.xmax, self.yorg, self.ymax
+
+	#
+	# Generate Hand file
+	#
+	def hand(self, regional_file):		
+		base_img 	= self.infile
+
+		in_img 		= os.path.join(self.hand_dir, regional_file)
+		
+		# Get a subset of HAND for particular tile
+		if force or not os.path.isfile(self.hand_file):
+			print "generate hand subset:"+self.hand_file +" from:"+in_img
+			cmd = "subset.py "+ base_img + " " + in_img + " " + self.hand_file
+			self.execute(cmd)			
 			
+			#self.save_hand_as_png()
+		
+		if verbose:
+			print "hand done"
+
 	def process(self):
 		
 		coastlines_ds	= gdal.Open(self.coastlines)
@@ -142,16 +165,24 @@ class MODIS:
 		data = band.ReadAsArray(0, 0, self.ds.RasterXSize, self.ds.RasterYSize )
 		data = (data >= 2)
 
+				
+		hand_ds 			= gdal.Open(self.hand_file)
+		hand_band 			= hand_ds.GetRasterBand(1)
+		hand_data 			= hand_band.ReadAsArray(0, 0, hand_ds.RasterXSize, hand_ds.RasterYSize )
+
 		# HAND Masking
-		# TODO
+		mask				= hand_data==0
+		data[mask]			= 0
+		
+		# Oceans
+		mask				= hand_data==255
+		data[mask]			= 0		
 		
 		# Coastal Masking
 		mask = coastal_data>0
 		data[mask]= 0
 
-		# Step 1
-		# extract surface water from MWP product
-		#
+
 		driver 		= gdal.GetDriverByName( "GTIFF" )
 		dst_ds 		= driver.Create( self.swp, self.RasterXSize, self.RasterYSize, 1, gdal.GDT_Byte, [ 'INTERLEAVE=PIXEL', 'COMPRESS=DEFLATE' ] )
 
@@ -360,6 +391,8 @@ if __name__ == '__main__':
 	force		= options.force
 	verbose		= options.verbose
 
+	regional_hand	= config.HANDS_AREA + "_hand_merged_lzw.tif"
+
 	dir = config.MODIS_DIR
 
 	start = datetime.now()
@@ -379,6 +412,7 @@ if __name__ == '__main__':
 		app.generate_image(	"watershed_marshes_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
 			
 	app.clear()
+	app.hand(regional_hand)
 	app.process()
 	#app.reference_water()
 	
