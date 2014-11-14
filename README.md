@@ -140,6 +140,10 @@ limitations under the License.
   * make sure that your HydroSHEDS and HAND folders are created before you start (../data/HAND/AF for example if AF is your continent).
   * hand_all.py -v
   
+  * HAND Seams
+    There is a notorious problem with HAND while processing tiles.  It is near impossible to propagate HAND propagation across tiles.  To address this issue, we are reprocessing HAND over the seams using a one degree overlap.
+    You will need to customize the script: hand_overlap.py for your regional area tiles and seams and then run the script
+  
   [Notes] You may have to set your local machine so you can FTP and ssh to your instance and use your own PEM file.
   
   I have to setup my .ssh/config this way:
@@ -154,8 +158,15 @@ limitations under the License.
 11. Namibia Test scenes
   * From USGS
     * EO-1          EO1A1760722013027110KF_1T
-    * Landsat-8 
-    * Radardat-2
+    * Landsat-8     LC81740722014140LGN00
+    * Radardat-2    RS2_OK37182_PK361606_DK319629_F1N_20130119_040305_HH_HV_SGF
+    * MODIS         2014 140 020E010S
+    * DFO           N/A
+    * PALSAR2       N/A
+    * DigitalGlobe  N/A
+    * Frost
+    * VIIRS
+    
 ## Next... Workshop
 
 * Process Radarsat Imagery
