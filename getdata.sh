@@ -2,8 +2,8 @@
 
 # Store Current Directory
 
-if [ ! $MENA_DIR ]; then
-	echo "Need to set your MENA_DIR env var";
+if [ ! $WORKSHOP_DIR ]; then
+	echo "Need to set your WORKSHOP_DIR env var";
 	exit -1;
 fi
 
@@ -41,7 +41,7 @@ if [ ! $USGS_PASSWORD ]; then
 fi
 
 
-cd $MENA_DIR/data
+cd $WORKSHOP_DIR/data
 
 if [ ! -d HydroSHEDS ]; then
   mkdir HydroSHEDS
@@ -71,28 +71,28 @@ if [ ! -d radarsat2 ]; then
   mkdir radarsat2
 fi
 
-cd $MENA_DIR/data/HAND
+cd $WORKSHOP_DIR/data/HAND
 if [ ! -d CA ]; then
   wget "https://s3.amazonaws.com/mena_data/CA.zip"
   unzip CA.zip
 fi
 
 # Install Landsat8 Data
-cd $MENA_DIR/data/l8/LC80090472013357LGN00
+cd $WORKSHOP_DIR/data/l8/LC80090472013357LGN00
 if [ ! -f LC80090472013357LGN00.tar.gz ]; then
   wget "https://s3.amazonaws.com/mena_data/LC80090472013357LGN00.tar.gz"
   tar -xvf LC80090472013357LGN00.tar.gz
 fi
 
 # Install Radarsat2 data
-cd $MENA_DIR/data/radarsat2
+cd $WORKSHOP_DIR/data/radarsat2
 if [ ! -f RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF.zip ]; then
   wget "https://s3.amazonaws.com/mena_data/RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF.zip"
   unzip RS2_OK33065_PK325251_DK290050_F6F_20120825_230857_HH_SGF.zip
 fi
 
 # Install OSM world_boundaries
-cd $MENA_DIR/python
+cd $WORKSHOP_DIR/python
 if [ ! -d world_boundaries ]; then
   wget "https://s3.amazonaws.com/mena_data/world_boundaries.zip"
   unzip world_boundaries.zip

@@ -128,7 +128,7 @@ def readcsv( fullName, cursor):
 				geometry = "Polygon(( %s, %s, %s, %s, %s))" % (p1,p2,p3,p4,p1)
 				#print geometry
 				
-				cmd = "INSERT INTO l8 VALUES(%d, '%s', '%s', %f, %f, ST_GeomFromText('%s',4326))" % (count, scene, date, center_lat, center_lon, geometry )
+				cmd = "INSERT INTO eo1_ali VALUES(%d, '%s', '%s', %f, %f, ST_GeomFromText('%s',4326))" % (count, scene, date, center_lat, center_lon, geometry )
 				#print cmd
 			
 				#if count == 10:

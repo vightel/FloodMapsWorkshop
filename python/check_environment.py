@@ -70,6 +70,7 @@ def check_db(str):
 	connection.close()
 	
 envs = [
+	"WORKSHOP_DIR",
 	"DBHOST",
 	"DBNAME",
 	"DBOWNER",

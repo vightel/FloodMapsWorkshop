@@ -1,7 +1,7 @@
 #
 # Directories setup
 #
-DATA_DIR			= "/Users/patricecappelaere/Development/FloodMapsWorkshop/FloodMapsWorkshop/data"
+DATA_DIR			= os.environ['WORKSHOP_DIR'] + "/data"
 
 #
 # Height Above NEarest Drainage (HAND)
@@ -28,8 +28,7 @@ PALSAR2_DIR			= DATA_DIR + "/palsar2"
 FROST_DIR			= DATA_DIR + "/frost"
 DIGIGLOBE_DIR		= DATA_DIR + "/digiglobe"
 VIIRS_DIR			= DATA_DIR + "/viirs"
-
-CSV_DIR				= "../csv"
+CSV_DIR				= DATA_DIR + "/csv"
 
 version = "1.0 alpha3"
 
