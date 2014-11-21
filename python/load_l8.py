@@ -17,35 +17,112 @@ import config
 
 force 	= 0
 verbose	= 0
+entity_id_index 		= -1
+acquisition_date_index	= -1
+cloud_cover_index		= -1
 
+center_lat_index		= -1
+center_lon_index		= -1
+
+nwc_lat_index			= -1
+nwc_lon_index			= -1
+
+nec_lat_index			= -1
+nec_lon_index			= -1
+
+sec_lat_index			= -1
+sec_lon_index			= -1
+
+swc_lat_index			= -1
+swc_lon_index			= -1
+			
+def readHeaders(line):	
+	global entity_id_index,acquisition_date_index,  cloud_cover_index,center_lat_index, center_lon_index, nwc_lat_index, nwc_lon_index
+	global  nec_lat_index, nec_lon_index, swc_lat_index, swc_lon_index, sec_lat_index, sec_lon_index
+	index = 0
+	print line
+	for val in line:
+		if val == 'Entity ID':
+			entity_id_index = index
+		if val == 'Landsat Scene Identifier':
+			entity_id_index = index
+		if val == 'Acquisition Date':
+			acquisition_date_index = index
+		if val == 'Date Acquired':
+			acquisition_date_index = index
+		if val == 'Cloud Cover':
+			cloud_cover_index = index
+		if val == 'Scene Cloud Cover':
+			cloud_cover_index = index
+		if val == 'Center Latitude dec':
+			center_lat_index = index
+		if val == 'Center Longitude dec':
+			center_lon_index = index
+		if val == 'NW Corner Lat dec':
+			nwc_lat_index = index
+		if val == 'NW Corner Long dec':
+			nwc_lon_index = index
+		if val == 'NE Corner Lat dec':
+			nec_lat_index = index
+		if val == 'NE Corner Long dec':
+			nec_lon_index = index
+		if val == 'SE Corner Lat dec':
+			sec_lat_index = index
+		if val == 'SE Corner Long dec':
+			sec_lon_index = index
+		if val == 'SW Corner Lat dec':
+			swc_lat_index = index
+		if val == 'SW Corner Long dec':
+			swc_lon_index = index
+	
+		index += 1
+	
+	assert(entity_id_index>=0)
+	assert(acquisition_date_index>=0)
+	assert(cloud_cover_index>=0)
+	assert(center_lat_index>=0)
+	assert(center_lon_index>=0)
+	assert(nwc_lat_index>=0)
+	assert(nwc_lon_index>=0)
+	assert(nec_lat_index>=0)
+	assert(nec_lon_index>=0)
+	assert(sec_lat_index>=0)
+	assert(sec_lon_index>=0)
+	assert(swc_lat_index>=0)
+	assert(swc_lon_index>=0)
+
+	print entity_id_index, acquisition_date_index, cloud_cover_index,center_lat_index,  center_lon_index,nwc_lat_index, nwc_lon_index,nec_lat_index, nec_lon_index, swc_lat_index, swc_lon_index, sec_lat_index, sec_lon_index
+	
+		
 def load_csv(fileName, cursor):
 	with open(fullName, 'rU') as csvfile:
 		reader 	= csv.reader(csvfile)
 		count 	= 0
 		for val in reader:
-			if count > 1:
+			if count == 0:
+				readHeaders(val)
+			else:
 				#print val
-				id			= int(val[0])
-				scene 		= val[2]
-				date 		= val[15]
-				cloud		= val[19]
+				scene 		= val[entity_id_index]
+				date 		= val[acquisition_date_index]
+				cloud		= val[cloud_cover_index]
 			
-				center_lat	= float(val[35])
-				center_lon	= float(val[36])
+				center_lat	= float(val[center_lat_index])
+				center_lon	= float(val[center_lon_index])
 		
-				nwc_lat		= float(val[37])
-				nwc_lon		= float(val[38])
+				nwc_lat		= float(val[nwc_lat_index])
+				nwc_lon		= float(val[nwc_lon_index])
 		
-				nec_lat		= float(val[39])
-				nec_lon		= float(val[40])
+				nec_lat		= float(val[nec_lat_index])
+				nec_lon		= float(val[nec_lon_index])
 		
-				sec_lat		= float(val[41])
-				sec_lon		= float(val[42])
+				sec_lat		= float(val[sec_lat_index])
+				sec_lon		= float(val[sec_lon_index])
 		
-				swc_lat		= float(val[43])
-				swc_lon		= float(val[44])
+				swc_lat		= float(val[swc_lat_index])
+				swc_lon		= float(val[swc_lon_index])
 			
-				print id, scene, date, cloud, center_lat, center_lon, nwc_lat, nwc_lon, nec_lat, nec_lon, sec_lat, sec_lon, swc_lat, swc_lon     
+				print scene, date, cloud, center_lat, center_lon, nwc_lat, nwc_lon, nec_lat, nec_lon, sec_lat, sec_lon, swc_lat, swc_lon     
 				
 				p1 	= "%f %f" % (float(nwc_lat), float(nwc_lon) )
 				p2	= "%f %f" %(float(nec_lat),float(nec_lon) )
