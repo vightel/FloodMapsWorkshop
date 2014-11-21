@@ -99,7 +99,7 @@ if __name__ == '__main__':
 				print str(datetime.now()),cmd
 				err = os.system(cmd)
 
-			cmd = "rm "+tile_dir+"/*.zip"
+			cmd = "rm -f "+tile_dir+"/*.zip"
 			#print str(datetime.now()), cmd
 			err = os.system(cmd)
 
