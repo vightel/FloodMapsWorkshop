@@ -3,7 +3,8 @@ import sys, os
 from datetime import datetime
 import argparse
 import config
-
+	
+	
 if __name__ == '__main__':
 
 	# Namibia Pilot Tiles
@@ -44,12 +45,21 @@ if __name__ == '__main__':
 	hand_dir 	= config.HANDS_DIR 
 	dir 		= config.HYDROSHEDS_DIR
 	
+	
 	tile_list	= eval(area+"_tiles")
 
 	if verbose:
 		print "area:", area
 		print "vrt:", vrt
 		print "tile list:", tile_list
+
+	# Check HAND directories
+	for name in tile_list:
+		ar 			= name.split('/')
+		zone 		= ar[0]
+		handdirName = os.path.join(hand_dir, zone)
+		if not os.path.exists(handdirName):
+			os.makedirs(handdirName)
 	
 	if not vrt:	# Build HydroSHEDS dir and HAND tif files
 		for name in tile_list:
