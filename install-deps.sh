@@ -14,6 +14,8 @@ sudo yum -y install make gcc47 gcc-c++ bzip2-devel libpng-devel libtiff-devel zl
 # install optional deps
 sudo yum -y install postgresql-devel sqlite-devel sqlite libcurl-devel libcurl cairo-devel cairo pycairo-devel pycairo
 
+# make sure we have python 2.7.8
+sudo yum install python27
 
 # Download and Install requirements for PostGIS Installation
 # proj4
@@ -39,12 +41,13 @@ cd ../
 wget http://download.osgeo.org/gdal/1.11.0/gdal-1.11.0.tar.gz
 tar -xzf gdal-1.11.0.tar.gz
 cd gdal-1.11.0
-#wget http://download.osgeo.org/gdal/gdal-1.9.2.tar.gz
-#tar -xzf gdal-1.9.2.tar.gz
-#cd gdal-1.9.2
 ./configure --with-python
 make
 sudo make install
+cd ../
+# NOTE you may have to set PYTHONPATH in .bash_profile and edit /etc/sudoers to preserve it
+# vi /etc/sudoers
+# Defaults env_keep = "PYTHONPATH..."
 
 wget http://potrace.sourceforge.net/download/potrace-1.11.tar.gz
 tar -xzf potrace-1.11.tar.gz
@@ -52,6 +55,7 @@ cd potrace-1.11
 ./configure
 make
 sudo make install
+cd ../
 
 JOBS=`grep -c ^processor /proc/cpuinfo`
 
@@ -158,7 +162,13 @@ cd ../
 
 # install numpy and scipy,...
 sudo yum -y install gdal-python numpy scipy 
-sudo easy_install psycopg2 
+
+# if for some reason python is not finding psycopg2.... grrrr
+# might need to tweak PYTHONPATH as packages get installed in different directories
+sudo yum -y install python-psycopg2
+#sudo easy_install psycopg2 
+#sudo pip install psycopg2
+
 sudo easy_install ppygis
  
 # update your libraries
