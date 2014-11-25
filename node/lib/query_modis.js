@@ -324,7 +324,7 @@ function checkModisProduct(req, tile, d, startTime, endTime, host, entries, cred
 	
 	var id				= year.toString() + doy+"_"+tile
 	
-	//console.log("checkModisProduct", year, doy, id)
+	console.log("checkModisProduct", endTime.format("YYYY-MM-DD"), d, year, doy, id)
 	
 	var entry = QueryByID(req, req.session.user, year, doy, tile, credentials)
 	
@@ -334,7 +334,7 @@ function checkModisProduct(req, tile, d, startTime, endTime, host, entries, cred
 
 
 
-function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	
 	console.log("Query Modis", bbox, itemsPerPage, startIndex, "bbox:", bbox, "lat:", lat, "lon:", lon )
 	
@@ -394,7 +394,11 @@ function QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTi
 	entries		= []
 	
 	async.each(days, function(d, callback) {
-		checkModisProduct(req, tile, d, startTime, endTime, host, entries, credentials, callback )
+		if( entries.length < limit ) {
+			checkModisProduct(req, tile, d, startTime, endTime, host, entries, credentials, callback )
+		} else {
+			callback(null, null)
+		}
 	}, function(err) {
 		var json = {
 			replies: {

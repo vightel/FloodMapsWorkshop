@@ -341,7 +341,7 @@ function BuildEntry(req, host, feature, credentials, duration, user ) {
 	return entry
 }
 
-function QueryDigiglobe(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryDigiglobe(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	var duration	= 60 * 30
 	
 	if( bbox == undefined ) {
@@ -373,7 +373,7 @@ function QueryDigiglobe(req, user, credentials, host, query, bbox, lat, lon, sta
 					var featureMembers 		= featureCollection['gml:featureMembers'] 
 					var finishedFeatures 	= featureMembers[0]['DigitalGlobe:FinishedFeature']
 
-					if( finsihedFeatures) console.log("got finishedFeatures: ", finishedFeatures.length)
+					if( finishedFeatures) console.log("got finishedFeatures: ", finishedFeatures.length)
 					
 					for( var f in finishedFeatures) {
 						var feature 	= finishedFeatures[f]
@@ -390,6 +390,8 @@ function QueryDigiglobe(req, user, credentials, host, query, bbox, lat, lon, sta
 						} else {
 							console.log("outside span", date.format("YYYY-MM-DD"), featureId)
 						}
+						
+						if( entries.length >= limit) break
 					}
 					
 					//console.log(entries)

@@ -16,6 +16,7 @@ var util			= require('util'),
 	childProcess 	= require('child_process'),
 	scene_model		= require('../../models/scene.js'),
 	_				= require('underscore'),
+	query_modis		= require('../../lib/query_modis.js'),
 	fs				= require('fs');
 		
 	mime.define( {
@@ -247,7 +248,7 @@ var util			= require('util'),
 		return entry
 	}
 	
-	function sendModisProducts(query, ymds, limit, req, res ) {
+	function OBEsendModisProducts(query, ymds, limit, req, res ) {
 		var user			= req.session.user
 		var host			= req.protocol + "://" + req.headers.host
 		var originalUrl		= host + req.originalUrl
@@ -378,8 +379,9 @@ module.exports = {
 		var user			= req.session.user
 		var host			= req.protocol + "://" + req.headers.host
 		var originalUrl		= host + req.originalUrl
-		
-		debug("Product opensearch", originalUrl)
+		var credentials		= req.session.credentials
+
+		console.log("Product opensearch", originalUrl)
 		
 		if( bbox ) {
 			lon = (bbox[0]+bbox[2])/2.0
@@ -400,10 +402,10 @@ module.exports = {
 		}
 		
 		// This for products we support
-		if( query != "surface_water") {
-			debug("Usupported product request", query)
-			return res.send(json)
-		}
+		//if( query != "surface_water") {
+		//	debug("Usupported product request", query)
+		//	return res.send(json)
+		//}
 		
 		// find region of interest
 		var inregion = InBBOX(lat, lon, [-80,10,-70,20])
@@ -412,39 +414,79 @@ module.exports = {
 			return res.send( json )
 		}
 			
-		var ymds = []
-		while( endTime.isAfter(startTime) || startTime.isSame(endTime)) {
-			var ymd = endTime.format("YYYYMMDD")
+		var ymds 	= []
+		var dTime	= endTime.clone()
+			
+		while( dTime.isAfter(startTime) || startTime.isSame(dTime)) {
+			var ymd = dTime.format("YYYYMMDD")
 			ymds.push(ymd)
-			endTime.subtract('days', 1);
+			dTime.subtract('days', 1);
 		}
 		
 		debug("Searching for", query)
 		
-		results = []
+		items = []
 		
-		entry = sendModisProducts(query, ymds, limit, req, res )
-		if( entry ) results.push(entry)
-		
-		entry = sendRadarsat2Products(query, ymds, limit, req, res )
-		if( entry ) results.push(entry)
-
-		entry = sendLandsat8Products(query, ymds, limit, req, res )
-		if( entry ) results.push(entry)
-		
-		res.set("Access-Control-Allow-Origin", "*")
-		var json = {
-			"objectType": 'query',
-			"id": "urn:trmm:"+query,
-			"displayName": "OJO Publisher Flood Surface Water Products",
-			"replies": {
-				"url": originalUrl,
-				"mediaType": "application/activity+json",
-				"totalItems": results.length,
-				"items": results
-			}
+		function find_modis_products( callback) {
+			query_modis.QueryModis(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, callback)
 		}
-		res.send(json)
+		
+		function find_radarsat2_products( callback) {
+			callback(null, null)
+		}
+		
+		function find_l8_products( callback) {
+			callback(null, null)
+		}
+
+		function find_eo1_ali_products( callback) {
+			callback(null, null)
+		}
+
+		
+		async.parallel([
+			find_modis_products,
+			find_radarsat2_products,
+			find_eo1_ali_products,
+			find_l8_products
+		], function(err, results) {
+			if( !err ) {
+				// Add Modis results
+				console.log("Got MODIS items", results[0].replies.items.length)
+				for( var i in results[0].replies.items) {
+					var entry =  results[0].replies.items[i]
+					items.push(entry)
+				}				
+			} else {
+				logger.error("Error", err)
+				res.send(500)
+				return
+			}
+			
+			res.set("Access-Control-Allow-Origin", "*")
+			var json = {
+				"objectType": 'query',
+				"id": "urn:trmm:"+query,
+				"displayName": "OJO Publisher GEOSS Products",
+				"replies": {
+					"url": originalUrl,
+					"mediaType": "application/activity+json",
+					"totalItems": items.length,
+					"items": items
+				}
+			}
+			res.send(json)	
+		})
+		//entry = sendModisProducts(query, ymds, limit, req, res )
+		//if( entry ) results.push(entry)
+		
+		//entry = sendRadarsat2Products(query, ymds, limit, req, res )
+		//if( entry ) results.push(entry)
+
+		//entry = sendLandsat8Products(query, ymds, limit, req, res )
+		//if( entry ) results.push(entry)
+		
+		
 	},
 	
 	index: function(req, res) {

@@ -7,11 +7,11 @@
 # OSM Files have been downloaded from cloudmade
 # Postgres database user and database name
 
-export DBNAME="namibiadb"
-export DBHOST="namibiadb.crcholi0be4z.us-east-1.rds.amazonaws.com"
-export DBPORT=5432
-export DBOWNER="osmdb"
-export PGPASS="osmAdmin1"
+#export DBNAME=   "namibiadb"
+#export DBHOST=   "namibiadb.crcholi0be4z.us-east-1.rds.amazonaws.com"
+#export DBPORT=   5432
+#export DBOWNER=  "osmdb"
+#export PGPASS=   "osmAdmin1"
 
 # Check for required environmnet variables
 if [ -z "$DBNAME" ]; then
@@ -45,9 +45,9 @@ echo "envs correct..."
 # load OSM files from GeoFabrik
 #
 
-if [ ! -f ./central-america-latest.osm.bz2 ]; then
-	wget "http://download.geofabrik.de/central-america-latest.osm.bz2"
-fi
+#if [ ! -f ./central-america-latest.osm.bz2 ]; then
+#	wget "http://download.geofabrik.de/central-america-latest.osm.bz2"
+#fi
 
 # wget "http://download.geofabrik.de/africa/egypt-latest.osm.bz2"
 # wget "http://download.geofabrik.de/africa/morocco-latest.osm.bz2"

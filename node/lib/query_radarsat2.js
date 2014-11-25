@@ -166,7 +166,7 @@ function QueryByID(req, user, r, credentials) {
 //
 // new Action Stream
 //
-function QueryRadarsat2_v2(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryRadarsat2_v2(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	var duration	= 60 * 30
 	
 	function Bewit(url) {
@@ -204,9 +204,10 @@ function QueryRadarsat2_v2(req, user, credentials, host, query, bbox, lat, lon, 
 				}
 				
 				var processed = false
-				
-				var entry = QueryByID(req, user, r, credentials)
-				entries.push(entry)
+				if( entries.length<limit) {
+					var entry = QueryByID(req, user, r, credentials)
+						entries.push(entry)
+				}
 				
 				callback(null)
 			}, function(err) {					
