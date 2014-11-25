@@ -119,14 +119,14 @@ if not(os.path.exists(tgz)):
 else :
   print '   produit %s deja telecharge'%options.scene+'.tgz'
 
-  dir = rep+'/'+options.scene
-  if not(os.path.exists(dir)):
-    os.mkdir(dir)
-    cmd = "tar xvfz "+tgz+" -C "+dir
-    print cmd
-    os.system(cmd)
-  else:
-    print "dir exists"
+dir = rep+'/'+options.scene
+if not(os.path.exists(dir)):
+	os.mkdir(dir)
+	cmd = "tar xvfz "+tgz+" -C "+dir
+	print cmd
+	os.system(cmd)
+else:
+	print "dir exists"
 
 #
 # Let's start the processing
@@ -156,7 +156,7 @@ if err:
 	sys.exit(-1)
 	
 # Generate vectors
-cmd = "./eo1_to_topojson.py --scene "+options.scene+" --vrt haiti_hand.vrt"
+cmd = "./eo1_to_topojson.py --scene "+options.scene
 print cmd
 err = os.system(cmd)
 if err:
