@@ -191,7 +191,7 @@ function QueryByID(req, user, r, credentials) {
 	return entry	
 }
 
-function QueryEO1(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryEO1(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	
 	scene_model.findAllScenes("eo1_ali", lat, lon, function(err, result) {		
 		if( err || (result == undefined) || result.rows == undefined) {
@@ -206,10 +206,12 @@ function QueryEO1(req, user, credentials, host, query, bbox, lat, lon, startTime
 					return callback(null)
 				}
 
-				var entry = QueryByID(req, user, r, credentials)
+				if( entries.length < limit ) {
+					var entry = QueryByID(req, user, r, credentials)
 				
-				//console.log(entry)
-				entries.push(entry)
+					//console.log(entry)
+					entries.push(entry)
+				}
 				callback(null)
 			}, function(err) {					
 				cb(err, {

@@ -58,8 +58,13 @@ var fs  		= require('fs'),
 		return bbox
 	}
 	
-	function QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage ) {
-		var sources		= req.query['sources'].split(',')
+	function QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit ) {
+		var sources;
+		if( req.query['sources']) {
+			sources		= req.query['sources'].split(',')
+		} else {
+			sources 	= _.keys(productQueries)
+		}
 		var host 		= req.protocol + "://"+req.headers['host']
 		var originalUrl	= host + req.originalUrl
 		var user		= req.session.user
@@ -74,7 +79,7 @@ var fs  		= require('fs'),
 			if( _.contains(sources, asset)) {
 				var productQuery = productQueries[asset]
 				logger.info("Trying to query", asset)
-				productQuery(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, function(err, json) {
+				productQuery(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, function(err, json) {
 					if(!err && json) {
 						var index = 0
 						for( var item in json.replies.items ) {
@@ -193,7 +198,7 @@ module.exports = {
 			lat = (bbox[1]+bbox[3])/2
 		}
 	
-		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage )
+		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit )
 	},
 	
   	index2: function(req, res) {

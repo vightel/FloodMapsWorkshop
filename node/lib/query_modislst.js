@@ -184,12 +184,12 @@ var util 		= require('util'),
 	}
 
 	
-	function QueryModisLST(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+	function QueryModisLST(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	
 		//console.log("Query Modis", bbox, itemsPerPage, startIndex, "bbox:", bbox, "lat:", lat, "lon:", lon )
 	
 		if( query != 'frost') {
-			logger.error("unexpected query", query)
+			//logger.info("unsupported query", query)
 			return cb(null, null)
 		}
 
@@ -243,7 +243,11 @@ var util 		= require('util'),
 		entries		= []
 	
 		async.each(days, function(d, callback) {
-			checkModisLST( req, user, d, startTime, endTime, credentials, entries, callback )
+			if( entries.length < limit ) {
+				checkModisLST( req, user, d, startTime, endTime, credentials, entries, callback )
+			} else {
+				callback(null, null)
+			}
 		}, function(err) {
 			//console.log("Modis LST Done", err, entries.length)
 			var json = {

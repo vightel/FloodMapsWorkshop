@@ -166,7 +166,7 @@ app.all('/persona/logout',							persona.logout);
 //app.get('/social/facebook',						social.facebook);
 //app.get('/social/twitter',						social.twitter);
 
-app.get('/products/opensearch',						hawk_restrict, products.opensearch);
+app.get('/products/opensearch',						hawk_restrict, opensearch.index);
 app.get('/products',								products.index);
 
 app.get('/products/modis/list',					 	products_modis.list);

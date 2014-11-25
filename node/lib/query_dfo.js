@@ -190,7 +190,7 @@ function QueryByID(req, user, r, credentials) {
 	return entry	
 }
 
-function QueryDFO(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, cb ) {
+function QueryDFO(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, cb ) {
 	
 	scene_model.findAllScenes("dfo", lat, lon, function(err, result) {		
 		if( err || (result == undefined) || (result.rows == undefined)) {
@@ -204,9 +204,11 @@ function QueryDFO(req, user, credentials, host, query, bbox, lat, lon, startTime
 				if( (date < startTime) || (date > endTime) ) {
 					return callback(null)
 				}
-				var entry = QueryByID(req, user, r, credentials)
 				
-				entries.push(entry)
+				if( entries.length < limit ) {
+					var entry = QueryByID(req, user, r, credentials)
+					entries.push(entry)
+				}
 				callback(null)
 			}, function(err) {					
 				cb(err, {
