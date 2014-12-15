@@ -207,10 +207,13 @@ function QueryEO1(req, user, credentials, host, query, bbox, lat, lon, startTime
 				}
 
 				if( entries.length < limit ) {
+					logger.info("building entry for ", r.scene)
 					var entry = QueryByID(req, user, r, credentials)
 				
 					//console.log(entry)
 					entries.push(entry)
+				} else {
+					logger.info("too many entries", entries.length, limit)
 				}
 				callback(null)
 			}, function(err) {					

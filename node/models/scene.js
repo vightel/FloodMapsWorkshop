@@ -21,10 +21,10 @@ module.exports = {
 		logger.info("findAllScenes query:", str)
 		var query 	= app.client.query(str, function(err, result) {
 			if( err || (result == undefined) || result.rows == undefined) {
-				logger.info("found Scenes", table, err)
+				logger.info("Error finding Scenes", table, err)
 				cb(err, null)
 			} else {
-				logger.info("found Scenes", table, err, result.rows.length)
+				logger.info("Error finding Scenes", table, result.rows.length)
 				cb(err, result)
 			}
 		})

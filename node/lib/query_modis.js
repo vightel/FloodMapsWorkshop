@@ -126,7 +126,7 @@ function TileName( latitude, longitude ) {
 		tenlon -= 1
 		lonstr = sprintf("%03dW", -tenlon*10 );
 	}
-	//console.log( ilat + " " + ilon + " tenlat:"+tenlat+" tenlong:"+tenlon+" -> " + lonstr+latstr);
+	console.log( ilat + " " + ilon + " tenlat:"+tenlat+" tenlong:"+tenlon+" -> " + lonstr+latstr);
 	return lonstr+latstr;
 }
 

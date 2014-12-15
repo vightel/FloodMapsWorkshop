@@ -98,13 +98,14 @@ def readcsv( fullName, cursor):
 			if count == 0:
 				readHeaders(val)
 			else:	
-				full_scene 	= val[entity_id_index].split("_")
-				scene		= full_scene[0]
+				#full_scene 	= val[entity_id_index].split("_")
+				#scene		= full_scene[0]
+				scene		= val[entity_id_index]
 				date 		= val[acquisition_date_index]
 				cloud		= val[cloud_cover_index]
 			
 				center_lat	= float(val[center_lat_index])
-				center_lon	= float(val[center_lat_index])
+				center_lon	= float(val[center_lon_index])
 			
 				nwc_lat		= float(val[nwc_lat_index])
 				nwc_lon		= float(val[nwc_lon_index])
@@ -120,9 +121,9 @@ def readcsv( fullName, cursor):
 				
 				print scene, date, cloud, center_lat, center_lon, nwc_lat, nwc_lon, nec_lat, nec_lon, sec_lat, sec_lon, swc_lat, swc_lon     
 				
-				p1 	= "%f %f" % (float(nwc_lat), float(nwc_lon) )
-				p2	= "%f %f" %(float(nec_lat),float(nec_lon) )
-				p3	= "%f %f" %(float(sec_lat), float(sec_lon) )
+				p1 	= "%f %f" % (float(nwc_lat), float(nwc_lon))
+				p2	= "%f %f" % (float(nec_lat),float(nec_lon))
+				p3	= "%f %f" % (float(sec_lat), float(sec_lon))
 				p4	= "%f %f" % (float(swc_lat), float(swc_lon))
 		
 				geometry = "Polygon(( %s, %s, %s, %s, %s))" % (p1,p2,p3,p4,p1)
