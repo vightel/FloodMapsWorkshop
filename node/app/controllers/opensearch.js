@@ -161,7 +161,7 @@ module.exports = {
 		var endTime			= req.query['endTime'] ? moment(req.query['endTime']) : moment()
 		var lat				= req.query['lat']
 		var lon				= req.query['lon']
-		var limit			= req.query['limit']
+		var limit			= req.query['limit'] || 25
 		
 		//if( user == undefined ) {
 		//	console.log("undefined user!")

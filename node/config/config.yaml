@@ -39,6 +39,17 @@
             "bucket":   "ojo-d3",
             "ojotiler": "http://ojo-tiler.herokuapp.com",
             "ojotiler-dev": "http://localhost:8888"
+        },
+        "d04": {
+            "name":		"Namibia",
+            "bbox":     [18, -21, 26, -17 ],
+            "target":   [-18.12, 21.65],
+            "min_zoom": 6,
+			      "max_zoom":	18,
+            "map_id":   "cappelaere.map-q4hdwmh3",
+            "bucket":   "ojo-d4",
+            "ojotiler": "http://ojo-tiler.herokuapp.com",
+            "ojotiler-dev": "http://localhost:8888"
         }
     },
 	
