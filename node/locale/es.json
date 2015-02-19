@@ -38,6 +38,7 @@
     },
     "query": {
         "query_title": "Consulta",
+        "area": "zona",
         "lon_lat": "Longitud Latitud",
         "start_time": "Hora de Inicio",
         "end_time": "Hora de Finalización",

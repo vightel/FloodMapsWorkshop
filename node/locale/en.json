@@ -17,6 +17,7 @@
     },
     "query": {
       "query_title": "Query",
+      "area": "Area",
       "lon_lat": "Longitude, Latitude",
       "start_time": "Start Time",
       "end_time": "End Time",

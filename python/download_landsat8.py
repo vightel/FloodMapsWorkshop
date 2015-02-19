@@ -22,8 +22,8 @@ def connect_earthexplorer_no_proxy(usgs):
     data = f.read()
     f.close()
     if data.find('You must sign in as a registered user to download data or place orders for USGS EROS products')>0 :
-	print "Authentification failed"
-	sys.exit(-1)
+      print "Authentification failed"
+      sys.exit(-1)
     return
  
 #############################"pour des gros fichiers
@@ -87,11 +87,9 @@ else:
   parser = OptionParser(usage=usage)
 	
   parser.add_option("-s", "--scene", dest="scene", action="store", type="string", help="coordonnees WRS2 de la scene (ex 198030)", default=None)
-  parser.add_option("-u","--usgs_passwd", dest="usgs", action="store", type="string", help="USGS earthexplorer account and password file")
-	
  
   (options, args) = parser.parse_args()
-  parser.check_required("-u")
+  parser.check_required("-s")
 
 # Load USGS Account/Password from Env
 usgs_account 	= os.environ['USGS_ACCOUNT']
@@ -102,7 +100,7 @@ assert(usgs_password), "USGS_PASSWORD undefined"
 
 usgs={'account':usgs_account,'passwd':usgs_password}
 
-rep='../data/landsat8'
+rep='../data/l8'
 if not os.path.exists(rep):
     os.mkdir(rep)
  
@@ -110,14 +108,15 @@ if not os.path.exists(rep):
 repert = 4923  
 url="http://earthexplorer.usgs.gov/download/%s/%s/STANDARD/EE"%(repert,options.scene)
 
-if not(os.path.exists(rep_scene+'/'+nom_prod+'.tgz')):
+tgz = rep+'/'+options.scene+'.tar.gz'
+if not(os.path.exists(tgz)):
   try:
     connect_earthexplorer_no_proxy(usgs)
-    downloadChunks(url,"%s"%rep_scene,nom_prod+'.tgz')
+    downloadChunks(url,rep,options.scene+'.tar.gz')
   except TypeError:
-    print '   produit %s non trouve'%nom_prod
+    print '   produit %s non trouve'%options.scene
   else :
-    print '   produit %s deja telecharge'%nom_prod
+    print '   produit %s deja telecharge'%options.scene
 
 
 #

@@ -185,6 +185,10 @@ function QueryByID(req, user, r, credentials) {
 			}
 		],
 		"properties": properties,
+		"geometry": {
+			"type": "Polygon",
+			"coordinates": scene_model.PolygonFromGeom(r.g)
+		},
 		"action": actions
 	}
 	

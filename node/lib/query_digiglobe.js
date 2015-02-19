@@ -200,11 +200,6 @@ function BuildEntry(req, host, feature, credentials, duration, user ) {
 		"copyright": {
 			"@label": 		req.gettext("properties.copyright"),
 			"@value": 		feature['DigitalGlobe:copyright'][0]
-		},
-		
-		geometry: 				{
-			"type": "Polygon",
-			"coordinates": [	coordinates ]
 		}
 	}
 	
@@ -335,6 +330,10 @@ function BuildEntry(req, host, feature, credentials, duration, user ) {
 			}
 		],
 		"properties": 		properties,
+		"geometry": 	{
+			"type": "Polygon",
+			"coordinates": [	coordinates ]
+		},
 		"action": 			actions
 	}
 		

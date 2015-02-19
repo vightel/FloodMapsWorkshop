@@ -45,19 +45,22 @@ module.exports = {
 	// takes a polygon and returns a bbox
 	// POLYGON((19.154261 -72.334539,19.054651 -72.00994,17.99311 -72.249369,18.092406 -72.571983,19.154261 -72.334539))
 	bboxFromGeom: function(g) {
-		var str = g.replace("POLYGON((", "")
-		str 	= str.replace("))", "")
-		str 	= str.replace(/ /g, ",")
-		var arr = str.split(",")
+		var str 	= g.replace("POLYGON((", "")
+		str 		= str.replace("))", "")
+		str 		= str.replace(/ /g, ",")
+		var arr 	= str.split(",")
 		var latmin 	= Math.min( parseFloat(arr[0]), parseFloat(arr[2]), parseFloat(arr[4]), parseFloat(arr[6]), parseFloat(arr[8]))
 		var latmax 	= Math.max( parseFloat(arr[0]), parseFloat(arr[2]), parseFloat(arr[4]), parseFloat(arr[6]), parseFloat(arr[8]))
 		var lonmin 	= Math.min( parseFloat(arr[1]), parseFloat(arr[3]), parseFloat(arr[5]), parseFloat(arr[7]), parseFloat(arr[9]))
 		var lonmax 	= Math.max( parseFloat(arr[1]), parseFloat(arr[3]), parseFloat(arr[5]), parseFloat(arr[7]), parseFloat(arr[9]))
-		var bbox =  [lonmin, latmin, lonmax, latmax]
+		var bbox 	=  [lonmin, latmin, lonmax, latmax]
 		
 		return bbox
 	},
-	// return GeoJSON Geometry Polygon
+	
+	//
+	// return GeoJSON Geometry Polygon in default crs long,lat !!!!WARNING!!!
+	//
 	PolygonFromGeom: function(g) {
 		var str = g.replace("POLYGON((", "")
 		str 	= str.replace("))", "")
@@ -65,11 +68,11 @@ module.exports = {
 		var arr = str.split(",")
 		
 		var coords =  [[
-			[parseFloat(arr[0]),parseFloat(arr[1])],
-			[parseFloat(arr[2]),parseFloat(arr[3])],
-			[parseFloat(arr[4]),parseFloat(arr[5])],
-			[parseFloat(arr[6]),parseFloat(arr[7])],			
-			[parseFloat(arr[8]),parseFloat(arr[9])]
+			[parseFloat(arr[1]),parseFloat(arr[0])],
+			[parseFloat(arr[3]),parseFloat(arr[2])],
+			[parseFloat(arr[5]),parseFloat(arr[4])],
+			[parseFloat(arr[7]),parseFloat(arr[6])],			
+			[parseFloat(arr[9]),parseFloat(arr[8])]
 		]]
 		
 		return coords

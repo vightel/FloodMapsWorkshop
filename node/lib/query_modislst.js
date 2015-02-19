@@ -136,10 +136,7 @@ var util 		= require('util'),
 						displayName: req.gettext("properties.resolution"),
 						"@value": "250m"
 					}
-					//,"geometry": {
-					//	"type": "Polygon",
-					//	"coordinates": PolygonBBox(scene.bbox)
-					//}
+					
 			}
 				
 			var entry = {
@@ -154,6 +151,10 @@ var util 		= require('util'),
 									}
 								],
 				"properties": 		properties,
+				"geometry": {
+					"type": "NA",
+					"coordinates": []
+				},
 				"action": 			actions
 			}
 			

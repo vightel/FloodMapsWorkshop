@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/css/datepicker.css" />
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 
 <script>
 	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
@@ -32,9 +33,27 @@
 	    })
 	}).addTo(map);
 	
+	var delta 	= 0.2;
+	var lat		= <%= region.target[0] %>
+	var lng		= <%= region.target[1] %>
+	var latlon_poly = [ 
+		 L.latLng(lat-delta, lng-delta),
+		 L.latLng(lat+delta, lng-delta),
+		 L.latLng(lat+delta, lng+delta),
+		 L.latLng(lat-delta, lng+delta),
+		 L.latLng(lat-delta, lng-delta)
+	];
+	var options 	= {color: '#787878 ', weight:2, opacity: 0.8};
+
+	var newqueryLayer 	= L.polyline(latlon_poly, options).addTo(map);
+	map_controls.addOverlay( newqueryLayer, 'query bbox' );
+		
+	L.control.scale().addTo(map);
+	
 	$('#lnglat').val("<%= region.target[1] %>,<%= region.target[0] %>")
 	
 	var query_results = {};
+	footprints		= [];
 	
 	$('#query').show();
 	//$('#dp_startTime').datepicker();
@@ -53,7 +72,7 @@
 	}
 
   	function NavTab( str, id ) {
-		console.log(str + ","+id);
+		//console.log(str + ","+id);
 		$('#general-'+id).hide();
 		$('#metadata-'+id).hide();
 		$('#actions-'+id).hide();
@@ -82,6 +101,8 @@
 		if (image_url.url) image_url = image_url.url; 
 		
 		html += "&nbsp;<a href='"+ image_url+"'><img class='img-thumbnail' id='"+id+"' src=\'"+image_url+"\' width='140' ondragstart='handleDrag(event);' /></a>";
+		html += "<a href='javascript:footprint(\""+id+"\");'><img src='/img/footprint.png' width=32 /></a>"
+		
 		html += "</td><td>"
 		
 		if( true ) {
@@ -144,11 +165,11 @@
 				for( var u in using ) {
 					var el = using[u]
 					if( !el["@type"] ) {
-						console.log("Missing el @typw for ", actionName)
+						console.log("Missing el @type for ", actionName)
 					} else if( el["@type"].indexOf("HttpRequest") > 0) {
 						if( el.method == 'GET') {
 							var displayName = el.displayName || el.mediaType
-							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + displayName
+							html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url +"'>" + displayName
 							if( el.size ) html += " ("+el.size+")"
 							if( el.duration ) html += " (" + el.duration + ")"
 							html  += "</a>&nbsp;"
@@ -174,7 +195,7 @@
 					$.each(el.actions[key], function(k, el) {
 						if( el.objectType == 'HttpActionHandler') {
 							if( el.method == 'GET') {
-								html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url+"'>" + el.displayName
+								html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url +"'>" + el.displayName
 								if( el.size ) html += " ("+el.size+")"
 								if( el.duration ) html += " (" + el.duration + ")"
 								html  += "</a>&nbsp;"
@@ -297,12 +318,28 @@
     // install click event
   	map.on('click', function(e) {
 		var latlng = e.latlng
-		var lat = latlng.lat.toFixed(2)
-		var lng	= latlng.lng.toFixed(2)
+		var lat = parseFloat(latlng.lat.toFixed(2))
+		var lng	= parseFloat(latlng.lng.toFixed(2))
 		
 		marker_me.setLatLng( latlng );
 		
 		$('#lnglat').val(lng +", "+lat)
+		
+		var delta  	= parseFloat($('#area').val());	
+		var minlat 	= lat - delta;
+		var maxlat	= lat + delta;
+		var minlon	= lng - delta;
+		var maxlon	= lng + delta;
+		
+		var latlon_poly = [ 
+			 L.latLng(minlat, minlon),
+			 L.latLng(maxlat, minlon),
+			 L.latLng(maxlat, maxlon),
+			 L.latLng(minlat, maxlon),
+			 L.latLng(minlat, minlon)
+		];
+		console.log("query bbox", lat, lng, delta, minlat, minlon, maxlat, maxlon)
+		newqueryLayer.setLatLngs(latlon_poly)
   	})
  
 	function FBPost( url ) {
@@ -313,6 +350,126 @@
 					'value':'SELF'
 			}, function(response) { console.log("FB resp:"+JSON.stringify(response)); });
 		}, {scope: 'publish_actions'});
+	}
+
+	// array of long,lat coordinates from GeoJSON
+	// return sw corner and ne corner in lat lon
+	function fromPolygon(arr) {
+		var sw_lat=90, 	ne_lat=-90;
+		var sw_lon=180, ne_lon=-180;
+		
+		for( var i in arr ) {
+			var lonlat = arr[i]
+			// lon
+			if(lonlat[0] < sw_lon) sw_lon = lonlat[0]
+			if(lonlat[0] > ne_lon) ne_lon = lonlat[0]
+			//lat
+			if(lonlat[1] < sw_lat) sw_lat = lonlat[1]
+			if(lonlat[1] > ne_lat) ne_lat = lonlat[1]
+		}
+		return [[sw_lat,sw_lon],[ne_lat,ne_lon]]
+	}
+		
+	function addThumbnailToMap(result, id) {
+		var bbox = fromPolygon(result.geometry.coordinates[0])
+		
+		console.log(bbox)
+			
+		var imageBounds = L.latLngBounds(bbox)
+		var image 		= result.image[0]
+		var url 		= image.url
+			
+		console.log("Add to map", url, JSON.stringify(imageBounds))
+		var options 	= {opacity: 0.8, attribution: result.properties.source["@value"]}
+		
+		var newLayer 	= L.imageOverlay(url, imageBounds, options).addTo(map);
+		map_controls.addOverlay( newLayer, id )
+	}
+	
+	function footprint(id) {
+		var found = _.find(footprints, function(footprint) {
+			if( footprint == id ) {
+				console.log("id already in footprints", id)
+				return true
+			} else {
+				return false
+			}
+		})
+		if(found) return;
+		console.log("Showing footprint of ", id)
+				
+		var result 		= query_results[id];
+		if(result.geometry ) {
+			var bbox 		= result.geometry.coordinates[0]
+			var latlon_poly = []
+			for( var b in bbox) {
+				latlon_poly.push( bbox[b].reverse().map(parseFloat))
+			}
+			console.log("poly",JSON.stringify(latlon_poly))
+			var options 	= {color: '#3300CC ', weight:2, opacity: 0.8, attribution: result.properties.source["@value"]}
+			var newLayer 	= L.polyline(latlon_poly, options).addTo(map);
+			map_controls.addOverlay( newLayer, id );
+
+			// Add to footprints
+			footprints.push(id)
+		} else {
+			console.log("no geometry for id", id)
+		}
+	}
+
+	function processDroppedResult(id, result) {
+		// find the download action
+		for( var a in result.action){
+			var action = result.action[a]
+			if( action['@type'] == 'ojo:download' ) {
+				var using = action.using
+				for( var u in using ) {
+					var uses 	= using[u]
+					var url		= uses.url
+					console.log(url)
+					if( url.indexOf(".png") > 0 ) {
+						// add image overlay
+						var bbox = result.properties.geometry.coordinates[0]
+						var imageBounds = [bbox[0].reverse().map(parseFloat), bbox[2].reverse().map(parseFloat)]
+					
+						console.log("Add to map", JSON.stringify(imageBounds))
+						var options 	= {opacity: 0.8, attribution: "Digiglobe"}
+						var newLayer 	= L.imageOverlay(url, imageBounds, options).addTo(map);
+						map_controls.addOverlay( newLayer, id );
+						break;
+					} else if( url.indexOf(".topojson")>0) {
+						console.log("loading topojson", url)
+						$.ajax({
+							type: 'GET',
+							url: url,
+							async: true
+						})
+						.success( function(data) {
+							if( data && data.objects ) {
+								console.log("Returned good data")
+			
+								var data 	= topojson.feature(data, data.objects['surface_water']);
+		
+								var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
+								newLayer.addData(data);
+								newLayer.addTo(map);
+								map_controls.addOverlay( newLayer, id );
+							} else {
+								console.log("Returned bad data")
+							}
+						})
+						.fail(function(jqxhr, textStatus, error ) { 
+							var err = textStatus + ', ' + error;
+							alert( "Request Failed: " + err);
+						});
+						break
+					} else if( mediaType == 'image/tiff') {
+						addThumbnailToMap(result, id) 
+						break;
+					}
+				}
+			} 
+		}
 	}
 	
 	function handleDrop(event) {
@@ -336,55 +493,18 @@
 			console.log( "dropped id:"+id );
 			var result 	= query_results[id];
 
-			// find the download action
-			for( var a in result.action){
-				var action = result.action[a]
-				if( action['@type'] == 'ojo:download' ) {
-					var using = action.using
-					for( var u in using ) {
-						var uses 	= using[u]
-						var url		= uses.url
-						console.log(url)
-						if( url.indexOf(".png") > 0 ) {
-							// add image overlay
-							var bbox = result.properties.geometry.coordinates[0]
-							var imageBounds = [bbox[0].reverse().map(parseFloat), bbox[2].reverse().map(parseFloat)]
-							
-							console.log("Add to map", JSON.stringify(imageBounds))
-							var options 	= {opacity: 0.8, attribution: "Digiglobe"}
-							var newLayer 	= L.imageOverlay(url, imageBounds, options).addTo(map);
-							map_controls.addOverlay( newLayer, id );
-							break;
-						} else if( url.indexOf(".topojson")>0) {
-							console.log("loading topojson", url)
-							$.ajax({
-								type: 'GET',
-								url: url,
-								async: true
-							})
-							.success( function(data) {
-								if( data && data.objects ) {
-									console.log("Returned good data")
-					
-									var data 	= topojson.feature(data, data.objects['surface_water']);
-				
-									var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
-									newLayer.addData(data);
-									newLayer.addTo(map);
-									map_controls.addOverlay( newLayer, id );
-								} else {
-									console.log("Returned bad data")
-								}
-							})
-							.fail(function(jqxhr, textStatus, error ) { 
-								var err = textStatus + ', ' + error;
-								alert( "Request Failed: " + err);
-							});
-							break
-						}
+			if( result ) {
+				processDroppedResult(id, result)
+			} else {
+				console.log("dropped a link?")
+				for( var i in query_results ) {
+					var qid = query_results[i]['@id']
+					console.log("Check", qid, id)
+					if( id.indexOf(qid) > 0 ) {
+						console.log("Found", qid)
+						processDroppedResult(qid, query_results[i])
+						break;
 					}
-				} else {
-					console.log("action", action['@type'])
 				}
 			}
 		}

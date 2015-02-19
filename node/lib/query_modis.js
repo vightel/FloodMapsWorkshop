@@ -290,10 +290,6 @@ function QueryByID(req, user, year, doy, tile, credentials) {
 			"resolution": {
 				displayName: req.gettext("properties.resolution"),
 				"@value": "<10m"
-			},
-			"geometry": {
-				"type": "Polygon",
-				"coordinates": PolygonBBox(scene.bbox)
 			}
 	}	
 	var entry = {
@@ -308,6 +304,10 @@ function QueryByID(req, user, year, doy, tile, credentials) {
 							}
 						],
 		"properties": 		properties,
+		"geometry": {
+			"type": "Polygon",
+			"coordinates": PolygonBBox(scene.bbox)
+		},
 		"action": 			actions
 	}
 	
