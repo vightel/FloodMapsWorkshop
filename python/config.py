@@ -31,6 +31,8 @@ DIGIGLOBE_DIR		= DATA_DIR + "/digiglobe"
 VIIRS_DIR			= DATA_DIR + "/viirs"
 CSV_DIR				= DATA_DIR + "/csv"
 
+SRTM2_DIR			= "/shared/production/proddata/srtm2"
+
 version = "1.0 alpha3"
 
 profile = 'mercator'

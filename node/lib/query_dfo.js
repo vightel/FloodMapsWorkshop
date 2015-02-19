@@ -164,10 +164,6 @@ function QueryByID(req, user, r, credentials) {
 			"resolution": {
 				"@label": req.gettext("properties.resolution"),
 				"@value": "~250m"
-			},
-			"geometry": {
-				"type": "Polygon",
-				"coordinates": scene_model.PolygonFromGeom(r.g)
 			}
 	}	
 					
@@ -184,6 +180,10 @@ function QueryByID(req, user, r, credentials) {
 			}
 		],
 		"properties": 	properties,
+		"geometry": {
+			"type": "Polygon",
+			"coordinates": scene_model.PolygonFromGeom(r.g)
+		},
 		"action": 		actions
 	}
 	

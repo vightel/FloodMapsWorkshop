@@ -118,7 +118,7 @@ module.exports = {
 		var user= req.session.user
 
 		// set to Gonaives
-		region.target=[19.38,-72.69]
+		region.target=[-18.19,21.07]
 		
 		res.render( "opensearch/classic", {
 			user: user,

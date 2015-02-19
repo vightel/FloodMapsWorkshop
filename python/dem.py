@@ -406,7 +406,7 @@ if __name__ == '__main__':
 		print "ImageMagick Convert does not have a tiff delegate... rebuild it!", output
 		sys.exit(-1)
 	
-	parser 		= argparse.ArgumentParser(description='Generate HAND')
+	parser 		= argparse.ArgumentParser(description='Generate DEM')
 	apg_input 	= parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", action='store_true', help="HydroSHEDS forces new water image to be generated")
 	apg_input.add_argument("-v", "--verbose", action='store_true', help="Verbose")

@@ -10,6 +10,7 @@ var util 			= require('util'),
 	Hawk			= require('hawk'),
 	query_l8		= require("../lib/query_l8"),
 	scene_model		= require('../models/scene.js'),
+	childProcess 	= require('child_process'),
 	debug			= require('debug')('l8');
 	
 	function sendFile( res, file ) {
