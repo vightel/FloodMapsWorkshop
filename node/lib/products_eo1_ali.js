@@ -141,10 +141,14 @@ var util 			= require('util'),
 			var base_dir	= app.root+"/../data/eo1_ali/"
 			scene_model.getAllScenes('eo1_ali', function(err, records) {
 				var results = _.filter(records, function(r) {
-					return fs.existsSync(base_dir+ r.scene)
+					
+						var scene = r.scene.split("_")[0]+"_1T"
+						var found = fs.existsSync(base_dir+ scene)
+						return found
+					
 				})
 		
-				debug("eo1_ali_list", records.length, results.length)
+				console.log("eo1_ali_list", records.length, results.length)
 
 				res.render("products/list", {
 					user: 			user,

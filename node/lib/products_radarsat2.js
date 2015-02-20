@@ -134,6 +134,7 @@ var util 			= require('util'),
 			var base_dir	= app.root+"/../data/radarsat2/"
 			scene_model.getAllScenes('radarsat2', function(err, records) {
 				var results = _.filter(records, function(r) {
+					console.log(r.scene)
 					return fs.existsSync(base_dir+ r.scene)
 				})
 				debug("radarsat2_list", records.length, results.length)
