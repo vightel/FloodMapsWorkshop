@@ -45,9 +45,9 @@ echo "envs correct..."
 # load OSM files from GeoFabrik
 #
 
-#if [ ! -f ./central-america-latest.osm.bz2 ]; then
-#	wget "http://download.geofabrik.de/central-america-latest.osm.bz2"
-#fi
+if [ ! -f ./central-america-latest.osm.bz2 ]; then
+	wget "http://download.geofabrik.de/central-america-latest.osm.bz2"
+fi
 
 # wget "http://download.geofabrik.de/africa/egypt-latest.osm.bz2"
 # wget "http://download.geofabrik.de/africa/morocco-latest.osm.bz2"
@@ -56,9 +56,9 @@ echo "envs correct..."
 #	wget "http://download.geofabrik.de/south-america-latest.osm.bz2"
 #fi
 
-if [ ! -f ./africa-latest.osm.bz2 ]; then
-	wget "http://download.geofabrik.de/africa-latest.osm.bz2"
-fi
+#if [ ! -f ./africa-latest.osm.bz2 ]; then
+#	wget "http://download.geofabrik.de/africa-latest.osm.bz2"
+#fi
 
 #export STYLE="default.style"
 export STYLE="water.style"
@@ -67,9 +67,9 @@ export CACHESIZE=2400
 export NUM_PROCESSES=4
 
 # note CACHESIZE might be too large on Joyent machine... use 1200
-#osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./central-america-latest.osm.bz2
+osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./central-america-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE -C $CACHESIZE   ./south-america-latest.osm.bz2
-osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./africa-latest.osm.bz2
+#osm2pgsql -c -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./africa-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./egypt-latest.osm.bz2
 #osm2pgsql -a -G -H $DBHOST -U $DBOWNER  -d $DBNAME  --port $DBPORT -S $STYLE  -C $CACHESIZE  ./morocco-latest.osm.bz2
 

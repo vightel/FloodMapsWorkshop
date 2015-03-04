@@ -15,6 +15,8 @@ import config
 from osgeo import gdal
 from osgeo import osr
 from osgeo import ogr
+from osgeo import gdal_array
+from osgeo import gdalconst
 
 import numpy
 import scipy

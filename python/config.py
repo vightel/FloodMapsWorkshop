@@ -11,8 +11,10 @@ HANDS_DIR			= DATA_DIR + "/HAND"
 HYDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
 
 # HAND regional area.
-#HANDS_AREA			= "haiti"
-HANDS_AREA			= "namibia"
+HANDS_AREA			= "haiti"
+HANDS_ZONE			= "CA"		# Central America
+#HANDS_AREA			= "namibia"
+#HANDS_ZONE			= "AF"		# Africa
 
 # Pick 9m or 15m but <= 18m
 HANDS_HEIGHT		= 15
