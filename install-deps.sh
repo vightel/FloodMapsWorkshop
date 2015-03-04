@@ -15,7 +15,11 @@ sudo yum -y install make gcc47 gcc-c++ bzip2-devel libpng-devel libtiff-devel zl
 sudo yum -y install postgresql-devel sqlite-devel sqlite libcurl-devel libcurl cairo-devel cairo pycairo-devel pycairo
 
 # make sure we have python 2.7.8
-sudo yum install python27
+# May not be necessary...
+# sudo yum install python27
+
+sudo yum -y install numpy scipy 
+
 
 # Download and Install requirements for PostGIS Installation
 # proj4
@@ -45,6 +49,10 @@ cd gdal-1.11.0
 make
 sudo make install
 cd ../
+
+# install numpy and scipy,...
+sudo yum -y install gdal-python
+
 # NOTE you may have to set PYTHONPATH in .bash_profile and edit /etc/sudoers to preserve it
 # vi /etc/sudoers
 # Defaults env_keep = "PYTHONPATH..."
@@ -160,8 +168,6 @@ make
 sudo make install
 cd ../
 
-# install numpy and scipy,...
-sudo yum -y install gdal-python numpy scipy 
 
 # if for some reason python is not finding psycopg2.... grrrr
 # might need to tweak PYTHONPATH as packages get installed in different directories

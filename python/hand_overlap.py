@@ -4,6 +4,17 @@ from datetime import datetime
 import argparse
 import config
 
+haiti_tiles = [
+	"CA/n15w070",
+	"CA/n15w075"
+]
+
+haiti_seams = [
+	[
+		"AF/n15w074",
+		[-71, 15, -69, 20]
+	]
+]
 
 namibia_tiles = [
 "AF/s20e015",
@@ -15,7 +26,7 @@ namibia_tiles = [
 ]
 	
 # Given these tiles we want to generate HAND for theses seams
-seams = [
+namibia_seams = [
 	[
 		"AF/s25e019",
 		[19, -25, 21, -15]
@@ -34,12 +45,14 @@ seams = [
 hand_dir 		= config.HANDS_DIR			#"/shared/production/proddata"
 hydrosheds_dir	= config.HYDROSHEDS_DIR		#os.path.join(hand_dir, "HydroSHEDS" )
 area			= config.HANDS_AREA
+zone			= config.HANDS_ZONE
 
 dem_vrt			= os.path.join(hand_dir, area + "_dem.vrt" )
 dir_vrt			= os.path.join(hand_dir, area + "_dir.vrt" )
 
-tile_list		= namibia_tiles
-zone			= "AF"
+seams			= area + "_seams"
+tile_list		= area + "_tiles"
+#zone			= "AF"
 
 # Make sure the vrts exist
 if( not os.path.exists(dem_vrt)):

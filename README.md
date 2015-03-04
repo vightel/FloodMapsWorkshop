@@ -110,7 +110,7 @@ limitations under the License.
   * It is advisable to run the shell file below step by step to check on potential errors while loading and building code/libraries
   * sh install-deps.sh
   
-7. [Optional for Haiti Demo] Install data dependencies... This will copy some data from S3 to your data directory for testing
+7. Install data dependencies... This will copy some data from S3 to your data directory for testing
   * sh getdata.sh
   [Note: This needs to be updated for RCMRD and ICIMOD workshops]
 
@@ -137,7 +137,7 @@ limitations under the License.
   
   * When ready, run the processing... WARNING: it takes about 1hr or more per tile
   * Make sure to edit python/config.py to [re]define the HANDS_AREA
-  * make sure that your HydroSHEDS and HAND folders are created before you start (../data/HAND/AF for example if AF is your continent).
+  * make sure that your HydroSHEDS and HAND folders are created before you start (../data/HAND/CA for example if CA is your continent).
   * hand_all.py -v
   
   * HAND Seams
@@ -155,7 +155,7 @@ limitations under the License.
     ServerAliveInterval 300
     ServerAliveCountMax 2
 
-11. Namibia Test scenes
+11. [OPTIONAL] For Namibia Test scenes...
   * From USGS
     * EO-1          EO1A1760722013027110KF_1T
     * Landsat-8     LC81740722014140LGN00
@@ -220,10 +220,6 @@ limitations under the License.
 * An Account on <http://earthexplorer.usgs.gov/>
 
 ### Steps
-
-* Install Python Postgres libraries
-  * pip install psycopg2 
-  * pip install PPyGIS 
   
 * Make sure the tables are installed in database for eo1_ali, l8 and radarsat-2
 
