@@ -50,9 +50,8 @@ zone			= config.HANDS_ZONE
 dem_vrt			= os.path.join(hand_dir, area + "_dem.vrt" )
 dir_vrt			= os.path.join(hand_dir, area + "_dir.vrt" )
 
-seams			= area + "_seams"
-tile_list		= area + "_tiles"
-#zone			= "AF"
+seams			= eval(area + "_seams")
+tile_list		= eval(area + "_tiles")
 
 # Make sure the vrts exist
 if( not os.path.exists(dem_vrt)):
