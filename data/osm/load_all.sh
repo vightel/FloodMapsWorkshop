@@ -7,12 +7,6 @@
 # OSM Files have been downloaded from cloudmade
 # Postgres database user and database name
 
-#export DBNAME=   "namibiadb"
-#export DBHOST=   "namibiadb.crcholi0be4z.us-east-1.rds.amazonaws.com"
-#export DBPORT=   5432
-#export DBOWNER=  "osmdb"
-#export PGPASS=   "osmAdmin1"
-
 # Check for required environmnet variables
 if [ -z "$DBNAME" ]; then
     echo "Need to export OSM DBNAME env"

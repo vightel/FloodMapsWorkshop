@@ -236,6 +236,10 @@ if __name__ == '__main__':
 	rasterXSize		= int(rasterXSize * 0.05)
 	rasterYSize		= int(rasterYSize * 0.05)
 
+	if rasterXSize > 1280 or rasterYSize > 1280:
+		rasterXSize /= 2
+		rasterYSize	/= 2
+		
 	zoom			= 11	# This should probably be computed using ZoomForPixelSize
 
 	mxorg, myorg 	= LatLonToMeters( yorg, xorg )

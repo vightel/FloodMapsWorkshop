@@ -15,10 +15,22 @@ sudo yum -y install make gcc47 gcc-c++ bzip2-devel libpng-devel libtiff-devel zl
 sudo yum -y install postgresql-devel sqlite-devel sqlite libcurl-devel libcurl cairo-devel cairo pycairo-devel pycairo
 
 # make sure we have python 2.7.8
-# May not be necessary...
+# May not be necessary... but if you must...
 # sudo yum install python27
+# Then to install python libraries in /usr/lib64/python2.7/site-packages, need right version of pip too
+# sudo yum install python27-pip
+# then you can do pip install using pip-2.7 command
+# Make sure that PYTHONPATH does not point to python2.6/site-packages or gdal wont build properly
+# python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+# export PYTHONPATH="/usr/lib/python2.7/site-packages:/usr/local/lib/python2.7/site-packages:/usr/lib64/python2.7/site-packages"
+# export PYTHON="/usr/local/bin/python2.7"
 
 sudo yum -y install numpy scipy 
+# If this does not work, you may have to build scipy manually... you can check >python and >>import scipy and >>import numpy
+# sudo yum -y install atlas-devel lapack gcc-gfortran 
+# sudo yum -y install -y blas-devel lapack-devel 
+# pip-2.7 install scipy
+
 
 
 # Download and Install requirements for PostGIS Installation
@@ -50,7 +62,6 @@ make
 sudo make install
 cd ../
 
-# install numpy and scipy,...
 sudo yum -y install gdal-python
 
 # NOTE you may have to set PYTHONPATH in .bash_profile and edit /etc/sudoers to preserve it
