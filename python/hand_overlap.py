@@ -11,7 +11,7 @@ haiti_tiles = [
 
 haiti_seams = [
 	[
-		"AF/n15w074",
+		"AF/n15w071",
 		[-71, 15, -69, 20]
 	]
 ]
