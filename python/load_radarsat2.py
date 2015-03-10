@@ -90,6 +90,7 @@ if __name__ == '__main__':
 		print cmd, res
 	else:
 		print "Scene:", scene, " already inserted"
-	
+		
+	connection.commit()
 	cursor.close()
 	connection.close()
