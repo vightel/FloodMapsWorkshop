@@ -99,7 +99,7 @@ def mapbox_image(centerlat, centerlon, z, rasterXSize, rasterYSize, osm_bg_image
 		print "outputbrowse_image", xorg, yorg, xmax, ymax, rasterXSize, rasterYSize, pres, centerlat, centerlon
 	
 	#if force or not os.path.isfile(app.osm_bg_image):	
-	mapbox_url = str.format("https://api.tiles.mapbox.com/v3/cappelaere.map-1d8e1acq/{0},{1},{2}/{3}x{4}.png32",centerlon, centerlat, z, rasterXSize,rasterYSize)
+	mapbox_url = str.format("http://api.tiles.mapbox.com/v3/cappelaere.map-1d8e1acq/{0},{1},{2}/{3}x{4}.png32",centerlon, centerlat, z, rasterXSize,rasterYSize)
 	if verbose:
 		print "wms url:" , mapbox_url
 	
