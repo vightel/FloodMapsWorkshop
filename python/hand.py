@@ -342,7 +342,8 @@ class HAND:
 		if self.verbose:
 			print str(datetime.now()), "Processing water pixel data...", num_wps
 
-		self.progressbar( ncount / float(num_wps) )
+		if num_wps > 0:
+			self.progressbar( ncount / float(num_wps) )
 			
 		# Go through all pixels in surface reference water
 		for i in range(num_wps):
