@@ -393,8 +393,9 @@ if __name__ == '__main__':
 
 	regional_hand	= config.HANDS_AREA + "_hand_merged_lzw.tif"
 
-	dir = config.MODIS_DIR
-
+	dir 		= config.MODIS_DIR
+	python_dir	= config.PYTHON_DIR
+	 
 	start = datetime.now()
 	print str(start), "Starting processing of tile:"+tile
 
@@ -409,7 +410,8 @@ if __name__ == '__main__':
 		dy 	= app.RasterYSize
 		print ll, res, dx, dy
 		#app.generate_image(	"water_coastal_only_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
-		app.generate_image(	"watershed_marshes_4326.xml", osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
+		watershed_marshes_4326 = os.path.join(python_dir, "watershed_marshes_4326.xml")
+		app.generate_image(	watershed_marshes_4326, osm_coastal_water, ".tif", "tif", ll, dx, dy, res, verbose, force)
 			
 	app.clear()
 	app.hand(regional_hand)
@@ -417,7 +419,7 @@ if __name__ == '__main__':
 	#app.reference_water()
 	
 	# execute the browseimage
-	cmd = str.format(" python ./modis_browseimage.py --year {0} --day {1} --product {2} --tile {3}", year, day, product, tile)
+	cmd = str.format(" python {0}/modis_browseimage.py --year {1} --day {2} --product {3} --tile {4}", python_dir, year, day, product, tile)
 	if force: 
 		cmd += " -f"
 		

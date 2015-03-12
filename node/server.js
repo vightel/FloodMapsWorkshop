@@ -174,7 +174,7 @@ app.get('/products/modis/map/:year/:doy/:tile', 	products_modis.map);
 app.get('/products/modis/browse/:year/:doy/:tile', 	products_modis.browse);
 app.get('/products/modis/query/:year/:doy/:tile', 	products_modis.query);
 app.get('/products/modis/:year/:doy/:tile/:id',		products_modis.product);
-//app.get('/products/modis/:year/:doy/:tile',			products_modis.process);
+app.get('/products/modis/:year/:doy/:tile',			products_modis.process);
 
 app.get('/products/dfo/list',						products_dfo.list);
 app.get('/products/dfo/map/:scene',					products_dfo.map);
