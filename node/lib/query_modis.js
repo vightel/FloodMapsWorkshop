@@ -115,12 +115,12 @@ function TileName( latitude, longitude ) {
 		tenlat += 1
 		latstr = sprintf("%03dN", tenlat*10);
 	} else {
-		tenlat -= 1
+		//tenlat -= 1
 		latstr = sprintf("%03dS", -tenlat*10);
 	}
 
 	if( tenlon > 0 ) {
-		tenlon += 1
+		//tenlon += 1
 		lonstr = sprintf("%03dE", tenlon*10);
 	} else {
 		tenlon -= 1

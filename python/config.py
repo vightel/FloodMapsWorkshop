@@ -3,7 +3,7 @@ import os
 # Directories setup
 #
 DATA_DIR			= os.environ['WORKSHOP_DIR'] + "/data"
-
+PYTHON_DIR			= os.environ['WORKSHOP_DIR'] + "/python"
 #
 # Height Above NEarest Drainage (HAND)
 #
