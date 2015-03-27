@@ -171,7 +171,7 @@ function bootApplication(app) {
 	app.use(express.session());
 	
 	app.use(i18n.abide({
-		supported_languages: ['en', 'es', 'fr', 'pt'],
+		supported_languages: ['en', 'es', 'fr', 'pt', 'sw','ne'],
 		//supported_languages: ['en', 'fr', 'es', 'pt', 'de'],
 		default_lang: 'en',
 		translation_directory: 'locale',

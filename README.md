@@ -36,7 +36,7 @@ limitations under the License.
   * You will have to send us your handle so we can add you as a collaborator on this project
 
 * Laptop with: 
-  * phpAdmin or Navicat (prefered http://www.navicat.com/download/navicat-for-postgresql ) to configure database 
+  * pgAdmin or Navicat (prefered http://www.navicat.com/download/navicat-for-postgresql ) to configure database 
   * [git](http://git-scm.com/downloads)
   * Editor ( [TextMate](http://macromates.com/), OSX XCode, [Eclipse](https://www.eclipse.org/), [VIM](http://www.vim.org/)...)
  
