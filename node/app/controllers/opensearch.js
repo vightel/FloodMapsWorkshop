@@ -16,16 +16,20 @@ var fs  		= require('fs'),
 	query_dfo		= require("../../lib/query_dfo")
 	query_digiglobe	= require("../../lib/query_digiglobe")
 	query_modislst	= require("../../lib/query_modislst")
+	query_ef5		= require("../../lib/query_ef5")
+	query_maxswe	= require("../../lib/query_maxswe")
 	;
 	
+	// Queries for all those sources
 	productQueries = {
-		"dfo": 			query_dfo.QueryDFO,
-		"digiglobe":	query_digiglobe.QueryDigiglobe,
-		"eo1_ali": 		query_eo1.QueryEO1,
-		"l8": 			query_l8.QueryLandsat8,
-		"modis": 		query_modis.QueryModis,
-		"modis_lst":	query_modislst.QueryModisLST,
-		"radarsat2": 	query_radarsat2.QueryRadarsat2
+		"dfo": 			[query_dfo.QueryDFO],
+		"digiglobe":	[query_digiglobe.QueryDigiglobe],
+		"eo1_ali": 		[query_eo1.QueryEO1],
+		"l8": 			[query_l8.QueryLandsat8],
+		"modis": 		[query_modis.QueryModis],
+		"modis_lst":	[query_modislst.QueryModisLST],
+		"radarsat2": 	[query_radarsat2.QueryRadarsat2],
+		"ef5": 			[query_ef5.QueryEF5,query_maxswe.QueryMaxSWE]
 	}
 	
 	function ValidateBBox( bbox ) {
@@ -69,28 +73,34 @@ var fs  		= require('fs'),
 		var originalUrl	= host + req.originalUrl
 		var user		= req.session.user
 		var credentials	= req.session.credentials
-		
-		logger.info('query sources', sources)
-		
+				
 		var items = []
 
 		async.each( sources, function(asset, cb) {
 
 			if( _.contains(sources, asset)) {
-				var productQuery = productQueries[asset]
-				logger.info("Trying to query", asset)
-				productQuery(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, function(err, json) {
-					if(!err && json) {
-						var index = 0
-						for( var item in json.replies.items ) {
-							debug("added", json.replies.items[item]['@id'])
-							items.push(json.replies.items[item])
-							index += 1
-						}
-						logger.info("Added", index, "items to replies")
-					}						
+				var queries = productQueries[asset]
+				logger.info('query source', asset)
+				
+				function queryProduct(q, callback) {
+					q(req, user, credentials, host, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit, function(err, json) {
+						if(!err && json) {
+							var index = 0
+							for( var item in json.replies.items ) {
+								debug("added", json.replies.items[item]['@id'])
+								items.push(json.replies.items[item])
+								index += 1
+							}
+							logger.info("Added", index, "items to replies")
+						}						
+						callback(null)
+					})	
+				}
+				
+				async.each( queries, queryProduct, function(err ) {
 					cb(null)
 				})
+				
 			} else {
 				debug(asset, " not selected")
 			}
@@ -169,7 +179,6 @@ module.exports = {
 		//}
 		
 		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
-		logger.info(req.gettext("products."+query))
 			
 		if( bbox && !ValidateBBox(bbox)) {
 			return res.send(400, "Invalid BBox")

@@ -299,6 +299,23 @@ class EO1_ALI_VECTORIZATION:
 		if verbose:
 			print "geojson bbox:", xorg, yorg, xmax, ymax
 
+		#
+		#### COREG change of origin
+		#
+		#Tx = -13.9456
+		#Ty	= -3.7284
+		#dx	= Tx * geomatrix[1] 
+		#dy	= Ty * geomatrix[1]
+		
+		#xorg -= dx
+		#xmax -= dx
+		#yorg += dy
+		#ymax += dy
+
+		#if verbose:
+		#	print "geojson adjusted bbox:", xorg, yorg, xmax, ymax
+		###
+		
 		file = infile + ".png"
 
 		if force or not os.path.exists(file):

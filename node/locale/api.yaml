@@ -53,6 +53,7 @@ en:
     eo1: NASA EO-1
     modis: NASA MODIS
     alos2: JAXA ALOS-2
+    ef5: UNiversity of Oklahoma
 
   sensors:
     sar: SAR
@@ -61,7 +62,8 @@ en:
     l8: OLI
     dfo: MODIS/l8
     alos2: PALSAR-2
-
+    ef5: EF5 CREST Model
+    
   duration:
     hours: "%{hours} hours"
     minutes: "%{minutes} minutes"
@@ -89,6 +91,8 @@ en:
     flood_nowcast: Flood Nowcast
     flood_catalog: Flood Catalog
     frost: Frost
+    snow_cover: Snow Cover
+    snow_water_equivalent: Snow Water Equivalent
     
   filesize:
     B: B
@@ -141,6 +145,21 @@ en:
         source: NASA
       legend: Surface Water
         
+    flood_forecast:
+      title: Flood Forecast
+      credits: University of Oklahoma
+      source: 
+        label: Source
+        source: University of Oklahoma EF5 CREST
+      legend:
+        1m: 1m
+        2m: 2m
+        3m: 3m
+        5m: 5m
+        8m: 8m
+        13m: 13m
+        21m: 21m
+        
     frost:
       title: Frost Map
       credits: NASA SERVIR/RCMRD
@@ -154,3 +173,29 @@ en:
         moderate_frost: Moderate frost
         minor_frost: Minor Frost Pockets
         no_frost: No Frost
+        
+    snow_cover:
+      title: Snow Cover
+      credits: NASA MODIS
+      source: 
+        label: Source
+        source: NASA MODIS
+      legend: Snow Cover
+
+    snow_water_equivalent:
+      title: Snow Water Equivalent
+      credits: University of Oklahoma
+      source: 
+        label: Source
+        source: University of Oklahoma EF5 CREST
+      legend:         
+        10mm: 10mm
+        20mm: 20mm
+        30mm: 30mm
+        50mm: 50mm
+        80mm: 80mm
+        130mm: 130mm
+        210mm: 21mm
+        340mm: 340mm
+        550mm: 340mm
+  

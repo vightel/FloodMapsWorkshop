@@ -7,31 +7,38 @@ DATA_DIR			= os.environ['WORKSHOP_DIR'] + "/data"
 #
 # Height Above NEarest Drainage (HAND)
 #
-HANDS_DIR			= DATA_DIR + "/HAND"
-HYDROSHEDS_DIR		= DATA_DIR + "/HydroSHEDS"
+HANDS_DIR			= os.path.join(DATA_DIR, "HAND")
+HYDROSHEDS_DIR		= os.path.join(DATA_DIR, "HydroSHEDS")
 
 # HAND regional area.
-HANDS_AREA			= "haiti"
-HANDS_ZONE			= "CA"		# Central America
-#HANDS_AREA			= "namibia"
-#HANDS_ZONE			= "AF"		# Africa
+#HANDS_AREA			= "haiti"
+#HANDS_ZONE			= "CA"		# Central America
+HANDS_AREA			= "namibia"
+HANDS_ZONE			= "AF"		# Africa
 
 # Pick 9m or 15m but <= 18m
-HANDS_HEIGHT		= 15
+HANDS_HEIGHT		= 9
+
+# S3 bucket to store data and publish it
+BUCKET				= "ojo-workshop"
 
 #
 # Data Directories
 #
-LANDSAT8_DIR		= DATA_DIR + "/l8"
-RADARSAT2_DIR		= DATA_DIR + "/radarsat2"
-MODIS_DIR			= DATA_DIR + "/modis"
-EO1_DIR				= DATA_DIR + "/eo1_ali"
-DFO_DIR				= DATA_DIR + "/dfo"
-PALSAR2_DIR			= DATA_DIR + "/palsar2"
-FROST_DIR			= DATA_DIR + "/frost"
-DIGIGLOBE_DIR		= DATA_DIR + "/digiglobe"
-VIIRS_DIR			= DATA_DIR + "/viirs"
-CSV_DIR				= DATA_DIR + "/csv"
+LANDSAT8_DIR		= os.path.join(DATA_DIR, "l8")
+RADARSAT2_DIR		= os.path.join(DATA_DIR, "radarsat2")
+MODIS_DIR			= os.path.join(DATA_DIR, "modis")
+EO1_DIR				= os.path.join(DATA_DIR, "eo1_ali")
+DFO_DIR				= os.path.join(DATA_DIR, "dfo")
+PALSAR2_DIR			= os.path.join(DATA_DIR, "palsar2")
+FROST_DIR			= os.path.join(DATA_DIR, "frost")
+DIGIGLOBE_DIR		= os.path.join(DATA_DIR, "digiglobe")
+VIIRS_DIR			= os.path.join(DATA_DIR, "viirs")
+CSV_DIR				= os.path.join(DATA_DIR, "csv")
+EF5_DIR				= os.path.join(DATA_DIR, "ef5")
+MAXQ_DIR			= os.path.join(DATA_DIR, "maxq")
+MAXSWE_DIR			= os.path.join(DATA_DIR, "maxswe")
+SM_DIR				= os.path.join(DATA_DIR, "sm")
 
 SRTM2_DIR			= "/shared/production/proddata/srtm2"
 

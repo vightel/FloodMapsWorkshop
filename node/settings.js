@@ -15,6 +15,7 @@ var express 		= require('express'),
 	_				= require('underscore'),
 	i18n			= require('./lib/i18n-abide'),
 	filesize 		= require('filesize'),
+	aws				= require("aws-sdk"),
 	facebook		= require('./lib/facebook');
 	
 	global.logger = new winston.Logger({
@@ -23,6 +24,24 @@ var express 		= require('express'),
 			new (winston.transports.File)({ filename: 'ojo-publisher.log' })
 		]
 	});
+	
+	// AWS Amazon
+	app.s3_config = {
+		accessKeyId: 		process.env.AWS_ACCESSKEYID, 
+		secretAccessKey: 	process.env.AWS_SECRETACCESSKEY,
+		region:				process.env.AWS_REGION || 'us-east-1',
+		cache_dir: 			"./tmp",
+	}
+
+	assert( app.s3_config.accessKeyId, "Missing S3 accessKeyID env" )
+	assert( app.s3_config.secretAccessKey, "Missing S3 secretAccessKey env")
+	assert( app.s3_config.region, "Missing S3 region env" )
+
+	aws.config.update(app.s3_config);
+
+	app.s3 = new aws.S3();
+
+	logger.info("Connected to S3...")
 	
 	// Pick a secret to secure your session storage
 	app.sessionSecret = process.env.COOKIEHASH || 'OJO-PUBLISHER-PGC-2014-06';

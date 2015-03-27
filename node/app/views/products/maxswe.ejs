@@ -1,0 +1,87 @@
+<html prefix="og:http://ogp.me/ns# fb:http://ogp.me/ns/fb# ">
+	<head>
+	<!-- Twitter Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="<%= social_envs.TWITTER_SITE %>">
+	<meta name="twitter:site:id" content="<%= social_envs.TWITTER_SITE_ID %>">
+	<meta name="twitter:creator" content="<%= social_envs.TWITTER_CREATOR %>">
+	<meta name="twitter:creator:id" content="<%= social_envs.TWITTER_CREATOR_ID %>">
+	<meta name="twitter:domain" content="<%= social_envs.TWITTER_DOMAIN %>">
+	<meta name="twitter:image:src" content="<%= image %>">
+	<meta name="twitter:description" content="<%= description %>">
+	
+	<!-- Open Graph Tags (accepted by Twitter as well -->
+	<meta property="fb:app_id" content="<%= social_envs.FACEBOOK_APP_ID %>" /> 
+	<meta property="fb:profile_id" content="<%= social_envs.FACEBOOK_PROFILE_ID %>" /> 
+
+	<meta property="og:type" content="ojo-nasa:geoss_product" />
+	<meta property="og:title" content="geoss.snow_water_equivalent" />
+	<meta property="og:description" content="<%= description %>" />
+	<meta property="og:image" content="<%= image %>" />
+	<meta property="og:url" content="<%= url %>" />
+	<meta property="og:updated_time" content="<%= date %>" />
+	<meta property="og:created_time" content="<%= date %>" />
+
+	<meta property="place:location:latitude" content="<%= region.target[0] %>" />
+	<meta property="place:location:longitude" content="<%= region.target[1] %>" />
+	
+	<title><%= description %> <%= date %></title>
+	
+	<link rel="icon" href="/favicon.png" type="image/png">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>	
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	
+	</head>
+	<body>
+
+		<a class="navbar-brand" href="/"><img alt='logo'src='/img/logo.png' width='32' /></a>
+	
+		<br/>
+		<br/>
+		<div class='container'>
+		<h1><p style="color:#d3d3d3">Product Page</p></h1> <br/>
+		<h2><%= description %></h2>
+		
+			<div class='well'>
+				<table class='table-condensed'>
+				<tr>
+					<td>
+					<img width=300 src='<%= image %>' />
+					</td>
+					<td>
+					<table class='table-condensed'>
+						<tr><td><b>Vector Download:</b></td><td><a href='<%= topojson %>'>Topojson</a></td></tr>
+						<tr><td><b>Original Data:</b></td><td><a href='<%= data %>'>Click</a></td></tr>
+						<tr><td><b>View On Map:</b></td><td><a href='<%= map_url %>'>Here</a></td></tr>
+					</table>
+					</td>
+				</tr>
+				</table>
+			</div>
+
+		<div class='container'>
+		<i class='glyphicon glyphicon-home'></i>&nbsp;<a href='/'>Home</a>
+		</div>
+		
+		<hr/>
+	
+		<div class='container'>
+			<div class="fb-share-button" data-href="<%= url %>" data-type="button_count"></div>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-via="geobliki" data-related="crest" data-hashtags="snow_water_equivalent">Tweet</a>
+		</div>
+		
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= social_envs.FACEBOOK_APP_ID %>";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		
+	</body>
+</html>

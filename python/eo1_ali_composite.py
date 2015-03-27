@@ -64,7 +64,7 @@ if __name__ == '__main__':
 		output_file 		= os.path.join(outdir, "COMPOSITE_"+options.red+options.green+options.blue+"_"+mode+".tif")
 		output_file_4326 	= os.path.join(outdir, "COMPOSITE_"+options.red+options.green+options.blue+"_"+mode+"_4326.tif")
 		
-	app 				= EO1_ALI_L1T(outdir, scene, verbose )
+	app 				= EO1_ALI_L1T(outdir, options.scene, verbose )
 
 	# Get DN
 	red_data			= app.get_band_data(red)

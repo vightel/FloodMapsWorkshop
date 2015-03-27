@@ -58,7 +58,7 @@ if __name__ == '__main__':
 	if verbose:
 		print "output_file", output_file
 	
-	app 				= EO1_ALI_L1T(outdir, scene, verbose)
+	app 				= EO1_ALI_L1T(outdir, options.scene, verbose)
 	
 	if verbose:
 		print "Loading green band"

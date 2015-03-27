@@ -189,57 +189,57 @@
 				var typof = typeof el.actions[key]
 			
 				switch(typof) {
-				case 'object':
-					html += "<b>- "+key+"</b>"
-					html += "<br/>"
-					$.each(el.actions[key], function(k, el) {
-						if( el.objectType == 'HttpActionHandler') {
-							if( el.method == 'GET') {
-								html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url +"'>" + el.displayName
-								if( el.size ) html += " ("+el.size+")"
-								if( el.duration ) html += " (" + el.duration + ")"
-								html  += "</a>&nbsp;"
+					case 'object':
+						html += "<b>- "+key+"</b>"
+						html += "<br/>"
+						$.each(el.actions[key], function(k, el) {
+							if( el.objectType == 'HttpActionHandler') {
+								if( el.method == 'GET') {
+									html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + el.url +"'>" + el.displayName
+									if( el.size ) html += " ("+el.size+")"
+									if( el.duration ) html += " (" + el.duration + ")"
+									html  += "</a>&nbsp;"
+								}
 							}
+						})
+						break;
+					case 'string':
+						// special cases
+						//console.log("String key:"+key+" "+el.actions[key])
+						switch(key) {
+							case 'share':
+								html += "<b>- "+key+"</b>"
+								html += "<br/>"
+						
+								html += "&nbsp;&nbsp;&nbsp;&nbsp;"
+						
+								// Facebook
+								html += "<div class='fb-share-button' "
+								html += "data-href='" + el.actions[key] + "' "
+								html += "data-type='button' "
+								html += "></div>&nbsp;"
+						
+								//var fbpost	= "javascript:FBPost('" + el.actions[key] + "');";
+								//html += "<a href="+fbpost+">Facebook</a>&nbsp;"
+						
+								// Twitter
+								html += "<a href='https://twitter.com/intent/tweet' class='twitter-hashtag-button' "
+								html += "data-text='You may found this product interesting '"
+								html += " data-url='" + el.actions[key] + "' "
+								html += " data-lang='en' data-related='geoss'>GEOSS Tweet</a>"
+					
+								break;
+					
+							case 'like':
+								break;
+							default:
+								html += "- <a href='"+el.actions[key]+"'>"+key+"</a>";
+								break;
 						}
-					})
-					break;
-				case 'string':
-					// special cases
-					//console.log("String key:"+key+" "+el.actions[key])
-					switch(key) {
-						case 'share':
-							html += "<b>- "+key+"</b>"
-							html += "<br/>"
-						
-							html += "&nbsp;&nbsp;&nbsp;&nbsp;"
-						
-							// Facebook
-							html += "<div class='fb-share-button' "
-							html += "data-href='" + el.actions[key] + "' "
-							html += "data-type='button' "
-							html += "></div>&nbsp;"
-						
-							//var fbpost	= "javascript:FBPost('" + el.actions[key] + "');";
-							//html += "<a href="+fbpost+">Facebook</a>&nbsp;"
-						
-							// Twitter
-							html += "<a href='https://twitter.com/intent/tweet' class='twitter-hashtag-button' "
-							html += "data-text='You may found this product interesting '"
-							html += " data-url='" + el.actions[key] + "' "
-							html += " data-lang='en' data-related='geoss'>GEOSS Tweet</a>"
-					
-							break;
-					
-						case 'like':
-							break;
-						default:
-							html += "- <a href='"+el.actions[key]+"'>"+key+"</a>";
-							break;
-					}
-					break;
-				default:
-					console.log("unhandled typof:"+typof)
-					break;
+						break;
+					default:
+						console.log("unhandled typof:"+typof)
+						break;
 				}
 				html += "<br/>"
 			})
@@ -448,12 +448,15 @@
 							if( data && data.objects ) {
 								console.log("Returned good data")
 			
-								var data 	= topojson.feature(data, data.objects['surface_water']);
+								for (var key in data.objects) {
+								
+									var geodata 	= topojson.feature(data, data.objects[key]);
 		
-								var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
-								newLayer.addData(data);
-								newLayer.addTo(map);
-								map_controls.addOverlay( newLayer, id );
+									var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
+									newLayer.addData(geodata);
+									newLayer.addTo(map);
+									map_controls.addOverlay( newLayer, id );
+								}
 							} else {
 								console.log("Returned bad data")
 							}

@@ -70,6 +70,12 @@
             "selected":   false
         	},
         	{
+        		"source": 		"ef5",
+        		"href": 		"/opensearch",
+        		"checked":  	true,
+            "selected":   true
+        	},
+        	{
         		"source": 		"l8",
         		"href": 		"/opensearch",
         		"checked":  	true,
@@ -103,7 +109,7 @@
         		"source": 		"digiglobe",
         		"href": 		"/opensearch",
         		"checked":  	true,
-            "selected":   true
+            "selected":   false
         	}
             
 	],
