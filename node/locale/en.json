@@ -68,7 +68,8 @@
         "dfo": "Dartmouth Flood Observatory - Colorado",
         "eo1": "NASA EO-1",
         "modis": "NASA MODIS",
-        "alos2": "JAXA ALOS-2"
+        "alos2": "JAXA ALOS-2",
+        "ef5": "University of Oklahoma"
     },
     "sensors": {
         "sar": "SAR",
@@ -76,7 +77,8 @@
         "modis": "MODIS",
         "l8": "OLI",
         "dfo": "MODIS/l8",
-        "alos2": "PALSAR-2"
+        "alos2": "PALSAR-2",
+        "ef5": "EF5 CREST Model"
     },
     "duration": {
         "hours": "%{hours} hours",
@@ -105,8 +107,11 @@
         "flood_forecast": "Flood Forecast",
         "flood_nowcast": "Flood Nowcast",
         "flood_catalog": "Flood Catalog",
-        "frost": "Frost"
+        "frost": "Frost",
+        "snow_cover": "Snow Cover",
+        "snow_water_equivalent": "Snow Water Equivalent"
     },
+    
     "filesize": {
         "B": "B",
         "KB": "KB",
@@ -171,10 +176,28 @@
         },
         "legend": "Surface Water"
       },
+      
+      "flood_forecast": {
+        "title": "EF5 CREST Flood Forecast, Kavango Basin",
+        "credits": "University of Oklahoma",
+        "source": { 
+          "label": "Source",
+          "source": "University of Oklahoma"
+        },
+        "legend": {
+          "1m": "1m",
+          "2m": "2m",
+          "3m": "3m",
+          "5m": "5m",
+          "8m": "8m",
+          "13m": "13m",
+          "21m": "21m"
+        }
+      },
         
       "frost": {
         "title": "Frost Map Legend",
-        "credits": "NASA SErVIR/RCMRD",
+        "credits": "NASA SERVIR/RCMRD",
         "source": {
           "label": "Source",
           "source": "SERVIR/RCMRD"
@@ -188,6 +211,34 @@
           "minor_frost": "Minor Frost Pockets",
           "no_frost": "No Frost"
         }
+      },
+      "snow_water_equivalent": {
+        "title": "EF5 CREST Snow Water Equivalent",
+        "credits": "University of Oklahoma",
+        "source": { 
+          "label": "Source",
+          "source": "University of Oklahoma"
+        },
+        "legend": {
+          "10mm":   "10mm",
+          "20mm":   "20mm",
+          "30mm":   "30mm",
+          "50mm":   "50mm",
+          "80mm":   "80mm",
+          "130mm":  "130mm",
+          "210mm":  "210mm",
+          "340mm":  "340mm",
+          "550mm":  "550mm"
+        }
+      },
+      "snow_cover": {
+        "title": "Snow Cover",
+        "credits": "NASA MODIS",
+        "source": {
+          "label": "Source",
+          "source": "NASA MODIS"
+        },
+        "legend": "Snow Cover"
       }
     }
 }

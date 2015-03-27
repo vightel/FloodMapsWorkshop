@@ -38,12 +38,23 @@ def calcSolarDist (doy):
 
 	
 class EO1_ALI_L1T:
-	def __init__( self, outpath, scene, verb=0 ):	
-		self.scene 				= scene
+	def __init__( self, outpath, scene, verb=0 ):
+		arr						= scene.split("_")
+		
+		self.scene 				= arr[0]
+		self.sceneType			= arr[1]
 		self.outpath			= outpath
 		self.verbose			= verb
 		
-		self.meta_file			= os.path.join(outpath, scene + "_MTL_L1T.TXT")
+		if verb:
+			print "EO1_ALI_L1T", self.scene , self.sceneType
+			
+		if self.sceneType == "1T":
+			self.meta_file		= os.path.join(outpath, self.scene + "_MTL_L1T.TXT")
+
+		if self.sceneType == "1GST":
+			self.meta_file		= os.path.join(outpath, self.scene + "_MTL_L1GST.TXT")
+			
 		self.getMetaData()	
 	
 	# At sensor Min/Max radiance	
@@ -175,10 +186,11 @@ class EO1_ALI_L1T:
 		
 	def get_band_data(self, bandNum ):
 		val = int(bandNum)
+			
 		if val < 10:
-			fileName = os.path.join(self.outpath, self.scene + "_B0" + str(bandNum)+ "_L1T.TIF")
+			fileName = os.path.join(self.outpath, self.scene + "_B0" + str(bandNum)+ "_L%s.TIF"%self.sceneType)
 		else:
-			fileName = os.path.join(self.outpath, self.scene + "_B" + str(bandNum)+ "_L1T.TIF")
+			fileName = os.path.join(self.outpath, self.scene + "_B" + str(bandNum)+ "_L%s.TIF"%self.sceneType)
 			
 		ds = gdal.Open( fileName )
 		if ds is None:

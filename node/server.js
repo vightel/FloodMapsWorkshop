@@ -21,15 +21,27 @@ var express 		= require('express'),
 	apps			= require('./app/controllers/apps'),
 	products		= require('./app/controllers/products'),
 	jsonld			= require('./app/controllers/jsonld')
-	mapinfo			= require('./app/controllers/mapinfo');
+	
+	//mapinfo			= require('./app/controllers/mapinfo');
 
-	var	products_digiglobe	=  require('./lib/products_digiglobe');
-	var	products_frost		=  require('./lib/products_frost');
-	var	products_radarsat2	=  require('./lib/products_radarsat2');
-	var	products_l8			=  require('./lib/products_l8');
-	var	products_eo1_ali	=  require('./lib/products_eo1_ali');
-	var	products_dfo		=  require('./lib/products_dfo');
-	var	products_modis		=  require('./lib/products_modis');
+	var	products_digiglobe	= require('./lib/products_digiglobe');
+	var	products_frost		= require('./lib/products_frost');
+	var	products_radarsat2	= require('./lib/products_radarsat2');
+	var	products_l8			= require('./lib/products_l8');
+	var	products_eo1_ali	= require('./lib/products_eo1_ali');
+	var	products_dfo		= require('./lib/products_dfo');
+	var	products_modis		= require('./lib/products_modis');
+	var	products_ef5		= require('./lib/products_ef5');
+	var	products_maxswe		= require('./lib/products_maxswe');
+	
+	var mapinfo_dfo			= require('./lib/mapinfo_dfo');
+	var mapinfo_ef5			= require('./lib/mapinfo_ef5');
+	var mapinfo_eo1_ali		= require('./lib/mapinfo_eo1_ali');
+	var mapinfo_frost		= require('./lib/mapinfo_frost');
+	var mapinfo_l8			= require('./lib/mapinfo_landsat8');
+	var mapinfo_modis		= require('./lib/mapinfo_modis');
+	var mapinfo_radarsat2	= require('./lib/mapinfo_radarsat2');
+	var mapinfo_maxswe		= require('./lib/mapinfo_maxswe');
 	
 	var app 				= module.exports = express();
 
@@ -212,6 +224,15 @@ app.get('/products/frost/map/:year/:doy',			products_frost.map);
 app.get('/products/frost/query/:year/:doy',			products_frost.query);
 app.get('/products/frost/:year/:doy/:id',			products_frost.product);
 
+app.get('/products/flood_forecast/browse/:year/:doy',		products_ef5.browse);
+app.get('/products/flood_forecast/map/:year/:doy',			products_ef5.map);
+app.get('/products/flood_forecast/query/:year/:doy',		products_ef5.query);
+app.get('/products/flood_forecast/:year/:doy/:id',			products_ef5.product);
+
+app.get('/products/maxswe/browse/:year/:doy',		products_maxswe.browse);
+app.get('/products/maxswe/map/:year/:doy',			products_maxswe.map);
+app.get('/products/maxswe/query/:year/:doy',		products_maxswe.query);
+
 app.options('/products/opensearch',					function(req, res) {
 	console.log("OPTIONS on opensearch");
 	setOptionsHeaders(req, res)
@@ -228,35 +249,45 @@ app.get('/apps/delete/:id',							hawk_restrict, apps.delete);
 app.put('/apps/:id',								hawk_restrict, apps.update);
 app.delete('/apps/:id',								hawk_restrict, apps.delete);
 
-app.get('/mapinfo/modis',							mapinfo.modis);
-app.get('/mapinfo/modis/style',						mapinfo.modis_style);
-app.get('/mapinfo/modis/legend',					mapinfo.modis_legend);
-app.get('/mapinfo/modis/credits',					mapinfo.modis_credits);
+app.get('/mapinfo/modis',							mapinfo_modis.modis);
+app.get('/mapinfo/modis/style',						mapinfo_modis.modis_style);
+app.get('/mapinfo/modis/legend',					mapinfo_modis.modis_legend);
+app.get('/mapinfo/modis/credits',					mapinfo_modis.modis_credits);
 
-app.get('/mapinfo/l8',								mapinfo.landsat8);
-app.get('/mapinfo/l8/style',						mapinfo.landsat8_style);
-app.get('/mapinfo/l8/legend',						mapinfo.landsat8_legend);
-app.get('/mapinfo/l8/credits',						mapinfo.landsat8_credits);
+app.get('/mapinfo/l8',								mapinfo_l8.landsat8);
+app.get('/mapinfo/l8/style',						mapinfo_l8.landsat8_style);
+app.get('/mapinfo/l8/legend',						mapinfo_l8.landsat8_legend);
+app.get('/mapinfo/l8/credits',						mapinfo_l8.landsat8_credits);
 
-app.get('/mapinfo/frost',							mapinfo.frost);
-app.get('/mapinfo/frost/style',						mapinfo.frost_style);
-app.get('/mapinfo/frost/legend',					mapinfo.frost_legend);
-app.get('/mapinfo/frost/credits',					mapinfo.frost_credits);
+app.get('/mapinfo/frost',							mapinfo_frost.frost);
+app.get('/mapinfo/frost/style',						mapinfo_frost.frost_style);
+app.get('/mapinfo/frost/legend',					mapinfo_frost.frost_legend);
+app.get('/mapinfo/frost/credits',					mapinfo_frost.frost_credits);
 
-app.get('/mapinfo/radarsat2',						mapinfo.radarsat2);
-app.get('/mapinfo/radarsat2/style',					mapinfo.radarsat2_style);
-app.get('/mapinfo/radarsat2/legend',				mapinfo.radarsat2_legend);
-app.get('/mapinfo/radarsat2/credits',				mapinfo.radarsat2_credits);
+app.get('/mapinfo/radarsat2',						mapinfo_radarsat2.radarsat2);
+app.get('/mapinfo/radarsat2/style',					mapinfo_radarsat2.radarsat2_style);
+app.get('/mapinfo/radarsat2/legend',				mapinfo_radarsat2.radarsat2_legend);
+app.get('/mapinfo/radarsat2/credits',				mapinfo_radarsat2.radarsat2_credits);
 
-app.get('/mapinfo/eo1_ali',							mapinfo.eo1_ali);
-app.get('/mapinfo/eo1_ali/style',					mapinfo.eo1_ali_style);
-app.get('/mapinfo/eo1_ali/legend',					mapinfo.eo1_ali_legend);
-app.get('/mapinfo/eo1_ali/credits',					mapinfo.eo1_ali_credits);
+app.get('/mapinfo/eo1_ali',							mapinfo_eo1_ali.eo1_ali);
+app.get('/mapinfo/eo1_ali/style',					mapinfo_eo1_ali.eo1_ali_style);
+app.get('/mapinfo/eo1_ali/legend',					mapinfo_eo1_ali.eo1_ali_legend);
+app.get('/mapinfo/eo1_ali/credits',					mapinfo_eo1_ali.eo1_ali_credits);
 
-app.get('/mapinfo/dfo',								mapinfo.dfo);
-app.get('/mapinfo/dfo/style',						mapinfo.dfo_style);
-app.get('/mapinfo/dfo/legend',						mapinfo.dfo_legend);
-app.get('/mapinfo/dfo/credits',						mapinfo.dfo_credits);
+app.get('/mapinfo/dfo',								mapinfo_dfo.dfo);
+app.get('/mapinfo/dfo/style',						mapinfo_dfo.dfo_style);
+app.get('/mapinfo/dfo/legend',						mapinfo_dfo.dfo_legend);
+app.get('/mapinfo/dfo/credits',						mapinfo_dfo.dfo_credits);
+
+app.get('/mapinfo/flood_forecast',					mapinfo_ef5.flood_forecast);
+app.get('/mapinfo/flood_forecast/style',			mapinfo_ef5.flood_forecast_style);
+app.get('/mapinfo/flood_forecast/legend',			mapinfo_ef5.flood_forecast_legend);
+app.get('/mapinfo/flood_forecast/credits',			mapinfo_ef5.flood_forecast_credits);
+
+app.get('/mapinfo/maxswe',							mapinfo_maxswe.maxswe);
+app.get('/mapinfo/maxswe/style',					mapinfo_maxswe.maxswe_style);
+app.get('/mapinfo/maxswe/legend',					mapinfo_maxswe.maxswe_legend);
+app.get('/mapinfo/maxswe/credits',					mapinfo_maxswe.maxswe_credits);
 
 //
 // returned to OPTIONS

@@ -61,7 +61,8 @@ function loadDataUrl(url, cb) {
 	$.ajax({
 		type: 	'GET',
 		url: 	url,
-		async: 	true
+		async: 	true,
+		dataType: "json"
 	})
 	.done( function(data) {
 		cb(null, data)
@@ -198,8 +199,9 @@ function loadData( topojsonUrl, displayName, mapinfos ) {
 	    .await(function(error, data, styleData, legendData, creditsData) { 
 			if( !error ) {
 				//var topoJsonLayer = new L.TopoJSON(null)
+				console.log("topojson loaded noErr")
 				for (var key in data.objects) {
-					//console.log("Obj", key)
+					console.log("topojson key:", key)
 					
 					var geodata = topojson.feature(data, data.objects[key]);
 					var attribution=""
