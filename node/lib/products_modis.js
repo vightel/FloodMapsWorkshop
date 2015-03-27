@@ -107,7 +107,7 @@ var util 			= require('util'),
 				doy: 			doy,
 				region: 		region,
 				data: 			"http://oas.gsfc.nasa.gov/floodmap/getTile.php?location="+tile+"&day="+doy+"&year="+year+"&product=2",
-				topojson: 		app.root+"/../data/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson.gz",
+				topojson: 		"/products/modis/"+year+"/"+doy+"/"+tile+"/SWP_"+id+"_2D2OT.topojson.gz",
 				layout: 		false
 			})
 		
