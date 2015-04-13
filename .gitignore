@@ -21,6 +21,7 @@ data/ef5/
 data/maxq/
 data/maxswe
 data/sm/
+data/modis_burnedareas/
 python/world_boundaries/
 envs.sh
 node/node_modules/
