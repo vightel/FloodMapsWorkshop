@@ -153,12 +153,12 @@ function styleFeature( feature, id, style ) {
 	var foundStyle = undefined;
 	//console.log("style", JSON.stringify(style))
 	//console.log("style", id)
+
 	for( var k in style) {
 		var option = id + "_" + k;
 		dust.render(option, feature.properties, function(err, out) {
 			try {
 				//console.log("dust", err, out, option)
-	
 				var result = eval(out);
 				if( result ) {
 					var index = option.replace(id+"_", "");
@@ -301,6 +301,7 @@ function loadData( topojsonUrl, displayName, mapinfos ) {
 				// For GeoJSON
 				if( (data.objects == undefined) && (data.type == "FeatureCollection")) {
 					loadGeoJson(data, displayName)
+
 				}
 			} else {
 				console.log("Error getting mapinfos")

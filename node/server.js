@@ -83,7 +83,7 @@ require(supportEnv)
 require('./settings').boot(app)  
 
 // load controllers
-//require('./lib/boot')(app, { verbose: !module.parent });
+	//require('./lib/boot')(app, { verbose: !module.parent });
 
 // =========================================
 // ROUTING
@@ -196,7 +196,6 @@ app.get('/opensearch/description',					opensearch.description);
 
 app.options('/opensearch',							function(req, res) { setOptionsHeaders(req, res)})
 
-
 app.all('/persona/verify',							persona.verify);
 app.all('/persona/logout',							persona.logout);
 
@@ -248,7 +247,6 @@ app.get('/products/frost/browse/:year/:doy',		products_frost.browse);
 app.get('/products/frost/map/:year/:doy',			products_frost.map);
 app.get('/products/frost/query/:year/:doy',			products_frost.query);
 app.get('/products/frost/:year/:doy/:id',			products_frost.product);
-
 
 //app.options('/products/opensearch',					function(req, res) {
 //	console.log("OPTIONS on opensearch");

@@ -164,8 +164,7 @@
               "href": 		"/opensearch",
               "checked": 		false,
               "selected":   false
-          }
-            
+          }            
 	],
 	"valid_modis_tiles":             [
     "000E010N",

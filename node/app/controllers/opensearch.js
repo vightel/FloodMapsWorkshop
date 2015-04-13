@@ -33,9 +33,6 @@ var fs  		= require('fs'),
 	// Queries for all those sources
 	productQueries = {
 		"dfo": 					[query_dfo.QueryDFO],
-		
-		
-		
 		"digiglobe":			[query_digiglobe.QueryDigiglobe],
 		"ef5": 					[query_ef5.QueryAll.bind(query_ef5), query_maxswe.QueryAll.bind(query_maxswe), query_sm.QueryAll.bind(query_sm), query_maxq.QueryAll.bind(query_maxq)],
 		"eo1_ali": 				[query_eo1.QueryEO1],

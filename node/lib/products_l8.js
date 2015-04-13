@@ -108,7 +108,11 @@ var util 			= require('util'),
 						name: 	"Landsat-8 Flood Map",
 						scene: 	scene,
 						bbox: 	undefined, //scene_model.bboxFromGeom(record.g),
+<<<<<<< HEAD
 						target: [record.center_lon, record.center_lat],
+=======
+						target: [record.center_lat, record.center_lon],
+>>>>>>> dd153ceacf95e6b97fc07edf09976e11b6467e18
 						min_zoom: 6
 					}
 					//var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"

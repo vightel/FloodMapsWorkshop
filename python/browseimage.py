@@ -126,7 +126,6 @@ def mapbox_image(centerlat, centerlon, z, rasterXSize, rasterYSize, osm_bg_image
 		if verbose:
 			print "created:" , osm_bg_image
 
-
 # Using Mapquest bbox... but does not seem to be accurate
 #
 def mapquest_image(ullat, ullon, lrlat, lrlon, zoom, width, heigth, osm_bg_image):

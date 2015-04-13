@@ -24,7 +24,12 @@ en:
     like: like
     task: task
     map: map
- 
+
+  products:
+    search: search
+    surface_water: Flood Map
+    frost: Frost
+
   stream:
     displayName: Publisher Flood Surface Water Products
 
@@ -114,7 +119,7 @@ en:
     quakes: Earthquakes
     drought: Drought
     vhi: Vegetation Health Index
-    
+
   filesize:
     B: B
     KB: KB

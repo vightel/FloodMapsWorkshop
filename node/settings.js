@@ -57,7 +57,6 @@ var express 		= require('express'),
 	
 	// Pick a secret to secure your session storage
 	app.sessionSecret = process.env.COOKIEHASH || 'WORKSHOP-PGC-2014-06';
-
 	exports.boot = function(app){
 
 		// The port that this express app will listen on
@@ -242,5 +241,4 @@ function bootApplication(app) {
 
 	  next();
 	});
-	
 }
