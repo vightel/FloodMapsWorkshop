@@ -109,7 +109,7 @@ var util 			= require('util'),
 				name: 	req.gettext("legend.frost.title")+" "+date.format(req.gettext("formats.date")),
 				scene: 	id,
 				bbox: 	undefined,	// feature.bbox,
-				target: [centerlat, centerlon],
+				target: [centerlon,centerlat],
 				min_zoom: 6
 			}
 			var url = "/products/frost/query/"+year+"/"+doy

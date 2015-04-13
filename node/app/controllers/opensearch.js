@@ -9,27 +9,46 @@ var fs  		= require('fs'),
 	_			= require('underscore'),
 	debug		= require('debug')('opensearch'),
 	
-	query_eo1		= require("../../lib/query_eo1"),
-	query_l8		= require("../../lib/query_l8"),
-	query_modis		= require("../../lib/query_modis.js"),
-	query_radarsat2	= require("../../lib/query_radarsat2")
-	query_dfo		= require("../../lib/query_dfo")
-	query_digiglobe	= require("../../lib/query_digiglobe")
-	query_modislst	= require("../../lib/query_modislst")
-	query_ef5		= require("../../lib/query_ef5")
-	query_maxswe	= require("../../lib/query_maxswe")
+	query_eo1					= require("../../lib/query_eo1"),
+	query_l8					= require("../../lib/query_l8"),
+	query_modis					= require("../../lib/query_modis.js"),
+	query_radarsat2				= require("../../lib/query_radarsat2"),
+	query_dfo					= require("../../lib/query_dfo"),
+	query_digiglobe				= require("../../lib/query_digiglobe"),
+	query_modislst				= require("../../lib/query_modislst"),
+	query_pop					= require("../../lib/query_pop")
+
+	query_af					= require("../../lib/query_modis_af").query
+	query_trmm_24				= require("../../lib/query_trmm_24").query
+	query_gpm_24				= require("../../lib/query_gpm_24").query
+	query_ef5					= require("../../lib/query_ef5").query,
+	query_maxswe				= require("../../lib/query_maxswe").query,
+	query_sm					= require("../../lib/query_sm").query,
+	query_maxq					= require("../../lib/query_maxq").query
+	query_landslide_nowcast2	= require("../../lib/query_landslide_nowcast2").query
+	query_quakes				= require("../../lib/query_quakes").query
+	query_vhi					= require("../../lib/query_vhi").query
 	;
 	
 	// Queries for all those sources
 	productQueries = {
-		"dfo": 			[query_dfo.QueryDFO],
-		"digiglobe":	[query_digiglobe.QueryDigiglobe],
-		"eo1_ali": 		[query_eo1.QueryEO1],
-		"l8": 			[query_l8.QueryLandsat8],
-		"modis": 		[query_modis.QueryModis],
-		"modis_lst":	[query_modislst.QueryModisLST],
-		"radarsat2": 	[query_radarsat2.QueryRadarsat2],
-		"ef5": 			[query_ef5.QueryEF5,query_maxswe.QueryMaxSWE]
+		"dfo": 					[query_dfo.QueryDFO],
+		
+		
+		
+		"digiglobe":			[query_digiglobe.QueryDigiglobe],
+		"ef5": 					[query_ef5.QueryAll.bind(query_ef5), query_maxswe.QueryAll.bind(query_maxswe), query_sm.QueryAll.bind(query_sm), query_maxq.QueryAll.bind(query_maxq)],
+		"eo1_ali": 				[query_eo1.QueryEO1],
+		"landslide_model": 		[query_landslide_nowcast2.QueryAll.bind(query_landslide_nowcast2)],
+		"landsat_8": 			[query_l8.QueryLandsat8],
+		"landscan": 			[query_pop.QueryAll],
+		"modis": 				[query_modis.QueryModis, query_af.QueryAll.bind(query_af)],
+		"modis_lst":			[query_modislst.QueryModisLST],
+		"usgs": 				[query_quakes.QueryAll.bind(query_quakes)],
+		"radarsat_2": 			[query_radarsat2.QueryRadarsat2],
+		"trmm": 				[query_trmm_24.QueryAll.bind(query_trmm_24)],
+		"gpm": 					[query_gpm_24.QueryAll.bind(query_gpm_24)],
+		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)]
 	}
 	
 	function ValidateBBox( bbox ) {
@@ -74,7 +93,8 @@ var fs  		= require('fs'),
 		var user		= req.session.user
 		var credentials	= req.session.credentials
 				
-		var items = []
+		var items 		= []
+		var errMsg		= []
 
 		async.each( sources, function(asset, cb) {
 
@@ -106,16 +126,30 @@ var fs  		= require('fs'),
 			}
 		}, function(err) {	
 			res.set("Access-Control-Allow-Origin", "*")
-			var json = {
-				"@context": host+"/vocab",
-				"@language": req.lang,
-				"@id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
-				"displayName": req.gettext("stream.displayName"),
-				"@type":"as:Collection",
-				"url": originalUrl,
-				"mediaType": "application/activity+json",
-				"totalItems": items.length,
-				"items": items
+			if( err ) {
+				console.log("sending errmsg", errMsg)
+				var json = {
+					'errCode': err,
+					'errMsg': errMsg
+				}
+			} else {
+				function compareDates(a,b) {
+					return new Date(b.properties.date['@value']) - new Date(a.properties.date['@value']);
+				}
+				
+				items.sort(compareDates)
+				
+				var json = {
+					"@context": host+"/vocab",
+					"@language": req.lang,
+					"@id": "urn:ojo:opensearch:"+req.originalUrl.split("?")[1],
+					"displayName": "NASA GSFC Product Publisher",
+					"@type":"as:Collection",
+					"url": originalUrl,
+					"mediaType": "application/activity+json",
+					"totalItems": items.length,
+					"items": items
+				}
 			}
 			res.send(json)
 		})
@@ -208,54 +242,5 @@ module.exports = {
 		}
 	
 		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage, limit )
-	},
-	
-  	index2: function(req, res) {
-		var user			= req.session.user
-		var query 			= req.query['q']
-		var bbox			= req.query['bbox'] ? req.query['bbox'].split(',').map(parseFloat) : undefined
-		var itemsPerPage	= req.query['itemsPerPage'] || 10
-		var startIndex		= req.query['startIndex'] || 1
-		var startTime		= req.query['startTime'] ? moment(req.query['startTime']) : moment("1970-01-01")
-		var endTime			= req.query['endTime'] ? moment(req.query['endTime']) : moment()
-		var lat				= req.query['lat']
-		var lon				= req.query['lon']
-		var limit			= req.query['limit']
-		
-		//if( user == undefined ) {
-		//	console.log("undefined user!")
-		//	return res.send(404)
-		//}
-		logger.info("opensearch",query,bbox,req.query['startTime'], req.query['endTime'], lat, lon, req.locale)
-		logger.info(req.gettext("products."+query))
-			
-		if( bbox && !ValidateBBox(bbox)) {
-			return res.send(400, "Invalid BBox")
-		}
-		if( startTime && !ValidateTime(startTime)) {
-			return res.send(400, "Invalid start time: "+req.query['startTime'])
-		}
-		if( endTime && !ValidateTime(endTime)) {
-			return res.send(400, "Invalid end time: "+req.query['endTime'])
-		}
-		if( startIndex && startIndex < 0 ) {
-			return res.send(400, "Invalid startIndex: "+startIndex)			
-		}
-		if( itemsPerPage && itemsPerPage < 0 ) {
-			return res.send(400, "Invalid itemsPerPage: "+itemsPerPage)			
-		}
-		if( lat && (lat < -90 || lat>90) ) {
-			return res.send(400, "Invalid latitude: "+lat)			
-		}
-		if( lon && (lon < -180 || lon>180) ) {
-			return res.send(400, "Invalid longitude: "+lon)			
-		}
-				
-		if( bbox ) {
-			lon = (bbox[0]+bbox[2])/2
-			lat = (bbox[1]+bbox[3])/2
-		}
-	
-		QueryNodes(req, res, query, bbox, lat, lon, startTime, endTime, startIndex, itemsPerPage )
 	}
 }

@@ -7,13 +7,15 @@
 	<meta name="twitter:creator" content="<%= social_envs.TWITTER_CREATOR %>">
 	<meta name="twitter:creator:id" content="<%= social_envs.TWITTER_CREATOR_ID %>">
 	<meta name="twitter:domain" content="<%= social_envs.TWITTER_DOMAIN %>">
+	<meta name="twitter:image:src" content="<%= image %>">
+	<meta name="twitter:description" content="<%= description %>">
 	
 	<!-- Open Graph Tags (accepted by Twitter as well -->
 	<meta property="fb:app_id" content="<%= social_envs.FACEBOOK_APP_ID %>" /> 
 	<meta property="fb:profile_id" content="<%= social_envs.FACEBOOK_PROFILE_ID %>" /> 
 
 	<meta property="og:type" content="ojo-nasa:geoss_product" />
-	<meta property="og:title" content="geoss.daily_accumulated_precipitation" />
+	<meta property="og:title" content="geoss.daily_precipitation" />
 	<meta property="og:description" content="<%= description %>" />
 	<meta property="og:image" content="<%= image %>" />
 	<meta property="og:url" content="<%= url %>" />
@@ -23,7 +25,7 @@
 	<meta property="place:location:latitude" content="<%= region.target[0] %>" />
 	<meta property="place:location:longitude" content="<%= region.target[1] %>" />
 	
-	<title>TRMM Daily Accumulated Precipitation <%= region.name %> <%= date %></title>
+	<title><%= description %> <%= date %></title>
 	
 	<link rel="icon" href="/favicon.png" type="image/png">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -39,19 +41,24 @@
 		<br/>
 		<br/>
 		<div class='container'>
-		<h1>Daily Accumulated Precipitation</h1>
+		<h1><p style="color:#d3d3d3">Product Page</p></h1> <br/>
+		<h2><%= description %></h2>
 		
 			<div class='well'>
 				<table class='table-condensed'>
-					<tr><td><b>Region:</b></td><td><%= region.name %></td></tr>
-					<tr><td><b>Date:</b></td><td><%= date %></td></tr>
-					<tr><td><b>Bounding Box:</b></td><td><%= region.bbox %></td></tr>
-					<tr><td><b>Source:</b></td><td><a href='http://trmm.gsfc.nasa.gov/'>TRMM</a></td></tr>
-					<tr><td><b>Resolution:</b></td><td>0.25 degree</td></tr>
-					<tr><td><b>Data Download:</b></td><td><a href='<%= topojson %>'>Topojson</a></td></tr>
+				<tr>
+					<td>
+					<img width=300 src='<%= image %>' />
+					</td>
+					<td>
+					<table class='table-condensed'>
+						<tr><td><b>Vector Download:</b></td><td><a href='<%= topojson %>'>Topojson</a></td></tr>
+						<tr><td><b>Original Data:</b></td><td><a href='<%= data %>'>Click</a></td></tr>
+						<tr><td><b>View On Map:</b></td><td><a href='<%= map_url %>'>Here</a></td></tr>
+					</table>
+					</td>
+				</tr>
 				</table>
-				<br/>
-				<img src='<%= image %>' />
 			</div>
 
 		<div class='container'>
@@ -62,7 +69,7 @@
 	
 		<div class='container'>
 			<div class="fb-share-button" data-href="<%= url %>" data-type="button_count"></div>
-			<a href="https://twitter.com/share" class="twitter-share-button" data-via="geobliki" data-related="trmm" data-hashtags="precipitation">Tweet</a>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-via="geobliki" data-related="crest" data-hashtags="daily_precipitation">Tweet</a>
 		</div>
 		
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>

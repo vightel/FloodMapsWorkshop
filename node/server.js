@@ -24,6 +24,9 @@ var express 		= require('express'),
 	
 	//mapinfo			= require('./app/controllers/mapinfo');
 
+	var mapinfo_pop				= require('./lib/mapinfo_pop');
+	var	products_pop			= require('./lib/products_pop');
+
 	var	products_digiglobe	= require('./lib/products_digiglobe');
 	var	products_frost		= require('./lib/products_frost');
 	var	products_radarsat2	= require('./lib/products_radarsat2');
@@ -31,18 +34,39 @@ var express 		= require('express'),
 	var	products_eo1_ali	= require('./lib/products_eo1_ali');
 	var	products_dfo		= require('./lib/products_dfo');
 	var	products_modis		= require('./lib/products_modis');
-	var	products_ef5		= require('./lib/products_ef5');
-	var	products_maxswe		= require('./lib/products_maxswe');
 	
 	var mapinfo_dfo			= require('./lib/mapinfo_dfo');
-	var mapinfo_ef5			= require('./lib/mapinfo_ef5');
 	var mapinfo_eo1_ali		= require('./lib/mapinfo_eo1_ali');
 	var mapinfo_frost		= require('./lib/mapinfo_frost');
 	var mapinfo_l8			= require('./lib/mapinfo_landsat8');
 	var mapinfo_modis		= require('./lib/mapinfo_modis');
 	var mapinfo_radarsat2	= require('./lib/mapinfo_radarsat2');
-	var mapinfo_maxswe		= require('./lib/mapinfo_maxswe');
-	
+
+	var	query_sm				= require('./lib/query_sm').query;
+	var	query_maxswe			= require('./lib/query_maxswe').query;
+	var	query_ef5				= require('./lib/query_ef5').query;
+	var	query_maxq				= require('./lib/query_maxq').query;
+
+	var	query_modis_af			= require('./lib/query_modis_af').query;
+	var	query_trmm_24			= require('./lib/query_trmm_24').query;
+	var	query_gpm_24			= require('./lib/query_gpm_24').query;
+	var	query_landslide_nowcast	= require('./lib/query_landslide_nowcast2').query;
+	var	query_quakes			= require('./lib/query_quakes').query;
+	var	query_vhi				= require('./lib/query_vhi').query;
+
+	var s3_products = {
+		"ef5": 					query_ef5,
+		"gpm_24": 				query_gpm_24,
+		"landslide_nowcast": 	query_landslide_nowcast,
+		"maxq": 				query_maxq,
+		"maxswe": 				query_maxswe,
+		'modis_af': 			query_modis_af,
+		'sm': 					query_sm,
+		"trmm_24": 				query_trmm_24,
+		"quakes": 				query_quakes,
+		"vhi":  				query_vhi
+	}
+		
 	var app 				= module.exports = express();
 
 	global.app 				= app;
@@ -59,7 +83,7 @@ require(supportEnv)
 require('./settings').boot(app)  
 
 // load controllers
-require('./lib/boot')(app, { verbose: !module.parent });
+//require('./lib/boot')(app, { verbose: !module.parent });
 
 // =========================================
 // ROUTING
@@ -166,10 +190,11 @@ app.post('/users/:id',	 							users.update);
 app.get('/users', 									users.list);
 
 app.get('/opensearch',								if_authorized, opensearch.index);
-app.get('/v2/opensearch',							if_authorized, opensearch.index2);
 app.get('/opensearch/classic',						if_authorized, opensearch.classic);
 app.get('/opensearch/gl',							if_authorized, opensearch.gl);
 app.get('/opensearch/description',					opensearch.description);
+
+app.options('/opensearch',							function(req, res) { setOptionsHeaders(req, res)})
 
 
 app.all('/persona/verify',							persona.verify);
@@ -224,19 +249,11 @@ app.get('/products/frost/map/:year/:doy',			products_frost.map);
 app.get('/products/frost/query/:year/:doy',			products_frost.query);
 app.get('/products/frost/:year/:doy/:id',			products_frost.product);
 
-app.get('/products/flood_forecast/browse/:year/:doy',		products_ef5.browse);
-app.get('/products/flood_forecast/map/:year/:doy',			products_ef5.map);
-app.get('/products/flood_forecast/query/:year/:doy',		products_ef5.query);
-app.get('/products/flood_forecast/:year/:doy/:id',			products_ef5.product);
 
-app.get('/products/maxswe/browse/:year/:doy',		products_maxswe.browse);
-app.get('/products/maxswe/map/:year/:doy',			products_maxswe.map);
-app.get('/products/maxswe/query/:year/:doy',		products_maxswe.query);
-
-app.options('/products/opensearch',					function(req, res) {
-	console.log("OPTIONS on opensearch");
-	setOptionsHeaders(req, res)
-})
+//app.options('/products/opensearch',					function(req, res) {
+//	console.log("OPTIONS on opensearch");
+//	setOptionsHeaders(req, res)
+//})
 
 // Applications
 
@@ -279,15 +296,29 @@ app.get('/mapinfo/dfo/style',						mapinfo_dfo.dfo_style);
 app.get('/mapinfo/dfo/legend',						mapinfo_dfo.dfo_legend);
 app.get('/mapinfo/dfo/credits',						mapinfo_dfo.dfo_credits);
 
-app.get('/mapinfo/flood_forecast',					mapinfo_ef5.flood_forecast);
-app.get('/mapinfo/flood_forecast/style',			mapinfo_ef5.flood_forecast_style);
-app.get('/mapinfo/flood_forecast/legend',			mapinfo_ef5.flood_forecast_legend);
-app.get('/mapinfo/flood_forecast/credits',			mapinfo_ef5.flood_forecast_credits);
+app.get('/products/:subfolder/browse/pop/:year/:doy',		products_pop.browse);
+app.get('/products/:subfolder/map/pop/:year/:doy',			products_pop.map);
+app.get('/products/:subfolder/query/pop/:year/:doy',		products_pop.query);
 
-app.get('/mapinfo/maxswe',							mapinfo_maxswe.maxswe);
-app.get('/mapinfo/maxswe/style',					mapinfo_maxswe.maxswe_style);
-app.get('/mapinfo/maxswe/legend',					mapinfo_maxswe.maxswe_legend);
-app.get('/mapinfo/maxswe/credits',					mapinfo_maxswe.maxswe_credits);
+app.get('/mapinfo/pop',							mapinfo_pop.pop);
+app.get('/mapinfo/pop/style',					mapinfo_pop.pop_style);
+app.get('/mapinfo/pop/legend',					mapinfo_pop.pop_legend);
+app.get('/mapinfo/pop/credits',					mapinfo_pop.pop_credits);
+
+app.get('/products/:subfolder/browse/:regionKey/:year/:doy',	function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Browse(req, res); })
+app.get('/products/:subfolder/map/:regionKey/:year/:doy',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Map(req, res); })
+app.get('/products/:subfolder/query/:regionKey/:year/:doy',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].QueryProduct(req, res); })
+
+app.get('/products/s3/:regionKey/:subfolder/:year/:doy/:id',	function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].S3(req, res); })
+
+app.get('/mapinfo/:subfolder',				function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].MapInfo(req, res); })
+app.get('/mapinfo/:subfolder/style',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Style(req, res); })
+app.get('/mapinfo/:subfolder/legend',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Legend(req, res); })
+app.get('/mapinfo/:subfolder/credits',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Credits(req, res); })
+
+//app.get('/products/:region/:ymd/:id.:fmt?',			products.distribute);
+//app.get('/products/map/:region/:ymd/:id.:fmt?',		products.map);
+app.get('/products',								products.index);
 
 //
 // returned to OPTIONS

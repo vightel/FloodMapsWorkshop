@@ -24,10 +24,7 @@ en:
     like: like
     task: task
     map: map
-  products:
-    search: search
-    surface_water: Flood Map
-    frost: Frost
+ 
   stream:
     displayName: Publisher Flood Surface Water Products
 
@@ -45,6 +42,7 @@ en:
     resolution: resolution
     cloud: cloud cover
     copyright: copyright
+    url: url
 
   sources:
     radarsat2: CSA Radarsat2
@@ -53,7 +51,12 @@ en:
     eo1: NASA EO-1
     modis: NASA MODIS
     alos2: JAXA ALOS-2
-    ef5: UNiversity of Oklahoma
+    ef5: University of Oklahoma
+    trmm: NASA GSFC TRMM
+    gpm: NASA GSFC GPM
+    ls: ORNL Landscan
+    dk: NASA GSFC Dalia Kirschbaum model
+    usgs: USGS
 
   sensors:
     sar: SAR
@@ -63,6 +66,11 @@ en:
     dfo: MODIS/l8
     alos2: PALSAR-2
     ef5: EF5 CREST Model
+    trmm: TRMM
+    gpm: GPM
+    ls: ORNL Landscan
+    dk: N/A
+    usgs: USGS
     
   duration:
     hours: "%{hours} hours"
@@ -70,8 +78,11 @@ en:
     seconds: "%{seconds} seconds"
 
   formats:
+    geojson: geojson
+    geojsongz: geojson.gz
     topojson: topojson
     topojsongz: topojson.gz
+    shpgz: shp.gz
     osmbz2: osm.bz2
     geotiff: geotiff
     png: png
@@ -79,20 +90,30 @@ en:
     date: "YYYY-MM-DD"
 
   products:
-    surface_water: Flood Map
-    landslide_catalog: Landslide Catalog
-    landslide_nowcast: Landslide Forecast
-    landslide_forecast: Landslide Forecast
-    landslide_susceptibility: Landslide Susceptibility
+    active_fires: Active Fires
+    burn_scar: Burn Scar
     daily_precipitation: Last 24hr Precip
-    precipitation_nowcast: Daily Precip Accumulation
-    precipitation_forecast: Daily Precip Forecast
     flood_forecast: Flood Forecast
     flood_nowcast: Flood Nowcast
     flood_catalog: Flood Catalog
     frost: Frost
+    landslide_catalog: Landslide Catalog
+    landslide_nowcast: Landslide Forecast
+    landslide_forecast: Landslide Forecast
+    landslide_susceptibility: Landslide Susceptibility
+    location_nowcast: Location Forecast
+    population_count: Population Count
+    precipitation_nowcast: Daily Precip Accumulation
+    precipitation_forecast: Daily Precip Forecast
+    rgb_composite: RGB Composite
     snow_cover: Snow Cover
     snow_water_equivalent: Snow Water Equivalent
+    stream_flow: Stream Flow
+    soil_moisture: Soil Moisture
+    surface_water: Flood Map
+    quakes: Earthquakes
+    drought: Drought
+    vhi: Vegetation Health Index
     
   filesize:
     B: B
@@ -144,6 +165,22 @@ en:
         label: Source
         source: NASA
       legend: Surface Water
+
+    active_fires:
+      title: MODIS Active Fires
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: NASA
+      legend: Active Fires
+
+    quakes:
+      title: USGS Earthquakes
+      credits: USGS
+      source: 
+        label: Source
+        source: USGS
+      legend: 7d Quakes
         
     flood_forecast:
       title: Flood Forecast
@@ -159,6 +196,23 @@ en:
         8m: 8m
         13m: 13m
         21m: 21m
+
+    vhi:
+      title: Vegetation Health Index
+      credits: NOAA Star
+      source: 
+        label: Source
+        source: NOAA Star
+      legend:
+        6: 6
+        12: 12
+        24: 24
+        36: 36
+        48: 48
+        60: 60
+        72: 72
+        84: 84
+        100: 100
         
     frost:
       title: Frost Map
@@ -195,7 +249,87 @@ en:
         50mm: 50mm
         80mm: 80mm
         130mm: 130mm
-        210mm: 21mm
+        210mm: 210mm
         340mm: 340mm
-        550mm: 340mm
+        550mm: 550mm
+
+    population_count:
+      title: Population Count
+      credits: Oakridge National Laboratory
+      source: 
+        label: Source
+        source: Oakridge National Laboratory
+      legend:         
+        1000:  1000
+        2000:  2000
+        3000:  3000
+        5000:  5000
+        8000:  8000
+        13000: 13000
+        21000: 21000
+        34000: 34000
+        55000: 55000
+
+    daily_precipitation:
+      title: Daily Precipitation
+      credits: NASA TRMM
+      source: 
+        label: Source
+        source: NASA GSFC TRMM
+      legend:         
+        1mm: 1mm
+        2mm: 2mm
+        3mm: 3mm
+        5mm: 5mm
+        8mm: 8mm
+        13mm: 13mm
+        21mm: 21mm
+        34mm: 34mm
+        55mm: 55mm
+        89mm: 89mm
+        144mm: 144mm
+        
+    stream_flow:
+      title: Stream Flow
+      credits: University of Oklahoma
+      source: 
+        label: Source
+        source: University of Oklahoma EF5 CREST
+      legend:         
+        10cms: 10cms
+        20cms: 20cms
+        30cms: 30cms
+        50cms: 50cms
+        80cms: 80cms
+        130cms: 130cms
+        210cms: 21cms
+        340cms: 340cms
+        550cms: 550cms
+  
+    landslide_nowcast:
+      title: Landslide Nowcast
+      credits: NASA GSFC
+      source: 
+        label: Source
+        source: NASA GSFC
+      legend:         
+        level_1: yellow
+        level_2: red
+  
+    soil_moisture:
+      title: Soil Moisture
+      credits: University of Oklahoma
+      source: 
+        label: Source
+        source: University of Oklahoma EF5 CREST
+      legend:         
+        3pct: 3pct
+        5pct: 5pct
+        8pct: 8pct
+        13pct: 13pct
+        21pct: 21pct
+        34pct: 34pct
+        55pct: 55pct
+        89pct: 89pct
+        144pct: 144pct
   

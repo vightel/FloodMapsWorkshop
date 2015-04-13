@@ -12,6 +12,12 @@ var util 			= require('util'),
 
 	debug			= require('debug')('swe');
 	
+	var bbox 		= 	[60, 20, 80, 40]
+	var centerlon	= (bbox[0]+bbox[2])/2
+	var centerlat	= (bbox[1]+bbox[3])/2
+	var target		= [centerlon, centerlat]
+	
+	
 	function render_map(region, url, req, res) {
 		debug("render_map", url)
 		res.render("products/map_api", {
@@ -31,17 +37,22 @@ var util 			= require('util'),
 			var region 	= {
 				name: 	req.gettext("legend.snow_water_equivalent.title"),
 				scene: 	year+"-"+doy,
-				bbox: [10,-10,33,-25],
-				target: [1, 14]
+				bbox: bbox,
+				target: target
 			}
 			
+			var jday	= date.dayOfYear()
+			if( jday < 10 ) {
+				jday = "00"+jday
+			} else if( jday < 100 ) jday = "0"+jday
+
 			var month = date.month() + 1
 			if( month < 10 ) month = "0"+ month
 
 			var day		= date.date();
 			if( day < 10 ) day = "0"+day
 			
-			var s3host				= "https://s3.amazonaws.com/ojo-workshop/maxswe/2015/079/"
+			var s3host				= "https://s3.amazonaws.com/ojo-workshop/maxswe/" + year + "/" + jday + "/"
 			var browse_img_url		= s3host+"maxswe."+date.year()+month+day+".120000_thn.jpg"
 			var topojson_url		= s3host+"maxswe."+date.year()+month+day+".120000_levels.topojson"
 			var topojson_file		= s3host+"maxswe."+date.year()+month+day+".120000_levels.topojson.gz"
@@ -65,17 +76,14 @@ var util 			= require('util'),
 			var doy 	= req.params['doy']
 			var date 	= moment(year+"-"+doy)
 			var host 	= "http://"+req.headers.host
-			var bbox	= [60, 20, 80, 40]
+			var bbox	= bbox
 			var id		= year+"-"+doy
-						
-			var centerlon	= (bbox[0]+bbox[2])/2
-			var centerlat	= (bbox[1]+bbox[3])/2
 			
 			var region 	= {
 				name: 	req.gettext("legend.snow_water_equivalent.title")+" "+date.format(req.gettext("formats.date")),
 				scene: 	id,
 				bbox: 	undefined,	// feature.bbox,
-				target: [centerlat, centerlon],
+				target: target,
 				min_zoom: 6
 			}
 			var url = "/products/maxswe/query/"+year+"/"+doy

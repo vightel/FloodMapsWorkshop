@@ -17,6 +17,9 @@
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="/js/dust-full.js"></script>
+<script src="/js/LStyledTopojson.js"></script>
 
 <script>
 	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
@@ -100,7 +103,7 @@
 		var image_url = el.image[0];
 		if (image_url.url) image_url = image_url.url; 
 		
-		html += "&nbsp;<a href='"+ image_url+"'><img class='img-thumbnail' id='"+id+"' src=\'"+image_url+"\' width='140' ondragstart='handleDrag(event);' /></a>";
+		html += "&nbsp;<a href='"+ image_url+"' id='"+id+"' ondragstart='handleDrag(event);' draggable='true' ><img class='img-thumbnail' id='"+id+"' src=\'"+image_url+"\' width='140' /></a>";
 		html += "<a href='javascript:footprint(\""+id+"\");'><img src='/img/footprint.png' width=32 /></a>"
 		
 		html += "</td><td>"
@@ -418,60 +421,40 @@
 	}
 
 	function processDroppedResult(id, result) {
-		// find the download action
-		for( var a in result.action){
-			var action = result.action[a]
-			if( action['@type'] == 'ojo:download' ) {
-				var using = action.using
-				for( var u in using ) {
-					var uses 	= using[u]
-					var url		= uses.url
-					console.log(url)
-					if( url.indexOf(".png") > 0 ) {
-						// add image overlay
-						var bbox = result.properties.geometry.coordinates[0]
-						var imageBounds = [bbox[0].reverse().map(parseFloat), bbox[2].reverse().map(parseFloat)]
-					
-						console.log("Add to map", JSON.stringify(imageBounds))
-						var options 	= {opacity: 0.8, attribution: "Digiglobe"}
-						var newLayer 	= L.imageOverlay(url, imageBounds, options).addTo(map);
-						map_controls.addOverlay( newLayer, id );
-						break;
-					} else if( url.indexOf(".topojson")>0) {
-						console.log("loading topojson", url)
-						$.ajax({
-							type: 'GET',
-							url: url,
-							async: true
-						})
-						.success( function(data) {
-							if( data && data.objects ) {
-								console.log("Returned good data")
-			
-								for (var key in data.objects) {
-								
-									var geodata 	= topojson.feature(data, data.objects[key]);
+		var actions 		= result.action;
+		var topojson_url 	= undefined;
+		var mapinfos		= undefined
+		var id				= result['@id']
+		console.log("processDroppedResult", id)
 		
-									var newLayer =  L.geoJson(null, { style: { color: '#ff0000', weight: 1 }})
-									newLayer.addData(geodata);
-									newLayer.addTo(map);
-									map_controls.addOverlay( newLayer, id );
-								}
-							} else {
-								console.log("Returned bad data")
-							}
-						})
-						.fail(function(jqxhr, textStatus, error ) { 
-							var err = textStatus + ', ' + error;
-							alert( "Request Failed: " + err);
-						});
-						break
-					} else if( mediaType == 'image/tiff') {
+		for (var a in actions ) {
+			var action = actions[a]
+			if( action['@type'] == 'ojo:download') {
+				var using = action['using']
+				for( var u in using ) {
+					var use = using[u]
+					console.log( use['mediaType'], use['url'])
+					if( use['mediaType'] == 'application/json' ) {
+						var topojson_url = use['url']
+						console.log("json", topojson_url)
+					} else if( (use['mediaType'] == 'application/gzip') && (use['url'].indexOf("json.gz") > 0) ) {
+						var topojson_url = use['url']
+						console.log("use ...json.gz", topojson_url)
+						break;
+					} else if( use['mediaType'] == 'image/tiff') {
 						addThumbnailToMap(result, id) 
 						break;
 					}
 				}
-			} 
+			} else if( action['@type'] == 'ojo:map') {
+				mapinfos = action['using']
+				console.log("found mapinfos")
+			}
+		}
+		
+		if(topojson_url) {
+			console.log("loadData", topojson_url)
+			loadData( topojson_url, id, mapinfos );
 		}
 	}
 	

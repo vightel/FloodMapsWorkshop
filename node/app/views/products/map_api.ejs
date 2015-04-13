@@ -45,7 +45,7 @@
 		var styles, legends, credits;
 		
 		var map = L.mapbox.map('map', 'cappelaere.map-mx5g2tn3',{ minZoom: 4, maxZoom: 18 })
-		.setView([<%= region.target[0] %>, <%= region.target[1] %>], 6);
+		.setView([<%= region.target[1] %>, <%= region.target[0] %>], 6);
 
 		var region = <%- JSON.stringify(region) %>
 		var map_controls;
@@ -58,6 +58,10 @@
 				    [ region.bbox[1] ,   region.bbox[2] ],
 				    [ region.bbox[1] ,   region.bbox[0] ]
 			];
+			var polyline_options = {
+				color: '#0000FF'
+			};
+			
 			map_controls = L.control.layers({
 			    'Terrain Map': L.mapbox.tileLayer('cappelaere.map-1d8e1acq').addTo(map),
 			    'Streets Map': L.mapbox.tileLayer('cappelaere.hg330434')

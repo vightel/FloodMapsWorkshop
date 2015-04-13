@@ -136,7 +136,7 @@ var util 			= require('util'),
 				name: 	"MODIS Flood Map",
 				scene: 	tile,
 				bbox: 	undefined, //bbox,
-				target: [centerlat, centerlon]
+				target: [centerlon, centerlat]
 			}
 			debug("map_modis", region)
 	

@@ -1,6 +1,9 @@
 var express 		= require('express'),
 	util			= require('util'),
 	partials 		= require('express-partials'),
+	session4 		= require('express-session'),
+	cookieParser 	= require('cookie-parser'),
+	favicon			= require('serve-favicon'),
 	assert			= require('assert'),
 	fs				= require('fs'),
 	path			= require('path'),
@@ -8,15 +11,24 @@ var express 		= require('express'),
 	engines			= require('consolidate'),
 	pg 				= require('pg'),
 	//PGStore 		= require('connect-pg'),
+	pgSession 		= require('connect-pg-simple')(session4),
+
 	ejs				= require('ejs'),
 	crypto 			= require('crypto'),
 	eyes			= require('eyes'),
+	aws				= require("aws-sdk"),
 	winston			= require('winston'),
-	_				= require('underscore'),
+	facebook		= require('./lib/facebook'),
 	i18n			= require('./lib/i18n-abide'),
 	filesize 		= require('filesize'),
-	aws				= require("aws-sdk"),
-	facebook		= require('./lib/facebook');
+	_				= require('underscore'),
+	bodyParser 		= require('body-parser'),
+	errorHandler 	= require('errorhandler'),
+	methodOverride 	= require('method-override'),
+	multer 			= require('multer'),
+
+	shortid			= require('shortid')
+	;
 	
 	global.logger = new winston.Logger({
 		transports: [
@@ -44,7 +56,7 @@ var express 		= require('express'),
 	logger.info("Connected to S3...")
 	
 	// Pick a secret to secure your session storage
-	app.sessionSecret = process.env.COOKIEHASH || 'OJO-PUBLISHER-PGC-2014-06';
+	app.sessionSecret = process.env.COOKIEHASH || 'WORKSHOP-PGC-2014-06';
 
 	exports.boot = function(app){
 
@@ -135,40 +147,45 @@ function bootApplication(app) {
 	app.set('view options', { layout: 'layout.ejs' })
 
 	// cookieParser should be above session
-	app.use(express.cookieParser(app.sessionSecret))
-
-	// bodyParser should be above methodOverride
-	// app.use(express.bodyParser())
-	app.use(express.json());
-	app.use(express.urlencoded());
+	app.use(cookieParser(process.env.COOKIEHASH))
 	
-	app.use(express.methodOverride())
+	app.use(methodOverride())
 
 	var conString 	= process.env.DATABASE_URL || "tcp://nodepg:password@localhost:5432/dk";
 	logger.info("Connecting to db:", conString)
 		
- 	function pgConnect (callback) {
-		pg.connect(conString, function (err, client, done) {			
-			if (err) {
-				logger.info("database:", conString);
-				logger.info(JSON.stringify(err));
-			}
-			if (client) {
-				callback(client);
-			}
-			done()	// THIS IS CRITICAL TO RETURN CLIENT TO THE POOL.... GRRRR!
-		});
-    };	
+	var conString 	= process.env.DATABASE_URL || "tcp://nodepg:password@localhost:5432/dk";
+	logger.info("Connecting to db:", conString)
 		
-	//app.use(express.session({
-	//	  secret: app.sessionSecret,
-	//	  cookie: { maxAge: 1 * 360000}, //1 Hour*24 in milliseconds
-	//	  store: new PGStore(pgConnect)
-	//}))
-	
-	// DO NOT DO THIS IN PRODUCTION - USE A DATABASE STORE
-	// Just use cookies for example
-	app.use(express.session());
+	app.use(session4({
+		secret: app.sessionSecret,
+		cookie: { maxAge: 1 * 360000}, //1 Hour*24 in milliseconds
+		store: new pgSession({
+			  pg : pg,
+			  conString : conString,
+			  tableName : 'session'
+		}),
+		resave: 	true,
+		saveUninitialized: true
+	}))
+
+	app.client = new pg.Client(conString);
+	app.client.connect(function(err) {
+	  if(err) {
+	    return logger.error('could not connect to postgres', err);
+	  }
+	  app.client.query('SELECT NOW() AS "theTime"', function(err, result) {
+	    if(err) {
+	      	logger.error('error running query', err);
+	    } else {
+	    	logger.info("startup time: " + result.rows[0].theTime);
+		}
+	  });
+	});
+ 		
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
+	app.use(favicon(__dirname + '/public/favicon.png'));	
 	
 	app.use(i18n.abide({
 		supported_languages: ['en', 'es', 'fr', 'pt', 'sw','ne'],
@@ -207,23 +224,7 @@ function bootApplication(app) {
 										"TB": req.gettext("filesize.TB")}})
 									}
 	app.locals.format = util.format
-	
-	app.client = new pg.Client(conString);
-	app.client.connect(function(err) {
-		if(err) {
-			return logger.error('could not connect to ', conString, err);
-	  	}
-		app.client.query('SELECT NOW() AS "theTime"', function(err, result) {
-			if(err) {
-				logger.error('error running query', err);
-			} else {
-				logger.info("startup time: " + result.rows[0].theTime);
-			}
-		});	
-	});
-	
-	app.use(express.favicon())
-		
+			
 	//app.use(express.csrf());
 	app.use(function(req, res, next) {
 		//res.locals.token = req.csrfToken();
@@ -242,46 +243,4 @@ function bootApplication(app) {
 	  next();
 	});
 	
-	// expose the "messages" local variable when views are rendered
-	app.use(function(req, res, next){
-
-	  var msgs = req.session.messages || [];
-
-	  // expose "messages" local variable
-	  res.locals.messages = msgs;
-
-	  // expose "hasMessages"
-	  res.locals.hasMessages = !! msgs.length;
-
-	  /* This is equivalent:
-	   res.locals({
-	     messages: msgs,
-	     hasMessages: !! msgs.length
-	   });
-	  */
-
-	  // empty or "flush" the messages so they
-	  // don't build up
-	  req.session.messages = [];
-	  next();
-	});
-	
-	app.use(app.router)
-	
-	// Error Handling
-	app.use(function(err, req, res, next){
-	  // treat as 404
-	  if (~err.message.indexOf('not found')) return next()
-
-	  // log it
-	  console.error(err.stack)
-
-	  // error page
-	  res.status(500).render('500', { layout: false })
-	})
-
-	// assume 404 since no middleware responded
-	app.use(function(req, res, next){
-	  res.status(404).render('404', { layout: false, url: req.originalUrl })
-	})
 }

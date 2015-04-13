@@ -1,0 +1,10 @@
+<PAMDataset>
+  <SRS>GEOGCS["unknown",DATUM["unknown",SPHEROID["unretrievable - using WGS84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]</SRS>
+  <GeoTransform> -7.4942382812499957e+01,  4.3945312500000000e-03,  0.0000000000000000e+00,  2.1429199218749986e+01,  0.0000000000000000e+00, -4.3945312500000000e-03</GeoTransform>
+  <Metadata>
+    <MDI key="AREA_OR_POINT">Area</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <ColorInterp>Red</ColorInterp>
+  </PAMRasterBand>
+</PAMDataset>

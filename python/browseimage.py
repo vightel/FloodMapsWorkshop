@@ -11,8 +11,26 @@ import argparse
 from osgeo import gdal
 from osgeo import osr
 from osgeo import ogr
+import numpy
 
 MAXZOOMLEVEL 		= 32
+
+verbose = 1
+force 	= 0
+
+def execute( cmd ):
+	if verbose:
+		print cmd
+	os.system(cmd)
+	
+#
+# return a decimal tuple (r,g,b,255) from hex
+#
+def hex_to_rgb(value):
+	value += "ff"	# for alpha
+	value = value.lstrip('#')
+	lv = len(value)
+	return tuple(int(value[i:i + lv // 4], 16) for i in range(0, lv, lv // 4))
 
 #	
 # Code from gdal2tiles
@@ -95,17 +113,18 @@ def tilenum2deg(xtile, ytile, zoom):
 # Using Mabox
 #
 def mapbox_image(centerlat, centerlon, z, rasterXSize, rasterYSize, osm_bg_image):
-	if verbose:
-		print "outputbrowse_image", xorg, yorg, xmax, ymax, rasterXSize, rasterYSize, pres, centerlat, centerlon
+	#if verbose:
+	#	print "outputbrowse_image", rasterXSize, rasterYSize, z, centerlat, centerlon
 	
-	#if force or not os.path.isfile(app.osm_bg_image):	
-	mapbox_url = str.format("http://api.tiles.mapbox.com/v3/cappelaere.map-1d8e1acq/{0},{1},{2}/{3}x{4}.png32",centerlon, centerlat, z, rasterXSize,rasterYSize)
-	if verbose:
-		print "wms url:" , mapbox_url
+	if force or not os.path.isfile(osm_bg_image):	
+		mapbox_url = str.format("http://api.tiles.mapbox.com/v3/cappelaere.map-1d8e1acq/{0},{1},{2}/{3}x{4}.png32",centerlon, centerlat, z, rasterXSize,rasterYSize)
+
+		if verbose:
+			print "wms url:" , mapbox_url
 	
-	urllib.urlretrieve(mapbox_url, osm_bg_image)
-	if verbose:
-		print "created:" , osm_bg_image
+		urllib.urlretrieve(mapbox_url, osm_bg_image)
+		if verbose:
+			print "created:" , osm_bg_image
 
 
 # Using Mapquest bbox... but does not seem to be accurate
@@ -198,7 +217,142 @@ def bbox(lat, lon, zoom, width, height):
 		
 	return ullon, ullat, lrlon, lrlat
 	
+def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image, levels, hexColors, _force, _verbose, zoom=4):
+	verbose = _verbose
+	force	= _force
 	
+	if verbose:
+		print "levels", levels
+		print "hexColors", hexColors
+			
+	assert( len(levels) == len(hexColors))
+	
+	decColors = []
+	for h in hexColors:
+		rgb = hex_to_rgb(h)
+		decColors.append(rgb)
+		
+	projection  		= src_ds.GetProjection()
+	geotransform		= src_ds.GetGeoTransform()
+	band				= src_ds.GetRasterBand(1)
+	data				= band.ReadAsArray(0, 0, src_ds.RasterXSize, src_ds.RasterYSize )
+	
+	xorg				= geotransform[0]
+	yorg  				= geotransform[3]
+	pres				= geotransform[1]
+	xmax				= xorg + geotransform[1]* src_ds.RasterXSize
+	ymax				= yorg - geotransform[1]* src_ds.RasterYSize
+	
+	if verbose:
+		print "original coords", xorg, xmax, yorg, ymax
+		
+	deltaX				= xmax - xorg
+	deltaY				= ymax - yorg
+	
+	driver 				= gdal.GetDriverByName( "GTiff" )
+	
+	if force or not os.path.isfile(browse_filename):	
+		dst_ds_dataset		= driver.Create( browse_filename, src_ds.RasterXSize, src_ds.RasterYSize, 2, gdal.GDT_Byte, [ 'COMPRESS=DEFLATE', 'ALPHA=YES' ] )
+		dst_ds_dataset.SetGeoTransform( geotransform )
+		dst_ds_dataset.SetProjection( projection )
+
+		firstItem 	= levels.pop()
+		lastItem 	= levels.pop(0)
+
+		rlist		= reversed(levels)	
+		data[data <= firstItem]								= 0
+		idx 		= -1
+		l			= firstItem
+		
+		for idx, l in enumerate(rlist):
+			data[numpy.logical_and(data>firstItem, data<=l)]= idx+1
+			firstItem = l
+			
+		idx += 2
+		if verbose:
+			print "data>",l, "data<=", lastItem, idx
+			print "data>",lastItem, idx+1
+			
+		data[numpy.logical_and(data>l, data<=lastItem)]		= idx
+		data[data>lastItem]									= idx+1
+	
+		dst_ds_dataset.SetGeoTransform( geotransform )
+			
+		dst_ds_dataset.SetProjection( projection )
+		
+		o_band		 		= dst_ds_dataset.GetRasterBand(1)
+		o_band.WriteArray(data.astype('i1'), 0, 0)
+
+		a_band		 		= dst_ds_dataset.GetRasterBand(2)
+		data[data > 0]		= 255
+		data[data < 0]		= 0
+	
+		a_band.WriteArray(data.astype('i1'), 0, 0)
+		
+		ct = gdal.ColorTable()
+		ct = gdal.ColorTable()
+		for i in range(256):
+			ct.SetColorEntry( i, (0, 0, 0, 0) )
+		
+		for idx,d in enumerate(decColors):
+			if verbose:
+				print "SetColorEntry", idx+1, decColors[idx]
+			ct.SetColorEntry( idx+1, decColors[idx] )
+		
+		o_band.SetRasterColorTable(ct)
+		band.SetNoDataValue(0)
+		
+		dst_ds_dataset 	= None
+		print "Created Browse Image:", browse_filename
+	
+	# 
+	centerlon		= (xorg + xmax)/2
+	centerlat		= (yorg + ymax)/2
+	#zoom			= 4
+	
+	if verbose:
+		print "center target", centerlon, centerlat, zoom
+		
+	# Check raster size - thumbnail should be about 256x256
+	minDim 	= min(src_ds.RasterXSize, src_ds.RasterYSize)
+	ratio	= 256.0 / minDim
+	if ratio >= 1:
+		ratio = round(ratio)+1	# round up
+	
+	rasterXSize = int(src_ds.RasterXSize*ratio)
+	rasterYSize = int(src_ds.RasterYSize*ratio)
+	
+	if verbose:
+		print "** Adjust", src_ds.RasterXSize, src_ds.RasterYSize, minDim, ratio, rasterXSize, rasterYSize
+		
+	#if 1 or force or not os.path.isfile(osm_bg_image):	
+	mapbox_image(centerlat, centerlon, zoom, rasterXSize, rasterYSize, osm_bg_image)
+
+	ullon, ullat, lrlon, lrlat = bbox(centerlat, centerlon, zoom, rasterXSize, rasterYSize)
+	if verbose:
+		print "bbox coords", ullon, ullat, lrlon, lrlat
+		
+	if force or not os.path.isfile(subset_filename):	
+		ofStr 				= ' -of GTiff '
+		bbStr 				= ' -te %s %s %s %s '%(ullon, lrlat, lrlon, ullat) 
+		#resStr 			= ' -tr %s %s '%(pres, pres)
+		resStr = ' '
+		projectionStr 		= ' -t_srs EPSG:4326 '
+		overwriteStr 		= ' -overwrite ' # Overwrite output if it exists
+		additionalOptions 	= ' -co COMPRESS=DEFLATE -setci  ' # Additional options
+		wh 					= ' -ts %d %d  ' % ( rasterXSize, rasterYSize )
+
+		warpOptions 	= ofStr + bbStr + projectionStr + resStr + overwriteStr + additionalOptions + wh
+		warpCMD = 'gdalwarp ' + warpOptions + browse_filename + ' ' + subset_filename
+		execute(warpCMD)
+	
+	
+	# superimpose the suface water over map background
+	#if force or not os.path.isfile(sw_osm_image):	
+	if force or not os.path.isfile(sw_osm_image):	
+		cmd = str.format("composite -gravity center {0} {1} {2}", subset_filename, osm_bg_image, sw_osm_image)
+		execute(cmd)
+		
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser(description='Generate BrowseImage')

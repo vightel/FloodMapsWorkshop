@@ -1,14 +1,14 @@
 var express = require('express');
 	debug 	= require('debug')('settings');
 
-app.configure(function(){
+//app.configure(function(){
 	//debug("configure...");
     //var cwd = process.cwd();
     
 	// not sure which to use now... it might be enabled by default.... grrr!
     //app.enable('jsonp callback');
     //app.set('jsonp callback', true);
-});
+	//});
 
 
 Date.prototype.getDOY = function() {

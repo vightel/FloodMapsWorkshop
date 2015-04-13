@@ -37,23 +37,23 @@ function get_maxswe_style(req) {
 			weight: 2
 		},
 		"{swe}==80": {
-			color: colors[3], 	
-			weight: 2
-		},
-		"{swe}==130": {
 			color: colors[4], 	
 			weight: 2
 		},
-		"{swe}==210": {
+		"{swe}==130": {
 			color: colors[5], 	
 			weight: 2
 		},
-		"{swe}==340": {
+		"{swe}==210": {
 			color: colors[6], 	
 			weight: 2
 		},
-		"{swe}==550": {
+		"{swe}==340": {
 			color: colors[7], 	
+			weight: 2
+		},
+		"{swe}==550": {
+			color: colors[8], 	
 			weight: 2
 		}
 	}

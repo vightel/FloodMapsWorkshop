@@ -29,16 +29,25 @@
         "landslide_catalog": "Catálogo de Deslizamientos",
         "landslide_forecast": "Pronóstico de Deslizamientos",
         "landslide_susceptibility": "Susceptibilidad de Deslizamientos",
-        "precipitation_nowcast": "Precipitación diaria",
+        "precipitation_nowcast": "Precipitación Diaria",
         "precipitation_forecast": "Pronóstico de Precipitaciones Diario ",
         "flood_forecast": "Pronóstico de Inundaciones",
         "flood_catalog": "Catálogo de Inundaciones",
         "query_layer": "Capa de Consulta",
-        "frost": "helada"
+        "active_fires": "Los incendios activos",
+        "burn_scar": "Queme cicatriz",
+        "frost": "Helada",
+        "location_nowcast": "Pronóstico de Inundaciones",
+        "population_count": "Population Count",
+        "rgb_composite": "RGB composición",
+        "snow_cover": "Cubierta de Nieve",
+        "snow_water_equivalent": "Nieve Equivalente Agua",
+        "stream_flow": "Flujo de corriente",
+        "soil_moisture": "Humedad del Suelo",
+        "quakes": "Terremotos"
     },
     "query": {
         "query_title": "Consulta",
-        "area": "zona",
         "lon_lat": "Longitud Latitud",
         "start_time": "Hora de Inicio",
         "end_time": "Hora de Finalización",
@@ -310,16 +319,11 @@
         "support": "# Para Soporte\n\nPóngase en contacto con Pat Cappelaere\nmailto pat@geobliki.com\n"
     },
     "terms": {
-        "title": "Términos",
-        "terms": "# Condiciones de Uso \n\nBienvenido a nuestro sitio web. \nSi continúa navegando y utilizando este sitio web, usted acepta cumplir y estar obligado por los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de EMPRESA con usted en relación a este sitio web. \nEl término \"EMPRESA\" o \"nosotros\" se refiere a la titular del sitio web cuyo domicilio social se encuentre Dalia Bach Kirschbaum, Hydrological Sciences Laboratory, Goddard Space Flight Center, Code 617, Building 33, Room G222, Greenbelt, MD 20771.\n El término \"usted\" se refiere al usuario o visitante de nuestro sitio web. El uso de este sitio web está sujeta a las siguientes condiciones de uso \n\n+ El contenido de las páginas de este sitio web es para su información y uso general. Está sujeto a cambios sin previo aviso. \n+ Ni nosotros ni ningún tercero ofrece ninguna garantía en cuanto a la exactitud, puntualidad, rendimiento, integridad o adecuación de la información y los materiales encontrados u ofrecidos en este sitio para cualquier propósito particular. Usted reconoce que dicha información y materiales pueden contener inexactitudes o errores y expreso excluimos la responsabilidad por cualquier inexactitud o errores en la máxima medida permitida por la ley. \n+ El uso de cualquier información o materiales contenidos en este sitio web es bajo su propio riesgo, para lo cual no se hace responsable. Será su propia responsabilidad para garantizar que cualquier producto, servicio o información disponible en este sitio web a sus necesidades específicas. \n+ Este sitio web contiene material que es propiedad de o licenciadas a nosotros. Este material incluye, pero no está limitado a, el diseño, presentación, apariencia y gráficos. La reproducción está prohibida salvo de conformidad con la nota de copyright, que forma parte de estos términos y condiciones. \n+ Todas las marcas reproducidas en esta página web, que no son propiedad de, o concesionadas a, la operadora se reconoció en la página web. \n+ El uso no autorizado de este sitio web puede dar lugar a una reclamación por daños y / o constituir un delito penal. \n+ De vez en cuando, este sitio también puede incluir enlaces a otros sitios web. Estos enlaces se proporcionan para su conveniencia para proporcionar más información. Esto no significa que estamos de acuerdo con el sitio web (s). No tenemos ninguna responsabilidad por el contenido del sitio web vinculado (s). \n+ Usted no puede crear un enlace a esta página desde otro sitio web o documento sin el consentimiento previo por escrito de la EMPRESA. \n+ El uso de este sitio web y cualquier disputa que surja de ese uso de la página web está sujeto a las leyes de los Estados Unidos de América.\n"
+        "title": "Términos"
     },
     "copyrights": {
         "title": "Derechos de autor y de licencia",
         "contents": "# Condiciones de Uso \n\nEl Catálogo Global Landslide / Inundación es open data, con licencia bajo la Licencia Open Database Data Commons abierta (ODbL). \nUsted es libre de copiar, distribuir, transmitir y adaptar nuestros datos, siempre y cuando se le dé crédito OpenStreetMap y sus colaboradores. \nSi altera o construir sobre nuestros datos, deberá distribuir el resultado sólo bajo la misma licencia. El código legal completo explica sus derechos y responsabilidades.\n\n# ¿Cómo se acreditará catálogo global Landslide/Inundación \n\nRequerimos que se utiliza el crédito “© GLFC contributors”.\nTambién debe dejar claro que los datos están disponibles bajo la Licencia Open Database.\nUsted puede hacer esto mediante la vinculación a esta página de derechos de autor. Alternativamente, y como requisito si va a distribuir cualquier dato, puede nombrar y enlazar directamente con la licencia (s).\nEn los medios de comunicación que los enlaces no son posibles (por ejemplo, las obras impresas), sugerimos que usted dirige a sus lectores a la página web.\n\n# Nuestros Colaboradores \nDalia Kirschbaum\n"
-    },
-    "License": {
-        "title": "Licencia",
-        "contents": "# Condiciones de Uso \n\n## ODC Open Database License (ODbL)\n\n# # # Preámbulo\nOpen Database License (ODbL) es un acuerdo de licencia destinada a\npermiten a los usuarios compartir libremente, modificar y utilizar esta base de datos, mientras que\nmantenimiento de esta misma libertad para otros. Muchas bases de datos están cubiertos por\nlos derechos de autor, y por lo tanto este documento licencias estos derechos. algunos \njurisdicciones, sobre todo en la Unión Europea, tienen derechos específicos que \ncubrir las bases de datos, por lo que el ODbL refiere a esos derechos, también. Finalmente, \nla ODbL también un acuerdo de contrato para los usuarios de esta base de datos para \nactuar de cierta manera, a cambio de acceso a esta base de datos.\n"
     },
     "hazards": {
         "landslide": "Deslizamientos de Tierra",
@@ -651,17 +655,16 @@
     },
     "results": "%{results} resultados",
     "menu": {
-      "home": "Inicio",
-      "products": "Productos",
-      "opensearch": "Abrir búsqueda",
-      "applications": "Aplicaciones",
-      "register": "Registro",
-      "list": "Lista",
-      "query": "Consulta"
+        "home": "Página de inicio",
+        "products": "Categoría de producto",
+        "opensearch": "OpenSearch",
+        "applications": "Aplicaciones",
+        "register": "Registrarse",
+        "list": "Lista",
+        "query": "Pregunta"
     },
-    
     "tabs": {
-        "general": "Corriente",
+        "general": "General",
         "metadata": "Metadatos",
         "actions": "Acciones"
     },
@@ -673,7 +676,7 @@
         "share": "cuota",
         "like": "gusta",
         "task": "tarea",
-        "map": "mapa"
+        "map": "Mapa"
     },
     "stream": {
         "displayName": "Editor de productos de inundación"
@@ -691,7 +694,7 @@
         "duration": "duración",
         "resolution": "resolución",
         "cloud": "cubierta de nubes",
-        "copyright": "los derechos de autor"
+        "copyright": "derechos de autor"
     },
     "sources": {
         "radarsat2": "CSA Radarsat2",
@@ -699,7 +702,13 @@
         "dfo": "Dartmouth Flood Observatory - Colorado",
         "eo1": "NASA EO-1",
         "modis": "NASA MODIS",
-        "alos2": "JAXA ALOS-2"
+        "alos2": "JAXA ALOS-2",
+        "ef5": "Universidad de Oklahoma",
+        "trmm": "NASA GSFC TRMM",
+        "gpm": "NASA GSFC GPM",
+        "ls": "ORNL Landscan",
+        "dk": "NASA GSFC Dalia Kirschbaum modelo",
+        "usgs": "USGS"
     },
     "sensors": {
         "sar": "SAR",
@@ -707,7 +716,13 @@
         "modis": "MODIS",
         "l8": "OLI",
         "dfo": "MODIS/l8",
-        "alos2": "PALSAR-2"
+        "alos2": "PALSAR-2",
+        "ef5": "EF5 CREST Modelo",
+        "trmm": "TRMM",
+        "gpm": "GPM",
+        "ls": "ORNL Landscan",
+        "dk": "N/A",
+        "usgs": "USGS"
     },
     "duration": {
         "hours": "%{hours} horas",
@@ -715,11 +730,15 @@
         "seconds": "%{seconds} segundos"
     },
     "formats": {
+        "geojson": "geojson",
+        "geojsongz": "geojson.gz",
         "topojson": "topojson",
         "topojsongz": "topojson.gz",
-        "geotiff": "geotiff",
-       
+        "shpgz": "shp.gz",
         "osmbz2": "osm.bz2",
+        "geotiff": "geotiff",
+        "png": "png",
+        "jpg": "jpg",
         "date": "YYYY-MM-DD"
     },
     "filesize": {
@@ -730,71 +749,213 @@
         "TB": "TB"
     },
     "mapinfo": {
-      "credits": "créditos",
-      "style": "estilo",
-      "legend": "leyenda"
+        "credits": "créditos",
+        "style": "estilo",
+        "legend": "legend"
     },
     "legend": {
-      "radarsat2": {
-        "title": "Radarsat2 Mapa de Inundación",
-        "credits": "NASA GSFC",
-        "source": { 
-          "label": "Fuente",
-          "source": "CSA/MDA"
+        "radarsat2": {
+            "title": "Mapas de Inundaciones",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "CSA/MDA"
+            },
+            "legend": "Agua Superficial"
         },
-        "legend": "Agua Superficial"
-      },
-      "dfo": {
-        "title": "Dartmouth Flood Observatory Mapa de Inundación",
-        "credits": "DFO",
-        "source": { 
-          "label": "Fuente",
-          "source": "DFO"
+        "dfo": {
+            "title": "Mapas de Inundaciones",
+            "credits": "Dartmouth Flood Observatory",
+            "source": {
+                "label": "Origen",
+                "source": "DFO"
+            },
+            "legend": "Agua Superficial"
         },
-        "legend": "Agua Superficial"
-      },
-      "l8": {
-        "title": "Landsat-8 Mapa de Inundación",
-        "credits": "NASA GSFC",
-        "source": { 
-          "label": "Fuente",
-          "source": "NASA"
+        "l8": {
+            "title": "Mapas de Inundaciones",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA"
+            },
+            "legend": "Agua Superficial"
         },
-        "legend": "Agua Superficial"
-      },
-      "eo1_ali": {
-        "title": "EO-1 ALI Mapa de Inundación",
-        "credits": "NASA GSFC",
-        "source": { 
-          "label": "Fuente",
-          "source": "NASA"
+        "eo1_ali": {
+            "title": "Mapas de Inundaciones",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA"
+            },
+            "legend": "Agua Superficial"
         },
-        "legend": "Agua Superficial"
-      },
-      "modis": {
-        "title": "MODIS Mapa de Inundación",
-        "credits": "NASA GSFC",
-        "source": { 
-          "label": "Fuente",
-          "source": "NASA"
+        "modis": {
+            "title": "Mapas de Inundaciones",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA"
+            },
+            "legend": "Agua Superficial"
         },
-        "legend": "Agua Superficial"
-      },
-      "frost": {
-        "title": "Estimación de Ocurrencias Helada",
-        "credits": "NASA SERVIR/RCMRD",
-        "source": {
-          "label": "Fuente",
-          "source": "SERVIR/RCMRD"
+        "active_fires": {
+            "title": "MODIS Queme cicatriz",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA"
+            },
+            "legend": "Queme cicatriz"
         },
-        "legend": {
-          "no_data": "No hay datos",
-          "very_severe_frost": "Muy Severa Helada",
-          "severe_frost": "Helada Severa",
-          "moderate_frost": "Helada Moderada",
-          "minor_frost": "Escarcha Menor",
-          "no_frost": "No Frost"
+        "quakes": {
+            "title": "USGS Terremotos",
+            "credits": "USGS",
+            "source": {
+                "label": "Origen",
+                "source": "USGS"
+            },
+            "legend": "7d Quakes"
+        },
+        "flood_forecast": {
+            "title": "Pronóstico de Inundaciones",
+            "credits": "Universidad de Oklahoma",
+            "source": {
+                "label": "Origen",
+                "source": "Universidad de Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "1m": "1m",
+                "2m": "2m",
+                "3m": "3m",
+                "5m": "5m",
+                "8m": "8m",
+                "13m": "13m",
+                "21m": "21m"
+            }
+        },
+        "frost": {
+            "title": "Escarcha Mapa",
+            "credits": "NASA SERVIR/RCMRD",
+            "source": {
+                "label": "Origen",
+                "source": "SERVIR/RCMRD"
+            },
+            "legend": {
+                "no_data": "No hay datos",
+                "very_severe_frost": "Muy grave Escarcha",
+                "severe_frost": "Helada severa",
+                "moderate_frost": "Heladas moderadas",
+                "minor_frost": "Bolsillos menores Frost",
+                "no_frost": "No helada"
+            }
+        },
+        "snow_cover": {
+            "title": "Cubierta de nieve",
+            "credits": "NASA MODIS",
+            "source": {
+                "label": "Origen",
+                "source": "NASA MODIS"
+            },
+            "legend": "Cubierta de nieve"
+        },
+        "snow_water_equivalent": {
+            "title": "Nieve Equivalente Agua",
+            "credits": "Universidad de Oklahoma",
+            "source": {
+                "label": "Origen",
+                "source": "Universidad de Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "10mm": "10mm",
+                "20mm": "20mm",
+                "30mm": "30mm",
+                "50mm": "50mm",
+                "80mm": "80mm",
+                "130mm": "130mm",
+                "210mm": "210mm",
+                "340mm": "340mm",
+                "550mm": "550mm"
+            }
+        },
+        "population_count": {
+            "title": "Recuento de la población",
+            "credits": "Oakridge National Laboratory",
+            "source": {
+                "label": "Origen",
+                "source": "Oakridge National Laboratory"
+            }
+        },
+        "daily_precipitation": {
+            "title": "Precipitación diaria",
+            "credits": "NASA TRMM",
+            "source": {
+                "label": "Origen",
+                "source": "NASA GSFC TRMM"
+            },
+            "legend": {
+                "1mm": "1mm",
+                "2mm": "2mm",
+                "3mm": "3mm",
+                "5mm": "5mm",
+                "8mm": "8mm",
+                "13mm": "13mm",
+                "21mm": "21mm",
+                "34mm": "34mm",
+                "55mm": "55mm",
+                "89mm": "89mm",
+                "144mm": "144mm"
+            }
+        },
+        "stream_flow": {
+            "title": "Flujo de corriente",
+            "credits": "Universidad de Oklahoma",
+            "source": {
+                "label": "Origen",
+                "source": "Universidad de Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "10cms": "10mcs",
+                "20cms": "20mcs",
+                "30cms": "30mcs",
+                "50cms": "50mcs",
+                "80cms": "80mcs",
+                "130cms": "130mcs",
+                "210cms": "210mcs",
+                "340cms": "340mcs",
+                "550cms": "550mcs"
+            }
+        },
+        "landslide_nowcast": {
+            "title": "Ahora Corrimiento de tierras",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "level_1": "moderado",
+                "level_2": "Alto"
+            }
+        },
+        "soil_moisture": {
+            "title": "Humedad del Suelo",
+            "credits": "Universidad de Oklahoma",
+            "source": {
+                "label": "Origen",
+                "source": "Universidad de Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "3pct": "3pc",
+                "5pct": "5pc",
+                "8pct": "8pc",
+                "13pct": "13pc",
+                "21pct": "21pc",
+                "34pct": "34pc",
+                "55pct": "55pc",
+                "89pct": "89pc",
+                "144pct": "144pc"
+            }
         }
-      }
     }
 }

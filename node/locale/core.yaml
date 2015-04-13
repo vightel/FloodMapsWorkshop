@@ -1,0 +1,444 @@
+en:
+  layout:
+    navbar:
+      landslides: Landslides
+      floods: Floods
+      earthquakes: Earthquakes
+      fires: Fires
+      about: About
+      contacts: Contacts
+      credits: Credits
+      wiki: Wiki
+      qa: Q/A
+      edit: Edit
+      downloads: Downloads
+    user:
+      signin: Sign in with your Email
+      logout: Logout
+      profile: View Profile
+      my_forecast: My Forecast
+ 
+  query:
+    query_title: Query
+    lon_lat: Longitude Latitude
+    start_time: Start Time
+    end_time: End Time
+    sources: Sources
+    products: Products
+    submit: Submit
+    limit: Limit
+    area:
+      label: Area
+      small: Small
+      medium: Medium
+      large: Large
+      
+  footer:
+    problems: Problems/questions? Contact Me
+    privacy: Privacy Statement
+    warning: "WARNING: Experimental Only!"
+
+  homepage:
+    title: Global Landslide Catalog
+    issues: Issues
+    wiki: Wiki
+    more: More
+    filter:
+      landslidespermonth: Landslides/Month
+      selected: "selected out of "
+      records: records
+      reset: Reset All
+      export: Export
+      fatalitiespermonth: Fatalities/Month
+      total_fatalities: Total Fatalities
+      landlsidesfatalities: Landslides/Fatalities
+      limit: Limit Number of Queried Records To
+    table:
+      headers:
+        date: Date
+        id: Id
+        coordinates: Coordinates
+        trigger: Trigger
+        fatalities: Fatalities
+        storm_name: Storm Name
+        landslide_size: Landslide Size
+        landslide_type: Landslide Type
+  map:
+    topo_map: Topo Map
+    grey_map: Grey Map
+    legend: legend
+    credits: credit
+    features: features
+    flood_catalog: Global Flood Catalog
+    flood_marker: Flood Marker
+    flood_polygon: Flood Polygon
+    trmm_precipitation: TRMM Precipitation
+    gmfs_flood_forecast: GMFS Flood Forecast
+    wrf_precipitation_forecast: WRF Precipitation Forecast
+    modis_flood_map: MODIS 2-day Flood Product
+    marker: 
+      me: "My Location<br/><a href='/user/data'>Nowcast/Forecast</a>"
+      flood: Flood Marker
+      landslide: Landslide Marker
+    drag_click_marker_comment: Click on Map or Drag Marker To Set Your Location
+  landslide:
+    regional:
+      title: Regional Landslide Monitoring and Forecast
+  flood:
+    homepage:
+      title: Global Flood Estimate/Forecast
+    table:
+      headers:
+        date: Date
+        id: Id
+        coordinates: Coordinates
+        duration: Trigger
+        cause: Fatalities
+        fatalities: Fatalities
+        severity: Severity     
+    regional:
+      title: Regional Landslide Monitoring and Forecast
+  about:
+      title: "About"
+      about: |
+        # About
+
+        This is about the Global Landslide/Floods Monitoring System
+        This was a lot of work and we need your help
+        
+        ## How Can I Help?
+
+        Signin and start entering data
+  contact:
+      title: "Contact"
+      contact: |
+        # Contact
+
+        For More Information, Please Contact
+          Dr. Dalia Bach Kirschbaum
+          Research Physical Scientist
+          Hydrological Sciences Laboratory
+          Goddard Space Flight Center, Code 617
+          Building 33, Room G222
+          Greenbelt, MD  20771
+          
+          Phone 301-614-5810           Fax 301-614-5808
+          
+          Email dalia.b.kirschbaum@nasa.gov
+  credits:
+      title: Credits In no particular order...
+      contents: This project could not have been possible without the contributions of so many in the Open Source Community.
+  privacy:
+      title: "Privacy"
+      privacy: |
+        # PRIVACY STATEMENT
+
+        We respect your privacy!
+        
+        It is our policy not to share or sell any information you provide us.
+        
+        ## Your Information
+        
+        Our Web site may contain several contact forms and links that allow visitors to interact with our system. 
+        These may require personal information so that we can respond to requests efficiently, especially if the response entails the use of U.S. mail or another courier.
+        We may also use that information to measure the societal benefits of the provided science data.
+        The information we collect is used only to respond to specific requests. We may retain this information but do not use it for any other purpose.
+        
+        ## Cookies
+        
+        Periodically we may use cookies to collect non personally identifiable information. 
+        This helps us detect things such as browser type and plugins, and navigational information regarding which pages visitors go to and when. 
+        The information we collect through cookies is used only to respond to specific requests. We may retain this information but do not use it for any other purpose.
+        
+        If you have any questions about this policy, please contact us by email, mail, phone, or fax.
+  support:
+      title: "Support"
+      support: |
+        # For Support
+
+        Please Contact Pat Cappelaere 
+        mailto pat@geobliki.com
+  terms:
+      title: "Terms"
+      terms: |
+        # Terms of Service Agreement
+
+        Welcome to the Multi-Scale, Multi-Hazard Architecture for Disasters and Science (MMADS)!
+        Before you get started with this valuable tool for environmental hazard professionals and the general public, it is necessary that you understand and agree to the preconditions of use associated with this site. 
+        Therefore, please read this page in its entirety. 
+        Please note that by using or accessing this site in any way, whether viewing or adding your own content, you are agreeing to be bound by these Terms of Service.
+        
+        # PRIVACY
+        
+        The Multi-Scale, Multi-Hazard Architecture for Disasters and Science (MMADS) is an official U.S. Government website, and, as such, provides its users no expectation of privacy.  
+        Whatever you put up on this site will be available for everyone who is part of the community to see and so you must exercise caution in what you post. 
+        Any material that is classified, defamatory, obscene, proprietary or libelous is strictly forbidden.
+        
+        # OUR SERVICES
+        
+        + NASA/GSFC acts only as a hosting service, maintaining the organizational framework that allows our users to communicate and share ideas by contributing and editing content themselves. NASA/GSFC generally does not monitor or edit the content posted, and we do not take any responsibility for this content. Further, we do not endorse any opinions expressed via our services, and we do not represent or guarantee the truthfulness, accuracy, or reliability of any submitted community content. Instead, we simply provide access to the content that your fellow users have contributed and edited.
+        + You are legally responsible for your edits and contributions on MMADS, so you should exercise caution and avoid contributing any content that may result in criminal or civil liability under any applicable laws.
+        
+        # REFRAINING FROM CERTAIN ACTIVITIES
+        
+        1. To ensure the integrity of this site, data repositories and scientific content, the following activities are not allowed:
+           + Advertisement or offer to sell or buy any goods or services.  This includes use of this site in connection with owning, operating, or participating in a private business.
+           + Provision of links to files that contain viruses, Trojan horses, worms, time bombs, cancelbots, corrupted files or any similar software or programs that may damage the operation of another computer or another’s property.
+           + Falsification or deletion of any copyright management information, such as author attributions, legal or other proper notices, or proprietary designations or labels of origin or source of material contained in a file that is uploaded.
+           + Infringing copyrights, trademarks, patents, or other proprietary rights under applicable law. 
+           + Creation of a false identity or provision of false information for the purpose of misleading others.
+           + Bullying, intimidating, hateful, violent or harassing behavior.
+           + Discrimination in any form, including discrimination as to race, religion, gender, sexual preference, age, national origin and disability; and
+           + Using the services of this website in a manner that is inconsistent with applicable law.
+
+        2.	The rights of others are to be respected by users at all times. Toward this end: 
+           + Disparaging remarks towards others are not allowed.  Disagreements and differences of opinion are fine and to be expected, but personal attacks are prohibited. 
+           + NASA/GSFC can remove any content or link posted on this site that, in the discretion of the managers of this content, violates these terms of service.
+           + Any violation of these terms of service is grounds for the disablement of a user’s account.
+           + Any violation of these terms of service of which a user becomes aware must be reported immediately to the managers of this website using the “Report This” feature located at the bottom of each page.
+           + Check facts as far as reasonably possible before posting.  Accurate information and content are vital to a constructive exchange of ideas.
+           + User represents warrants that the user has the right to, or otherwise has secured the necessary permission to, contribute any materials, content data or other information on this website. 
+        
+        
+        # TERMINATION
+        
+        NASA/GSFC reserves the right to terminate a user’s access to the site, without any advance notice.
+
+        # THIRD PARTY WEBSITES AND RESOURCES
+        
+        Our site contains a number of links to other websites and online resources that are not owned or controlled by NASA/GSFC. NASA/GSFC has no control over, and therefore cannot assume responsibility for the content or general practices of any of these third party sites and/or services. Therefore, we strongly advise you to read the entire terms and conditions and privacy policy of any site that you visit as a result of following a link that is posted on our site.
+        NASA/GSFC is not responsible for the content, data, or actions of third parties, and you release the agency, its directors, officers, employees, and agents from any claims and damages, known and unknown, arising out of or in any way connected with any claim you have against any such third parties.
+
+        # DISCLAIMER DATA/CONTENT
+        
+        DATA/CONTENT, goods, services, or any information available through this web site are provided "as is."  NASA makes no express or implied warranty as to the condition of any such data/content, goods, services, or as to the merchantability or fitness for a particular purpose of such Content/Data or other information, or resulting product or derivative work, or that the data/content or other information available will accomplish any intended results or are safe for any purpose including the intended purpose, or that any of the above will not interfere with privately-owned rights of others.  Neither the government nor its contractors shall be liable for special, consequential or incidental damages attributed to any content/data or other information available through this website, or derivate works or resulting products made or developed with the ise of data/content or other information available on this website. 
+
+        # GOVERNING LAW
+        
+        The laws of the United States of America will govern these Terms of Use.
+
+        # NAMES/ENDORSEMENT
+        
+        The NASA name and insignia are governed by regulation.  14 C.F.R. § 1221.110  Use of "National Aeronautics and Space Administration", "NASA", or the NASA insignia in a way that creates the impression that any product or service has the authorization, support, sponsorship, or endorsement of NASA, which does not, in fact, exist is strictly prohibited. NASA does not endorse or sponsor any commercial product, service, or activity.  NASA's participation with this website or provision of any content/data or other information does not constitute endorsement by NASA.  USER agrees that no content/data or other information available on this website will be used in such a way to be construed to imply that NASA authorizes, supports, endorses, or sponsors any product or service of User resulting from activities through this website
+        
+        
+  copyrights:
+      title: "Copyrights and License"
+      contents: |
+        # Terms of Use   
+
+        The Global Landslide/Flood Catalog is open data, licensed under the Open Data Commons Open Database License (ODbL).
+        You are free to copy, distribute, transmit and adapt our data, as long as you credit OpenStreetMap and its contributors. 
+        If you alter or build upon our data, you may distribute the result only under the same licence. The full legal code explains your rights and responsibilities.
+        
+        # How to credit Global Landslide/Flood Catalog</h3>
+        
+        We require that you use the credit “© GLFC contributors”.
+        You must also make it clear that the data is available under the Open Database License. 
+        You may do this by linking to this copyright page. Alternatively, and as a requirement if you are distributing any data, you can name and link directly to the license(s). 
+        In media where links are not possible (e.g. printed works), we suggest you direct your readers to the website.
+
+        # Our contributors
+        Dalia Kirschbaum
+  
+  license:
+      title: "License"
+      contents: |
+        # TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+        1. Definitions.
+
+           "License" shall mean the terms and conditions for use, reproduction,
+           and distribution as defined by Sections 1 through 9 of this document.
+
+           "Licensor" shall mean the copyright owner or entity authorized by
+           the copyright owner that is granting the License.
+
+           "Legal Entity" shall mean the union of the acting entity and all
+           other entities that control, are controlled by, or are under common
+           control with that entity. For the purposes of this definition,
+           "control" means (i) the power, direct or indirect, to cause the
+           direction or management of such entity, whether by contract or
+           otherwise, or (ii) ownership of fifty percent (50%) or more of the
+           outstanding shares, or (iii) beneficial ownership of such entity.
+
+           "You" (or "Your") shall mean an individual or Legal Entity
+           exercising permissions granted by this License.
+
+           "Source" form shall mean the preferred form for making modifications,
+           including but not limited to software source code, documentation
+           source, and configuration files.
+
+           "Object" form shall mean any form resulting from mechanical
+           transformation or translation of a Source form, including but
+           not limited to compiled object code, generated documentation,
+           and conversions to other media types.
+
+           "Work" shall mean the work of authorship, whether in Source or
+           Object form, made available under the License, as indicated by a
+           copyright notice that is included in or attached to the work
+           (an example is provided in the Appendix below).
+
+           "Derivative Works" shall mean any work, whether in Source or Object
+           form, that is based on (or derived from) the Work and for which the
+           editorial revisions, annotations, elaborations, or other modifications
+           represent, as a whole, an original work of authorship. For the purposes
+           of this License, Derivative Works shall not include works that remain
+           separable from, or merely link (or bind by name) to the interfaces of,
+           the Work and Derivative Works thereof.
+
+           "Contribution" shall mean any work of authorship, including
+           the original version of the Work and any modifications or additions
+           to that Work or Derivative Works thereof, that is intentionally
+           submitted to Licensor for inclusion in the Work by the copyright owner
+           or by an individual or Legal Entity authorized to submit on behalf of
+           the copyright owner. For the purposes of this definition, "submitted"
+           means any form of electronic, verbal, or written communication sent
+           to the Licensor or its representatives, including but not limited to
+           communication on electronic mailing lists, source code control systems,
+           and issue tracking systems that are managed by, or on behalf of, the
+           Licensor for the purpose of discussing and improving the Work, but
+           excluding communication that is conspicuously marked or otherwise
+           designated in writing by the copyright owner as "Not a Contribution."
+
+           "Contributor" shall mean Licensor and any individual or Legal Entity
+           on behalf of whom a Contribution has been received by Licensor and
+           subsequently incorporated within the Work.
+
+        2. Grant of Copyright License. Subject to the terms and conditions of
+           this License, each Contributor hereby grants to You a perpetual,
+           worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+           copyright license to reproduce, prepare Derivative Works of,
+           publicly display, publicly perform, sublicense, and distribute the
+           Work and such Derivative Works in Source or Object form.
+
+        3. Grant of Patent License. Subject to the terms and conditions of
+           this License, each Contributor hereby grants to You a perpetual,
+           worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+           (except as stated in this section) patent license to make, have made,
+           use, offer to sell, sell, import, and otherwise transfer the Work,
+           where such license applies only to those patent claims licensable
+           by such Contributor that are necessarily infringed by their
+           Contribution(s) alone or by combination of their Contribution(s)
+           with the Work to which such Contribution(s) was submitted. If You
+           institute patent litigation against any entity (including a
+           cross-claim or counterclaim in a lawsuit) alleging that the Work
+           or a Contribution incorporated within the Work constitutes direct
+           or contributory patent infringement, then any patent licenses
+           granted to You under this License for that Work shall terminate
+           as of the date such litigation is filed.
+
+        4. Redistribution. You may reproduce and distribute copies of the
+           Work or Derivative Works thereof in any medium, with or without
+           modifications, and in Source or Object form, provided that You
+           meet the following conditions:
+
+           (a) You must give any other recipients of the Work or
+               Derivative Works a copy of this License; and
+
+           (b) You must cause any modified files to carry prominent notices
+               stating that You changed the files; and
+
+           (c) You must retain, in the Source form of any Derivative Works
+               that You distribute, all copyright, patent, trademark, and
+               attribution notices from the Source form of the Work,
+               excluding those notices that do not pertain to any part of
+               the Derivative Works; and
+
+           (d) If the Work includes a "NOTICE" text file as part of its
+               distribution, then any Derivative Works that You distribute must
+               include a readable copy of the attribution notices contained
+               within such NOTICE file, excluding those notices that do not
+               pertain to any part of the Derivative Works, in at least one
+               of the following places: within a NOTICE text file distributed
+               as part of the Derivative Works; within the Source form or
+               documentation, if provided along with the Derivative Works; or,
+               within a display generated by the Derivative Works, if and
+               wherever such third-party notices normally appear. The contents
+               of the NOTICE file are for informational purposes only and
+               do not modify the License. You may add Your own attribution
+               notices within Derivative Works that You distribute, alongside
+               or as an addendum to the NOTICE text from the Work, provided
+               that such additional attribution notices cannot be construed
+               as modifying the License.
+
+           You may add Your own copyright statement to Your modifications and
+           may provide additional or different license terms and conditions
+           for use, reproduction, or distribution of Your modifications, or
+           for any such Derivative Works as a whole, provided Your use,
+           reproduction, and distribution of the Work otherwise complies with
+           the conditions stated in this License.
+
+        5. Submission of Contributions. Unless You explicitly state otherwise,
+           any Contribution intentionally submitted for inclusion in the Work
+           by You to the Licensor shall be under the terms and conditions of
+           this License, without any additional terms or conditions.
+           Notwithstanding the above, nothing herein shall supersede or modify
+           the terms of any separate license agreement you may have executed
+           with Licensor regarding such Contributions.
+
+        6. Trademarks. This License does not grant permission to use the trade
+           names, trademarks, service marks, or product names of the Licensor,
+           except as required for reasonable and customary use in describing the
+           origin of the Work and reproducing the content of the NOTICE file.
+
+        7. Disclaimer of Warranty. Unless required by applicable law or
+           agreed to in writing, Licensor provides the Work (and each
+           Contributor provides its Contributions) on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+           implied, including, without limitation, any warranties or conditions
+           of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+           PARTICULAR PURPOSE. You are solely responsible for determining the
+           appropriateness of using or redistributing the Work and assume any
+           risks associated with Your exercise of permissions under this License.
+
+        8. Limitation of Liability. In no event and under no legal theory,
+           whether in tort (including negligence), contract, or otherwise,
+           unless required by applicable law (such as deliberate and grossly
+           negligent acts) or agreed to in writing, shall any Contributor be
+           liable to You for damages, including any direct, indirect, special,
+           incidental, or consequential damages of any character arising as a
+           result of this License or out of the use or inability to use the
+           Work (including but not limited to damages for loss of goodwill,
+           work stoppage, computer failure or malfunction, or any and all
+           other commercial damages or losses), even if such Contributor
+           has been advised of the possibility of such damages.
+
+        9. Accepting Warranty or Additional Liability. While redistributing
+           the Work or Derivative Works thereof, You may choose to offer,
+           and charge a fee for, acceptance of support, warranty, indemnity,
+           or other liability obligations and/or rights consistent with this
+           License. However, in accepting such obligations, You may act only
+           on Your own behalf and on Your sole responsibility, not on behalf
+           of any other Contributor, and only if You agree to indemnify,
+           defend, and hold each Contributor harmless for any liability
+           incurred by, or claims asserted against, such Contributor by reason
+           of your accepting any such warranty or additional liability.
+
+        END OF TERMS AND CONDITIONS
+
+        # APPENDIX: How to apply the Apache License to your work.
+
+           To apply the Apache License to your work, attach the following
+           boilerplate notice, with the fields enclosed by brackets "[]"
+           replaced with your own identifying information. (Don't include
+           the brackets!)  The text should be enclosed in the appropriate
+           comment syntax for the file format. We also recommend that a
+           file or class name and description of purpose be included on the
+           same "printed page" as the copyright notice for easier
+           identification within third-party archives.
+
+        Copyright 2014 NASA GSFC / Vightel Corporation
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+        

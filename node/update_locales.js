@@ -26,7 +26,7 @@ var project = api + 'project/ojo/';
 var auth = JSON.parse(fs.readFileSync('./transifex.auth', 'utf8'));
 console.log("auth", auth)
 
-//var sourceCore 		= yaml.load(fs.readFileSync('./locale/core.yaml', 'utf8'));
+var sourceCore 		= yaml.load(fs.readFileSync('./locale/core.yaml', 'utf8'));
 //var sourceGeoApp 	= yaml.load(fs.readFileSync('./locale/geoapp.yaml', 'utf8'));
 //var sourceID 		= yaml.load(fs.readFileSync('./locale/ID.yaml', 'utf8'));
 
@@ -35,7 +35,7 @@ var sourceAPI 		= yaml.load(fs.readFileSync('./locale/api.yaml', 'utf8'));
 asyncMap(resources, getResource, function(err, locales) {
     if (err) return console.log(err);
 
-    var locale = _.merge(sourceAPI);
+    var locale = _.merge(sourceAPI,sourceCore);
     locales.forEach(function(l) {
         locale = _.merge(locale, l);
     });

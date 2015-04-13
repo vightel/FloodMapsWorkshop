@@ -22,25 +22,70 @@ HANDS_HEIGHT		= 9
 # S3 bucket to store data and publish it
 BUCKET				= "ojo-workshop"
 
+REGION		= {
+	'name':			"Pakistan",
+	'bbox': 		[60, 20, 80, 40 ],
+	'bucket':		"ojo-workshop"
+}
+
+regions		= {
+	'd02': {
+		'name':			"Central America",
+		'bbox': 		[-92.6833333,   6.1666667, -75.8500000,  19.0833333],
+		'bucket':		"ojo-d2",
+		'thn_zoom': 	5
+	},
+	'd03': {
+		'name':			"Hispaniola",
+		'bbox': 		[-74.9416667, 16.3500000, -64.9750000,  21.4250000],
+		'bucket':		"ojo-d3",
+		'thn_zoom': 	6
+	},
+	'd04': {
+		'name':			"Namibia",
+		'bbox': 		[18, -21, 26, -17 ],
+		'bucket':		"ojo-d4",
+		'thn_zoom': 	6
+	},
+	'd05': {
+		'name':			"Malawi",
+		'bbox': 		[-74.94, 16.35, -64.98, 21.42 ],
+		'bucket':		"ojo-d5",
+		'thn_zoom': 	6
+	},
+	'd06': {
+		'name':			"Pakistan",
+		'bbox': 		[60, 20, 80, 40 ],
+		'bucket':		"ojo-d6",
+		'thn_zoom': 	6
+	}
+}
+	
 #
 # Data Directories
 #
-LANDSAT8_DIR		= os.path.join(DATA_DIR, "l8")
-RADARSAT2_DIR		= os.path.join(DATA_DIR, "radarsat2")
-MODIS_DIR			= os.path.join(DATA_DIR, "modis")
-EO1_DIR				= os.path.join(DATA_DIR, "eo1_ali")
-DFO_DIR				= os.path.join(DATA_DIR, "dfo")
-PALSAR2_DIR			= os.path.join(DATA_DIR, "palsar2")
-FROST_DIR			= os.path.join(DATA_DIR, "frost")
-DIGIGLOBE_DIR		= os.path.join(DATA_DIR, "digiglobe")
-VIIRS_DIR			= os.path.join(DATA_DIR, "viirs")
-CSV_DIR				= os.path.join(DATA_DIR, "csv")
-EF5_DIR				= os.path.join(DATA_DIR, "ef5")
-MAXQ_DIR			= os.path.join(DATA_DIR, "maxq")
-MAXSWE_DIR			= os.path.join(DATA_DIR, "maxswe")
-SM_DIR				= os.path.join(DATA_DIR, "sm")
+LANDSAT8_DIR			= os.path.join(DATA_DIR, "l8")
+RADARSAT2_DIR			= os.path.join(DATA_DIR, "radarsat2")
+MODIS_DIR				= os.path.join(DATA_DIR, "modis")
+MODIS_ACTIVE_FIRES_DIR	= os.path.join(DATA_DIR, "modis_af")
+MODIS_BURNEDAREAS_DIR	= os.path.join(DATA_DIR, "modis_burnedareas")
+EO1_DIR					= os.path.join(DATA_DIR, "eo1_ali")
+DFO_DIR					= os.path.join(DATA_DIR, "dfo")
+PALSAR2_DIR				= os.path.join(DATA_DIR, "palsar2")
+FROST_DIR				= os.path.join(DATA_DIR, "frost")
+DIGIGLOBE_DIR			= os.path.join(DATA_DIR, "digiglobe")
+VIIRS_DIR				= os.path.join(DATA_DIR, "viirs")
+CSV_DIR					= os.path.join(DATA_DIR, "csv")
+EF5_DIR					= os.path.join(DATA_DIR, "ef5")
+MAXQ_DIR				= os.path.join(DATA_DIR, "maxq")
+MAXSWE_DIR				= os.path.join(DATA_DIR, "maxswe")
+SM_DIR					= os.path.join(DATA_DIR, "sm")
+TRMM_DIR				= os.path.join(DATA_DIR, "trmm_24")
+GPM_DIR					= os.path.join(DATA_DIR, "gpm_24")
+LS_DIR					= os.path.join(DATA_DIR, "ls")
+QUAKES_DIR				= os.path.join(DATA_DIR, "quakes")
 
-SRTM2_DIR			= "/shared/production/proddata/srtm2"
+SRTM2_DIR				= "/shared/production/proddata/srtm2"
 
 version = "1.0 alpha3"
 

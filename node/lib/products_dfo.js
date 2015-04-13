@@ -114,7 +114,7 @@ var util 			= require('util'),
 						name: 	"DFO Flood Map",
 						scene: 	scene,
 						bbox: 	undefined, //scene_model.bboxFromGeom(record.g),
-						target: [record.center_lat, record.center_lon],
+						target: [record.center_lon,record.center_lat],
 						min_zoom: 6
 					}
 					//var topojson=	host+"/products/radarsat2/"+scene+"/surface_water.topojson"
