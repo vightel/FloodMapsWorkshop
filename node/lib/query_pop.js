@@ -187,7 +187,7 @@ var util 		= require('util'),
 				},
 				"action": 			actions
 			}
-			console.log(entry)
+			//console.log(entry)
 			return entry
 		} else {
 			return undefined
@@ -301,7 +301,7 @@ var util 		= require('util'),
 							console.log("added to key", key, name)
 						}					
 					})
-					console.log( JSON.stringify(bucketList))
+					//console.log( JSON.stringify(bucketList))
 					next(null)
 				}    
 			});

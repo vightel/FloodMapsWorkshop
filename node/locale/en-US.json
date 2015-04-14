@@ -22,7 +22,7 @@
     "products": {
         "search": "Product Search",
         "surface_water": "Flood Map",
-        "daily_precipitation": "Last 24hr Precip",
+        "daily_precipitation": "Daily Precip",
         "daily_precipitation_24h_forecast": "24h Precipitation Forecast",
         "landslide_nowcast": "Landslide Forecast",
         "flood_nowcast": "Flood Nowcast",
@@ -44,7 +44,9 @@
         "snow_water_equivalent": "Snow Water Equivalent",
         "stream_flow": "Stream Flow",
         "soil_moisture": "Soil Moisture",
-        "quakes": "Earthquakes"
+        "quakes": "Earthquakes",
+        "drought": "Drought",
+        "vhi": "Vegetation Health Index"
     },
     "query": {
         "query_title": "Query",
@@ -661,7 +663,8 @@
         "applications": "Applications",
         "register": "Register",
         "list": "List",
-        "query": "Query"
+        "query": "Query",
+        "search": "Search"
     },
     "tabs": {
         "general": "General",
@@ -694,7 +697,8 @@
         "duration": "duration",
         "resolution": "resolution",
         "cloud": "cloud cover",
-        "copyright": "copyright"
+        "copyright": "copyright",
+        "url": "url"
     },
     "sources": {
         "radarsat2": "CSA Radarsat2",
@@ -708,7 +712,8 @@
         "gpm": "NASA GSFC GPM",
         "ls": "ORNL Landscan",
         "dk": "NASA GSFC Dalia Kirschbaum model",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "noaa": "NOAA"
     },
     "sensors": {
         "sar": "SAR",
@@ -722,7 +727,8 @@
         "gpm": "GPM",
         "ls": "ORNL Landscan",
         "dk": "N/A",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "avhrr": "AVHRR"
     },
     "duration": {
         "hours": "%{hours} hours",
@@ -832,6 +838,14 @@
                 "8m": "8m",
                 "13m": "13m",
                 "21m": "21m"
+            }
+        },
+        "vhi": {
+            "title": "Vegetation Health Index",
+            "credits": "NOAA Star",
+            "source": {
+                "label": "Source",
+                "source": "NOAA Star"
             }
         },
         "frost": {

@@ -91,7 +91,7 @@
           		"source": 		"dfo",
           		"href": 		"/opensearch",
           		"checked":  	true,
-              "selected":   false
+				"selected":   false
           },
           {
           		"source": 		"digiglobe",
@@ -103,37 +103,55 @@
         		"source": 		"eo1_ali",
         		"href": 		"/opensearch",
         		"checked":  	true,
-            "selected":   false
+				"selected":   false
         	},
         	{
         		"source": 		"ef5",
         		"href": 		"/opensearch",
         		"checked":  	true,
-            "selected":   false
+				"selected":   false
         	},
-        	{
+			{
+				"source": 		"gpm",
+			  	"href": 		"/opensearch",
+				"checked": 		false,
+				"selected":   false
+			  },
+          	{
+        		"source": 		"landscan",
+        		"href": 		"/opensearch",
+        		"checked":  	true,
+				"selected":   true
+        	},
+          	{
         		"source": 		"l8",
         		"href": 		"/opensearch",
         		"checked":  	true,
-            "selected":   false
+				"selected":   false
         	},
-          {
-          	"source": 		"modis",
-          	"href": 		"/opensearch",
-          	"checked":  	true,
-             "selected":   false
-          },
-          {
-          	"source": 		"modis_lst",
-          	"href": 		"/opensearch",
-          	"checked":  	true,
-             "selected":   false
-          },
+			{
+		  		"source": 		"modis",
+				"href": 		"/opensearch",
+				"checked":  	true,
+				"selected":   false
+			},
+			{
+				"source": 		"modis_lst",
+				"href": 		"/opensearch",
+				"checked":  	true,
+				"selected":   false
+			},
+			{
+				"source": 		"noaa",
+				"href": 		"/opensearch",
+				"checked": 		false,
+				"selected":   false
+			},            
         	{
         		"source": 		"radarsat2",
         		"href": 		"/opensearch",
         		"checked":  	true,
-            "selected":   false
+				"selected":   false
         	},
         	{
         		"source": 		"trmm",
@@ -141,31 +159,13 @@
         		"checked":  	true,
             "selected":   false
         	},
-        	{
-        		"source": 		"landscan",
-        		"href": 		"/opensearch",
-        		"checked":  	true,
-            "selected":   true
-        	},
-          {
-              "source": 		"gpm",
-              "href": 		"/opensearch",
-              "checked": 		false,
-              "selected":   false
-          },
-          {
-              "source": 		"usgs",
-              "href": 		"/opensearch",
-              "checked": 		false,
-              "selected":   false
-          },
-          {
-              "source": 		"noaa",
-              "href": 		"/opensearch",
-              "checked": 		false,
-              "selected":   false
-          }            
-	],
+			{
+				"source": 		"usgs",
+				"href": 		"/opensearch",
+				"checked": 		false,
+				"selected":   false
+			}
+ 	],
 	"valid_modis_tiles":             [
     "000E010N",
     "000E020N",

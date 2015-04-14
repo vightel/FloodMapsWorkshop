@@ -9,6 +9,7 @@ en:
     register: Register
     list: List
     query: Query
+    search: Search
             
   tabs:
     general: General
@@ -24,11 +25,6 @@ en:
     like: like
     task: task
     map: map
-
-  products:
-    search: search
-    surface_water: Flood Map
-    frost: Frost
 
   stream:
     displayName: Publisher Flood Surface Water Products
@@ -62,6 +58,7 @@ en:
     ls: ORNL Landscan
     dk: NASA GSFC Dalia Kirschbaum model
     usgs: USGS
+    noaa: NOAA
 
   sensors:
     sar: SAR
@@ -76,6 +73,7 @@ en:
     ls: ORNL Landscan
     dk: N/A
     usgs: USGS
+    avhrr: AVHRR
     
   duration:
     hours: "%{hours} hours"
@@ -97,7 +95,7 @@ en:
   products:
     active_fires: Active Fires
     burn_scar: Burn Scar
-    daily_precipitation: Last 24hr Precip
+    daily_precipitation: Daily Precip
     flood_forecast: Flood Forecast
     flood_nowcast: Flood Nowcast
     flood_catalog: Flood Catalog

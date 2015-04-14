@@ -14,7 +14,7 @@ var fs  		= require('fs'),
 	query_modis					= require("../../lib/query_modis.js"),
 	query_radarsat2				= require("../../lib/query_radarsat2"),
 	query_dfo					= require("../../lib/query_dfo"),
-	query_digiglobe				= require("../../lib/query_digiglobe"),
+	//query_digiglobe				= require("../../lib/query_digiglobe"),
 	query_modislst				= require("../../lib/query_modislst"),
 	query_pop					= require("../../lib/query_pop")
 
@@ -33,7 +33,7 @@ var fs  		= require('fs'),
 	// Queries for all those sources
 	productQueries = {
 		"dfo": 					[query_dfo.QueryDFO],
-		"digiglobe":			[query_digiglobe.QueryDigiglobe],
+//		"digiglobe":			[query_digiglobe.QueryDigiglobe],
 		"ef5": 					[query_ef5.QueryAll.bind(query_ef5), query_maxswe.QueryAll.bind(query_maxswe), query_sm.QueryAll.bind(query_sm), query_maxq.QueryAll.bind(query_maxq)],
 		"eo1_ali": 				[query_eo1.QueryEO1],
 		"landslide_model": 		[query_landslide_nowcast2.QueryAll.bind(query_landslide_nowcast2)],

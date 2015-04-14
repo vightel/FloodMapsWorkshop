@@ -1,7 +1,10 @@
 csv/
+*.pem
+DS_Store
+tmp/
+data/.DS_Store
 data/HAND/
-data/HydroSHEDS/AF/
-ata/HydroSHEDS/CA/
+data/HydroSHEDS/
 data/landsat8/
 data/eo1_ali/
 data/l8/
@@ -28,3 +31,5 @@ node/node_modules/
 node/transifex.auth
 node/*.log
 python/*.pyc
+python/.DS_Store
+python/rcmrd

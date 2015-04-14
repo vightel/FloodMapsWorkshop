@@ -7,7 +7,8 @@
         "applications": "Applications",
         "register": "Register",
         "list": "List",
-        "query": "Query"
+        "query": "Query",
+        "search": "Search"
     },
     "tabs": {
         "general": "General",
@@ -23,32 +24,6 @@
         "like": "like",
         "task": "task",
         "map": "map"
-    },
-    "products": {
-        "active_fires": "Active Fires",
-        "burn_scar": "Burn Scar",
-        "daily_precipitation": "Last 24hr Precip",
-        "flood_forecast": "Flood Forecast",
-        "flood_nowcast": "Flood Nowcast",
-        "flood_catalog": "Flood Catalog",
-        "frost": "Frost",
-        "landslide_catalog": "Landslide Catalog",
-        "landslide_nowcast": "Landslide Forecast",
-        "landslide_forecast": "Landslide Forecast",
-        "landslide_susceptibility": "Landslide Susceptibility",
-        "location_nowcast": "Location Forecast",
-        "population_count": "Population Count",
-        "precipitation_nowcast": "Daily Precip Accumulation",
-        "precipitation_forecast": "Daily Precip Forecast",
-        "rgb_composite": "RGB Composite",
-        "snow_cover": "Snow Cover",
-        "snow_water_equivalent": "Snow Water Equivalent",
-        "stream_flow": "Stream Flow",
-        "soil_moisture": "Soil Moisture",
-        "surface_water": "Flood Map",
-        "quakes": "Earthquakes",
-        "drought": "Drought",
-        "vhi": "Vegetation Health Index"
     },
     "stream": {
         "displayName": "Publisher Flood Surface Water Products"
@@ -81,7 +56,8 @@
         "gpm": "NASA GSFC GPM",
         "ls": "ORNL Landscan",
         "dk": "NASA GSFC Dalia Kirschbaum model",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "noaa": "NOAA"
     },
     "sensors": {
         "sar": "SAR",
@@ -95,7 +71,8 @@
         "gpm": "GPM",
         "ls": "ORNL Landscan",
         "dk": "N/A",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "avhrr": "AVHRR"
     },
     "duration": {
         "hours": "%{hours} hours",
@@ -113,6 +90,32 @@
         "png": "png",
         "jpg": "jpg",
         "date": "YYYY-MM-DD"
+    },
+    "products": {
+        "active_fires": "Active Fires",
+        "burn_scar": "Burn Scar",
+        "daily_precipitation": "Daily Precip",
+        "flood_forecast": "Flood Forecast",
+        "flood_nowcast": "Flood Nowcast",
+        "flood_catalog": "Flood Catalog",
+        "frost": "Frost",
+        "landslide_catalog": "Landslide Catalog",
+        "landslide_nowcast": "Landslide Forecast",
+        "landslide_forecast": "Landslide Forecast",
+        "landslide_susceptibility": "Landslide Susceptibility",
+        "location_nowcast": "Location Forecast",
+        "population_count": "Population Count",
+        "precipitation_nowcast": "Daily Precip Accumulation",
+        "precipitation_forecast": "Daily Precip Forecast",
+        "rgb_composite": "RGB Composite",
+        "snow_cover": "Snow Cover",
+        "snow_water_equivalent": "Snow Water Equivalent",
+        "stream_flow": "Stream Flow",
+        "soil_moisture": "Soil Moisture",
+        "surface_water": "Flood Map",
+        "quakes": "Earthquakes",
+        "drought": "Drought",
+        "vhi": "Vegetation Health Index"
     },
     "filesize": {
         "B": "B",

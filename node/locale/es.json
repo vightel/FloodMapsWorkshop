@@ -22,7 +22,7 @@
     "products": {
         "search": "Buscar Producto",
         "surface_water": "Mapa de Inundación",
-        "daily_precipitation": "Precipitación de las Últimas 24 horas ",
+        "daily_precipitation": "Precipitación Diaria",
         "daily_precipitation_24h_forecast": "Precipitaciones 24h Pronóstico",
         "landslide_nowcast": "Pronóstico de Deslizamientos",
         "flood_nowcast": "Inundación Ahora",
@@ -44,7 +44,9 @@
         "snow_water_equivalent": "Nieve Equivalente Agua",
         "stream_flow": "Flujo de corriente",
         "soil_moisture": "Humedad del Suelo",
-        "quakes": "Terremotos"
+        "quakes": "Terremotos",
+        "drought": "Sequía",
+        "vhi": "Índice de Vegetación Helath"
     },
     "query": {
         "query_title": "Consulta",
@@ -661,7 +663,8 @@
         "applications": "Aplicaciones",
         "register": "Registrarse",
         "list": "Lista",
-        "query": "Pregunta"
+        "query": "Pregunta",
+        "search": "Búsqueda"
     },
     "tabs": {
         "general": "General",
@@ -694,7 +697,8 @@
         "duration": "duración",
         "resolution": "resolución",
         "cloud": "cubierta de nubes",
-        "copyright": "derechos de autor"
+        "copyright": "derechos de autor",
+        "url": "url"
     },
     "sources": {
         "radarsat2": "CSA Radarsat2",
@@ -708,7 +712,8 @@
         "gpm": "NASA GSFC GPM",
         "ls": "ORNL Landscan",
         "dk": "NASA GSFC Dalia Kirschbaum modelo",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "noaa": "NOAA"
     },
     "sensors": {
         "sar": "SAR",
@@ -722,7 +727,8 @@
         "gpm": "GPM",
         "ls": "ORNL Landscan",
         "dk": "N/A",
-        "usgs": "USGS"
+        "usgs": "USGS",
+        "avhrr": "AVHRR"
     },
     "duration": {
         "hours": "%{hours} horas",
@@ -832,6 +838,14 @@
                 "8m": "8m",
                 "13m": "13m",
                 "21m": "21m"
+            }
+        },
+        "vhi": {
+            "title": "Índice de Vegetación Helath",
+            "credits": "NOAA Star",
+            "source": {
+                "label": "Origen",
+                "source": "NOAA Star"
             }
         },
         "frost": {

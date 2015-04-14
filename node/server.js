@@ -27,7 +27,8 @@ var express 		= require('express'),
 	var mapinfo_pop				= require('./lib/mapinfo_pop');
 	var	products_pop			= require('./lib/products_pop');
 
-	var	products_digiglobe	= require('./lib/products_digiglobe');
+	// var	products_digiglobe	= require('./lib/products_digiglobe');
+	
 	var	products_frost		= require('./lib/products_frost');
 	var	products_radarsat2	= require('./lib/products_radarsat2');
 	var	products_l8			= require('./lib/products_l8');
@@ -238,10 +239,10 @@ app.get('/products/radarsat2/query/:scene',			products_radarsat2.query);
 app.get('/products/radarsat2/list',					products_radarsat2.list);
 app.get('/products/radarsat2/:scene/:id',			products_radarsat2.product);
 
-app.get('/products/digiglobe/browse/:scene',		products_digiglobe.browse);
-app.get('/products/digiglobe/map/:scene',			products_digiglobe.map);
-app.get('/products/digiglobe/:scene/:id',			products_digiglobe.product);
-app.get('/products/digiglobe/:scene',				products_digiglobe.process);
+//app.get('/products/digiglobe/browse/:scene',		products_digiglobe.browse);
+//app.get('/products/digiglobe/map/:scene',			products_digiglobe.map);
+//app.get('/products/digiglobe/:scene/:id',			products_digiglobe.product);
+//app.get('/products/digiglobe/:scene',				products_digiglobe.process);
 
 app.get('/products/frost/browse/:year/:doy',		products_frost.browse);
 app.get('/products/frost/map/:year/:doy',			products_frost.map);

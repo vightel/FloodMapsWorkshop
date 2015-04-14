@@ -37,7 +37,7 @@ module.exports = {
 					if (!err && user) {
 						//console.log("found user by email")
 						req.session.user = user
-						res.send(200);
+						res.sendStatus(200);
 					} else {
 						logger.error("user not found by email.. creating one")
 						var md5 = crypto.createHash('md5').update(email + app.secret).digest("hex");
@@ -55,7 +55,7 @@ module.exports = {
 							if (err) return res.send(400)
 							req.session.user = user
 						    res.header("Access-Control-Allow-Origin", "*");
-							res.send(200)
+							res.sendStatus(200)
 						})
 					}
 				})
@@ -63,7 +63,7 @@ module.exports = {
 				//req.logout();
 				req.session.destroy()
 			    res.header("Access-Control-Allow-Origin", "*");
-				res.send(200);
+				res.sendStatus(200);
 			}
 		});
 	},
@@ -79,6 +79,6 @@ module.exports = {
 		//delete req.headers.cookie
 	    //res.clearCookie('email');
 		//res.send(200);
-		res.send(200)	    
+		res.sendStatus(200)	    
 	}
 }

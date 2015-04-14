@@ -152,10 +152,7 @@ function bootApplication(app) {
 
 	var conString 	= process.env.DATABASE_URL || "tcp://nodepg:password@localhost:5432/dk";
 	logger.info("Connecting to db:", conString)
-		
-	var conString 	= process.env.DATABASE_URL || "tcp://nodepg:password@localhost:5432/dk";
-	logger.info("Connecting to db:", conString)
-		
+				
 	app.use(session4({
 		secret: app.sessionSecret,
 		cookie: { maxAge: 1 * 360000}, //1 Hour*24 in milliseconds
