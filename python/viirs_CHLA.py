@@ -58,6 +58,10 @@ def process_viirs_chla_file( mydir, regionName, viirs_filename, s3_bucket, s3_fo
 	if not os.path.exists(levelsDir):            
 		os.makedirs(levelsDir)
 
+	shpDir	= os.path.join(rdir,"shp")
+	if not os.path.exists(shpDir):            
+		os.makedirs(shpDir)
+
 	subset_file			= os.path.join(rdir, "viirs_chla.%s.tif" % ymd)
 	super_subset_file	= os.path.join(rdir, "viirs_chla_super.%s.tif" % ymd)
 	merge_filename 		= os.path.join(geojsonDir, "viirs_chla.%s.geojson" % ymd)
@@ -66,6 +70,8 @@ def process_viirs_chla_file( mydir, regionName, viirs_filename, s3_bucket, s3_fo
 	subset_filename 	= os.path.join(geojsonDir, "..", "viirs_chla.%s_small_browse.tif" % ymd)
 	osm_bg_image		= os.path.join(geojsonDir, "..", "osm_bg.png")
 	sw_osm_image		= os.path.join(geojsonDir, "..", "viirs_chla.%s_thn.jpg" % ymd)
+	shp_filename 		= os.path.join(rdir, "viirs_chla.%s.shp.gz" % (ymd))
+	json_filename		= os.path.join(geojsonDir, "viirs_chla.%s.json" % (ymd))
 	
 	if force or not os.path.exists(subset_file):
 		cmd = "gdalwarp -overwrite -q -te %f %f %f %f %s %s" % (bbox[0], bbox[1], bbox[2], bbox[3], viirs_filename, subset_file)
@@ -120,6 +126,19 @@ def process_viirs_chla_file( mydir, regionName, viirs_filename, s3_bucket, s3_fo
 
 		cmd 	= "gzip --keep "+ topojson_filename
 		execute(cmd)
+	
+	# Create shapefile gz
+	if force or not os.path.exists(shp_filename):
+		# Convert simplified topojson to geojson
+		cmd = "topojson-geojson --precision 5 %s -o %s" % (topojson_filename, geojsonDir)
+		execute(cmd)
+		
+		cmd = "ogr2ogr -f 'ESRI Shapefile' %s %s" % (shpDir, json_filename)
+		execute(cmd)
+		
+		cmd = "cd %s; tar -zcvf %s %s" % (rdir, shp_filename, shpDir)
+		execute(cmd)
+		
 		
 	if force or not os.path.exists(sw_osm_image):
 		zoom 	= region['thn_zoom']
@@ -128,7 +147,7 @@ def process_viirs_chla_file( mydir, regionName, viirs_filename, s3_bucket, s3_fo
 		
 	ds = None
 	
-	file_list = [ sw_osm_image, topojson_filename, topojson_filename+".gz", subset_file ]
+	file_list = [ sw_osm_image, topojson_filename, topojson_filename+".gz", subset_file, shp_filename ]
 	CopyToS3( s3_bucket, s3_folder, file_list, force, verbose )
 #
 # ======================================================================
