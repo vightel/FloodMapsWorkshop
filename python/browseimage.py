@@ -216,7 +216,7 @@ def bbox(lat, lon, zoom, width, height):
 		
 	return ullon, ullat, lrlon, lrlat
 	
-def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image, levels, hexColors, _force, _verbose, zoom=4):
+def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image, levels, hexColors, _force, _verbose, zoom=4, scale=1):
 	verbose = _verbose
 	force	= _force
 	
@@ -236,6 +236,9 @@ def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_o
 	band				= src_ds.GetRasterBand(1)
 	data				= band.ReadAsArray(0, 0, src_ds.RasterXSize, src_ds.RasterYSize )
 	
+	if scale != 1:
+		data *= scale
+		
 	xorg				= geotransform[0]
 	yorg  				= geotransform[3]
 	pres				= geotransform[1]

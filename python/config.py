@@ -84,6 +84,7 @@ TRMM_DIR				= os.path.join(DATA_DIR, "trmm_24")
 GPM_DIR					= os.path.join(DATA_DIR, "gpm_24")
 LS_DIR					= os.path.join(DATA_DIR, "ls")
 QUAKES_DIR				= os.path.join(DATA_DIR, "quakes")
+VIIRS_CHLA_DIR			= os.path.join(DATA_DIR, "viirs_chla")
 
 SRTM2_DIR				= "/shared/production/proddata/srtm2"
 

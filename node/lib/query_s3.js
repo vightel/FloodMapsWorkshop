@@ -88,7 +88,7 @@ var util 		= require('util'),
 						//console.log("added to key", key, name)
 					}					
 				})
-				console.log( JSON.stringify(slf.bucketList))
+				//console.log( JSON.stringify(slf.bucketList))
 				next(null)
 			}    
 		});
@@ -270,7 +270,7 @@ var util 		= require('util'),
 		
 			var source 		= req.gettext(this.options.source)
 			var sensor 		= req.gettext(this.options.sensor)
-			var url 		= this.options.source_url
+			var url 		= this.options.original_url
 
 			var properties = {
 				"source": {

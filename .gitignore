@@ -2,6 +2,7 @@ csv/
 *.pem
 DS_Store
 tmp/
+data/ 
 data/.DS_Store
 data/HAND/
 data/HydroSHEDS/
