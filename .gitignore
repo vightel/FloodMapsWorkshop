@@ -1,6 +1,7 @@
 csv/
 *.pem
-DS_Store
+.DS_Store
+node/.DS_STORE
 tmp/
 data/ 
 data/.DS_Store
