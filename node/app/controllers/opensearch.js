@@ -28,6 +28,7 @@ var fs  		= require('fs'),
 	query_landslide_nowcast2	= require("../../lib/query_landslide_nowcast2").query
 	query_quakes				= require("../../lib/query_quakes").query
 	query_vhi					= require("../../lib/query_vhi").query
+	query_vchloa				= require("../../lib/query_vchloa").query
 	;
 	
 	// Queries for all those sources
@@ -45,9 +46,10 @@ var fs  		= require('fs'),
 		"radarsat_2": 			[query_radarsat2.QueryRadarsat2],
 		"trmm": 				[query_trmm_24.QueryAll.bind(query_trmm_24)],
 		"gpm": 					[query_gpm_24.QueryAll.bind(query_gpm_24)],
-		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)]
+		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)],
+		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)]
 	}
-	
+    
 	function ValidateBBox( bbox ) {
 		console.log("Validate bbox", bbox)
 		if( bbox[0] < -180 || bbox[0] > 180 ) 	return false

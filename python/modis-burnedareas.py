@@ -68,7 +68,7 @@ def get_latest_mcd45_file(mydir, regionName, year):
 	if os.path.exists(local_filename):
 		print "already downloaded and processed..."
 		ftp.close()
-		if not force
+		if not force:
 			sys.exit(-1)
 		else:
 			return local_filename
@@ -164,7 +164,7 @@ def process_mcd45_file(mydir, dx, file_name, s3_bucket, s3_folder):
 
 	if force or not os.path.exists(topojsongz_file):
 		# compress topojson without all the directories
-		cmd = str.format("gzip {0} ", topojson_file); 
+		cmd = str.format("gzip --keep {0} ", topojson_file); 
 		execute(cmd)
 
 	zoom 		= region['thn_zoom']
@@ -174,7 +174,7 @@ def process_mcd45_file(mydir, dx, file_name, s3_bucket, s3_folder):
 	if force or not os.path.exists(sw_osm_image):
 		MakeBrowseImage(ds, browse_filename, small_browse_filename, osm_bg_image, sw_osm_image, levels, hexColors, force, verbose, zoom)
 
-	file_list = [ sw_osm_image, topojson_filename, topojson_filename+".gz", subset_file ]
+	file_list = [ sw_osm_image, topojson_file, topojson_file+".gz", subset_file ]
 	CopyToS3( s3_bucket, s3_folder, file_list, force, verbose )
 
 	ds = None
@@ -199,6 +199,7 @@ if __name__ == '__main__':
 	verbose		= options.verbose
 
 	regionName	= options.region	
+	region		= config.regions[regionName]
 	
 	dt			= date.today().strftime("%Y-%m-%d")
 	today		= parse(dt)

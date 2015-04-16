@@ -164,6 +164,12 @@
 				"href": 		"/opensearch",
 				"checked": 		false,
 				"selected":   false
+			},
+			{
+				"source": 		"viirs",
+				"href": 		"/opensearch",
+				"checked": 		false,
+				"selected":   false
 			}
  	],
 	"valid_modis_tiles":             [

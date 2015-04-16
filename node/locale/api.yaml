@@ -59,6 +59,7 @@ en:
     dk: NASA GSFC Dalia Kirschbaum model
     usgs: USGS
     noaa: NOAA
+    gsfc: NASA GSFC
 
   sensors:
     sar: SAR
@@ -74,6 +75,7 @@ en:
     dk: N/A
     usgs: USGS
     avhrr: AVHRR
+    viirs: VIIRS
     
   duration:
     hours: "%{hours} hours"
@@ -117,6 +119,7 @@ en:
     quakes: Earthquakes
     drought: Drought
     vhi: Vegetation Health Index
+    algal_bloom: Algal Bloom
 
   filesize:
     B: B
@@ -335,4 +338,21 @@ en:
         55pct: 55pct
         89pct: 89pct
         144pct: 144pct
-  
+   
+    viirs_chla:
+        title: VIIRS Chlorophyll-A
+        credits: NASA GSFC
+        source: 
+            label: Source
+            source: NASA FSFC
+        legend:         
+            1: 3mm
+            3: 3mm
+            5: 5mm
+            10: 8mm
+            15: 13mm
+            20: 21mm
+            30: 34mm
+            50: 55mm
+            100: 89mm
+            300: 144mm

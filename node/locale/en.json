@@ -57,7 +57,8 @@
         "ls": "ORNL Landscan",
         "dk": "NASA GSFC Dalia Kirschbaum model",
         "usgs": "USGS",
-        "noaa": "NOAA"
+        "noaa": "NOAA",
+        "gsfc": "NASA GSFC"
     },
     "sensors": {
         "sar": "SAR",
@@ -72,7 +73,8 @@
         "ls": "ORNL Landscan",
         "dk": "N/A",
         "usgs": "USGS",
-        "avhrr": "AVHRR"
+        "avhrr": "AVHRR",
+        "viirs": "VIIRS"
     },
     "duration": {
         "hours": "%{hours} hours",
@@ -115,7 +117,8 @@
         "surface_water": "Flood Map",
         "quakes": "Earthquakes",
         "drought": "Drought",
-        "vhi": "Vegetation Health Index"
+        "vhi": "Vegetation Health Index",
+        "algal_bloom": "Algal Bloom"
     },
     "filesize": {
         "B": "B",
@@ -313,6 +316,26 @@
                 "144mm": "144mm"
             }
         },
+        "viirs_chla": {
+            "title": "VIIRS Chlorophyll-A",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Source",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "1": "0.01mg/m3",
+                "3": "0.03mg/m3",
+                "5": "0.05mg/m3",
+                "10": "0.10mg/m3",
+                "15": "0.15mg/m3",
+                "20": "0.20mg/m3",
+                "30": "0.30mg/m3",
+                "50": "0.50mg/m3",
+                "100": "1mg/m3",
+                "350": "3.5mg/m3"
+            }
+        },		
         "stream_flow": {
             "title": "Stream Flow",
             "credits": "University of Oklahoma",

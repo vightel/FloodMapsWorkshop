@@ -54,9 +54,9 @@ make
 sudo make install 
 cd ../
 
-wget http://download.osgeo.org/gdal/1.11.0/gdal-1.11.0.tar.gz
-tar -xzf gdal-1.11.0.tar.gz
-cd gdal-1.11.0
+wget http://download.osgeo.org/gdal/1.11.0/gdal-1.11.2.tar.gz
+tar -xzf gdal-1.11.2.tar.gz
+cd gdal-1.11.2
 ./configure --with-python
 make
 sudo make install
@@ -68,9 +68,9 @@ sudo yum -y install gdal-python
 # vi /etc/sudoers
 # Defaults env_keep = "PYTHONPATH..."
 
-wget http://potrace.sourceforge.net/download/potrace-1.11.tar.gz
-tar -xzf potrace-1.11.tar.gz
-cd potrace-1.11
+wget http://potrace.sourceforge.net/download/1.12/potrace-1.12.tar.gz
+tar -xzf potrace-1.12.tar.gz
+cd potrace-1.12
 ./configure
 make
 sudo make install
@@ -128,7 +128,7 @@ sudo chown -R ec2-user:ec2-user /usr/local/lib
 chmod u+rx,go-w /usr/local/lib/node_modules/
 
 # node
-NODE_VERSION="0.10.26"
+NODE_VERSION="0.12.2"
 wget http://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz
 tar xf node-v${NODE_VERSION}.tar.gz
 cd node-v${NODE_VERSION}
@@ -183,11 +183,10 @@ cd ../
 # if for some reason python is not finding psycopg2.... grrrr
 # might need to tweak PYTHONPATH as packages get installed in different directories
 sudo yum -y install python-psycopg2
-#sudo easy_install psycopg2 
-#sudo pip install psycopg2
 
 sudo easy_install ppygis
- 
+sudo easy_install python-dateutil boto argparse
+
 # update your libraries
 sudo su
 echo /usr/local/lib >> /etc/ld.so.conf
