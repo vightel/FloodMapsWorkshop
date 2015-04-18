@@ -584,6 +584,7 @@ var util 		= require('util'),
 		var day		= date.date();
 		if( day < 10 ) day = "0"+day
 		
+		var fkey                = this.options.subfolder+"."+year+month+day
 		var s3host				= "https://s3.amazonaws.com/"+ bucket+"/"+this.options.subfolder+"/" + year + "/" + jday + "/"
 
 		// local host cache for S3
@@ -591,7 +592,7 @@ var util 		= require('util'),
 
 		var browse_img			= this.options.subfolder+"."+year + month + day + this.options.browse_img
 		
-		var data_url			= s3proxy+this.options.topojson || this.options.geojson
+		var data_url			= s3proxy+fkey+ (this.options.topojson || this.options.geojson)
 		
 		console.log("Browse", this.options.subfolder, year, doy)
 		

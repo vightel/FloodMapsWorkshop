@@ -25,7 +25,7 @@ var util 		= require('util'),
 		source: 		'sources.noaa',
 		sensor: 		'sensors.avhrr',
 		resolution: 	'4km',
-		original_url:   'source_url',
+		original_url:   source_url,
 		product: 		'vhi',
 		tags: 			['vhi', 'vegetation_health_index', 'drought'],
 		//bbox: 		bbox,							// lng,lat bottom left - top right

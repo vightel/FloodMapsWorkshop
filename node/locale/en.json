@@ -58,7 +58,8 @@
         "dk": "NASA GSFC Dalia Kirschbaum model",
         "usgs": "USGS",
         "noaa": "NOAA",
-        "gsfc": "NASA GSFC"
+        "gsfc": "NASA GSFC",
+        "umd": "University of Maryland"
     },
     "sensors": {
         "sar": "SAR",
@@ -118,7 +119,8 @@
         "quakes": "Earthquakes",
         "drought": "Drought",
         "vhi": "Vegetation Health Index",
-        "algal_bloom": "Algal Bloom"
+        "algal_bloom": "Algal Bloom",
+        "burned_areas": "Burned Areas"
     },
     "filesize": {
         "B": "B",
@@ -177,6 +179,15 @@
                 "source": "NASA"
             },
             "legend": "Surface Water"
+        },
+        "burned_areas": {
+            "title": "Burned Areas",
+            "credits": "University of Maryland",
+            "source": {
+                "label": "Source",
+                "source": "UMD"
+            },
+            "legend": "Burned Areas"
         },
         "active_fires": {
             "title": "MODIS Active Fires",

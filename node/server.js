@@ -55,6 +55,7 @@ var express 		= require('express'),
 	var	query_quakes			= require('./lib/query_quakes').query;
 	var	query_vhi				= require('./lib/query_vhi').query;
 	var	query_vchloa			= require('./lib/query_vchloa').query;
+	var	query_ba			    = require('./lib/query_ba').query;
 
 	var s3_products = {
 		"ef5": 					query_ef5,
@@ -67,7 +68,8 @@ var express 		= require('express'),
 		"trmm_24": 				query_trmm_24,
 		"quakes": 				query_quakes,
 		"vhi":  				query_vhi,
-		"viirs_chla":  	    	query_vchloa
+		"viirs_chla":  	    	query_vchloa,
+		"burned_areas":  	    query_ba
 	}
 		
 	var app 				= module.exports = express();

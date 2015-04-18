@@ -140,7 +140,7 @@ def process_viirs_chla_file( mydir, regionName, viirs_filename, s3_bucket, s3_fo
 		execute(cmd)
 		
 		
-	if force or not os.path.exists(sw_osm_image):
+	if force or not  .path.exists(sw_osm_image):
 		zoom 	= region['thn_zoom']
 		scale 	= 100	
 		MakeBrowseImage(ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image, levels, hexColors, force, verbose, zoom, scale)

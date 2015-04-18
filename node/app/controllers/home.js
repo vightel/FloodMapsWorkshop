@@ -29,7 +29,7 @@ var util	= require('util'),
 	
 module.exports = {
 	index: function(req, res) {  
-		var region 	= app.config.regions['Global']
+		var region 	= app.config.regions['d02']
 		var user	= req.session.user
 		var host	= req.protocol +"://" + req.headers.host
 				

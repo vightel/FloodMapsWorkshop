@@ -111,21 +111,23 @@ def process_mcd45_file(mydir, dx, file_name, s3_bucket, s3_folder):
 		os.makedirs(localdir)
 	
 	# Set file vars
-	output_file 			= os.path.join(localdir, "mcd45_%s_out.tif" % ymd)
-	rgb_output_file 		= os.path.join(localdir, "mcd45_%s_out_rgb.tif" % ymd)
-	subset_file 			= os.path.join(localdir, "mcd45_%s_subset.tif" % ymd)
-	subset_rgb_file 		= os.path.join(localdir, "mcd45_%s_subset_rgb.tif" % ymd)
+	output_file 			= os.path.join(localdir, "burned_areas.%s_out.tif" % ymd)
+	rgb_output_file 		= os.path.join(localdir, "burned_areas.%s_out_rgb.tif" % ymd)
+	subset_file 			= os.path.join(localdir, "burned_areas.%s_subset.tif" % ymd)
+	subset_rgb_file 		= os.path.join(localdir, "burned_areas.%s_subset_rgb.tif" % ymd)
+	
 	color_file 				= os.path.join("cluts","mcd45_colors.txt")
-	resampled_file 			= os.path.join(localdir, "mcd45_%s_resampled.tif" % ymd)
-	resampled_rgb_file 		= os.path.join(localdir, "mcd45_%s_resampled_rgb.tif" % ymd)
-	bmp_file 				= os.path.join(localdir, "mcd45_%s.bmp" % ymd)
-	geojson_file 			= os.path.join(localdir, "mcd45_%s.geojson" % ymd)
-	topojson_file 			= os.path.join(localdir, "mcd45_%s.topojson" % ymd)
-	topojsongz_file 		= os.path.join(localdir, "mcd45_%s.topojson.gz" % ymd)
-	sw_osm_image			= os.path.join(localdir, "mcd45.%s_thn.jpg" % ymd)
+	
+	resampled_file 			= os.path.join(localdir, "burned_areas.%s_resampled.tif" % ymd)
+	resampled_rgb_file 		= os.path.join(localdir, "burned_areas.%s_resampled_rgb.tif" % ymd)
+	bmp_file 				= os.path.join(localdir, "burned_areas.%s.bmp" % ymd)
+	geojson_file 			= os.path.join(localdir, "burned_areas.%s.geojson" % ymd)
+	topojson_file 			= os.path.join(localdir, "burned_areas.%s.topojson" % ymd)
+	topojsongz_file 		= os.path.join(localdir, "burned_areas.%s.topojson.gz" % ymd)
+	sw_osm_image			= os.path.join(localdir, "burned_areas.%s_thn.jpg" % ymd)
 	osm_bg_image			= os.path.join(localdir, "osm_bg.png")
-	browse_filename 		= os.path.join(localdir, "mcd45.%s_browse.tif" % ymd)
-	small_browse_filename 	= os.path.join(localdir, "mcd45.%s_small_browse.tif" % ymd)
+	browse_filename 		= os.path.join(localdir, "burned_areas.%s_browse.tif" % ymd)
+	small_browse_filename 	= os.path.join(localdir, "burned_areas.%s_small_browse.tif" % ymd)
 	
 	# subset it to our BBOX
 	# use ullr
@@ -217,7 +219,7 @@ if __name__ == '__main__':
 	
 	latest_file = get_latest_mcd45_file(mydir, regionName, year)
 	
-	s3_folder	= os.path.join("mcd45", str(year), doy)
+	s3_folder	= os.path.join("burned_areas", str(year), doy)
 	s3_bucket	= region['bucket']
 	
 	process_mcd45_file( mydir, regionName, latest_file, s3_bucket, s3_folder)

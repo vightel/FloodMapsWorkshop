@@ -17,17 +17,18 @@ var util 		= require('util'),
 		geojson: 		undefined,
 		topojson: 		".topojson",
 		topojson_gz: 	".topojson.gz",
+		shape_gz: 	    ".shp.gz",
 		source: 		'sources.gsfc',
 		sensor: 		'sensors.viirs',
 		resolution: 	'4km',
-		original_url:   'source_url',
+		original_url:   source_url,
 		product: 		'viirs_chla',
 		tags: 			['algal_bloom', 'viirs_chla', 'chlorophyll_a', 'ocean_color'],
 		minzoom: 		6
 	}
 	
-	colors 				= ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"]
-	levels 				= [350, 100, 50, 30, 20, 15, 10, 5, 3, 1]
+	var colors 			= ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"]
+	var levels 			= [350, 100, 50, 30, 20, 15, 10, 5, 3, 1]
 	
 	options.credits	= function(req) {
 		var json = {
@@ -145,9 +146,7 @@ var util 		= require('util'),
 		html += "  </div>"
 		html += "<div class='legend-source'>"+ req.gettext("legend.viirs_chla.source.label")+": <a href='"+ source_url+"'>"+ req.gettext("legend.viirs_chla.source.source")+"</a>"
 		html += "</div>&nbsp;&nbsp;"
-	
-		console.log("legend title", req.gettext("legend.viirs_chla.title"))
-	
+		
 		return html
 	}
 	
