@@ -597,27 +597,16 @@ var util 		= require('util'),
 			var day		= date.date();
 			if( day < 10 ) day = "0"+day
 		
-<<<<<<< HEAD
-		var fkey                = this.options.subfolder+"."+year+month+day
-		var s3host				= "https://s3.amazonaws.com/"+ bucket+"/"+this.options.subfolder+"/" + year + "/" + jday + "/"
-=======
 			var s3host				= "https://s3.amazonaws.com/"+ bucket+"/"+slf.options.subfolder+"/" + year + "/" + jday + "/"
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 
 			// local host cache for S3
 			var s3proxy				= host+'/products/s3/'+regionKey+"/"+ slf.options.subfolder+"/"+year+"/"+jday + "/"
 
-<<<<<<< HEAD
-		var browse_img			= this.options.subfolder+"."+year + month + day + this.options.browse_img
-		
-		var data_url			= s3proxy+fkey+ (this.options.topojson || this.options.geojson)
-=======
 			var browse_img			= _.find(artifacts, function(el) { 
 							return el.key.indexOf("_thn.jpg") > 0
 						}).key
 					
 			var data_url			= s3proxy+slf.options.topojson || slf.options.geojson
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 		
 			console.log("Browse", slf.options.subfolder, year, doy)
 		

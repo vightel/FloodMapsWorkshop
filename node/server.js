@@ -62,33 +62,30 @@ var express 		= require('express'),
 	var	query_chirps_5			= require('./lib/query_chirps_5').query;
 
 	var s3_products = {
-		"ef5": 					query_ef5,
-		"gpm_24": 				query_gpm_24,
-		"landslide_nowcast": 	query_landslide_nowcast,
-		"maxq": 				query_maxq,
-		"maxswe": 				query_maxswe,
-		'modis_af': 			query_modis_af,
-		'sm': 					query_sm,
-		"trmm_24": 				query_trmm_24,
-		"quakes": 				query_quakes,
-		"vhi":  				query_vhi,
-		"viirs_chla":  	    	query_vchloa,
-<<<<<<< HEAD
-		"burned_areas":  	    query_ba
-=======
-		"chirps_prelim_pentad":  	    	query_chirps_5,
-		"chirps_prelim_dekad":  			query_chirps_10,
-		"chirps_prelim_monthly":  			query_chirps_30
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
+		"ef5": 						query_ef5,
+		"gpm_24": 					query_gpm_24,
+		"landslide_nowcast": 		query_landslide_nowcast,
+		"maxq": 					query_maxq,
+		"maxswe": 					query_maxswe,
+		'modis_af': 				query_modis_af,
+		'sm': 						query_sm,
+		"trmm_24": 					query_trmm_24,
+		"quakes": 					query_quakes,
+		"vhi":  					query_vhi,
+		"viirs_chla":				query_vchloa,
+		"burned_areas":  	    	query_ba
+		"chirps_prelim_pentad":		query_chirps_5,
+		"chirps_prelim_dekad":		query_chirps_10,
+		"chirps_prelim_monthly":	query_chirps_30
 	}
 		
-	var app 				= module.exports = express();
+	var app 					= module.exports = express();
+	
+	global.app 					= app;
+	app.root 					= process.cwd();
 
-	global.app 				= app;
-	app.root 				= process.cwd();
-
-	var mainEnv 			= app.root + '/config/environment'+'.js';
-	var supportEnv 			= app.root + '/config/environments/' + app.settings.env+'.js';
+	var mainEnv 				= app.root + '/config/environment'+'.js';
+	var supportEnv 				= app.root + '/config/environments/' + app.settings.env+'.js';
 
 
 require(mainEnv)
@@ -314,10 +311,10 @@ app.get('/products/:subfolder/map/pop/:year',			products_pop.map);
 app.get('/products/:subfolder/query/pop/:year',			products_pop.query);
 app.get('/products/:subfolder/query/pop/:year/:id',		products_pop.product);
 
-app.get('/mapinfo/pop',							mapinfo_pop.pop);
-app.get('/mapinfo/pop/style',					mapinfo_pop.pop_style);
-app.get('/mapinfo/pop/legend',					mapinfo_pop.pop_legend);
-app.get('/mapinfo/pop/credits',					mapinfo_pop.pop_credits);
+app.get('/mapinfo/pop',								mapinfo_pop.pop);
+app.get('/mapinfo/pop/style',						mapinfo_pop.pop_style);
+app.get('/mapinfo/pop/legend',						mapinfo_pop.pop_legend);
+app.get('/mapinfo/pop/credits',						mapinfo_pop.pop_credits);
 
 app.get('/products/:subfolder/browse/:regionKey/:year/:doy',	function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Browse(req, res); })
 app.get('/products/:subfolder/map/:regionKey/:year/:doy',		function(req,res) { var subfolder = req.params.subfolder; s3_products[subfolder].Map(req, res); })
