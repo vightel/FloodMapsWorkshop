@@ -16,7 +16,7 @@ var fs  		= require('fs'),
 	query_dfo					= require("../../lib/query_dfo"),
 	//query_digiglobe				= require("../../lib/query_digiglobe"),
 	query_modislst				= require("../../lib/query_modislst"),
-	query_pop					= require("../../lib/query_pop")
+	query_pop					= require("../../lib/query_pop"),
 
 	query_af					= require("../../lib/query_modis_af").query
 	query_trmm_24				= require("../../lib/query_trmm_24").query
@@ -29,9 +29,13 @@ var fs  		= require('fs'),
 	query_quakes				= require("../../lib/query_quakes").query,
 	query_vhi					= require("../../lib/query_vhi").query,
 	query_vchloa				= require("../../lib/query_vchloa").query,
+<<<<<<< HEAD
+	query_ba				    = require("../../lib/query_ba").query
+=======
 	query_chirps_30				= require("../../lib/query_chirps_30").query,
 	query_chirps_10				= require("../../lib/query_chirps_10").query,
 	query_chirps_5				= require("../../lib/query_chirps_5").query
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 	;
 	
 	// Queries for all those sources
@@ -43,7 +47,7 @@ var fs  		= require('fs'),
 		"landslide_model": 		[query_landslide_nowcast2.QueryAll.bind(query_landslide_nowcast2)],
 		"landsat_8": 			[query_l8.QueryLandsat8],
 		"landscan": 			[query_pop.QueryAll],
-		"modis": 				[query_modis.QueryModis, query_af.QueryAll.bind(query_af)],
+		"modis": 				[query_modis.QueryModis, query_af.QueryAll.bind(query_af), query_ba.QueryAll.bind(query_ba)],
 		"modis_lst":			[query_modislst.QueryModisLST],
 		"usgs": 				[query_quakes.QueryAll.bind(query_quakes)],
 		"radarsat_2": 			[query_radarsat2.QueryRadarsat2],
@@ -160,13 +164,12 @@ var fs  		= require('fs'),
 	
 module.exports = {
 	classic: function(req, res) {
-		var host = req.protocol+"://"+req.headers.host
-		var region = app.config.regions.d02
-		var user= req.session.user
-
-		// set to Gonaives
-		region.target=[-18.19,21.07]
-		
+		var host    = req.protocol+"://"+req.headers.host
+		var region  = app.config.regions.d02
+		var user    = req.session.user
+        
+		region.zoom = 6
+        
 		res.render( "opensearch/classic", {
 			user: user,
 			opensearch_url: host+"/opensearch",

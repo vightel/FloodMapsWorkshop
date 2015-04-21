@@ -59,7 +59,11 @@
         "usgs": "USGS",
         "noaa": "NOAA",
         "gsfc": "NASA GSFC",
+<<<<<<< HEAD
+        "umd": "University of Maryland"
+=======
         "chirps": "CHIRPS"
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
     },
     "sensors": {
         "sar": "SAR",
@@ -122,7 +126,8 @@
         "quakes": "Earthquakes",
         "drought": "Drought",
         "vhi": "Vegetation Health Index",
-        "algal_bloom": "Algal Bloom"
+        "algal_bloom": "Algal Bloom",
+        "burned_areas": "Burned Areas"
     },
     "filesize": {
         "B": "B",
@@ -181,6 +186,15 @@
                 "source": "NASA"
             },
             "legend": "Surface Water"
+        },
+        "burned_areas": {
+            "title": "Burned Areas",
+            "credits": "University of Maryland",
+            "source": {
+                "label": "Source",
+                "source": "UMD"
+            },
+            "legend": "Burned Areas"
         },
         "active_fires": {
             "title": "MODIS Active Fires",

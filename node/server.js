@@ -55,6 +55,7 @@ var express 		= require('express'),
 	var	query_quakes			= require('./lib/query_quakes').query;
 	var	query_vhi				= require('./lib/query_vhi').query;
 	var	query_vchloa			= require('./lib/query_vchloa').query;
+	var	query_ba			    = require('./lib/query_ba').query;
 
 	var	query_chirps_30			= require('./lib/query_chirps_30').query;
 	var	query_chirps_10			= require('./lib/query_chirps_10').query;
@@ -72,9 +73,13 @@ var express 		= require('express'),
 		"quakes": 				query_quakes,
 		"vhi":  				query_vhi,
 		"viirs_chla":  	    	query_vchloa,
+<<<<<<< HEAD
+		"burned_areas":  	    query_ba
+=======
 		"chirps_prelim_pentad":  	    	query_chirps_5,
 		"chirps_prelim_dekad":  			query_chirps_10,
 		"chirps_prelim_monthly":  			query_chirps_30
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 	}
 		
 	var app 				= module.exports = express();

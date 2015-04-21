@@ -23,22 +23,22 @@
 
 <script>
 	var map = L.mapbox.map('map', '<%= region.map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
-	.setView([<%= region.target %>], 5)
+	.setView([<%= region.target[1] %>, <%= region.target[0] %>], <%=region.zoom%>)
 	
 	var map_controls = L.control.layers({
 	    'Topo Map': L.mapbox.tileLayer('<%= region.map_id %>',{ attribution: 'MapBox'}).addTo(map)
 	}, {}).addTo(map);
 	
 	
-	var marker_me = L.marker([<%= region.target[0] %>,<%= region.target[1] %> ], {
+	var marker_me = L.marker([<%= region.target[1] %>,<%= region.target[0] %> ], {
 	    icon: L.mapbox.marker.icon({
 	      'marker-color': '#f86767'
 	    })
 	}).addTo(map);
 	
 	var delta 	= 0.2;
-	var lat		= <%= region.target[0] %>
-	var lng		= <%= region.target[1] %>
+	var lat		= <%= region.target[1] %>
+	var lng		= <%= region.target[0] %>
 	var latlon_poly = [ 
 		 L.latLng(lat-delta, lng-delta),
 		 L.latLng(lat+delta, lng-delta),
@@ -53,10 +53,10 @@
 		
 	L.control.scale().addTo(map);
 	
-	$('#lnglat').val("<%= region.target[1] %>,<%= region.target[0] %>")
+	$('#lnglat').val("<%= region.target[0] %>,<%= region.target[1] %>")
 	
-	var query_results = {};
-	footprints		= [];
+	var query_results   = {};
+	footprints		    = [];
 	
 	$('#query').show();
 	//$('#dp_startTime').datepicker();
