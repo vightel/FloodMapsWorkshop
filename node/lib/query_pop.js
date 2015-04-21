@@ -46,6 +46,7 @@ var util 		= require('util'),
 		var id				= "pop_2011"
 		var host 			= "http://"+req.headers.host
 		var bucket			= app.config.regions[regionKey].bucket
+		
 		console.log("QueryByID")
 		
 		function Bewit(url) {
@@ -71,14 +72,19 @@ var util 		= require('util'),
 		
 		if( bucketList[key] != undefined ) {	
 			var artifacts			= bucketList[key]
-						
+			console.log(artifacts)
+				
 			var s3host				= "https://s3.amazonaws.com/"+bucket+"/ls/2011/"
+			var s3proxy				= host+'/products/'+regionKey+"/query/pop/2011/"
+			
 			var browse_img			= "ls.2011_thn.jpg"
 			var topojson_file		= "ls.2011.topojson"
 			var topojson_gz_file	= "ls.2011.topojson.gz"
 			
 			var topojson_size		= _.find(artifacts, function(el) { return el.key == topojson_file}).size
 			var topojson_gz_size	= _.find(artifacts, function(el) { return el.key == topojson_gz_file }).size
+			
+			console.log(s3host, browse_img)
 			
 			actions = [
 				{ 
@@ -98,7 +104,7 @@ var util 		= require('util'),
 						{
 							"@type": 		"as:HttpRequest",
 							"method": 		"GET",
-							"url": 			s3host+topojson_file,
+							"url": 			Bewit(s3proxy+topojson_file),
 							"mediaType": 	"application/json",
 							"size": 		filesize(topojson_size),
 							"displayName": 	req.gettext("formats.topojson")
@@ -106,7 +112,7 @@ var util 		= require('util'),
 						{
 							"@type": 		"as:HttpRequest",
 							"method": 		"GET",
-							"url": 			s3host+topojson_gz_file,
+							"url": 			Bewit(s3proxy+topojson_gz_file),
 							"mediaType": 	"application/gzip",
 							"size": 		filesize(topojson_gz_size),
 							"displayName": 	req.gettext("formats.topojsongz")
@@ -242,16 +248,23 @@ var util 		= require('util'),
 			logger.error("Invalid itemsPerPage: "+itemsPerPage)			
 			return cb(null, null)		
 		}
-	
-		if( lat && (lat < 20 || lat> 40) ) {
-			logger.error("outside lat", lat)
-			return cb(null, null)	
+
+		// override default bucket based on location
+		var regionKey  	= FindRegionKey(lat, lon)
+		if(regionKey == undefined )	{
+			logger.error("Undefined regionKey", lat, lon)
+			return cb(null, null)
 		}
-	
-		if( lon && (lon < 60 || lon> 80) ) {
-			logger.error("outside lon", lon)
-			return cb(null, null)		
+			
+		var bucket		= app.config.regions[regionKey].bucket
+		
+		if( bucket ) {
+			console.log("Found bucket", bucket)
+		} else {
+			logger.error("Cannot find bucket for", lat, lon)
+			return cb(null, null)
 		}
+		
 			
 		if( bbox ) {
 			lon = (bbox[0]+bbox[2])/2

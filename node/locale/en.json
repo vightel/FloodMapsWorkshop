@@ -58,7 +58,8 @@
         "dk": "NASA GSFC Dalia Kirschbaum model",
         "usgs": "USGS",
         "noaa": "NOAA",
-        "gsfc": "NASA GSFC"
+        "gsfc": "NASA GSFC",
+        "chirps": "CHIRPS"
     },
     "sensors": {
         "sar": "SAR",
@@ -96,7 +97,10 @@
     "products": {
         "active_fires": "Active Fires",
         "burn_scar": "Burn Scar",
-        "daily_precipitation": "Daily Precip",
+        "precip_1": "1-Day Precipitation",
+        "precip_5": "5-Day Precipitation",
+        "precip_10": "10-Day Precipitation",
+        "precip_30": "30-Day Precipitation",
         "flood_forecast": "Flood Forecast",
         "flood_nowcast": "Flood Nowcast",
         "flood_catalog": "Flood Catalog",
@@ -284,15 +288,15 @@
                 "source": "Oakridge National Laboratory"
             },
             "legend": {
-                "1000": 1000,
-                "2000": 2000,
-                "3000": 3000,
-                "5000": 5000,
-                "8000": 8000,
-                "13000": 13000,
-                "21000": 21000,
-                "34000": 34000,
-                "55000": 55000
+                "100": 100,
+                "200": 200,
+                "300": 300,
+                "500": 500,
+                "800": 800,
+                "1300": 1300,
+                "2100": 2100,
+                "3400": 3400,
+                "5500": 5500
             }
         },
         "daily_precipitation": {
@@ -316,26 +320,6 @@
                 "144mm": "144mm"
             }
         },
-        "viirs_chla": {
-            "title": "VIIRS Chlorophyll-A",
-            "credits": "NASA GSFC",
-            "source": {
-                "label": "Source",
-                "source": "NASA GSFC"
-            },
-            "legend": {
-                "1": "0.01mg/m3",
-                "3": "0.03mg/m3",
-                "5": "0.05mg/m3",
-                "10": "0.10mg/m3",
-                "15": "0.15mg/m3",
-                "20": "0.20mg/m3",
-                "30": "0.30mg/m3",
-                "50": "0.50mg/m3",
-                "100": "1mg/m3",
-                "350": "3.5mg/m3"
-            }
-        },		
         "stream_flow": {
             "title": "Stream Flow",
             "credits": "University of Oklahoma",
@@ -384,6 +368,92 @@
                 "55pct": "55pct",
                 "89pct": "89pct",
                 "144pct": "144pct"
+            }
+        },
+        "viirs_chla": {
+            "title": "VIIRS Chlorophyll-A",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Source",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "1": "3mm",
+                "3": "3mm",
+                "5": "5mm",
+                "10": "8mm",
+                "15": "13mm",
+                "20": "21mm",
+                "30": "34mm",
+                "50": "55mm",
+                "100": "89mm",
+                "300": "144mm"
+            }
+        },
+        "chirps_prelim_monthly": {
+            "title": "CHIRPS 2.0 Prelim Monthly",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Source",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "400": "400mm",
+                "500": "500mm",
+                "600": "600mm"
+            }
+        },
+        "chirps_prelim_dekad": {
+            "title": "CHIRPS 2.0 Prelim Dekad",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Source",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "75": "75mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "350": "350mm"
+            }
+        },
+        "chirps_prelim_pentad": {
+            "title": "CHIRPS 2.0 Prelim Pentad",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Source",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "5": "5mm",
+                "10": "10mm",
+                "15": "15mm",
+                "20": "20mm",
+                "25": "25mm",
+                "30": "30mm",
+                "35": "35mm",
+                "40": "40mm",
+                "50": "50mm",
+                "60": "60mm"
             }
         }
     },

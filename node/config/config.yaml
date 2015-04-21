@@ -170,6 +170,12 @@
 				"href": 		"/opensearch",
 				"checked": 		false,
 				"selected":   false
+			},
+			{
+				"source": 		"chirps",
+				"href": 		"/opensearch",
+				"checked": 		false,
+				"selected":   false
 			}
  	],
 	"valid_modis_tiles":             [

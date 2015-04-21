@@ -10,39 +10,39 @@ var colors 			= [	"#f7f4f9", "#e7e1ef", "#d4b9da", "#c994c7", "#df65b0", "#e7298
 
 function get_pop_style(req) {
 	var json = {
-		"{population}==1000": {
+		"{population}==100": {
 			color: colors[0], 	
 			weight: 2
 		},
-		"{population}==2000": {
+		"{population}==200": {
 			color: colors[1], 	
 			weight: 2
 		},
-		"{population}==3000": {
+		"{population}==300": {
 			color: colors[2], 	
 			weight: 2
 		},
-		"{population}==5000": {
+		"{population}==500": {
 			color: colors[3], 	
 			weight: 2
 		},
-		"{population}==8000": {
+		"{population}==800": {
 			color: colors[4], 	
 			weight: 2
 		},
-		"{population}==13000": {
+		"{population}==1300": {
 			color: colors[5], 	
 			weight: 2
 		},
-		"{population}==21000": {
+		"{population}==2100": {
 			color: colors[6], 	
 			weight: 2
 		},
-		"{population}==34000": {
+		"{population}==3400": {
 			color: colors[7], 	
 			weight: 2
 		},
-		"{population}==55000": {
+		"{population}==5500": {
 			color: colors[8], 	
 			weight: 2
 		}
@@ -99,15 +99,15 @@ function get_pop_legend(req) {
 	html += "  <div class='legend-title'>"+ req.gettext("legend.population_count.title")+"</div>"
 	html += "  <div class='legend-scale'>"
 	html += "    <ul class='legend-labels'>"
-	html += "	   <li><span style='background: " + colors[0] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.1000") +"</li>"
-	html += "	   <li><span style='background: " + colors[1] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.2000") +"</li>"
-	html += "	   <li><span style='background: " + colors[2] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.3000") +"</li>"
-	html += "	   <li><span style='background: " + colors[3] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.5000") +"</li>"
-	html += "	   <li><span style='background: " + colors[4] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.8000") +"</li>"
-	html += "	   <li><span style='background: " + colors[5] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.13000") +"</li>"
-	html += "	   <li><span style='background: " + colors[6] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.21000") +"</li>"
-	html += "	   <li><span style='background: " + colors[7] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.34000") +"</li>"
-	html += "	   <li><span style='background: " + colors[8] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.55000") +"</li>"
+	html += "	   <li><span style='background: " + colors[0] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.100") +"</li>"
+	html += "	   <li><span style='background: " + colors[1] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.200") +"</li>"
+	html += "	   <li><span style='background: " + colors[2] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.300") +"</li>"
+	html += "	   <li><span style='background: " + colors[3] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.500") +"</li>"
+	html += "	   <li><span style='background: " + colors[4] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.800") +"</li>"
+	html += "	   <li><span style='background: " + colors[5] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.1300") +"</li>"
+	html += "	   <li><span style='background: " + colors[6] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.2100") +"</li>"
+	html += "	   <li><span style='background: " + colors[7] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.3400") +"</li>"
+	html += "	   <li><span style='background: " + colors[8] + "'></span>&nbsp;"+ req.gettext("legend.population_count.legend.5500") +"</li>"
 	html += "    </ul>"
 	html += "  </div>"
 	html += "<div class='legend-source'>"+ req.gettext("legend.population_count.source.label")+": <a href='http://web.ornl.gov/sci/landscan/'>"+ req.gettext("legend.population_count.source.source")+"</a>"

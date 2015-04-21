@@ -24,11 +24,14 @@ var fs  		= require('fs'),
 	query_ef5					= require("../../lib/query_ef5").query,
 	query_maxswe				= require("../../lib/query_maxswe").query,
 	query_sm					= require("../../lib/query_sm").query,
-	query_maxq					= require("../../lib/query_maxq").query
-	query_landslide_nowcast2	= require("../../lib/query_landslide_nowcast2").query
-	query_quakes				= require("../../lib/query_quakes").query
-	query_vhi					= require("../../lib/query_vhi").query
-	query_vchloa				= require("../../lib/query_vchloa").query
+	query_maxq					= require("../../lib/query_maxq").query,
+	query_landslide_nowcast2	= require("../../lib/query_landslide_nowcast2").query,
+	query_quakes				= require("../../lib/query_quakes").query,
+	query_vhi					= require("../../lib/query_vhi").query,
+	query_vchloa				= require("../../lib/query_vchloa").query,
+	query_chirps_30				= require("../../lib/query_chirps_30").query,
+	query_chirps_10				= require("../../lib/query_chirps_10").query,
+	query_chirps_5				= require("../../lib/query_chirps_5").query
 	;
 	
 	// Queries for all those sources
@@ -47,7 +50,8 @@ var fs  		= require('fs'),
 		"trmm": 				[query_trmm_24.QueryAll.bind(query_trmm_24)],
 		"gpm": 					[query_gpm_24.QueryAll.bind(query_gpm_24)],
 		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)],
-		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)]
+		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)],
+		"chirps": 				[query_chirps_30.QueryAll.bind(query_chirps_30), query_chirps_10.QueryAll.bind(query_chirps_10),query_chirps_5.QueryAll.bind(query_chirps_5),]
 	}
     
 	function ValidateBBox( bbox ) {

@@ -10,7 +10,7 @@
 # gdalwarp lspop2011 -t_srs EPSG:4326 -of GTIFF lspop2011_4326.tif
 #
 
-import os, inspect
+import os, inspect, sys
 import argparse
 
 from osgeo import gdal
@@ -34,11 +34,13 @@ def execute( cmd ):
 		print cmd
 	os.system(cmd)
 	
-def process(mydir, lsFile, region, s3_bucket, s3_folder):
-	scene			= config.REGION['name']
+def process(mydir, lsFile, regionName, region, s3_bucket, s3_folder):
+	scene			= regionName
 	subsetFileName	= os.path.join(mydir, "ls.2011_subset.tif")
 	if force or not os.path.exists(subsetFileName):
-		bbox 			= config.REGION['bbox']
+		bbox 			= region['bbox']
+		print region['name'], region['bbox']
+		
 		warpOptions 	= "-q -overwrite -co COMPRESS=DEFLATE -t_srs EPSG:4326 -te %s %s %s %s " % (bbox[0], bbox[1], bbox[2], bbox[3])
 		warpCmd 		= 'gdalwarp ' + warpOptions + lsFile + ' ' + subsetFileName
 		execute( warpCmd )
@@ -64,7 +66,7 @@ def process(mydir, lsFile, region, s3_bucket, s3_folder):
 	osm_bg_image		= os.path.join(geojsonDir, "..", "osm_bg.png")
 	sw_osm_image		= os.path.join(geojsonDir, "..", "ls.2011_thn.jpg" )
 
-	levels 				= [ 55000, 34000, 21000, 13000, 8000, 5000, 3000, 2000, 1000 ]
+	levels 				= [ 5500, 3400, 2100, 1300, 800, 500, 300, 200, 100 ]
 	
 	# From http://colorbrewer2.org/	
 	hexColors 			= [	"#f7f4f9", "#e7e1ef", "#d4b9da", "#c994c7", "#df65b0", "#e7298a", "#ce1256", "#980043", "#67001f"]
@@ -103,7 +105,8 @@ def process(mydir, lsFile, region, s3_bucket, s3_folder):
 		execute(cmd)
 
 	if force or not os.path.exists(sw_osm_image):
-		MakeBrowseImage(ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image,levels, hexColors, force, verbose)
+		zoom = region['thn_zoom']
+		MakeBrowseImage(ds, browse_filename, subset_filename, osm_bg_image, sw_osm_image,levels, hexColors, force, verbose, zoom)
 		
 	ds = None
 	
@@ -111,7 +114,9 @@ def process(mydir, lsFile, region, s3_bucket, s3_folder):
 	
 	CopyToS3( s3_bucket, s3_folder, file_list, force, verbose )
 	
-# python landscan.py -v
+#
+# python landscan.py --region d04 -v -f
+#
 if __name__ == '__main__':
 	version_num = int(gdal.VersionInfo('VERSION_NUM'))
 	if version_num < 1800: # because of GetGeoTransform(can_return_null)
@@ -122,24 +127,27 @@ if __name__ == '__main__':
 	apg_input 	= parser.add_argument_group('Input')
 	apg_input.add_argument("-f", "--force", action='store_true', help="forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", action='store_true', help="Verbose on/off")
+	apg_input.add_argument("-r", "--region", help="region name")
 
 	options 	= parser.parse_args()
 	force		= options.force
 	verbose		= options.verbose
-
+	regionName	= options.region
+	
 	# Landscan directory
 	lsFile		= "/Volumes/MacBay3/GeoData/ls/LandScan-2011/ArcGIS/Population/lspop2011_4326.tif"
-	region		= config.REGION
+	region		= config.regions[regionName]
 	year		= 2011
+	
 	s3_folder	= os.path.join("ls", str(year))
-	s3_bucket	= 'ojo-d6'
+	s3_bucket	= region['bucket']
 
 	if not os.path.exists(lsFile):
 		print "Landscan file does not exist", lsFile
 		sys.exit(-1)
 		
-	ls_dir	= os.path.join(BASE_DIR,str(year))
+	ls_dir	= os.path.join(BASE_DIR,str(year), regionName)
 	if not os.path.exists(ls_dir):
 	    os.makedirs(ls_dir)
 
-	process(ls_dir, lsFile, region, s3_bucket, s3_folder)
+	process(ls_dir, lsFile, regionName, region, s3_bucket, s3_folder)

@@ -56,6 +56,10 @@ var express 		= require('express'),
 	var	query_vhi				= require('./lib/query_vhi').query;
 	var	query_vchloa			= require('./lib/query_vchloa').query;
 
+	var	query_chirps_30			= require('./lib/query_chirps_30').query;
+	var	query_chirps_10			= require('./lib/query_chirps_10').query;
+	var	query_chirps_5			= require('./lib/query_chirps_5').query;
+
 	var s3_products = {
 		"ef5": 					query_ef5,
 		"gpm_24": 				query_gpm_24,
@@ -67,7 +71,10 @@ var express 		= require('express'),
 		"trmm_24": 				query_trmm_24,
 		"quakes": 				query_quakes,
 		"vhi":  				query_vhi,
-		"viirs_chla":  	    	query_vchloa
+		"viirs_chla":  	    	query_vchloa,
+		"chirps_prelim_pentad":  	    	query_chirps_5,
+		"chirps_prelim_dekad":  			query_chirps_10,
+		"chirps_prelim_monthly":  			query_chirps_30
 	}
 		
 	var app 				= module.exports = express();
@@ -297,9 +304,10 @@ app.get('/mapinfo/dfo/style',						mapinfo_dfo.dfo_style);
 app.get('/mapinfo/dfo/legend',						mapinfo_dfo.dfo_legend);
 app.get('/mapinfo/dfo/credits',						mapinfo_dfo.dfo_credits);
 
-app.get('/products/:subfolder/browse/pop/:year/:doy',		products_pop.browse);
-app.get('/products/:subfolder/map/pop/:year/:doy',			products_pop.map);
-app.get('/products/:subfolder/query/pop/:year/:doy',		products_pop.query);
+app.get('/products/:subfolder/browse/pop/:year',		products_pop.browse);
+app.get('/products/:subfolder/map/pop/:year',			products_pop.map);
+app.get('/products/:subfolder/query/pop/:year',			products_pop.query);
+app.get('/products/:subfolder/query/pop/:year/:id',		products_pop.product);
 
 app.get('/mapinfo/pop',							mapinfo_pop.pop);
 app.get('/mapinfo/pop/style',					mapinfo_pop.pop_style);

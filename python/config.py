@@ -22,12 +22,6 @@ HANDS_HEIGHT		= 9
 # S3 bucket to store data and publish it
 BUCKET				= "ojo-workshop"
 
-REGION		= {
-	'name':			"Pakistan",
-	'bbox': 		[60, 20, 80, 40 ],
-	'bucket':		"ojo-workshop"
-}
-
 regions		= {
 	'd02': {
 		'name':			"Central America",
@@ -64,27 +58,28 @@ regions		= {
 #
 # Data Directories
 #
-LANDSAT8_DIR			= os.path.join(DATA_DIR, "l8")
-RADARSAT2_DIR			= os.path.join(DATA_DIR, "radarsat2")
-MODIS_DIR				= os.path.join(DATA_DIR, "modis")
-MODIS_ACTIVE_FIRES_DIR	= os.path.join(DATA_DIR, "modis_af")
-MODIS_BURNEDAREAS_DIR	= os.path.join(DATA_DIR, "modis_burnedareas")
-EO1_DIR					= os.path.join(DATA_DIR, "eo1_ali")
-DFO_DIR					= os.path.join(DATA_DIR, "dfo")
-PALSAR2_DIR				= os.path.join(DATA_DIR, "palsar2")
-FROST_DIR				= os.path.join(DATA_DIR, "frost")
-DIGIGLOBE_DIR			= os.path.join(DATA_DIR, "digiglobe")
-VIIRS_DIR				= os.path.join(DATA_DIR, "viirs")
-CSV_DIR					= os.path.join(DATA_DIR, "csv")
-EF5_DIR					= os.path.join(DATA_DIR, "ef5")
-MAXQ_DIR				= os.path.join(DATA_DIR, "maxq")
-MAXSWE_DIR				= os.path.join(DATA_DIR, "maxswe")
-SM_DIR					= os.path.join(DATA_DIR, "sm")
-TRMM_DIR				= os.path.join(DATA_DIR, "trmm_24")
-GPM_DIR					= os.path.join(DATA_DIR, "gpm_24")
-LS_DIR					= os.path.join(DATA_DIR, "ls")
-QUAKES_DIR				= os.path.join(DATA_DIR, "quakes")
-VIIRS_CHLA_DIR			= os.path.join(DATA_DIR, "viirs_chla")
+LANDSAT8_DIR				= os.path.join(DATA_DIR, "l8")
+RADARSAT2_DIR				= os.path.join(DATA_DIR, "radarsat2")
+MODIS_DIR					= os.path.join(DATA_DIR, "modis")
+MODIS_ACTIVE_FIRES_DIR		= os.path.join(DATA_DIR, "modis_af")
+MODIS_BURNEDAREAS_DIR		= os.path.join(DATA_DIR, "modis_burnedareas")
+EO1_DIR						= os.path.join(DATA_DIR, "eo1_ali")
+DFO_DIR						= os.path.join(DATA_DIR, "dfo")
+PALSAR2_DIR					= os.path.join(DATA_DIR, "palsar2")
+FROST_DIR					= os.path.join(DATA_DIR, "frost")
+DIGIGLOBE_DIR				= os.path.join(DATA_DIR, "digiglobe")
+VIIRS_DIR					= os.path.join(DATA_DIR, "viirs")
+CSV_DIR						= os.path.join(DATA_DIR, "csv")
+EF5_DIR						= os.path.join(DATA_DIR, "ef5")
+MAXQ_DIR					= os.path.join(DATA_DIR, "maxq")
+MAXSWE_DIR					= os.path.join(DATA_DIR, "maxswe")
+SM_DIR						= os.path.join(DATA_DIR, "sm")
+TRMM_DIR					= os.path.join(DATA_DIR, "trmm_24")
+GPM_DIR						= os.path.join(DATA_DIR, "gpm_24")
+LS_DIR						= os.path.join(DATA_DIR, "ls")
+QUAKES_DIR					= os.path.join(DATA_DIR, "quakes")
+VIIRS_CHLA_DIR				= os.path.join(DATA_DIR, "viirs_chla")
+CHIRPS_PRELIM_DIR			= os.path.join(DATA_DIR, "chirps2_prelim")
 
 SRTM2_DIR				= "/shared/production/proddata/srtm2"
 

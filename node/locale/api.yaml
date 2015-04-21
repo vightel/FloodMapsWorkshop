@@ -60,6 +60,7 @@ en:
     usgs: USGS
     noaa: NOAA
     gsfc: NASA GSFC
+    chirps: CHIRPS
 
   sensors:
     sar: SAR
@@ -97,7 +98,10 @@ en:
   products:
     active_fires: Active Fires
     burn_scar: Burn Scar
-    daily_precipitation: Daily Precip
+    precip_1: 1-Day Precipitation
+    precip_5: 5-Day Precipitation
+    precip_10: 10-Day Precipitation
+    precip_30: 30-Day Precipitation
     flood_forecast: Flood Forecast
     flood_nowcast: Flood Nowcast
     flood_catalog: Flood Catalog
@@ -266,15 +270,15 @@ en:
         label: Source
         source: Oakridge National Laboratory
       legend:         
-        1000:  1000
-        2000:  2000
-        3000:  3000
-        5000:  5000
-        8000:  8000
-        13000: 13000
-        21000: 21000
-        34000: 34000
-        55000: 55000
+        100:  100
+        200:  200
+        300:  300
+        500:  500
+        800:  800
+        1300: 1300
+        2100: 2100
+        3400: 3400
+        5500: 5500
 
     daily_precipitation:
       title: Daily Precipitation
@@ -344,7 +348,7 @@ en:
         credits: NASA GSFC
         source: 
             label: Source
-            source: NASA FSFC
+            source: NASA GSFC
         legend:         
             1: 3mm
             3: 3mm
@@ -356,3 +360,63 @@ en:
             50: 55mm
             100: 89mm
             300: 144mm
+
+    chirps_prelim_monthly:
+        title: CHIRPS 2.0 Prelim Monthly
+        credits: UC Santa Barbara
+        source: 
+            label: Source
+            source: UCSB
+        legend:         
+            0: 0mm
+            10: 10mm
+            25: 25mm
+            50: 50mm
+            100: 100mm
+            150: 150mm
+            200: 200mm
+            250: 250mm
+            300: 300mm
+            400: 400mm
+            500: 500mm
+            600: 600mm
+
+    chirps_prelim_dekad:
+        title: CHIRPS 2.0 Prelim Dekad
+        credits: UC Santa Barbara
+        source: 
+            label: Source
+            source: UCSB
+        legend:         
+            0:   0mm
+            1:   1mm
+            10:  10mm
+            25:  25mm
+            50:  50mm
+            75:  75mm
+            100: 100mm
+            150: 150mm
+            200: 200mm
+            250: 250mm
+            300: 300mm
+            350: 350mm
+
+    chirps_prelim_pentad:
+        title: CHIRPS 2.0 Prelim Pentad
+        credits: UC Santa Barbara
+        source: 
+            label: Source
+            source: UCSB
+        legend:         
+            0:  0mm
+            1:  1mm
+            5:  5mm
+            10: 10mm
+            15: 15mm
+            20: 20mm
+            25: 25mm
+            30: 30mm
+            35: 35mm
+            40: 40mm
+            50: 50mm
+            60: 60mm

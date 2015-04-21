@@ -37,10 +37,10 @@ def CreateLevel(l, geojsonDir, fileName, src_ds, data, attr, _force, _verbose):
 	o_band		 		= dst_ds_dataset.GetRasterBand(1)
 	o_data				= o_band.ReadAsArray(0, 0, dst_ds_dataset.RasterXSize, dst_ds_dataset.RasterYSize )
 	
-	count 			= (data >= l).sum()	
+	count 				= (data >= l).sum()	
 
 	o_data[data>=l] 	= 255
-	o_data[data<l]	= 0
+	o_data[data<l]		= 0
 
 	if verbose:
 		print "Level", l, " count:", count

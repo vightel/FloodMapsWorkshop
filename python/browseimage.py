@@ -237,6 +237,7 @@ def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_o
 	data				= band.ReadAsArray(0, 0, src_ds.RasterXSize, src_ds.RasterYSize )
 	
 	if scale != 1:
+		print "rescale for browse", scale
 		data *= scale
 		
 	xorg				= geotransform[0]
@@ -352,7 +353,7 @@ def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_o
 	# superimpose the suface water over map background
 	#if force or not os.path.isfile(sw_osm_image):	
 	if force or not os.path.isfile(sw_osm_image):	
-		cmd = str.format("composite -gravity center {0} {1} {2}", subset_filename, osm_bg_image, sw_osm_image)
+		cmd = str.format("composite -gravity center -blend 50 {0} {1} {2}", subset_filename, osm_bg_image, sw_osm_image)
 		execute(cmd)
 		
 if __name__ == '__main__':
