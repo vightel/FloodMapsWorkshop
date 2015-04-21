@@ -7,6 +7,7 @@ var util 			= require('util'),
 	//xml2js 			= require('xml2js'),
 	_				= require('underscore'),
 	mime			= require('mime-types'),
+	mkdirp			= require('mkdirp'),
 	Hawk			= require('hawk'),
 	query_pop		= require("../lib/query_pop"),
 
@@ -24,6 +25,28 @@ var util 			= require('util'),
 			url: url,
 			layout: false
 		})
+	}
+	
+	function sendFile( res, file ) {
+		var ext 		= path.extname(file)
+		var basename 	= path.basename(file)
+		var dirname 	= path.dirname(file)
+		var ext			= path.extname(file)
+	
+		var mime_type = mime.lookup(path.basename(file))
+		//console.log("sendFile", file, ext, mime_type)
+	
+		if( (basename.indexOf(".topojson.gz") > 0) || (basename.indexOf(".geojson.gz") > 0) ) {
+			res.header("Content-Type", "application/json")
+			res.header("Content-Encoding", "gzip")
+			//console.log("sending .topojson application/json gzip", basename)
+		} else {
+			//console.log("sending ", mime_type, basename, dirname)
+			res.header("Content-Type", mime_type, basename)
+			debug(ext, mime_type, "no encoding")
+		}
+		res.header("Access-Control-Allow-Origin", "*")
+		res.sendFile(basename, {root: dirname})
 	}
 	
 	module.exports = {
@@ -98,6 +121,53 @@ var util 			= require('util'),
 			query_pop.QueryByID(req, user, year, doy, credentials, function(err, entry) {
 				res.send(entry)
 			}) 
+		},
+		
+		product: function(req,res) {
+			var regionKey	= req.params['subfolder']
+			var region		= app.config.regions[regionKey]
+			var bucket		= region.bucket
+
+			var subfolder	= 'ls'
+			var year 		= req.params['year']
+			var id			= req.params['id']			
+			 
+			// https much slower than http so let's use http
+			var s3host		= "http://s3.amazonaws.com/"
+			var s3fileName	= s3host + bucket+"/"+subfolder+"/" + year  + "/" + id
+
+			var tmp_dir 	= app.get("tmp_dir")
+			var fileName 	= path.join(tmp_dir, bucket, subfolder, year, id)
+			var dirName	 	= path.dirname(fileName)
+		
+		
+			if( !fs.existsSync(dirName)) mkdirp.sync(dirName)
+			if( fs.existsSync(fileName)) {
+				//console.log("return from s3 cache", fileName)
+				return sendFile(res, fileName)
+			}
+		
+			var file = fs.createWriteStream(fileName);
+			var options = {
+				Bucket: bucket, 
+				Key: subfolder +"/"+year+"/"+id
+			};
+		
+			try {
+				//console.log("copy from s3", options)
+				app.s3.getObject(options)
+				.createReadStream()
+				.pipe(file)
+			
+				file.on('close', function() {
+					//console.log("got file from S3", fileName)
+					sendFile(res, fileName)
+				});
+			
+			} catch(e) {
+				logger.error("error getting from S3", options, e)
+				return res.sendStatus(500)
+			}
 		},
 		
 		process: function(req,res) {

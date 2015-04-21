@@ -172,26 +172,32 @@ var util 		= require('util'),
 
 	Query.prototype.CheckIfProductInBucketList = function(req, key, year, month, day, jday, id, Bewit, regionKey, next) {
 		if( this.bucketList[key] != undefined ) {				
-			// console.log("found", key, "ymd", this.options.subfolder, year, month, day)
 			var artifacts			= this.bucketList[key]
 			var host 				= "http://" + req.headers.host
 			var date				= moment(year+"-"+jday)
 			var bucket				= app.config.regions[regionKey].bucket
 			
 			var s3host				= "https://s3.amazonaws.com/"+bucket +"/"+ this.options.subfolder+"/"+year+"/"+jday + "/"
-			var browse_img			= this.options.subfolder+"."+year+month+day+this.options.browse_img
-				
+			var browse_img			= _.find(artifacts, function(el) { 
+											return el.key.indexOf("_thn.jpg") > 0 
+										}).key
+			
 			var downloads = []
 			
 			// local host cache for S3
 			var s3proxy				= host+'/products/s3/'+regionKey+"/"+ this.options.subfolder+"/"+year+"/"+jday + "/"
 			
-			function checkFilePresent( subfolder, ftype, mediaType, format ) {
+			function checkFilePresent( subfolder, ftype, mediaType, format, fmt ) {
 				if(ftype) {
-					var fkey		= subfolder+"."+year+month+day+ ftype
-					var size		= "NOT FOUND"
-					try {
-						size =  _.find(artifacts, function(el) { return el.key == fkey }).size
+					try {						
+						var obj  =  _.find(artifacts, function(el) { 
+							return el.key.indexOf(fmt) > 0
+						})
+						
+						var fkey = obj.key
+						var size = obj.size
+						//console.log(fkey, size)
+						
 						var download_file = {
 							"@type": 		"as:HttpRequest",
 							"method": 		"GET",
@@ -207,17 +213,17 @@ var util 		= require('util'),
 						}
 						downloads.push(download_file)
 					} catch(e) {
-						logger.error("could not find size of", ftype)
+						logger.error("could not find size of", fkey)
 					}
 				}
 			}
 			
-			checkFilePresent( this.options.subfolder, this.options.geojson, 	"application/json", 	"formats.geojson" )
-			checkFilePresent( this.options.subfolder, this.options.geojsongz, 	"application/gzip", 	"formats.geojsongz" )
-			checkFilePresent( this.options.subfolder, this.options.topojson, 	"application/json", 	"formats.topojson" )
-			checkFilePresent( this.options.subfolder, this.options.topojson, 	"application/gzip", 	"formats.topojsongz" )
-			checkFilePresent( this.options.subfolder, this.options.shape_gz, 	"application/gzip", 	"formats.shpgz" )
-			checkFilePresent( this.options.subfolder, this.options.geotiff, 	"application/tiff", 	"formats.geotiff" )
+			checkFilePresent( this.options.subfolder, this.options.geojson, 	"application/json", 	"formats.geojson", 		".geojson" )
+			checkFilePresent( this.options.subfolder, this.options.geojsongz, 	"application/gzip", 	"formats.geojsongz", 	".geojson.gz" )
+			checkFilePresent( this.options.subfolder, this.options.topojson_gz, "application/gzip", 	"formats.topojsongz", 	".topojson.gz" )
+			checkFilePresent( this.options.subfolder, this.options.topojson, 	"application/json",		"formats.topojson", 	".topojson" )
+			checkFilePresent( this.options.subfolder, this.options.shape_gz, 	"application/gzip", 	"formats.shpgz", 		".shp.gz" )
+			checkFilePresent( this.options.subfolder, this.options.geotiff, 	"application/tiff", 	"formats.geotiff", 		".tif" )
 		
 			actions = [
 				{ 
@@ -450,6 +456,7 @@ var util 		= require('util'),
 		
 		this.QueryByID(req, user, year, doy, regionKey, credentials, function( err, entry ) {
 			if( !err ) {
+				console.log(entry)
 				res.json(entry)
 			} else {
 				console.log("no entry")
@@ -565,50 +572,69 @@ var util 		= require('util'),
 		var date 		= moment(year+"-"+doy)
 		var host 		= "http://"+req.headers.host
 		var legend		= "legend."+ this.options.product+".title"
-				
-		//var region 	= {
-		//	name: 	req.gettext(legend),
-		//	scene: 	year+"-"+doy,
-		//	bbox: 	this.options.bbox,
-		//	target: this.options.target
-		//}
-		
-		var jday	= date.dayOfYear()
-		if( jday < 10 ) {
-			jday = "00"+jday
-		} else if( jday < 100 ) jday = "0"+jday
 
-		var month = date.month() + 1
-		if( month < 10 ) month = "0"+ month
-
-		var day		= date.date();
-		if( day < 10 ) day = "0"+day
+		var slf 		= this
+		this.CheckEmptyBucketList(bucket, function() {
+			var key 		=  slf.options.subfolder + "/" + date.year() + "/" + doy + "/"
+			var artifacts	= slf.bucketList[key]
+			console.log(key, slf.bucketList)
 		
+			//var region 	= {
+			//	name: 	req.gettext(legend),
+			//	scene: 	year+"-"+doy,
+			//	bbox: 	this.options.bbox,
+			//	target: this.options.target
+			//}
+		
+			var jday	= date.dayOfYear()
+			if( jday < 10 ) {
+				jday = "00"+jday
+			} else if( jday < 100 ) jday = "0"+jday
+
+			var month = date.month() + 1
+			if( month < 10 ) month = "0"+ month
+
+			var day		= date.date();
+			if( day < 10 ) day = "0"+day
+		
+<<<<<<< HEAD
 		var fkey                = this.options.subfolder+"."+year+month+day
 		var s3host				= "https://s3.amazonaws.com/"+ bucket+"/"+this.options.subfolder+"/" + year + "/" + jday + "/"
+=======
+			var s3host				= "https://s3.amazonaws.com/"+ bucket+"/"+slf.options.subfolder+"/" + year + "/" + jday + "/"
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 
-		// local host cache for S3
-		var s3proxy				= host+'/products/s3/'+regionKey+"/"+ this.options.subfolder+"/"+year+"/"+jday + "/"
+			// local host cache for S3
+			var s3proxy				= host+'/products/s3/'+regionKey+"/"+ slf.options.subfolder+"/"+year+"/"+jday + "/"
 
+<<<<<<< HEAD
 		var browse_img			= this.options.subfolder+"."+year + month + day + this.options.browse_img
 		
 		var data_url			= s3proxy+fkey+ (this.options.topojson || this.options.geojson)
+=======
+			var browse_img			= _.find(artifacts, function(el) { 
+							return el.key.indexOf("_thn.jpg") > 0
+						}).key
+					
+			var data_url			= s3proxy+slf.options.topojson || slf.options.geojson
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 		
-		console.log("Browse", this.options.subfolder, year, doy)
+			console.log("Browse", slf.options.subfolder, year, doy)
 		
-		res.render("products/s3_product", {
-			social_envs: 	app.social_envs,
-			description: 	req.gettext(legend) +" - "+date.format("YYYY-MM-DD"),
-			image: 			s3proxy+browse_img,
-			product_title: 	this.options.product,
-			product_tags: 	this.options.tags.join(","),
-			url: 			host+"/products/" + this.options.subfolder +"/browse/"+ regionKey +"/" + year+"/"+doy,
-			map_url: 		host+"/products/"+ this.options.subfolder + "/map/"+regionKey+"/"+year+"/"+doy,
-			date: 			date.format("YYYY-MM-DD"),
-			region: 		region,
-			data: 			this.options.original_url,
-			topojson: 		data_url,
-			layout: 		false
+			res.render("products/s3_product", {
+				social_envs: 	app.social_envs,
+				description: 	req.gettext(legend) +" - "+date.format("YYYY-MM-DD"),
+				image: 			s3proxy+browse_img,
+				product_title: 	slf.options.product,
+				product_tags: 	slf.options.tags.join(","),
+				url: 			host+"/products/" + slf.options.subfolder +"/browse/"+ regionKey +"/" + year+"/"+doy,
+				map_url: 		host+"/products/"+ slf.options.subfolder + "/map/"+regionKey+"/"+year+"/"+doy,
+				date: 			date.format("YYYY-MM-DD"),
+				region: 		region,
+				data: 			slf.options.original_url,
+				topojson: 		data_url,
+				layout: 		false
+			})
 		})
 	},
 	

@@ -13,6 +13,8 @@ var util 		= require('util'),
 	var	centerlon	=  	(bbox[0]+bbox[2])/2;
 	var	centerlat	=	(bbox[1]+bbox[3])/2;
 	
+	var source_url = "http://oceandata.sci.gsfc.nasa.gov/"
+	
 	var options = {
 		bucket: 		'ojo-workshop',
 		subfolder: 		'gpm_24',
@@ -23,9 +25,9 @@ var util 		= require('util'),
 		source: 		'sources.gpm',
 		sensor: 		'sensors.gpm',
 		resolution: 	'400m',
-		original_url:   'http://gpm.gsfc.nasa.gov',
+		original_url:   source_url,
 		product: 		'daily_precipitation',
-		tags: 			['daily_precipitation', 'precipitation', 'rain'],
+		tags: 			['precip_1', 'daily_precipitation', 'precipitation', 'rain'],
 		bbox: 			bbox,							// lng,lat bottom left - top right
 		target: 		[centerlon, centerlat],
 		minzoom: 		6
@@ -36,7 +38,7 @@ var util 		= require('util'),
 	options.credits	= function(req) {
 		var json = {
 			"credits":  req.gettext("legend.daily_precipitation.credits"),
-			"url": 		"http://gpm.nasa.gov/",
+			"url": 		source_url
 		};
 		return json;
 	}
@@ -152,7 +154,7 @@ var util 		= require('util'),
 		html += "	   <li><span style='background: " + colors[10] + "'></span>&nbsp;"+ req.gettext("legend.daily_precipitation.legend.144mm") +"</li>"
 		html += "    </ul>"
 		html += "  </div>"
-		html += "<div class='legend-source'>"+ req.gettext("legend.daily_precipitation.source.label")+": <a href='http://gpm.nasa.gov/'>"+ req.gettext("legend.daily_precipitation.source.source")+"</a>"
+		html += "<div class='legend-source'>"+ req.gettext("legend.daily_precipitation.source.label")+": <a href='"+source_url+"'>"+ req.gettext("legend.daily_precipitation.source.source")+"</a>"
 		html += "</div>&nbsp;&nbsp;"
 	
 		console.log("legend title", req.gettext("legend.daily_precipitation.title"))

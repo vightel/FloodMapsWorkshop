@@ -22,7 +22,7 @@
     "products": {
         "search": "Buscar Producto",
         "surface_water": "Mapa de Inundación",
-        "daily_precipitation": "Precipitación Diaria",
+        "daily_precipitation": "Última 24 Precipitación",
         "daily_precipitation_24h_forecast": "Precipitaciones 24h Pronóstico",
         "landslide_nowcast": "Pronóstico de Deslizamientos",
         "flood_nowcast": "Inundación Ahora",
@@ -36,6 +36,10 @@
         "query_layer": "Capa de Consulta",
         "active_fires": "Los incendios activos",
         "burn_scar": "Queme cicatriz",
+        "precip_1": "Precipitación 1 día",
+        "precip_5": "Precipitación 5 día",
+        "precip_10": "Precipitación 10 día",
+        "precip_30": "Precipitación 30 día",
         "frost": "Helada",
         "location_nowcast": "Pronóstico de Inundaciones",
         "population_count": "Population Count",
@@ -46,7 +50,8 @@
         "soil_moisture": "Humedad del Suelo",
         "quakes": "Terremotos",
         "drought": "Sequía",
-        "vhi": "Índice de Vegetación Helath"
+        "vhi": "Índice de Vegetación Helath",
+        "algal_bloom": "Floraciones de Algas"
     },
     "query": {
         "query_title": "Consulta",
@@ -370,7 +375,8 @@
         "longitude": "Longitud",
         "admin": "Administración",
         "banned": "Prohibido",
-        "accept": "¿Acepte licencia?"
+        "accept": "¿Acepte licencia?",
+        "terms": "Aceptar Términos ?"
     },
     "region": {
         "central_america": "América Central",
@@ -713,7 +719,9 @@
         "ls": "ORNL Landscan",
         "dk": "NASA GSFC Dalia Kirschbaum modelo",
         "usgs": "USGS",
-        "noaa": "NOAA"
+        "noaa": "NOAA",
+        "gsfc": "NASA GSFC",
+        "chirps": "CHIRPS"
     },
     "sensors": {
         "sar": "SAR",
@@ -728,7 +736,8 @@
         "ls": "ORNL Landscan",
         "dk": "N/A",
         "usgs": "USGS",
-        "avhrr": "AVHRR"
+        "avhrr": "AVHRR",
+        "viirs": "VIIRS"
     },
     "duration": {
         "hours": "%{hours} horas",
@@ -969,6 +978,92 @@
                 "55pct": "55pc",
                 "89pct": "89pc",
                 "144pct": "144pc"
+            }
+        },
+        "viirs_chla": {
+            "title": "VIIRS Clorofila-A",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Origen",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "1": "3mm",
+                "3": "3mm",
+                "5": "5mm",
+                "10": "8mm",
+                "15": "13mm",
+                "20": "21mm",
+                "30": "34mm",
+                "50": "55mm",
+                "100": "89mm",
+                "300": "144mm"
+            }
+        },
+        "chirps_prelim_monthly": {
+            "title": "CHIRPS 2.0 Prelim Mensual",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Origen",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "400": "400mm",
+                "500": "500mm",
+                "600": "600mm"
+            }
+        },
+        "chirps_prelim_dekad": {
+            "title": "CHIRPS 2.0 Prelim Década",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Origen",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "75": "75mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "350": "350mm"
+            }
+        },
+        "chirps_prelim_pentad": {
+            "title": "CHIRPS 2.0 Prelim Pentad",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Origen",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "5": "5mm",
+                "10": "10mm",
+                "15": "15mm",
+                "20": "20mm",
+                "25": "25mm",
+                "30": "30mm",
+                "35": "35mm",
+                "40": "40mm",
+                "50": "50mm",
+                "60": "60mm"
             }
         }
     }

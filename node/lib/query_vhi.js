@@ -8,11 +8,7 @@ var util 		= require('util'),
 	filesize 	= require('filesize'),
 	Query		= require('./query_s3')
 	;
-	
-	//var	bbox		=	[60, 40, 80, 20];				// lng,lat bottom left - top right
-	//var	centerlon	=  	(bbox[0]+bbox[2])/2;
-	//var	centerlat	=	(bbox[1]+bbox[3])/2;
-	
+		
 	var source_url = "http://www.star.nesdis.noaa.gov/smcd/emb/vci/VH/vh_ftp.php"
 	
 	var options = {
@@ -33,7 +29,7 @@ var util 		= require('util'),
 		minzoom: 		6
 	}
 	
-	colors 			= [ "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd"]
+	var colors 			= [ "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd"]
 
 	options.credits	= function(req) {
 		var json = {
@@ -42,6 +38,7 @@ var util 		= require('util'),
 		};
 		return json;
 	}
+	
 	options.style = function(req) {
 		var json = {
 			"{vhi}==6": {

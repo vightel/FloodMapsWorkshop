@@ -25,7 +25,7 @@ var util 		= require('util'),
 		resolution: 	'400m',
 		original_url:   'http://trmm.gsfc.nasa.gov',
 		product: 		'daily_precipitation',
-		tags: 			['daily_precipitation', 'precipitation', 'rain'],
+		tags: 			['precip_1', 'daily_precipitation', 'precipitation', 'rain'],
 		bbox: 			bbox,							// lng,lat bottom left - top right
 		target: 		[centerlon, centerlat],
 		minzoom: 		6

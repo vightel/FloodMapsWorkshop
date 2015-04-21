@@ -29,7 +29,13 @@ var fs  		= require('fs'),
 	query_quakes				= require("../../lib/query_quakes").query,
 	query_vhi					= require("../../lib/query_vhi").query,
 	query_vchloa				= require("../../lib/query_vchloa").query,
+<<<<<<< HEAD
 	query_ba				    = require("../../lib/query_ba").query
+=======
+	query_chirps_30				= require("../../lib/query_chirps_30").query,
+	query_chirps_10				= require("../../lib/query_chirps_10").query,
+	query_chirps_5				= require("../../lib/query_chirps_5").query
+>>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 	;
 	
 	// Queries for all those sources
@@ -48,7 +54,8 @@ var fs  		= require('fs'),
 		"trmm": 				[query_trmm_24.QueryAll.bind(query_trmm_24)],
 		"gpm": 					[query_gpm_24.QueryAll.bind(query_gpm_24)],
 		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)],
-		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)]
+		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)],
+		"chirps": 				[query_chirps_30.QueryAll.bind(query_chirps_30), query_chirps_10.QueryAll.bind(query_chirps_10),query_chirps_5.QueryAll.bind(query_chirps_5),]
 	}
     
 	function ValidateBBox( bbox ) {
