@@ -59,11 +59,8 @@
         "usgs": "USGS",
         "noaa": "NOAA",
         "gsfc": "NASA GSFC",
-<<<<<<< HEAD
-        "umd": "University of Maryland"
-=======
+        "umd": "University of Maryland Geographic Department",
         "chirps": "CHIRPS"
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
     },
     "sensors": {
         "sar": "SAR",
@@ -188,7 +185,7 @@
             "legend": "Surface Water"
         },
         "burned_areas": {
-            "title": "Burned Areas",
+            "title": "Pat's Burned Areas",
             "credits": "University of Maryland",
             "source": {
                 "label": "Source",
@@ -392,16 +389,16 @@
                 "source": "NASA GSFC"
             },
             "legend": {
-                "1": "3mm",
-                "3": "3mm",
-                "5": "5mm",
-                "10": "8mm",
-                "15": "13mm",
-                "20": "21mm",
-                "30": "34mm",
-                "50": "55mm",
-                "100": "89mm",
-                "300": "144mm"
+                "1": "0.01 mg/m3",
+                "3": "0.03 mg/m3",
+                "5": "0.05 mg/m3",
+                "10": "0.10 mg/m3",
+                "15": "0.15 mg/m3",
+                "20": "0.20 mg/m3",
+                "30": "0.30 mg/m3",
+                "50": "0.50 mg/m3",
+                "100": "1.0 mg/m3",
+                "350": "3.5 mg/m3"
             }
         },
         "chirps_prelim_monthly": {

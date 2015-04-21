@@ -60,11 +60,8 @@ en:
     usgs: USGS
     noaa: NOAA
     gsfc: NASA GSFC
-<<<<<<< HEAD
     umd: University of Maryland Geographic Department
-=======
     chirps: CHIRPS
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
 
   sensors:
     sar: SAR
@@ -363,7 +360,6 @@ en:
             label: Source
             source: NASA GSFC
         legend:         
-<<<<<<< HEAD
             1: 0.01 mg/m3
             3: 0.03 mg/m3
             5: 0.05 mg/m3
@@ -374,17 +370,6 @@ en:
             50: 0.50 mg/m3
             100: 1.0 mg/m3
             350: 3.5 mg/m3
-=======
-            1: 3mm
-            3: 3mm
-            5: 5mm
-            10: 8mm
-            15: 13mm
-            20: 21mm
-            30: 34mm
-            50: 55mm
-            100: 89mm
-            300: 144mm
 
     chirps_prelim_monthly:
         title: CHIRPS 2.0 Prelim Monthly
@@ -393,10 +378,10 @@ en:
             label: Source
             source: UCSB
         legend:         
-            0: 0mm
-            10: 10mm
-            25: 25mm
-            50: 50mm
+            0:   0mm
+            10:  10mm
+            25:  25mm
+            50:  50mm
             100: 100mm
             150: 150mm
             200: 200mm
@@ -445,4 +430,3 @@ en:
             40: 40mm
             50: 50mm
             60: 60mm
->>>>>>> 714c059ff3cabd97f524e190c03972a19ad7f97e
