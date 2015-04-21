@@ -73,7 +73,7 @@ var express 		= require('express'),
 		"quakes": 					query_quakes,
 		"vhi":  					query_vhi,
 		"viirs_chla":				query_vchloa,
-		"burned_areas":  	    	query_ba
+		"burned_areas":  	    	query_ba,
 		"chirps_prelim_pentad":		query_chirps_5,
 		"chirps_prelim_dekad":		query_chirps_10,
 		"chirps_prelim_monthly":	query_chirps_30
