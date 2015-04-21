@@ -8,7 +8,7 @@ var util 		= require('util'),
 	filesize 	= require('filesize'),
 	Query		= require('./query_s3')
 	;
-		
+	 	
 	var source_url = "http://geog.umd.edu/"
 	
 	var options = {
