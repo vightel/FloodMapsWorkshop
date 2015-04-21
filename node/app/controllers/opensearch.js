@@ -51,7 +51,7 @@ var fs  		= require('fs'),
 		"gpm": 					[query_gpm_24.QueryAll.bind(query_gpm_24)],
 		"noaa": 				[query_vhi.QueryAll.bind(query_vhi)],
 		"viirs": 				[query_vchloa.QueryAll.bind(query_vchloa)],
-		"chirps": 				[query_chirps_30.QueryAll.bind(query_chirps_30), query_chirps_10.QueryAll.bind(query_chirps_10),query_chirps_5.QueryAll.bind(query_chirps_5),]
+		"chirps": 				[query_chirps_30.QueryAll.bind(query_chirps_30), query_chirps_10.QueryAll.bind(query_chirps_10),query_chirps_5.QueryAll.bind(query_chirps_5)]
 	}
     
 	function ValidateBBox( bbox ) {
