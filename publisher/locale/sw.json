@@ -1,0 +1,860 @@
+{
+    "layout": {
+        "navbar": {
+            "landslides": "Maporomoko ya ardhi",
+            "floods": "Mafuriko",
+            "earthquakes": "Matetemeko",
+            "fires": "Moto",
+            "about": "Kuhusu",
+            "contacts": "Majina",
+            "wiki": "Wiki",
+            "edit": "Hariri"
+        },
+        "user": {
+            "signin": "Ingia "
+        }
+    },
+    "query": {
+        "query_title": "Uliza",
+        "start_time": "Wakati wa Kuanza",
+        "end_time": "Wakati wa mwisho",
+        "sources": "Chanzo",
+        "submit": "Wasilisha"
+    },
+    "homepage": {
+        "issues": "Masuala",
+        "more": "Zaidi",
+        "filter": {
+            "records": "rekodi"
+        },
+        "table": {
+            "headers": {
+                "date": "Tarehe",
+                "coordinates": "Uratibu",
+                "fatalities": "Vifo"
+            }
+        }
+    },
+    "map": {
+        "legend": "simulizi"
+    },
+    "flood": {
+        "table": {
+            "headers": {
+                "date": "Tarehe",
+                "coordinates": "Uratibu",
+                "cause": "Vifo",
+                "fatalities": "Vifo",
+                "severity": "Ukali"
+            }
+        }
+    },
+    "about": {
+        "title": "Kuhusu"
+    },
+    "contact": {
+        "title": "Wasiliana"
+    },
+    "privacy": {
+        "title": "Faragha"
+    },
+    "support": {
+        "title": "Kiguzo"
+    },
+    "terms": {
+        "title": "Masuala"
+    },
+    "copyrights": {
+        "title": "Hati miliki na Leseni"
+    },
+    "license": {
+        "title": "Leseni"
+    },
+    "hazards": {
+        "landslide": "Maporomoko ya ardhi",
+        "floods": "Mafuriko",
+        "fires": "Moto",
+        "volcanoes": "Volkeno",
+        "quakes": "Matetemeko",
+        "tsunami": "Sunami"
+    },
+    "navtab": {
+        "home": "Mwanzo",
+        "report": "Ripoti",
+        "reports": "Taarifa",
+        "report_a_flood": "Ripoti Mafuriko",
+        "report_a_landslide": "Ripoti Maporomoko ya ardhi",
+        "regions": "Mikoa",
+        "account": "Akaunti",
+        "back": "Nyuma",
+        "legend": "Simulizi",
+        "query": "Uliza",
+        "login": "Ingia",
+        "logout": "Kutoka",
+        "profile": "Kontua"
+    },
+    "products": {
+        "landslide_catalog": "Orodha ya Maporomoko",
+        "landslide_nowcast": "Utabiri wa Maporomoko",
+        "landslide_forecast": "Utabiri wa Maporomoko",
+        "landslide_susceptibility": "Hisia za Maporomoko",
+        "daily_precipitation": "Mvua karibu masaa 24",
+        "precipitation_nowcast": "Jumla ya mvua ya kila siku",
+        "precipitation_forecast": "Utabiri wa mvua ya kila siku",
+        "flood_forecast": "Utabiri wa mafuriko",
+        "flood_catalog": "orodha ya Mafuriko",
+        "query_layer": "Uliza Safu",
+        "active_fires": "Active Fires",
+        "burn_scar": "Burn Scar",
+        "precip_1": "1-Day Precipitation",
+        "precip_5": "5-Day Precipitation",
+        "precip_10": "10-Day Precipitation",
+        "precip_30": "30-Day Precipitation",
+        "flood_nowcast": "Flood Nowcast",
+        "frost": "Jalidi",
+        "location_nowcast": "Eneo ya Utabiri",
+        "population_count": "Kuhesabu idadi ya watu",
+        "rgb_composite": "RGB Composite",
+        "snow_water_equivalent": "Snow Water Equivalent",
+        "stream_flow": "Mtiririko",
+        "soil_moisture": "Unyevu wa Udongo",
+        "surface_water": "Ramani ya mafuriko",
+        "quakes": "Tetemeko la ardhi",
+        "drought": "Kiangazi",
+        "vhi": "Vegetation Health Index",
+        "algal_bloom": "Algal Bloom",
+        "burned_areas": "Maeneo ya kutetekezwa",
+        "snow_cover": "Funiko la theluji"
+    },
+    "profile": {
+        "label": "Kontua ya mtumiaji",
+        "user_info": "Habari ya Mtumiaji",
+        "name": "Jina",
+        "email": "barua pepe",
+        "organization": "Shirika",
+        "language": "Lugha",
+        "reputation": "Sifa",
+        "member_since": "Mshiriki Tangu",
+        "social_rewards": "Tuzo za umma",
+        "reported": "Taarifa",
+        "region": "Mkoa",
+        "admin": "Msimamizi",
+        "banned": "Marufuku",
+        "accept": "Kubali Leseni?",
+        "terms": "Kubali Suala?"
+    },
+    "region": {
+        "central_america": "Amerika ya Kati",
+        "hispaniola": "Hispaniola"
+    },
+    "today": {
+        "label": "Leo kwa Eneo langu",
+        "forecast": "Utabiri",
+        "landslide_hazard": "Hatari ya Maporomoko",
+        "flood_hazard": "Hatari ya Mafuriko",
+        "quake_hazard": "Hatari ya Tetemeko",
+        "fire_hazard": "Hatari ya Moto",
+        "tsunami_hazard": "Hatari ya Sunami",
+        "precipitation": "Mvua",
+        "soil_moisture": "Unyevu wa Udongo"
+    },
+    "alert": {
+        "none": "Hakuna",
+        "warning": "Onyo",
+        "caution": "Tahadhari"
+    },
+    "nav_button": {
+        "take_picture": "Chukua Picha"
+    },
+    "geoapp": {
+        "title": "OJO Geo-App",
+        "welcome": "Karibu{barua pepe}"
+    },
+    "landslide": {
+        "all_info": "Habari zote",
+        "properties": {
+            "user_id": {
+                "label": "Id ya mtumiaji",
+                "info": "Nambari ya Kawaida"
+            },
+            "id": {
+                "label": "Id",
+                "info": "Nambari ya Kawaida"
+            },
+            "date": {
+                "label": "Tarehe"
+            },
+            "time": {
+                "label": "Saa"
+            },
+            "country": {
+                "label": "Nchi"
+            },
+            "nearest_places": {
+                "label": "Maeneo ya Karibu"
+            },
+            "coordinates": {
+                "label": "Uratibu"
+            },
+            "trigger": {
+                "label": "Kianzilisho"
+            },
+            "fatalities": {
+                "label": "Idadi ya Vifo"
+            },
+            "injuries": {
+                "label": "Majeruhi"
+            },
+            "storm_name": {
+                "label": "Jina ya Dhoruba"
+            },
+            "landslide_size": {
+                "label": "Kiwango cha Poromoko",
+                "select": {
+                    "small": {
+                        "label": "Ndogo"
+                    },
+                    "medium": {
+                        "label": "Wastani"
+                    },
+                    "large": {
+                        "label": "Kubwa"
+                    },
+                    "very_large": {
+                        "label": "Kubwa Sana"
+                    }
+                }
+            },
+            "landslide_type": {
+                "label": "Aina ya Poromoko",
+                "select": {
+                    "landslide": {
+                        "label": "Poromoko"
+                    },
+                    "mudslide": {
+                        "label": "Maporomoko ya Udongo"
+                    },
+                    "debris_flow": {
+                        "label": "Mbubujiko wa Vifusi"
+                    },
+                    "rock_fall": {
+                        "label": "Kuanguka kwa Mwamba"
+                    },
+                    "Earthflow": {
+                        "label": "Mbubujiko wa Ardhi"
+                    },
+                    "snow_avalanche": {
+                        "label": "Poromoko Theluji"
+                    },
+                    "lahar": {
+                        "label": "Lahar"
+                    },
+                    "complex": {
+                        "label": "Tata"
+                    },
+                    "riverbank_collapse": {
+                        "label": "Benki ya mto kuanguka"
+                    },
+                    "creep": {
+                        "label": "Kuenda"
+                    }
+                }
+            },
+            "source_name": {
+                "label": "Jina la Chanzo"
+            },
+            "source_link": {
+                "label": "Kihusiano Chanzo"
+            },
+            "photos_link": {
+                "label": "Kihusiano Picha"
+            },
+            "comments": {
+                "label": "Maoni"
+            },
+            "location": {
+                "label": "Maeneo"
+            },
+            "location_description": {
+                "label": "Maelezo ya Eneo"
+            },
+            "location_accuracy": {
+                "label": "Usahihi wa Eneo"
+            },
+            "cat_src": {
+                "label": "Chanzo ya Orodha"
+            },
+            "cat_id": {
+                "label": "Tambulisho ya Orodha"
+            },
+            "countryname": {
+                "label": "Jina la Nchi"
+            },
+            "near": {
+                "label": "Karibu"
+            },
+            "distance": {
+                "label": "Umbali"
+            },
+            "adminname1": {
+                "label": "Jina ya Msimamizi 1"
+            },
+            "adminname2": {
+                "label": "Jina ya Msimamizi 2"
+            },
+            "adminname3": {
+                "label": "Jina ya Msimamizi 3"
+            },
+            "population": {
+                "label": "Idadi ya watu"
+            },
+            "tz": {
+                "label": "Wakati Eneo"
+            },
+            "countrycode": {
+                "label": "Kificho cha Nchi"
+            },
+            "continentcode": {
+                "label": "Kificho cha Bara"
+            },
+            "key": {
+                "label": "Funguo"
+            },
+            "github": {
+                "label": "Jina la Faili ya Github"
+            },
+            "all": {
+                "label": "Habari zote"
+            }
+        }
+    },
+    "presets": {
+        "presets": {
+            "hazard_type/landslide": {
+                "name": "Poromoko",
+                "terms": "poromoko"
+            },
+            "hazard_type/flood": {
+                "name": "Mafuriko",
+                "terms": "mafuriko"
+            }
+        },
+        "fields": {
+            "fatalities": {
+                "label": "Vifo",
+                "description": "vifo"
+            },
+            "injuries": {
+                "label": "Athari"
+            },
+            "nearest_places": {
+                "label": "Maeneo Karibu"
+            },
+            "date": {
+                "label": "Tarehe"
+            },
+            "time": {
+                "label": "Saa"
+            },
+            "hazard_type": {
+                "options": {
+                    "landslide": {
+                        "title": "Poromoko",
+                        "description": "Poromoko"
+                    },
+                    "flood": {
+                        "title": "Mafuriko",
+                        "description": "Mafuriko"
+                    }
+                }
+            },
+            "landslide_type": {
+                "options": {
+                    "Landslide": {
+                        "title": "Poromoko",
+                        "description": "Poromoko"
+                    }
+                }
+            },
+            "landslide_size": {
+                "options": {
+                    "Small": {
+                        "title": "Ndogo",
+                        "description": "Ndogo"
+                    },
+                    "Medium": {
+                        "title": "Wastani",
+                        "description": "Wastani"
+                    },
+                    "Large": {
+                        "title": "Kubwa",
+                        "description": "Kubwa"
+                    },
+                    "Very_large": {
+                        "title": "Kubwa Sana",
+                        "description": "Kubwa Sana"
+                    }
+                }
+            },
+            "location_accuracy": {
+                "options": {
+                    "Unknown": {
+                        "title": "Haijulikani",
+                        "description": "Haijulikani"
+                    }
+                }
+            },
+            "location_description": {
+                "options": {
+                    "Mine_construction": {
+                        "title": "Migodi",
+                        "description": "Migodi"
+                    },
+                    "Urban_area": {
+                        "title": "Mjini",
+                        "description": "Mjini"
+                    }
+                }
+            },
+            "comments": {
+                "label": "Maoni"
+            }
+        }
+    },
+    "results": "%{matokeo} matokeo",
+    "menu": {
+        "home": "Mwanzo",
+        "products": "Bidha",
+        "opensearch": "Chungua",
+        "applications": "purogiramu",
+        "register": "Orodhesha",
+        "list": "Orodha",
+        "query": "Uliza",
+        "search": "Chungua"
+    },
+    "tabs": {
+        "general": "Ujumla",
+        "metadata": "Metadata",
+        "actions": "Vitendo"
+    },
+    "actions": {
+        "actions": "vitendo",
+        "download": "nakili",
+        "browse": "orodhesha",
+        "process": "sindika",
+        "share": "shiriki",
+        "like": "penda",
+        "task": "kazi",
+        "map": "ramani"
+    },
+    "stream": {
+        "displayName": "Kichapishaji cha bidha vya eneo la mafuriko"
+    },
+    "properties": {
+        "properties": "miliki",
+        "description": "maelezo",
+        "source": "chanzo",
+        "sensor": "chombo",
+        "date": "tarehe",
+        "bbox": "bbox",
+        "size": "kipimo",
+        "centerlat": "katikati ya latitudo",
+        "centerlon": "katikati ya longitudo",
+        "duration": "muda",
+        "resolution": "Azimio",
+        "cloud": "funiko la wingu",
+        "copyright": "hati miliki",
+        "url": "url"
+    },
+    "sources": {
+        "radarsat2": "CSA Radarsat2",
+        "l8": "NASA Landsat-8",
+        "dfo": "Dartmouth Flood Observatory - Colorado",
+        "eo1": "NASA EO-1",
+        "modis": "NASA MODIS",
+        "alos2": "JAXA ALOS-2",
+        "ef5": "Chuo kikuu ya Oklahoma",
+        "trmm": "NASA GSFC TRMM",
+        "gpm": "NASA GSFC GPM",
+        "ls": "ORNL Landscan",
+        "dk": "NASA GSFC Dalia Kirschbaum model",
+        "usgs": "USGS",
+        "noaa": "NOAA",
+        "gsfc": "NASA GSFC",
+        "umd": "Idara ya Jiografia ya Chuo kikuu ya Maryland",
+        "chirps": "CHIRPS",
+        "rcmrd": "RCMRD",
+        "icimod": "ICIMOD"
+    },
+    "sensors": {
+        "sar": "SAR",
+        "ali": "ALI",
+        "modis": "MODIS",
+        "l8": "OLI",
+        "dfo": "MODIS/l8",
+        "alos2": "PALSAR-2",
+        "ef5": "EF5 CREST Model",
+        "trmm": "TRMM",
+        "gpm": "GPM",
+        "ls": "ORNL Landscan",
+        "dk": "N/A",
+        "usgs": "USGS",
+        "avhrr": "AVHRR",
+        "viirs": "VIIRS"
+    },
+    "duration": {
+        "hours": "%{masaa} masaa",
+        "minutes": "%{dakika} dakika",
+        "seconds": "%{sekunde} sekunde"
+    },
+    "formats": {
+        "geojson": "geojson",
+        "geojsongz": "geojson.gz",
+        "topojson": "topojson",
+        "topojsongz": "topojson.gz",
+        "shpgz": "shp.gz",
+        "osmbz2": "osm.bz2",
+        "geotiff": "geotiff",
+        "png": "png",
+        "jpg": "jpg",
+        "date": "YYYY-MM-DD"
+    },
+    "filesize": {
+        "B": "B",
+        "KB": "KB",
+        "MB": "MB",
+        "GB": "GB",
+        "TB": "TB"
+    },
+    "mapinfo": {
+        "credits": "credits",
+        "style": "mtindo",
+        "legend": "simulizi"
+    },
+    "legend": {
+        "radarsat2": {
+            "title": "Ramani ya mafuriko",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "CSA/MDA"
+            },
+            "legend": "Surface Water"
+        },
+        "dfo": {
+            "title": "Ramani ya mafuriko",
+            "credits": "Dartmouth Flood Observatory",
+            "source": {
+                "label": "Chanzo",
+                "source": "DFO"
+            },
+            "legend": "Surface Water"
+        },
+        "l8": {
+            "title": "Ramani ya mafuriko",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA"
+            },
+            "legend": "Surface Water"
+        },
+        "eo1_ali": {
+            "title": "Ramani ya mafuriko",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA"
+            },
+            "legend": "Surface Water"
+        },
+        "modis": {
+            "title": "Ramani ya mafuriko",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA"
+            },
+            "legend": "Surface Water"
+        },
+        "burned_areas": {
+            "title": "Maeneo ya kutetekezwa",
+            "credits": "Chuo kikuu ya Maryland",
+            "source": {
+                "label": "Chanzo",
+                "source": "UMD"
+            },
+            "legend": "Maeneo ya kutetekezwa"
+        },
+        "active_fires": {
+            "title": "MODIS Active Fires",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA"
+            },
+            "legend": "Active Fires"
+        },
+        "modis_af_rcmrd": {
+            "title": "MODIS Active Fires from RCMRD",
+            "credits": "RCMRD",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA"
+            },
+            "legend": "Active Fires"
+        },
+        "modis_af_icimod": {
+            "title": "MODIS Active Fires from RCMRD",
+            "credits": "ICIMOD",
+            "source": {
+                "label": "Chanzo",
+                "source": "ICIMOD"
+            },
+            "legend": "Active Fires"
+        },
+        "quakes": {
+            "title": "USGS Earthquakes",
+            "credits": "USGS",
+            "source": {
+                "label": "Chanzo",
+                "source": "USGS"
+            },
+            "legend": "7d Quakes"
+        },
+        "flood_forecast": {
+            "title": "Utabiri wa mafuriko",
+            "credits": "Chuo kikuu ya Oklahoma",
+            "source": {
+                "label": "Chanzo",
+                "source": "Chuo kikuu ya Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "1m": "1m",
+                "2m": "2m",
+                "3m": "3m",
+                "5m": "5m",
+                "8m": "8m",
+                "13m": "13m",
+                "21m": "21m"
+            }
+        },
+        "vhi": {
+            "title": "Vegetation Health Index",
+            "credits": "NOAA Star",
+            "source": {
+                "label": "Chanzo",
+                "source": "NOAA Star"
+            }
+        },
+        "frost": {
+            "title": "Ramani ya baridi",
+            "credits": "NASA SERVIR/RCMRD",
+            "source": {
+                "label": "Chanzo",
+                "source": "SERVIR/RCMRD"
+            },
+            "legend": {
+                "no_data": "No Data",
+                "very_severe_frost": "jalidi kali zaidi",
+                "severe_frost": "jalidi kali",
+                "moderate_frost": "baridi kadirifu",
+                "minor_frost": "Minor Frost Pockets",
+                "no_frost": "Hakuna baridi"
+            }
+        },
+        "snow_cover": {
+            "title": "Funiko la theluji",
+            "credits": "NASA MODIS",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA MODIS"
+            },
+            "legend": "Funiko la theluji"
+        },
+        "snow_water_equivalent": {
+            "title": "Snow Water Equivalent",
+            "credits": "Chuo kikuu ya Oklahoma",
+            "source": {
+                "label": "Chanzo",
+                "source": "Chuo kikuu ya Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "10mm": "10mm",
+                "20mm": "20mm",
+                "30mm": "30mm",
+                "50mm": "50mm",
+                "80mm": "80mm",
+                "130mm": "130mm",
+                "210mm": "210mm",
+                "340mm": "340mm",
+                "550mm": "550mm"
+            }
+        },
+        "population_count": {
+            "title": "Kuhesabu idadi ya watu",
+            "credits": "Maabara ya kitaifa ya Oakridge",
+            "source": {
+                "label": "Chanzo",
+                "source": "Maabara ya kitaifa ya Oakridge"
+            }
+        },
+        "daily_precipitation": {
+            "title": "Mvua ya kila siku",
+            "credits": "NASA TRMM",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA GSFC TRMM"
+            },
+            "legend": {
+                "1mm": "1mm",
+                "2mm": "2mm",
+                "3mm": "3mm",
+                "5mm": "5mm",
+                "8mm": "8mm",
+                "13mm": "13mm",
+                "21mm": "21mm",
+                "34mm": "34mm",
+                "55mm": "55mm",
+                "89mm": "89mm",
+                "144mm": "144mm"
+            }
+        },
+        "stream_flow": {
+            "title": "Mtiririko",
+            "credits": "Chuo kikuu ya Oklahoma",
+            "source": {
+                "label": "Chanzo",
+                "source": "Chuo kikuu ya Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "10cms": "10cms",
+                "20cms": "20cms",
+                "30cms": "30cms",
+                "50cms": "50cms",
+                "80cms": "80cms",
+                "130cms": "130cms",
+                "210cms": "21cms",
+                "340cms": "340cms",
+                "550cms": "550cms"
+            }
+        },
+        "landslide_nowcast": {
+            "title": "Landslide Nowcast",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "level_1": "manjano",
+                "level_2": "nyekundu"
+            }
+        },
+        "soil_moisture": {
+            "title": "Unyevu wa Udongo",
+            "credits": "Chuo kikuu ya Oklahoma",
+            "source": {
+                "label": "Chance",
+                "source": "Chuo kikuu ya Oklahoma EF5 CREST"
+            },
+            "legend": {
+                "3pct": "3pct",
+                "5pct": "5pct",
+                "8pct": "8pct",
+                "13pct": "13pct",
+                "21pct": "21pct",
+                "34pct": "34pct",
+                "55pct": "55pct",
+                "89pct": "89pct",
+                "144pct": "144pct"
+            }
+        },
+        "viirs_chla": {
+            "title": "VIIRS Chlorophyll-A",
+            "credits": "NASA GSFC",
+            "source": {
+                "label": "Chanzo",
+                "source": "NASA GSFC"
+            },
+            "legend": {
+                "1": "0.01 mg/m3",
+                "3": "0.03 mg/m3",
+                "5": "0.05 mg/m3",
+                "10": "0.10 mg/m3",
+                "15": "0.15 mg/m3",
+                "20": "0.20 mg/m3",
+                "30": "0.30 mg/m3",
+                "50": "0.50 mg/m3",
+                "100": "1.0 mg/m3",
+                "350": "3.5 mg/m3"
+            }
+        },
+        "chirps_prelim_monthly": {
+            "title": "CHIRPS 2.0 Prelim Monthly",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Source",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "400": "400mm",
+                "500": "500mm",
+                "600": "600mm"
+            }
+        },
+        "chirps_prelim_dekad": {
+            "title": "CHIRPS 2.0 Prelim Dekad",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Source",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "10": "10mm",
+                "25": "25mm",
+                "50": "50mm",
+                "75": "75mm",
+                "100": "100mm",
+                "150": "150mm",
+                "200": "200mm",
+                "250": "250mm",
+                "300": "300mm",
+                "350": "350mm"
+            }
+        },
+        "chirps_prelim_pentad": {
+            "title": "CHIRPS 2.0 Prelim Pentad",
+            "credits": "UC Santa Barbara",
+            "source": {
+                "label": "Chanzo",
+                "source": "UCSB"
+            },
+            "legend": {
+                "0": "0mm",
+                "1": "1mm",
+                "5": "5mm",
+                "10": "10mm",
+                "15": "15mm",
+                "20": "20mm",
+                "25": "25mm",
+                "30": "30mm",
+                "35": "35mm",
+                "40": "40mm",
+                "50": "50mm",
+                "60": "60mm"
+            }
+        }
+    }
+}

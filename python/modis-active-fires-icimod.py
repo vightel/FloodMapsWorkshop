@@ -89,38 +89,26 @@ def csv_to_geojson(csv_filename, geojson_filename, bbox):
 		
 	print "Done:", geojson_filename
 	
-def process_url( mydir, url, ymd, bbox, zoom, s3_bucket, s3_folder ):
+def process_file( mydir, fullName, ymd, bbox, zoom, s3_bucket, s3_folder ):
 
-	csv_filename		= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.csv'))
-	geojson_filename	= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.geojson'))
-	geojsongz_filename	= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.geojson.gz'))
-	tif_filename		= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.tif'))
-	osm_bg_image		= os.path.join(os.path.join(mydir,  "osm_bg_image.tif"))
-	thn_image			= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '_thn.jpg'))
+	geojson_filename		= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.geojson'))
+	geojson_filename_subset	= os.path.join(os.path.join(mydir,  "modis_af_subset." + ymd + '.geojson'))
+	geojsongz_filename		= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.geojson.gz'))
+	tif_filename			= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '.tif'))
+	osm_bg_image			= os.path.join(os.path.join(mydir,  "osm_bg_image.tif"))
+	thn_image				= os.path.join(os.path.join(mydir,  "modis_af." + ymd + '_thn.jpg'))
 	
-	if force or not os.path.exists(csv_filename):
-		print "retrieving:", url
-		urllib.urlretrieve(url, csv_filename)
-		#request 	= urllib2.Request(url, csv_filename)
-		#data	 	= urllib2.urlopen(request).read()
-		#data = requests.get(url, verify=False)
-		
-		
-		print data
-		sys.exit(-1)
-
-	if force or not os.path.exists(geojson_filename):
-		csv_to_geojson(csv_filename, geojson_filename, bbox)
-		
+	# create geojson form shapefile
+	if force or not os.path.exits(geojson_filename):
+		cmd = "ogr2ogr -f GeoJSON %s %s" % (geojson_filename, fullName )
+		execute(cmd)
+	
+	#if force or not os.path.exists(geojson_filename):
+	#	geojson_to_geojson(geojson_filename, geojson_filename_subset, bbox)
+	
 	if force or not os.path.exists(geojsongz_filename):
 		cmd = 'gzip < %s > %s' %( geojson_filename, geojsongz_filename)
 		execute(cmd)
-
-	#url = "https://firms.modaps.eosdis.nasa.gov/wms/?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=fires24&width=400&height=250&BBOX=54,5.5,102,40"
-	
-	#if force or not os.path.exists(tif_filename):
-	#	urllib.urlretrieve(url, tif_filename)
-	#	print "retrieved ", tif_filename
 	
 	centerlat 	= (bbox[1]+bbox[3])/2
 	centerlon	= (bbox[0]+bbox[2])/2
@@ -148,7 +136,7 @@ def process_url( mydir, url, ymd, bbox, zoom, s3_bucket, s3_folder ):
 	file_list = [ tif_filename, geojson_filename, geojsongz_filename, thn_image ]
 	CopyToS3( s3_bucket, s3_folder, file_list, force, verbose )
 
-# python modis-active-fires.py --region d04 -f -v
+# python modis-active-fires-icimod.py --region d07 --date 2015-04-21 -f -v
 # ======================================================================
 #
 if __name__ == '__main__':
@@ -157,6 +145,7 @@ if __name__ == '__main__':
 	apg_input.add_argument("-f", "--force", 	action='store_true', help="forces new product to be generated")
 	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose Flag")
 	apg_input.add_argument("-r", "--region", 	help="Region")
+	apg_input.add_argument("-d", "--date", 		help="Date 2015-03-20 or today if not defined")
 	
 	options 	= parser.parse_args()
 	force		= options.force
@@ -165,7 +154,8 @@ if __name__ == '__main__':
 	region		= config.regions[regionName]
 	assert(region)
 	
-	dt			= date.today().strftime("%Y-%m-%d")
+	todaystr	= date.today().strftime("%Y-%m-%d")
+	dt			= options.date or todaystr
 	today		= parse(dt)
 	
 	year		= today.year
@@ -179,16 +169,16 @@ if __name__ == '__main__':
 	if not os.path.exists(mydir):            
 		os.makedirs(mydir)
 	
-	print mydir
-		
-	# get last 24 hrs
-	# url_7day 	= "https://firms.modaps.eosdis.nasa.gov/active_fire/text/Central_America_7d.csv"
-	url_24hr 	= active_fires_urls[regionName]
-	assert(url_24hr)
-
-	s3_folder	= os.path.join("modis_af", str(year), doy)
+	s3_folder	= os.path.join("modis_af_icimod", str(year), doy)
 	s3_bucket	= region['bucket']
 	bbox		= region['bbox']
 	zoom		= region['thn_zoom']
 	
-	process_url(mydir, url_24hr, ymd, bbox, zoom, s3_bucket, s3_folder)
+	filename	= "ActiveFires.shp"
+	fullName	= os.path.join(mydir, filename)
+	
+	if not os.path.exists(fullName):
+		print "file not found", fullName
+		sys.exit(-1)
+
+	process_file(mydir, fullName, ymd, bbox, zoom, s3_bucket, s3_folder)

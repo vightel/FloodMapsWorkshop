@@ -43,7 +43,7 @@ regions		= {
 	},
 	'd05': {
 		'name':			"Malawi",
-		'bbox': 		[-74.94, 16.35, -64.98, 21.42 ],
+		'bbox': 		[32.717, -17.150, 37.0, -5 ],
 		'bucket':		"ojo-d5",
 		'thn_zoom': 	6
 	},
@@ -52,6 +52,13 @@ regions		= {
 		'bbox': 		[60, 20, 80, 40 ],
 		'bucket':		"ojo-d6",
 		'thn_zoom': 	6
+	},
+	'd07': {
+		'name':			"East Africa",
+		'bbox': 		[21.77, -12.27, 51.09, 23.95 ],
+		'bucket':		"ojo-d7",
+		'thn_zoom': 	5
+		
 	}
 }
 	

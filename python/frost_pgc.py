@@ -14,39 +14,17 @@ import glob,os, fnmatch
 from osgeo import gdal
 import numpy
 import config
+from datetime import date
+from dateutil.parser import parse
+from browseimage import MakeBrowseImage 
+from s3 import CopyToS3
 
-one_day 	= datetime.timedelta(days=1)
-#_today 	= datetime.date.today()- one_day
+# Site configuration
+import config
+import argparse
+from s3 import CopyToS3
+import json
 
-# PGC Debug
-_today 		= datetime.date(2014,10,2)
-
-_month 		= _today.month
-_day 		= _today.day
-_year 		= str(_today.year)
-_yrDay 		= str(_today.timetuple()[7])
-
-if len(_yrDay)==1:
-	_yrDay = "00" + _yrDay
-elif len(_yrDay)==2:
-	_yrDay = "0" + _yrDay
-else:
-	_yrDay=_yrDay
-
-BASE_DIR = config.FROST_DIR
-
-srcPath = os.path.join(BASE_DIR, _year)
-if not os.path.exists(srcPath):            
-	os.makedirs(srcPath)
-
-outPtDir = os.path.join(srcPath, _yrDay, 'output') 
-if not os.path.exists(outPtDir):            
-	os.makedirs(outPtDir)
-
-subsetDir = os.path.join(srcPath, _yrDay, 'subset') 
-if not os.path.exists(subsetDir):            
-	os.makedirs(subsetDir)
-	
 #
 minX = 24.0
 maxX = 50.0
@@ -80,9 +58,9 @@ def execute( cmd ):
 		print cmd
 	os.system(cmd)
 		
-def RemoveEmptyFrostFiles():
+def RemoveEmptyFrostFiles(outPtDir):
+	print "RemoveEmptyFrostFiles", outPtDir
 	try:
-    
 		dirList=os.listdir(outPtDir)
 	
 		for fname in dirList:
@@ -90,7 +68,7 @@ def RemoveEmptyFrostFiles():
 				fullName 	= os.path.join(outPtDir,fname)
 				ds 			= gdal.Open( fullName )
 				stats	 	= ds.GetRasterBand(1).GetStatistics(0,1)
-				#print fullName, stats
+				print fullName, stats
 				
 				if stats[1] > 0:
 					print "Non Null OutputFile:", fullName, stats
@@ -116,7 +94,7 @@ def SubsetOutputFiles():
 	except IOError as e:
 		print "I/O error({0}): {1}".format(e.errno, e.strerror)
 
-def ComposeSubsets():
+def ComposeSubsets(subsetDir, srcDir, ymd):
 	try:
     
 		dirList		= os.listdir(subsetDir)
@@ -154,13 +132,13 @@ def ComposeSubsets():
 		composite[mask]				= 0	# no data
 		print numpy.min(composite), numpy.max(composite), numpy.mean(composite)
 		
-		composite[composite>280]	= 1 # no frost
+		composite[composite>288]	= 1 # no frost
 		composite[composite>270]	= 2 # minor frost
 		composite[composite>260]	= 3 # moderate frost
 		composite[composite>250]	= 4 # severe frost
 		composite[composite>5]		= 5 # very severe frost
 		
-		compositeFileName	= os.path.join(srcPath, _yrDay, "Frost_"+str(_today)+".tif")
+		compositeFileName	= os.path.join(srcPath, "Frost."+ymd+".tif")
 		
 		print "Creating:", compositeFileName
 		
@@ -190,21 +168,21 @@ def ComposeSubsets():
 	except IOError as e:
 		print "I/O error({0}): {1}".format(e.errno, e.strerror)
 			
-def SmoothIt():
-	compositeFileName	= os.path.join(srcPath, _yrDay, "Frost_"+str(_today)+".tif")
-	smoothedFileName	= os.path.join(srcPath, _yrDay, "Smoothed_Frost_"+str(_today)+".tif")
+def SmoothIt(srcPath, ymd):
+	compositeFileName	= os.path.join(srcPath, "Frost."+ymd+".tif")
+	smoothedFileName	= os.path.join(srcPath, "Smoothed_Frost."+ymd+".tif")
 	
 	yres 	= pixSizeY/10
 	xres 	= pixSizeX/10
 	
-	cmd 	= "gdalwarp -r cubicspline -tr {0} {1} {2} {3}".format(xres, yres, compositeFileName, smoothedFileName)
-	print cmd
-	err 	= os.system(cmd)
+	if force or not os.path.exists(smoothedFileName):
+		cmd 	= "gdalwarp -r cubicspline -tr {0} {1} {2} {3}".format(xres, yres, compositeFileName, smoothedFileName)
+		execute(cmd)
 	
 	
-def CreateTopojsonFile(fileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, frost ):
+def CreateTopojsonFile(srcPath, fileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, frost ):
 	
-	geojsonDir			= os.path.join(srcPath, _yrDay,"geojson")
+	geojsonDir			= os.path.join(srcPath,"geojson")
 	if not os.path.exists(geojsonDir):            
 		os.makedirs(geojsonDir)
 
@@ -250,27 +228,31 @@ def CreateTopojsonFile(fileName, src_ds, projection, geotransform, ct, data, pre
 	cmd = "mv %s %s" % (os.path.join(geojsonDir,"frost.json"), os.path.join(geojsonDir, output_file))
 	execute(cmd)
 	
-def CreateLevels():
-	levelsDir			= os.path.join(srcPath, _yrDay,"levels")
+def CreateLevels(srcPath, ymd):
+	levelsDir			= os.path.join(srcPath,"levels")
 	if not os.path.exists(levelsDir):            
 		os.makedirs(levelsDir)
 
-	geojsonDir			= os.path.join(srcPath, _yrDay,"geojson")
+	geojsonDir			= os.path.join(srcPath,"geojson")
 	if not os.path.exists(geojsonDir):            
 		os.makedirs(geojsonDir)
 	
-	smoothedFileName	= os.path.join(srcPath, _yrDay, "Smoothed_Frost_"+str(_today)+".tif")
+	compositeFileName	= os.path.join(srcPath, "Frost."+ymd+".tif")
+	smoothedFileName	= os.path.join(srcPath, "Smoothed_Frost."+ymd+".tif")
 	
-	level1FileName		= os.path.join(levelsDir, "Level_1_Frost_"+str(_today)+".tif")
-	level2FileName		= os.path.join(levelsDir, "Level_2_Frost_"+str(_today)+".tif")
-	level3FileName		= os.path.join(levelsDir, "Level_3_Frost_"+str(_today)+".tif")
-	level4FileName		= os.path.join(levelsDir, "Level_4_Frost_"+str(_today)+".tif")
-	level5FileName		= os.path.join(levelsDir, "Level_5_Frost_"+str(_today)+".tif")
+	level1FileName		= os.path.join(levelsDir, "Level_1_Frost."+ymd+".tif")
+	level2FileName		= os.path.join(levelsDir, "Level_2_Frost."+ymd+".tif")
+	level3FileName		= os.path.join(levelsDir, "Level_3_Frost."+ymd+".tif")
+	level4FileName		= os.path.join(levelsDir, "Level_4_Frost."+ymd+".tif")
+	level5FileName		= os.path.join(levelsDir, "Level_5_Frost."+ymd+".tif")
 	
-	topojsonFileName	= os.path.join(srcPath, _yrDay, "Smoothed_Frost_"+str(_today)+".topojson")
+	topojsonFileName	= os.path.join(srcPath, "Smoothed_Frost."+ymd+".topojson")
 	
 	driver 				= gdal.GetDriverByName( "GTiff" )
-	src_ds 				= gdal.Open( smoothedFileName )
+	
+	#src_ds 			= gdal.Open( smoothedFileName )
+	src_ds 				= gdal.Open( compositeFileName )
+	
 	projection  		= src_ds.GetProjection()
 	geotransform		= src_ds.GetGeoTransform()
 	band				= src_ds.GetRasterBand(1)
@@ -290,25 +272,129 @@ def CreateLevels():
 	ct.SetColorEntry( 4, (0, 0, 0, 255) )
 	ct.SetColorEntry( 5, (0, 0, 0, 255) )
 
-	CreateTopojsonFile(level1FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 1 )
+	CreateTopojsonFile(srcPath, level1FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 1 )
 	
 	ct.SetColorEntry( 1, (255, 255, 255, 255) )
-	CreateTopojsonFile(level2FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 2 )
+	CreateTopojsonFile(srcPath, level2FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 2 )
 	
 	ct.SetColorEntry( 2, (255, 255, 255, 255) )
-	CreateTopojsonFile(level3FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 3 )
+	CreateTopojsonFile(srcPath, level3FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 3 )
 	
 	ct.SetColorEntry( 3, (255, 255, 255, 255) )
-	CreateTopojsonFile(level4FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 4 )
+	CreateTopojsonFile(srcPath, level4FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 4 )
 	
 	ct.SetColorEntry( 4, (255, 255, 255, 255) )
-	CreateTopojsonFile(level5FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 5 )
+	CreateTopojsonFile(srcPath, level5FileName, src_ds, projection, geotransform, ct, data, pres, xorg, ymax, 5 )
 
+def MergeLevels(srcPath, ymd, bbox, zoom):
+	global force, verbose
 	
-RemoveEmptyFrostFiles()
-SubsetOutputFiles()
-ComposeSubsets()
-SmoothIt()
-CreateLevels()
+	geojsonDir				= os.path.join(srcPath,"geojson")
+	merge_filename			= os.path.join(srcPath,"frost_merged.geojson")
+	topojson_filename		= os.path.join(srcPath,"frost.%s.topojson"%ymd)
+	sw_osm_image			= os.path.join(srcPath,"frost.%s_thn.jpg"%ymd)
+	osm_bg_image			= os.path.join(srcPath, "osm_bg.png")
+	browse_filename 		= os.path.join(srcPath, "frost.%s_browse.tif" % ymd)
+	small_browse_filename 	= os.path.join(srcPath, "frost.%s_small_browse.tif" % ymd)
+	smoothedFileName		= os.path.join(srcPath, "Smoothed_Frost."+ymd+".tif")
+	compositeFileName		= os.path.join(srcPath, "Frost."+ymd+".tif")
+	
+	if force or not os.path.exists(merge_filename):
+		jsonDict = dict(type='FeatureCollection', features=[])
+		for l in range (1,5) :
+			i = l
+			fileName 		= os.path.join(geojsonDir, "frost_level_%d.geojson"%l)
+			if os.path.exists(fileName):
+				print "merge", fileName
+				with open(fileName) as data_file:    
+					data = json.load(data_file)
+	
+				if 'features' in data:
+					for f in data['features']:
+						jsonDict['features'].append(f)
+
+
+		with open(merge_filename, 'w') as outfile:
+		    json.dump(jsonDict, outfile)	
+
+	if force or not os.path.exists(topojson_filename):
+		# Convert to topojson
+		cmd 	= "topojson -p -o "+ topojson_filename + " " + merge_filename
+		execute(cmd)
+
+	if force or not os.path.exists(topojson_filename+".gz"):
+		cmd 	= "gzip --keep "+ topojson_filename
+		execute(cmd)
+	
+	if force or not os.path.exists(sw_osm_image):
+		#ds 		= gdal.Open( smoothedFileName )
+		ds 			= gdal.Open( compositeFileName )
+		levels		= [5,4,3,2,1]
+		hexColors	= ["#00FF00", "#FF9A00", "#FF0000", "#FF99CC", "#CC00CC"]
 		
+		MakeBrowseImage(ds, browse_filename, small_browse_filename, osm_bg_image, sw_osm_image, levels, hexColors, force, verbose, zoom)
+		ds = None
+		
+	file_list = [ sw_osm_image, topojson_filename, topojson_filename+".gz" ]
+	CopyToS3( s3_bucket, s3_folder, file_list, force, verbose )
+	
+# python frost_pgc.py --region d04 -f -v
+# ======================================================================
+#
+if __name__ == '__main__':
+	parser 		= argparse.ArgumentParser(description='MODIS Processing')
+	apg_input 	= parser.add_argument_group('Input')
+	apg_input.add_argument("-f", "--force", 	action='store_true', help="forces new product to be generated")
+	apg_input.add_argument("-v", "--verbose", 	action='store_true', help="Verbose Flag")
+	apg_input.add_argument("-r", "--region", 	help="Region")
+	apg_input.add_argument("-d", "--date", 		help="Date")
+	
+	options 	= parser.parse_args()
+	force		= options.force
+	verbose		= options.verbose
+	regionName	= options.region
+	region		= config.regions[regionName]
+	assert(region)
+	
+	todaystr	= date.today().strftime("%Y-%m-%d")
+
+	dt			= options.date or todaystr
+	today		= parse(dt)
+	
+	year		= today.year
+	month		= today.month
+	day			= today.day
+	doy			= today.strftime('%j')
+	
+	ymd 		= "%d%02d%02d" % (year, month, day)		
+
+	#mydir		= os.path.join(config.FROST_DIR, str(year),doy, regionName)
+	#if not os.path.exists(mydir):            
+	#	os.makedirs(mydir)
+	
+	srcPath = os.path.join(config.FROST_DIR, str(year), doy)
+	if not os.path.exists(srcPath):            
+		os.makedirs(srcPath)
+
+	outPtDir = os.path.join(srcPath, 'output') 
+	if not os.path.exists(outPtDir):            
+		os.makedirs(outPtDir)
+
+	subsetDir = os.path.join(srcPath, 'subset') 
+	if not os.path.exists(subsetDir):            
+		os.makedirs(subsetDir)
+		
+	print outPtDir
+	
+	s3_folder	= os.path.join("frost", str(year), doy)
+	s3_bucket	= region['bucket']
+	bbox		= region['bbox']
+	zoom		= region['thn_zoom']
+		
+	RemoveEmptyFrostFiles(outPtDir)
+	SubsetOutputFiles()
+	ComposeSubsets(subsetDir, srcPath, ymd)
+	# SmoothIt(srcPath, ymd)
+	CreateLevels(srcPath, ymd)
+	MergeLevels(srcPath, ymd, bbox, zoom)
 		

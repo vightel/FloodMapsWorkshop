@@ -1,0 +1,127 @@
+
+<div class="container">
+  <h1><img src='/images/logo.png' width='100'/>&nbsp;&nbsp;<%= title %></h1>
+		<br/>
+		<div class="container">
+			<div class='row'>
+			 	<div id='map' style="width:840px;height:610px;" ></div>
+			</div>
+		</div>
+		<br/>
+		<div id='legends' class='row'>
+		</div>
+</div>
+
+<!--
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+-->
+
+<script src="/javascripts/topojson.v1.min.js"></script>
+<script src="/javascripts/queue.v1.min.js"></script>
+
+<script src="/javascripts/dust-full.js"></script>
+<script src="/javascripts/LStyledTopojson.js"></script>
+<script src="/javascripts/hawk_browser.js"></script>
+
+<script>
+	var styles, legends, credits;
+
+	L.mapbox.accessToken 		= "<%= mapbox_token %>"
+
+	var map = L.mapbox.map('map', '<%= map_id %>', { minZoom:<%= region.min_zoom %>, maxZoom: <%= region.max_zoom %> } )
+	.setView([<%= region.target[1] %>, <%= region.target[0] %>], <%=region.zoom%>)
+		
+	map.on('load', function(a) {
+		styles 	= {};
+		legends = {};
+		credits = {};
+		products = {}
+	})
+	map.on('overlayadd', function(a) {
+		for( var i in legends ) {
+			if( i == a.name ) {
+				legends[i].display = true;
+				if( hide_legends == 0 ) $('#'+legends[i].legend).show();
+			} 
+		}
+	})
+	map.on('overlayremove', function(a) {
+		for( var i in legends ) {
+			if( i == a.name ) {
+				legends[i].display = false;
+				if( hide_legends == 0 ) $('#'+legends[i].legend).hide();
+			}
+		}
+	})
+	var base_layer_options				= {}
+    base_layer_options["basemap"]  		= L.mapbox.tileLayer('<%= map_id %>',{ attribution: 'MapBox'}).addTo(map)
+ 
+    var overlay_layer_options 			= {}
+	var map_controls 					= L.control.layers(base_layer_options, overlay_layer_options).addTo(map);
+    
+    L.control.scale().addTo(map);
+	
+    var fbAppId                 = "<%- fbAppId %>"
+    var fbAccessToken           = "<%- fbAccessToken %>"
+    var region                  = <%- JSON.stringify(region) %>
+	var user_email				= "<%- user_email %>"
+	
+	var url = "/opensearch";
+	url += "?q=active_fires";
+	url += "&lat=<%= region.target[1] %>";
+	url += "&lon=<%= region.target[0] %>";
+	url += "&sources=modis";
+	url += "&limit=1";
+ 
+	query_results = {};
+
+	$.ajax({
+		dataType: "json",
+		url: url,
+		success: function( result ) {
+			console.log("success", JSON.stringify(result));
+			var items 			= result.items;
+			var item			= items[0];
+			var id				= item["@id"];
+			var actions 		= item.action;
+			var topojson_url 	= undefined;
+			
+			for (var a in actions ) {
+				var action = actions[a]
+				if( action['@type'] == 'ojo:download') {
+					var using = action['using']
+					for( var u in using ) {
+						var use = using[u]
+						console.log( use['mediaType'], use['url'])
+						if( use['mediaType'] == 'application/json' ) {
+							topojson_url = use['url']
+							console.log("json", topojson_url)
+						} else if( (use['mediaType'] == 'application/gzip') && (use['url'].indexOf("json.gz") > 0) ) {
+							topojson_url = use['url']
+							console.log("use ...json.gz", topojson_url)
+							break;
+						} else if( use['mediaType'] == 'image/tiff') {
+							addThumbnailToMap(result, id) 
+							break;
+						}
+					}
+				} else if( action['@type'] == 'ojo:map') {
+					mapinfos = action['using']
+					console.log("found mapinfos")
+				}
+			}
+		
+			if(topojson_url) {
+				console.log("loadData", topojson_url)
+				loadData( topojson_url, id, mapinfos );
+			} else {
+				console.log("Could not find topojson_url")
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		  	console.log(textStatus, errorThrown);
+		}
+	})
+	
+</script>

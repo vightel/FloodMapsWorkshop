@@ -263,21 +263,23 @@ def	MakeBrowseImage(src_ds, browse_filename, subset_filename, osm_bg_image, sw_o
 		lastItem 	= levels.pop(0)
 
 		rlist		= reversed(levels)	
-		data[data <= firstItem]								= 0
-		idx 		= -1
-		l			= firstItem
+		data[data < firstItem]		= 0
+		idx 						= -1
+		l							= firstItem
 		
 		for idx, l in enumerate(rlist):
-			data[numpy.logical_and(data>firstItem, data<=l)]= idx+1
+			if verbose:
+				print "data>=", firstItem , " data<", l, " index:", idx+1
+			data[numpy.logical_and(data>=firstItem, data<l)]= idx+1
 			firstItem = l
 			
 		idx += 2
 		if verbose:
-			print "data>",l, "data<=", lastItem, idx
-			print "data>",lastItem, idx+1
+			print "data>=",l, "data<", lastItem, "index:", idx
+			print "data>=",lastItem, " index:", idx+1
 			
-		data[numpy.logical_and(data>l, data<=lastItem)]		= idx
-		data[data>lastItem]									= idx+1
+		data[numpy.logical_and(data>=l, data<lastItem)]		= idx
+		data[data>=lastItem]								= idx+1
 	
 		dst_ds_dataset.SetGeoTransform( geotransform )
 			

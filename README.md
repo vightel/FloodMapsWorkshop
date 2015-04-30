@@ -348,6 +348,7 @@ limitations under the License.
 	
 * [Mapbox Maps] (https://www.mapbox.com/)
 	Mapbox is used for the background maps.  The service is very inexpensive.  The Company develops all of its code open source.  It woudl be great to support it.
+	You will need a MAPBOX_PUBLIC_TOKEN, MAPBOX_SECRET_TOKEN and a MAP ID 
 	
 * [Papertrail] (https://papertrailapp.com/)
 	I used papertrail to keep the web logs... not a requirement but pretty nice to have.
@@ -372,7 +373,7 @@ limitations under the License.
 * Customize config.yaml and settings.js
 
 * Publish the data using a Web Server and visualize on the web
-  * cd $WORKSHOP_DIR/node
+  * cd $WORKSHOP_DIR/publisher
   * npm install
   * node server.js
 		
@@ -382,13 +383,18 @@ limitations under the License.
 	* Product Page and Tagging
 	* Share on Facebook / Twitter
 	* Application Registration
-	
+
+* Workshop 3 will teach how to create custom products, push them to AWS S3
+* and make them available to consumers
+
 ## Becoming an Open GeoSocial Consumer Node
-
-* [Download Consumer Example](https://github.com/vightel/ojo-doc)
-* Register Your Consumer Application
-* Connect to Publisher
-
+in a different window, run the consumer
+* cd consumer
+* cp envs_copy.sh envs.sh and customize your envs.sh
+* source envs.sh
+* npm install [first time only]
+* node server.js
+	
 ## GeoApp
 
 Coming Soon...

@@ -1,8 +1,7 @@
 csv/
 *.pem
 .DS_Store
-node/.DS_STORE
-tmp/
+tmp/*
 data/ 
 data/.DS_Store
 data/HAND/
@@ -30,9 +29,12 @@ data/sm/
 data/modis_burnedareas/
 python/world_boundaries/
 envs.sh
-node/node_modules/
-node/transifex.auth
-node/*.log
+publisher/node_modules/
+publisher/transifex.auth
+publisher/*.log
+publisher/.DS_STORE
+consumer/envs.sh
+consumer/node_modules/
 python/*.pyc
 python/.DS_Store
 python/rcmrd
