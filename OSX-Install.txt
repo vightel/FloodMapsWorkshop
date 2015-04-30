@@ -1,0 +1,92 @@
+MAC OSX Installation Notes - Worskop 2
+
+# You will need sudo access to the Machine (admin password)
+
+# Go to App Store, download and install XCode
+# Bring it up to auto-install all support libraries
+# Make sure you have a Command Line Terminal (iTerm2 http://iterm2.com/)
+
+# Check if you have git. If not Install git http://git-scm.com/
+>git --version
+git version 2.3.2 (Apple Git-55)
+
+# I recommend TextMate as the editor of choice on the Mac (rather than use XCode, a little too complex 
+# for # this workshop) https://macromates.com/download
+
+# Install Mac Package Manager called HomeBrew.  Download and install from http://brew.sh/
+# If you already have it, check it out
+> brew doctor
+> brew update
+> brew upgrade
+
+# Check if you have python 2.6 or 2.7 available
+# if not:
+>brew install python
+
+>brew install gdal --with-python
+
+# Check GDAL
+>gdalinfo --version
+GDAL 1.11.0, released 2014/04/16
+
+>python
+>>from ogr import osr
+
+# We may also check that you can read a netCDF file with gdalinfo
+>gdalinfo sst.nc
+
+# Install potrace
+>brew install potrace
+
+# Install ImageMagick
+>brew install imagemagick --with-libtiff
+>composite --version
+Version: ImageMagick 6.8.8-9 Q16 x86_64 2014-04-23 http://www.imagemagick.org
+Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+Features: DPC Modules
+Delegates: bzlib freetype jng jpeg ltdl png tiff xml zlib
+
+# You should have pip available to install python libraries.  If not, 
+# >sudo easy_install pip
+
+#Install various python libraries
+>pip install numpy
+>pip install scipy
+>pip install boto
+>pip install argparse
+>pip install python-dateutil
+>pip install Pillow
+
+# Install Node
+# go there: https://nodejs.org/
+# and hit install
+>sudo npm install -g topojson
+>topojson --version
+>1.6.18
+
+# Go to your development directory
+# IF you have not done so already
+# git clone https://github.com/vightel/FloodMapsWorkshop.git
+>cd FloodMapsWorkshop
+>cp envs.copy.sh envs.sh
+# Edit and customize envs.sh
+
+>source envs.sh
+>cd node
+>npm install
+>node server.js
+
+# Note you can also use nodemon to start node and monitor any file change
+>sudo npm install -g nodemon
+>nodemon server.js
+
+
+# Note you can also use forever to ensure that server runs continously
+>sudo npm install -g forever
+>forever start server.js
+
+# Notes
+# For more advanced processing, you may need additional python libraries and mapnik
+>brew install cairo --without-x --without-glib
+>brew install py2cairo
+>brew install mapnik --with-gdal --with-postgresql --with-cairo
